@@ -1,3 +1,6 @@
+# WEB5_6_HaeDokCoding_FE
+최종 프로젝트 2팀 해독코딩
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
