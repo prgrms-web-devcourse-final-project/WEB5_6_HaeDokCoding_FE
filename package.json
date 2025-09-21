@@ -2,13 +2,13 @@
   "name": "web6_8_haedokcoding_fe",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
+"scripts": {
     "dev": "next dev --turbopack",
-    "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx}'",
-    "format:check": "prettier --check 'src/**/*.{ts,tsx,js,jsx}'",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx}\"",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx"
   },
   "dependencies": {
     "gsap": "^3.13.0",
