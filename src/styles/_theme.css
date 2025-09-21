@@ -1,0 +1,37 @@
+@layer theme;
+
+@theme {
+  /* primary */
+  --color-primary: #1a1a1a;
+
+  /* secondary */
+  --color-secondary:#FFFFE6;
+
+  /* tertiary */
+  --color-tertiary:#81689D;
+
+  /* gray-dark */
+  --color-graydark:#636363;
+
+  /* gray */
+  --color-gray:#949494;
+
+  /* gray-light */
+  --color-graylight: #e3e3e3;
+
+  /* white */
+  --color-white:#ffffff;
+
+  /* black */
+  --color-black:#0f172a;
+
+  /* bg-pop */
+  --color-bgpop:#3d3d3d;
+
+
+  /* font-serif */
+  --font-serif:"Hahmlet",serif;
+
+  /* text-xsm */
+  --text-xsm: 12px;
+}
