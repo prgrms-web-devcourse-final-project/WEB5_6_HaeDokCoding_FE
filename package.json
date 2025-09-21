@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx}'",
+    "format:check": "prettier --check 'src/**/*.{ts,tsx,js,jsx}'",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
@@ -16,6 +18,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -24,6 +27,7 @@
     "clsx": "^2.1.1",
     "eslint": "^9",
     "eslint-config-next": "15.5.3",
+    "husky": "^9.1.7",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
     "tailwind-merge": "^3.3.1",
