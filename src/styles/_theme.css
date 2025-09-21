@@ -1,3 +1,5 @@
+
+
 @layer theme;
 
 @theme {
@@ -28,9 +30,8 @@
   /* bg-pop */
   --color-bgpop:#3d3d3d;
 
-
   /* font-serif */
-  --font-serif:"Hahmlet",serif;
+  --font-serif: "Hahmlet", serif;
 
   /* text-xsm */
   --text-xsm: 12px;
