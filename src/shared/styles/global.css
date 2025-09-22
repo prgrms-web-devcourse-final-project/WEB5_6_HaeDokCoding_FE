@@ -12,5 +12,7 @@
   'NanumSquareNeo',sans-serif;
   line-height: 1.5;
   font-weight: 500;
+  color:#fff;
+  background-color: var(--color-primary)
 }
 

@@ -10,7 +10,7 @@ import { ButtonHTMLAttributes, Ref } from 'react';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'default' | 'sm';
-  variant?: 'default' | 'purple';
+  color?: 'default' | 'purple';
   ref?: Ref<HTMLButtonElement | null>;
   disable?: boolean;
   type?: 'submit' | 'button';
@@ -20,13 +20,13 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const ButtonClass = cva(
   `
-  py-1 px-2 rounded-lg text-base font-bold flex-center text-bold text-navy duration-300 disabled:bg-gray disabled:cursor-not-allowed
+  py-1 px-2 rounded-lg text-base font-bold flex-center text-bold text-navy duration-300 disabled:bg-gray disabled:cursor-not-allowed disabled:text-primary
   `,
   {
     variants: {
-      variant: {
-        default: 'bg-secondary text-navy hover:inset-shadow-black',
-        purple: 'bg-tertiary text-secondary hover:inset-shadow-white',
+      color: {
+        default: 'bg-secondary text-navy enabled:hover:inset-shadow-black',
+        purple: 'bg-tertiary text-secondary enabled:hover:inset-shadow-white',
       },
       size: {
         default: 'h-10, min-w-25',
@@ -34,7 +34,7 @@ export const ButtonClass = cva(
       },
     },
     defaultVariants: {
-      variant: 'default',
+      color: 'default',
       size: 'default',
     },
   }
@@ -43,7 +43,7 @@ export const ButtonClass = cva(
 function Button({
   size,
   type = 'button',
-  variant,
+  color,
   children,
   className,
   ref,
@@ -52,7 +52,7 @@ function Button({
 }: Props) {
   return (
     <button
-      className={tw(ButtonClass({ variant, size, className }))}
+      className={tw(ButtonClass({ color, size, className }))}
       type={type}
       ref={ref}
       disabled={disabled}
