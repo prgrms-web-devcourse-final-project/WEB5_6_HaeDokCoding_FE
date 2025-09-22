@@ -10,24 +10,23 @@ import { ButtonHTMLAttributes, Ref } from 'react';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'default' | 'sm';
-  variant?: 'default' | 'purple' | 'disable';
+  variant?: 'default' | 'purple' 
   ref?:Ref<HTMLButtonElement | null>;
-  disabled?: boolean;
-  type: 'submit' | 'button';
+  disable?:boolean,
+  type?: 'submit' | 'button';
   children?: React.ReactNode;
   className?: string;
 }
 
 export const ButtonClass = cva(
   `
-  py-1 px-2 rounded-lg text-base font-bold flex-center text-bold text-navy duration-300 
+  py-1 px-2 rounded-lg text-base font-bold flex-center text-bold text-navy duration-300 disabled:bg-gray disabled:cursor-not-allowed
   `,
   {
     variants: {
       variant: {
         default: 'bg-secondary text-navy hover:inset-shadow-black',
         purple: 'bg-tertiary text-secondary hover:inset-shadow-white',
-        disable: 'bg-gray cursor-not-allowed',
       },
       size: {
         default: 'h-10, min-w-25',
@@ -43,22 +42,22 @@ export const ButtonClass = cva(
 
 
 function Button({
-  size = 'default',
+  size,
   type = 'button',
-  disabled = false,
-  variant = 'default',
+  variant,
   children,
   className,
   ref,
+  disabled,
   ...rest
 }: Props) {
   return (
     <button
-      className={tw(ButtonClass({variant,size,className}))}
+      className={tw(ButtonClass({ variant, size, className }))}
       type={type}
+      ref={ref}
       disabled={disabled}
       {...rest}
-      ref={ref}
     >
       {children}
     </button>
