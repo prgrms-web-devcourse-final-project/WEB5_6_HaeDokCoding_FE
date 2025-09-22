@@ -4,13 +4,13 @@ import Button from '@/shared/components/button/Button';
 import TextButton from '@/shared/components/button/TextButton';
 import Input from '@/shared/components/InputBox/Input';
 
-import ModalLayout from '@/shared/components/ModalPop/ModalLayout';
 import { useState } from 'react';
 import { customToast } from '@/shared/components/toast/CustomToastUtils';
 import SelectBox from '@/shared/components/InputBox/SelectBox';
 
 import ChatInput from '@/shared/components/InputBox/ChatInput';
 import ConfirmPop from '@/shared/components/modalPop/ConfirmPop';
+import ModalLayout from '@/shared/components/ModalPop/ModalLayout';
 
 function Page() {
   const [isModalOpen, setModalOpen] = useState(false);
