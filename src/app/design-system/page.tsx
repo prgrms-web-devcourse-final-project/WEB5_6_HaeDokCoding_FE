@@ -40,10 +40,7 @@ function Page() {
           <Button variant="purple" type="button">
             Button
           </Button>
-          <Button
-            disabled>
-            button
-          </Button>
+          <Button disabled>button</Button>
           <Button type="button" size="sm">
             버튼
           </Button>

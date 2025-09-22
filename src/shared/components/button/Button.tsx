@@ -10,9 +10,9 @@ import { ButtonHTMLAttributes, Ref } from 'react';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'default' | 'sm';
-  variant?: 'default' | 'purple' 
-  ref?:Ref<HTMLButtonElement | null>;
-  disable?:boolean,
+  variant?: 'default' | 'purple';
+  ref?: Ref<HTMLButtonElement | null>;
+  disable?: boolean;
   type?: 'submit' | 'button';
   children?: React.ReactNode;
   className?: string;
@@ -35,11 +35,10 @@ export const ButtonClass = cva(
     },
     defaultVariants: {
       variant: 'default',
-      size:'default'
-    }
+      size: 'default',
+    },
   }
 );
-
 
 function Button({
   size,
