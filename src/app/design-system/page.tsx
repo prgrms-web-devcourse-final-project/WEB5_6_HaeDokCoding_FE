@@ -5,6 +5,7 @@ import TextButton from '@/shared/components/button/TextButton';
 import ConfirmPop from '@/shared/components/ModalPop/ConfirmPop';
 import ModalLayout from '@/shared/components/ModalPop/ModalLayout';
 import { useState } from 'react';
+import CustomToast from '@/shared/components/toast/CustomToast';
 
 function Page() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -70,7 +71,7 @@ function Page() {
 
         <div className="space-y-2">
           <h3 className="text-xl font-medium border-b pb-1">toast</h3>
-          {/* 여기 컴포넌트 삽입 */}
+          <CustomToast type="info" message="test"></CustomToast>
         </div>
 
         <div className="space-y-2">
