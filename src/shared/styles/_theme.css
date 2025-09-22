@@ -15,4 +15,8 @@
   --color-bg-pop: #3d3d3d;
   --color-navy:#1f2544;
   --font-serif: 'Hahmlet', serif;
+
+--inset-shadow-black: inset 0 2px 6px rgba(0, 0, 0, 0.3);
+--inset-shadow-white: inset 0 0 8px rgba(255, 255, 255, 0.8);
+
 }
