@@ -11,7 +11,7 @@ interface Props {
 
 function CustomToast({ type, message, onClose }: Props) {
   return (
-    <div className="relative flex items-center gap-4 px-4 py-3 rounded-xl bg-bg-pop">
+    <div className="relative flex items-center w-full gap-4 px-4 py-3 rounded-xl bg-bg-pop shadow-[0_0_12px_0_rgba(255,255,255,0.8)]">
       <div>
         {type === 'info' && <InfoSvg />}
         {type === 'success' && <SuccesSvg />}

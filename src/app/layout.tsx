@@ -16,7 +16,16 @@ export default function RootLayout({
       <body>
         {children}
         <div id="modal-root"></div>
-        <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            duration: 2000,
+            style: {
+              minWidth: '340px',
+              background: 'transparent',
+            },
+          }}
+        />
       </body>
     </html>
   );

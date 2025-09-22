@@ -6,13 +6,14 @@ import ConfirmPop from '@/shared/components/ModalPop/ConfirmPop';
 import ModalLayout from '@/shared/components/ModalPop/ModalLayout';
 import { useState } from 'react';
 import CustomToast from '@/shared/components/toast/CustomToast';
+import { customToast } from '@/shared/components/toast/CustomToastUtils';
 
 function Page() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isConfirmOpen, setConfirmOpen] = useState(false);
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 bg-primary">
       {/* 페이지 제목 */}
       <h1 className="text-2xl font-bold border-b pb-2">Design System</h1>
 
@@ -71,7 +72,28 @@ function Page() {
 
         <div className="space-y-2">
           <h3 className="text-xl font-medium border-b pb-1">toast</h3>
-          <CustomToast type="info" message="test"></CustomToast>
+          <div className="flex gap-2">
+            <button
+              className="px-4 py-2 bg-green-300 text-black rounded"
+              onClick={() => customToast.success('성공 메시지입니다! 멋져요')}
+            >
+              Success Toast
+            </button>
+
+            <button
+              className="px-4 py-2 bg-yellow-100 text-black rounded"
+              onClick={() => customToast.info('정보 메시지입니다!')}
+            >
+              Info Toast
+            </button>
+
+            <button
+              className="px-4 py-2 bg-red-200 text-black rounded"
+              onClick={() => customToast.error('오류 메시지입니다!')}
+            >
+              Error Toast
+            </button>
+          </div>
         </div>
 
         <div className="space-y-2">
