@@ -3,6 +3,7 @@
 import Button from '@/shared/components/button/Button';
 import TextButton from '@/shared/components/button/TextButton';
 import Input from '@/shared/components/InputBox/Input';
+import SelectBox from '@/shared/components/InputBox/SelectBox';
 import ConfirmPop from '@/shared/components/ModalPop/ConfirmPop';
 import ModalLayout from '@/shared/components/ModalPop/ModalLayout';
 import { useState } from 'react';
@@ -23,14 +24,16 @@ function Page() {
         {/* Input */}
         <div className="flex flex-col gap-2 space-y-2">
           <h3 className="text-xl font-medium border-b pb-1">Input</h3>
-          <Input placeholder='내용을 입력해주세요.' />
-          <Input placeholder='칵테일을 검색해 보세요' size='lg'/>
+          <Input placeholder="내용을 입력해주세요." />
+          <Input placeholder="칵테일을 검색해 보세요" size="lg" />
         </div>
 
         {/* select */}
         <div className="space-y-2">
           <h3 className="text-xl font-medium border-b pb-1">select</h3>
           {/* 여기 컴포넌트 삽입 */}
+          <SelectBox id='id123'/>
+        
         </div>
       </div>
 
