@@ -18,12 +18,12 @@ function CustomToast({ type, message, onClose }: Props) {
         {type === 'error' && <ErrorSvg />}
       </div>
 
-      <p className="text-sm text-white">{message}</p>
+      <p className="text-sm text-white pr-4">{message}</p>
       <button
         type="button"
         onClick={onClose}
         aria-label="toast 닫기"
-        className="absolute top-1 right-1"
+        className="absolute top-1 right-2"
       >
         <Close aria-hidden />
       </button>
