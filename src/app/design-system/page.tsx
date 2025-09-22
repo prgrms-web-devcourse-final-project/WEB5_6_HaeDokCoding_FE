@@ -1,3 +1,5 @@
+import Button from '@/shared/components/Button';
+
 function Page() {
   return (
     <div className="p-6 space-y-6">
@@ -33,7 +35,11 @@ function Page() {
 
         <div className="space-y-2">
           <h3 className="text-xl font-medium border-b pb-1">Button</h3>
-          {/* 여기 컴포넌트 삽입 */}
+          <Button>버튼</Button>
+          <Button variant="purple" size="sm">
+            Button
+          </Button>
+          <Button variant="disable">button</Button>
         </div>
       </div>
 

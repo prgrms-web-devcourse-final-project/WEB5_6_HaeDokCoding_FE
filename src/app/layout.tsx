@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
-import '../styles/global.css';
-
+import '@/shared/styles/global.css';
 export const metadata: Metadata = {
   title: 'SSOUL',
   description: '칵테일을 좋아하는 사람들을 위한 서비스',
