@@ -18,6 +18,7 @@
     ]
   },
   "dependencies": {
+    "class-variance-authority": "^0.7.1",
     "gsap": "^3.13.0",
     "next": "15.5.3",
     "react": "19.1.0",

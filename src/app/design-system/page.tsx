@@ -43,6 +43,10 @@ function Page() {
           <Button type="button" disabled={true} variant="disable">
             button
           </Button>
+          <Button type="button" size='sm' >버튼</Button>
+          <Button type="button" size='sm' variant='purple'>버튼</Button>
+          <Button type="button" size='sm' variant='disable'>버튼</Button>
+
           <TextButton>텍스트 버튼</TextButton>
           <TextButton size="sm">텍스트 버튼</TextButton>
         </div>
