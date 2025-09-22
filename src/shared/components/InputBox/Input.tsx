@@ -1,14 +1,13 @@
-import tw from "@/shared/utills/tw"
-import { cva } from "class-variance-authority"
-import { Ref } from "react"
+import tw from '@/shared/utills/tw';
+import { cva } from 'class-variance-authority';
+import { Ref } from 'react';
 
-
-interface Props{
-  placeholder: string,
-  ref?: Ref<HTMLInputElement | null>
-  size?: 'default' | 'lg'
-  className?: string
-  onChange?: () => void
+interface Props {
+  placeholder: string;
+  ref?: Ref<HTMLInputElement | null>;
+  size?: 'default' | 'lg';
+  className?: string;
+  onChange?: () => void;
 }
 
 export const InputClass = cva(
@@ -17,17 +16,16 @@ export const InputClass = cva(
     variants: {
       size: {
         default: 'h-10',
-        lg:'h-13'
-      }
+        lg: 'h-13',
+      },
     },
     defaultVariants: {
-      size:'default'
-    }
+      size: 'default',
+    },
   }
-)
+);
 
-function Input({placeholder,ref,size,className,onChange,...rest}: Props) {
-
+function Input({ placeholder, ref, size, className, onChange, ...rest }: Props) {
   return (
     <input
       type="text"
@@ -37,6 +35,6 @@ function Input({placeholder,ref,size,className,onChange,...rest}: Props) {
       onChange={onChange}
       {...rest}
     />
-  )
+  );
 }
-export default Input
+export default Input;
