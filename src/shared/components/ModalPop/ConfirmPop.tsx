@@ -1,3 +1,4 @@
+import Button from '../button/Button';
 import ModalLayout from './ModalLayout';
 
 interface Props {
@@ -19,8 +20,12 @@ function ConfirmPop({ ref, open, onClose, title, description, children }: Props)
       description={description}
       buttons={
         <>
-          <button>취소</button>
-          <button>확인</button>
+          <Button type="button" size="sm">
+            취소
+          </Button>
+          <Button type="button" size="sm" color="purple">
+            확인
+          </Button>
         </>
       }
     >
