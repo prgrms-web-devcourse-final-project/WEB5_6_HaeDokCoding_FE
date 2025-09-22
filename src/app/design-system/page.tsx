@@ -2,10 +2,13 @@
 
 import Button from '@/shared/components/button/Button';
 import TextButton from '@/shared/components/button/TextButton';
-import ModalLayout from '@/shared/components/modalPop/ModalLayout';
+import Input from '@/shared/components/InputBox/Input';
+
 import { useState } from 'react';
 import { customToast } from '@/shared/components/toast/CustomToastUtils';
+import ModalLayout from '@/shared/components/modalPop/ModalLayout';
 import ConfirmPop from '@/shared/components/modalPop/ConfirmPop';
+
 
 function Page() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -22,14 +25,8 @@ function Page() {
 
         {/* Input */}
         <div className="flex flex-col gap-2 space-y-2">
-          <h3 className="text-lg font-medium border-b pb-1">Input</h3>
-          {/* 여기 컴포넌트 삽입 */}
-        </div>
-
-        {/* checkbox */}
-        <div className="space-y-2">
-          <h3 className="text-lg font-medium border-b pb-1">checkbox</h3>
-          {/* 여기 컴포넌트 삽입 */}
+          <h3 className="text-xl font-medium border-b pb-1">Input</h3>
+          <Input placeholder='내용을 입력해주세요.'/>
         </div>
 
         {/* select */}
