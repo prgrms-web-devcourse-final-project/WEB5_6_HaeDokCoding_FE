@@ -1,6 +1,4 @@
 function test() {
-  return (
-    <div>test</div>
-  )
+  return <div>test</div>;
 }
-export default test
+export default test;
