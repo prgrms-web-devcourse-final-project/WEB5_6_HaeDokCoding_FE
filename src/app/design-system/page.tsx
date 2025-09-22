@@ -6,6 +6,7 @@ import Input from '@/shared/components/InputBox/Input';
 
 import { useState } from 'react';
 import { customToast } from '@/shared/components/toast/CustomToastUtils';
+import SelectBox from '@/shared/components/InputBox/SelectBox';
 import ModalLayout from '@/shared/components/modalPop/ModalLayout';
 import ConfirmPop from '@/shared/components/modalPop/ConfirmPop';
 
@@ -26,14 +27,16 @@ function Page() {
         {/* Input */}
         <div className="flex flex-col gap-2 space-y-2">
           <h3 className="text-xl font-medium border-b pb-1">Input</h3>
-          <Input placeholder='내용을 입력해주세요.' />
-          <Input placeholder='칵테일을 검색해 보세요' size='lg'/>
+          <Input placeholder="내용을 입력해주세요." />
+          <Input placeholder="칵테일을 검색해 보세요" size="lg" />
         </div>
 
         {/* select */}
         <div className="space-y-2">
           <h3 className="text-lg font-medium border-b pb-1">select</h3>
           {/* 여기 컴포넌트 삽입 */}
+          <SelectBox id='id123'/>
+        
         </div>
       </div>
 
