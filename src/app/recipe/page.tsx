@@ -1,4 +1,4 @@
-function page() {
-  return <div>page</div>;
+function Page() {
+  return <div>recipe</div>;
 }
-export default page;
+export default Page;

@@ -1,4 +1,4 @@
-function page() {
-  return <div>page</div>;
+function Page() {
+  return <div>community</div>;
 }
-export default page;
+export default Page;
