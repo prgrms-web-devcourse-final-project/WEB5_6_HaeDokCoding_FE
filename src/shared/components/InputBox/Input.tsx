@@ -7,7 +7,8 @@ interface Props{
   placeholder: string,
   ref?: Ref<HTMLInputElement | null>
   size?: 'default' | 'lg'
-  className?:string
+  className?: string
+  onChange?: () => void
 }
 
 export const InputClass = cva(
@@ -28,11 +29,12 @@ export const InputClass = cva(
 function Input({placeholder,ref,size,className,...rest}: Props) {
 
   return (
-    <input type="text"
+    <input
+      type="text"
       className={tw(InputClass({ size, className }))}
       placeholder={placeholder}
       ref={ref}
-      
+      {...rest}
     />
   )
 }
