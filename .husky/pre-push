@@ -1,5 +1,4 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+#!/bin/sh
 
 echo "푸시 전 코드 포맷 확인..."
 
