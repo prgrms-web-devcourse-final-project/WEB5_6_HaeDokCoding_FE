@@ -1,7 +1,14 @@
-import Button from '@/shared/components/button/Button';
-import TextButton from '@/shared/components/button/TextButton';
+'use client';
+
+import Button from '@/shared/components/Button';
+import ConfirmPop from '@/shared/components/ModalPop/ConfirmPop';
+import ModalLayout from '@/shared/components/ModalPop/ModalLayout';
+import { useState } from 'react';
 
 function Page() {
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [isConfirmOpen, setConfirmOpen] = useState(false);
+
   return (
     <div className="p-6 space-y-6">
       {/* 페이지 제목 */}
@@ -67,7 +74,36 @@ function Page() {
 
         <div className="space-y-2">
           <h3 className="text-xl font-medium border-b pb-1">popup</h3>
-          {/* 여기 컴포넌트 삽입 */}
+          {/* 모달 열기 버튼 */}
+          <button
+            onClick={() => setModalOpen(true)}
+            className="px-4 py-2 bg-blue-500 text-white rounded"
+          >
+            기본 모달 열기
+          </button>
+          <button
+            onClick={() => setConfirmOpen(true)}
+            className="ml-4 px-4 py-2 bg-blue-500 text-white rounded"
+          >
+            컨펌 모달 열기
+          </button>
+
+          <ModalLayout
+            open={isModalOpen}
+            onClose={() => setModalOpen(false)}
+            title="제목"
+            description="설명"
+            buttons={<>{/* 여기다가 버튼 컴포넌트 넣으면 됨 */}</>}
+          >
+            <div>모달팝업 내용</div>
+          </ModalLayout>
+
+          <ConfirmPop
+            open={isConfirmOpen}
+            onClose={() => setConfirmOpen(false)}
+            title="Confirm제목"
+            description="설명"
+          />
         </div>
       </div>
     </div>

@@ -1,2 +1,5 @@
-@layer base;
-
+@layer base {
+  button {
+    cursor: pointer;
+  }
+}
