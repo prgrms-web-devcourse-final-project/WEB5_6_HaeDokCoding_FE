@@ -2,7 +2,8 @@
   "name": "web6_8_haedokcoding_fe",
   "version": "0.1.0",
   "private": true,
-"scripts": {
+
+  "scripts": {
     "dev": "next dev --turbopack",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx}\"",
@@ -10,6 +11,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   },
   "dependencies": {
     "gsap": "^3.13.0",
@@ -29,6 +36,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.5.3",
     "husky": "^9.1.7",
+    "lint-staged": "^16.1.6",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
     "tailwind-merge": "^3.3.1",
