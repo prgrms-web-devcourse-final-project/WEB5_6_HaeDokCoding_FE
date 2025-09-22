@@ -1,6 +1,7 @@
 'use client';
 
-import Button from '@/shared/components/Button';
+import Button from '@/shared/components/button/Button';
+import TextButton from '@/shared/components/button/TextButton';
 import ConfirmPop from '@/shared/components/ModalPop/ConfirmPop';
 import ModalLayout from '@/shared/components/ModalPop/ModalLayout';
 import { useState } from 'react';
@@ -43,11 +44,23 @@ function Page() {
 
         <div className="space-y-2">
           <h3 className="text-xl font-medium border-b pb-1">Button</h3>
-          <Button>버튼</Button>
-          <Button variant="purple" size="sm">
+          <Button type="button">버튼</Button>
+          <Button color="purple" type="button">
             Button
           </Button>
-          <Button variant="disable">button</Button>
+          <Button disabled>button</Button>
+          <Button type="button" size="sm">
+            버튼
+          </Button>
+          <Button type="button" size="sm" color="purple">
+            버튼
+          </Button>
+          <Button size="sm" disabled>
+            버튼
+          </Button>
+
+          <TextButton>텍스트 버튼</TextButton>
+          <TextButton size="sm">텍스트 버튼</TextButton>
         </div>
       </div>
 
