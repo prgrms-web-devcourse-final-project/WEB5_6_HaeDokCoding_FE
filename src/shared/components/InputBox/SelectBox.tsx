@@ -11,6 +11,16 @@ interface Props {
 function SelectBox({ id, ref, option, title }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [select, setSelect] = useState('');
+
+  const handleChoose = (v: string) => {
+    setIsOpen(!isOpen);
+    if (!v) {
+      setSelect(title);
+    } else {
+      setSelect(v);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-2 relative h-6">
       <label
@@ -28,11 +38,9 @@ function SelectBox({ id, ref, option, title }: Props) {
             <li
               key={v + i}
               className="cursor-pointer p-1 hover:bg-secondary"
-              onClick={() => {
-                (setSelect(v), setIsOpen(!isOpen));
-              }}
+              onClick={() => handleChoose(v)}
             >
-              {v}
+              {v || title}
             </li>
           ))}
         </ul>
