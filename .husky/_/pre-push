@@ -1,27 +1,2 @@
 #!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-echo "푸시 전 코드 포맷 확인..."
-
-# 포맷 체크
-npm run format:check || FORMAT_FAILED=true
-
-if [ "$FORMAT_FAILED" = "true" ]; then
-  echo "❌ 포맷 오류 - 푸시 취소"
-  echo "다음 명령어로 수정 후 다시 푸시하세요:"
-  echo "npm run format"
-  echo "git add ."
-  exit 1
-fi
-
-echo "푸시 전 Next.js 빌드 테스트 진행..."
-
-# 빌드 체크
-npm run build || BUILD_FAILED=true
-
-if [ "$BUILD_FAILED" = "true" ]; then
-  echo "❌ 빌드 실패 - 푸시 취소"
-  exit 1
-fi
-
-echo "✅ 포맷 및 빌드 모두 통과 - 푸시 진행..."
+. "$(dirname "$0")/h"
