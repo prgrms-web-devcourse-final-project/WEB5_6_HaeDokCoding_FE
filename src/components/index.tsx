@@ -1,6 +1,6 @@
 function index() {
   return (
-    <div>index</div>
+    <button>버튼</button>
   )
 }
 export default index
