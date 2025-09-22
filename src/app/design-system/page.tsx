@@ -2,6 +2,7 @@
 
 import Button from '@/shared/components/button/Button';
 import TextButton from '@/shared/components/button/TextButton';
+import Input from '@/shared/components/InputBox/Input';
 import ConfirmPop from '@/shared/components/ModalPop/ConfirmPop';
 import ModalLayout from '@/shared/components/ModalPop/ModalLayout';
 import { useState } from 'react';
@@ -22,13 +23,7 @@ function Page() {
         {/* Input */}
         <div className="flex flex-col gap-2 space-y-2">
           <h3 className="text-xl font-medium border-b pb-1">Input</h3>
-          {/* 여기 컴포넌트 삽입 */}
-        </div>
-
-        {/* checkbox */}
-        <div className="space-y-2">
-          <h3 className="text-xl font-medium border-b pb-1">checkbox</h3>
-          {/* 여기 컴포넌트 삽입 */}
+          <Input placeholder='내용을 입력해주세요.'/>
         </div>
 
         {/* select */}
