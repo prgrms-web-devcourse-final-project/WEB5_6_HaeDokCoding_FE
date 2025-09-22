@@ -14,9 +14,8 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const SIZE = {
-  default:
-    'py-1 px-2 h-10 rounded-lg text-base font-bold min-w-25 flex-center',
-  sm:'py-1 px-2 rounded-lg text-base font-bold min-w-20 flex-center',
+  default: 'py-1 px-2 h-10 rounded-lg text-base font-bold min-w-25 flex-center',
+  sm: 'py-1 px-2 rounded-lg text-base font-bold min-w-20 flex-center',
 };
 
 const VARIANT = {
@@ -27,15 +26,22 @@ const VARIANT = {
 
 function Button({
   size = 'default',
-  type = 'submit',
+  type = 'button',
   disabled = false,
   variant = 'default',
   children,
   className,
   ref,
-  ...rest }: Props) {
+  ...rest
+}: Props) {
   return (
-    <button className={`${SIZE[size]} ${VARIANT[variant]} ${className}`} type={type} disabled={disabled} {...rest} ref={ref}>
+    <button
+      className={`${SIZE[size]} ${VARIANT[variant]} ${className}`}
+      type={type}
+      disabled={disabled}
+      {...rest}
+      ref={ref}
+    >
       {children}
     </button>
   );

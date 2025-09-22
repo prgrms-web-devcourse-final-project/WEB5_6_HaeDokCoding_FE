@@ -1,5 +1,5 @@
 import Button from '@/shared/components/button/Button';
-
+import TextButton from '@/shared/components/button/TextButton';
 
 function Page() {
   return (
@@ -36,11 +36,15 @@ function Page() {
 
         <div className="space-y-2">
           <h3 className="text-xl font-medium border-b pb-1">Button</h3>
-          <Button type='button'>버튼</Button>
-          <Button variant="purple" type='button'>
+          <Button type="button">버튼</Button>
+          <Button variant="purple" type="button">
             Button
           </Button>
-          <Button type='button' disabled={true} variant="disable">button</Button>
+          <Button type="button" disabled={true} variant="disable">
+            button
+          </Button>
+          <TextButton>텍스트 버튼</TextButton>
+          <TextButton size="sm">텍스트 버튼</TextButton>
         </div>
       </div>
 
