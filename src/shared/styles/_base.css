@@ -2,4 +2,8 @@
   button {
     cursor: pointer;
   }
+
+  select{
+    appearance:none
+  }
 }
