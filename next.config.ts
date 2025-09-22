@@ -1,16 +1,17 @@
+import { NextConfig } from "next";
 
-const nextConfig = {
-  reactStrictMode: true,
-  webpack: (config: { module: { rules: { test: RegExp; use: string[]; }[]; }; }) => {
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ["@svgr/webpack"],
-    });
-
-    return config;
+const nextConfig: NextConfig = {
+  // TurboPack 설정
+  experimental: {
+    turbo: {
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
+    },
   },
-};
-
-module.exports = nextConfig;
+}
 
 export default nextConfig;
