@@ -1,38 +1,17 @@
-
-
-@layer theme;
-
 @theme {
-  /* primary */
+  /* breakpoint */
+  /* mo 0 ~ 767 */
+  /* tablet 768 ~ 1023 */
+  /* pc 1024~ */
+
   --color-primary: #1a1a1a;
-
-  /* secondary */
-  --color-secondary:#FFFFE6;
-
-  /* tertiary */
-  --color-tertiary:#81689D;
-
-  /* gray-dark */
-  --color-graydark:#636363;
-
-  /* gray */
-  --color-gray:#949494;
-
-  /* gray-light */
-  --color-graylight: #e3e3e3;
-
-  /* white */
-  --color-white:#ffffff;
-
-  /* black */
-  --color-black:#0f172a;
-
-  /* bg-pop */
-  --color-bgpop:#3d3d3d;
-
-  /* font-serif */
-  --font-serif: "Hahmlet", serif;
-
-  /* text-xsm */
-  --text-xsm: 12px;
+  --color-secondary: #ffffe6;
+  --color-tertiary: #81689d;
+  --color-gray-dark: #636363;
+  --color-gray: #949494;
+  --color-gray-light: #e3e3e3;
+  --color-white: #ffffff;
+  --color-black: #0f172a;
+  --color-bg-pop: #3d3d3d;
+  --font-serif: 'Hahmlet', serif;
 }
