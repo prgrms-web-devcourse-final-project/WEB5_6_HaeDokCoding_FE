@@ -26,7 +26,7 @@ export const InputClass = cva(
   }
 )
 
-function Input({placeholder,ref,size,className,...rest}: Props) {
+function Input({placeholder,ref,size,className,onChange,...rest}: Props) {
 
   return (
     <input
@@ -34,6 +34,7 @@ function Input({placeholder,ref,size,className,...rest}: Props) {
       className={tw(InputClass({ size, className }))}
       placeholder={placeholder}
       ref={ref}
+      onChange={onChange}
       {...rest}
     />
   )
