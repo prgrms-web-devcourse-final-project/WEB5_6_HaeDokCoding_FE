@@ -26,7 +26,8 @@ function Page() {
         {/* Input */}
         <div className="flex flex-col gap-2 space-y-2">
           <h3 className="text-xl font-medium border-b pb-1">Input</h3>
-          <Input placeholder='내용을 입력해주세요.'/>
+          <Input placeholder='내용을 입력해주세요.' />
+          <Input placeholder='칵테일을 검색해 보세요' size='lg'/>
         </div>
 
         {/* select */}
