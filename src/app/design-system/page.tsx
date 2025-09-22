@@ -1,4 +1,4 @@
-import Button from '@/shared/components/Button';
+import Button from '@/shared/components/button/Button';
 
 function Page() {
   return (
@@ -35,11 +35,11 @@ function Page() {
 
         <div className="space-y-2">
           <h3 className="text-xl font-medium border-b pb-1">Button</h3>
-          <Button>버튼</Button>
-          <Button variant="purple" size="sm">
+          <Button type='button'>버튼</Button>
+          <Button variant="purple" type='button' size="sm">
             Button
           </Button>
-          <Button variant="disable">button</Button>
+          <Button type='button' disable={true} variant="disable">button</Button>
         </div>
       </div>
 
