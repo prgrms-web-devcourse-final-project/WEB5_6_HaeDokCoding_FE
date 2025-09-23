@@ -2,10 +2,13 @@
 
 import Button from '@/shared/components/button/Button';
 import TextButton from '@/shared/components/button/TextButton';
-import ModalLayout from '@/shared/components/modalPop/ModalLayout';
+import Input from '@/shared/components/InputBox/Input';
 import { useState } from 'react';
 import { customToast } from '@/shared/components/toast/CustomToastUtils';
+import ModalLayout from '@/shared/components/modalPop/ModalLayout';
 import ConfirmPop from '@/shared/components/modalPop/ConfirmPop';
+import ChatInput from '@/shared/components/InputBox/ChatInput';
+import SelectBox from '@/shared/components/InputBox/SelectBox';
 
 function Page() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -22,20 +25,18 @@ function Page() {
 
         {/* Input */}
         <div className="flex flex-col gap-2 space-y-2">
-          <h3 className="text-lg font-medium border-b pb-1">Input</h3>
-          {/* 여기 컴포넌트 삽입 */}
-        </div>
-
-        {/* checkbox */}
-        <div className="space-y-2">
-          <h3 className="text-lg font-medium border-b pb-1">checkbox</h3>
-          {/* 여기 컴포넌트 삽입 */}
+          <h3 className="text-xl font-medium border-b pb-1">Input</h3>
+          <Input placeholder="내용을 입력해주세요." id="test" />
+          <Input placeholder="내용을 입력해주세요." id="test" variant="search" />
+          <Input placeholder="칵테일을 검색해 보세요" id="test" variant="comment" />
+          <Input placeholder="내용을 입력해주세요." id="test" size="lg" />
+          <ChatInput placeholder="내용을 입력해주세요" id="test" />
         </div>
 
         {/* select */}
         <div className="space-y-2">
           <h3 className="text-lg font-medium border-b pb-1">select</h3>
-          {/* 여기 컴포넌트 삽입 */}
+          <SelectBox option={['', '논알콜', '약한 도수', '중간 도수']} title="도수" />
         </div>
       </div>
 
