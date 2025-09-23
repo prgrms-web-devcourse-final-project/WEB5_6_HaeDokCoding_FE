@@ -15,7 +15,7 @@ interface Props {
   type?: HTMLInputTypeAttribute;
   ref?: Ref<HTMLInputElement | null>;
   size?: 'default' | 'lg';
-  variant?: 'default' | 'search' | 'comment' | 'textarea';
+  variant?: 'default' | 'search' | 'comment' 
   className?: string;
   onChange?: () => void;
   id: string;
