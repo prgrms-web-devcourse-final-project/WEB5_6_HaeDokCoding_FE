@@ -29,8 +29,8 @@ export const ButtonClass = cva(
         purple: 'bg-tertiary text-secondary',
       },
       size: {
-        default: 'h-10, min-w-25',
-        sm: 'h-8 min-w-20',
+        default: 'h-10, w-25',
+        sm: 'h-8 w-20',
       },
     },
     defaultVariants: {

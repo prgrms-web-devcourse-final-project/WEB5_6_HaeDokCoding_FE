@@ -27,15 +27,17 @@ function Page() {
         {/* Input */}
         <div className="flex flex-col gap-2 space-y-2">
           <h3 className="text-xl font-medium border-b pb-1">Input</h3>
-          <Input placeholder="내용을 입력해주세요." />
-          <Input placeholder="칵테일을 검색해 보세요" size="lg" />
+          <Input placeholder="내용을 입력해주세요." id="test" />
+          <Input placeholder="내용을 입력해주세요." id="test" variant="search" />
+          <Input placeholder="칵테일을 검색해 보세요" id="test" variant="comment" />
+          <Input placeholder="내용을 입력해주세요." id="test" size="lg" />
         </div>
 
         {/* select */}
         <div className="space-y-2">
           <h3 className="text-lg font-medium border-b pb-1">select</h3>
           {/* 여기 컴포넌트 삽입 */}
-          <SelectBox id="fruit" option={['', '논알콜', '약한 도수', '중간 도수']} title="도수" />
+          <SelectBox option={['', '논알콜', '약한 도수', '중간 도수']} title="도수" />
         </div>
       </div>
 
