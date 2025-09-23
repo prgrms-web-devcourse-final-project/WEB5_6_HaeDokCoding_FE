@@ -134,6 +134,10 @@ function Page() {
           />
         </div>
       </div>
+
+      <div className="space-y-3">
+        <h2 className="text-2xl font-semibold pb-1">Button</h2>
+      </div>
     </div>
   );
 }
