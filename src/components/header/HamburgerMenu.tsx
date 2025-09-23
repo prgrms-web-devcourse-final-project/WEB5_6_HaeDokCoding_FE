@@ -1,10 +1,26 @@
-import Menu from '@/shared/assets/icons/menu_36.svg';
+import Menu from '@/shared/assets/icons/menu_32.svg';
+import { useState } from 'react';
+import DropdownMenu from './DropdownMenu';
 
 function HamburgerMenu() {
+  const [isClicked, setIsClicked] = useState(false);
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsClicked(!isClicked);
+  };
+
   return (
-    <div className="sm:hidden block">
-      <Menu />
-    </div>
+    <>
+      <button
+        type="button"
+        className="sm:hidden block stroke-white hover:stroke-white/80"
+        onClick={(e) => handleClick(e)}
+      >
+        <Menu />
+      </button>
+      {isClicked && <DropdownMenu setIsClicked={setIsClicked} />}
+    </>
   );
 }
 
