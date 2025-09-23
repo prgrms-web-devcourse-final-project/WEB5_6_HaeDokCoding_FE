@@ -3,7 +3,7 @@ import { cva } from 'class-variance-authority';
 import { ButtonHTMLAttributes, Ref } from 'react';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  size?: 'default' | 'sm' | 'auto'
+  size?: 'default' | 'sm' | 'auto';
   color?: 'default' | 'purple';
   ref?: Ref<HTMLButtonElement | null>;
   disable?: boolean;
@@ -26,7 +26,7 @@ export const ButtonClass = cva(
       size: {
         default: 'h-10 min-w-25',
         sm: 'h-8 min-w-20',
-        auto:'w-auto'
+        auto: 'w-auto',
       },
     },
     defaultVariants: {
