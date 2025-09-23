@@ -18,7 +18,10 @@ export default function RootLayout({
     <html lang="ko-KR">
       <body className="relative flex flex-col min-h-screen">
         <Header />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 mt-[60px]">
+          <div id="observer-target" className="h-[0.5px]"></div>
+          {children}
+        </main>
         <div id="modal-root"></div>
         <Toaster
           position="top-center"

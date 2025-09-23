@@ -7,14 +7,14 @@ function HamburgerMenu() {
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsClicked(!isClicked);
+    setIsClicked(true);
   };
 
   return (
     <>
       <button
         type="button"
-        className="sm:hidden block stroke-white hover:stroke-white/80"
+        className="sm:hidden block stroke-white hover:stroke-white/80 w-[63px]"
         onClick={(e) => handleClick(e)}
         aria-label="메뉴 열기"
         aria-expanded={isClicked}
@@ -22,7 +22,7 @@ function HamburgerMenu() {
       >
         <Menu />
       </button>
-      {isClicked && <DropdownMenu setIsClicked={setIsClicked} />}
+      {isClicked && <DropdownMenu isClicked={isClicked} setIsClicked={setIsClicked} />}
     </>
   );
 }
