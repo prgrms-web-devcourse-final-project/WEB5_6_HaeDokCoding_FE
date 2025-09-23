@@ -49,8 +49,7 @@ function Input({
 }: Props) {
   return (
     <div className={tw(InputClass({ size, className }))}>
-      <>
-        <label htmlFor={id} className="flex-1" aria-hidden="true">
+        <label htmlFor={id} className="flex-1">
           <input
             id={id}
             type={type}
@@ -69,12 +68,12 @@ function Input({
           <Button
             color="purple"
             type="submit"
+            size='auto'
             className="w-10 h-6 flex-center text-xs px-1.5 py-[1px] rounded-sm shadow-md"
           >
             입력
           </Button>
         ) : null}
-      </>
     </div>
   );
 }

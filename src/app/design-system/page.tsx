@@ -36,7 +36,6 @@ function Page() {
         {/* select */}
         <div className="space-y-2">
           <h3 className="text-lg font-medium border-b pb-1">select</h3>
-          {/* 여기 컴포넌트 삽입 */}
           <SelectBox option={['', '논알콜', '약한 도수', '중간 도수']} title="도수" />
         </div>
       </div>

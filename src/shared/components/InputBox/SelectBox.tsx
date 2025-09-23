@@ -1,8 +1,6 @@
 import { Ref, useState } from 'react';
 import Down from '@/shared/assets/icons/selectDown_24.svg';
 
-// 셀렉트박스 다시 열때 선택된 것은 선택된 표시 넣어두기 [x]
-
 interface Props {
   ref?: Ref<HTMLButtonElement | null>;
   option: string[];
@@ -28,7 +26,7 @@ function SelectBox({ ref, option, title }: Props) {
         ref={ref}
         className="flex gap-2 cursor-pointer text-base"
         onClick={() => setIsOpen(!isOpen)}
-        aria-expanded
+        aria-expanded={isOpen}
       >
         {select ? select : title}
         {isOpen ? (
@@ -41,12 +39,12 @@ function SelectBox({ ref, option, title }: Props) {
       <ul
         className={`w-30 bg-white text-gray-dark p-2 rounded-xl  duration-200  absolute transition-all 
          ${isOpen ? 'opacity-100 top-8' : 'opacity-0 pointer-events-none top-4'}`}
-        role="드롭다운 메뉴"
+        role="listbox"
       >
         {option.map((v, i) => (
           <li
             key={v + i}
-            role="선택 메뉴"
+            role="option"
             className="cursor-pointer p-1 hover:bg-secondary aria-selected:bg-secondary"
             onClick={() => handleChoose(v)}
             aria-selected={v === select}
