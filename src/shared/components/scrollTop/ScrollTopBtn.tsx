@@ -40,7 +40,7 @@ function ScrollTopBtn() {
         type="button"
         aria-label="최상단으로 스크롤 이동"
         onClick={scrollToTop}
-        className="flex-center w-10 h-10 shadow-[0_4px_12px_0_rgba(255,255,255,0.2)] bg-secondary rounded-full"
+        className="flex-center w-10 h-10 shadow-[0_4px_12px_0_rgba(0,0,0,0.5)] bg-secondary rounded-full"
       >
         <Arrow aria-hidden />
       </button>
