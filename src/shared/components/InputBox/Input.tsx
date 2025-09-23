@@ -1,7 +1,7 @@
 import tw from '@/shared/utills/tw';
 import { cva } from 'class-variance-authority';
 import { HTMLInputTypeAttribute, Ref } from 'react';
-import Search from '@/shared/assets/icons/search_32.svg'
+import Search from '@/shared/assets/icons/search_32.svg';
 import Button from '../button/Button';
 // select나올떄 자연스러운 처리 화살표 로테이트 [x]
 // 인풋 타입받을 수 있게 수정 [x]
@@ -12,13 +12,13 @@ import Button from '../button/Button';
 
 interface Props {
   placeholder: string;
-  type?: HTMLInputTypeAttribute 
+  type?: HTMLInputTypeAttribute;
   ref?: Ref<HTMLInputElement | null>;
   size?: 'default' | 'lg';
-  variant?: 'default'|'search'|'comment'|'textarea'
+  variant?: 'default' | 'search' | 'comment' | 'textarea';
   className?: string;
   onChange?: () => void;
-  id:string
+  id: string;
 }
 
 export const InputClass = cva(
@@ -36,9 +36,19 @@ export const InputClass = cva(
   }
 );
 
-function Input({ placeholder,type, ref, size, variant='default', className, id, onChange, ...rest }: Props) {
-return (
-  <div className={tw(InputClass({ size, className }))}>
+function Input({
+  placeholder,
+  type,
+  ref,
+  size,
+  variant = 'default',
+  className,
+  id,
+  onChange,
+  ...rest
+}: Props) {
+  return (
+    <div className={tw(InputClass({ size, className }))}>
       <>
         <label htmlFor={id} className="flex-1" aria-hidden="true">
           <input
@@ -65,7 +75,7 @@ return (
           </Button>
         ) : null}
       </>
-  </div>
-);
+    </div>
+  );
 }
 export default Input;

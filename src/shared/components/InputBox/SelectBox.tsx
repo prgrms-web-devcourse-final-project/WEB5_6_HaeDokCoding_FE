@@ -1,7 +1,7 @@
 import { Ref, useState } from 'react';
 import Down from '@/shared/assets/icons/selectDown_24.svg';
 
-// 셀렉트박스 다시 열때 선택된 것은 선택된 표시 넣어두기
+// 셀렉트박스 다시 열때 선택된 것은 선택된 표시 넣어두기 [x]
 
 interface Props {
   ref?: Ref<HTMLButtonElement | null>;
@@ -9,7 +9,7 @@ interface Props {
   title: string;
 }
 
-function SelectBox({  ref, option, title }: Props) {
+function SelectBox({ ref, option, title }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [select, setSelect] = useState('');
 
@@ -31,21 +31,25 @@ function SelectBox({  ref, option, title }: Props) {
         aria-expanded
       >
         {select ? select : title}
-        {isOpen ? <Down className='rotate-180 duration-300'/> : <Down className='rotate-0 duration-300'/>}
+        {isOpen ? (
+          <Down className="rotate-180 duration-300" />
+        ) : (
+          <Down className="rotate-0 duration-300" />
+        )}
       </button>
 
       <ul
         className={`w-30 bg-white text-gray-dark p-2 rounded-xl  duration-200  absolute transition-all 
          ${isOpen ? 'opacity-100 top-8' : 'opacity-0 pointer-events-none top-4'}`}
-        role='드롭다운 메뉴'
+        role="드롭다운 메뉴"
       >
         {option.map((v, i) => (
           <li
             key={v + i}
-            role='선택 메뉴'
+            role="선택 메뉴"
             className="cursor-pointer p-1 hover:bg-secondary aria-selected:bg-secondary"
             onClick={() => handleChoose(v)}
-            aria-selected= {v === select}
+            aria-selected={v === select}
           >
             {v || title}
           </li>
