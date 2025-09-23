@@ -1,5 +1,6 @@
 import type { NextConfig } from 'next';
 
+
 const nextConfig: NextConfig = {
   // TurboPack 설정
   experimental: {
