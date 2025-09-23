@@ -8,6 +8,8 @@ function Github() {
         href="https://github.com/prgrms-web-devcourse-final-project/WEB5_6_HaeDokCoding_FE"
         target="_blank"
         aria-label="깃허브 링크"
+        aria-hidden="true"
+        rel="noopener noreferrer"
       >
         <Icon />
       </Link>

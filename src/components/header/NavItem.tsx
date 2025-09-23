@@ -8,7 +8,6 @@ interface Props {
 }
 
 function NavItem({ pathname, className }: Props) {
-  console.log(pathname);
   return (
     <nav className={tw(className)}>
       <ul className="text-white flex gap-[24px] font-serif font-normal text-lg">
@@ -17,6 +16,7 @@ function NavItem({ pathname, className }: Props) {
             <Link
               href={href}
               className={`${pathname === href ? 'text-tertiary' : 'hover:text-white/80'} transition-colors`}
+              aria-current={pathname === href ? 'page' : undefined}
             >
               {label}
             </Link>
