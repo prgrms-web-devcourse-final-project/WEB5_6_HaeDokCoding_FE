@@ -15,7 +15,7 @@ interface Props {
 function DropdownMenu({ isClicked, setIsClicked }: Props) {
   const pathname = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<(HTMLHeadingElement | null)[]>([]);
+  const textRef = useRef<(HTMLSpanElement | null)[]>([]);
 
   useEffect(() => {
     if (!menuRef.current) return;
@@ -80,7 +80,7 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
                 aria-current={pathname === href ? 'page' : undefined}
               >
                 <span className="text-[20px] mr-3">{idx + 1}. </span>
-                <h1
+                <span
                   className="text-[28px]"
                   ref={(el) => {
                     textRef.current[idx] = el;
@@ -89,7 +89,7 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
                   onMouseLeave={() => handleMouseLeave(idx)}
                 >
                   {label}
-                </h1>
+                </span>
               </Link>
             </li>
           ))}
