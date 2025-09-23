@@ -1,4 +1,5 @@
-import { NextConfig } from 'next';
+
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   // TurboPack 설정
@@ -42,5 +43,5 @@ const nextConfig: NextConfig = {
     return config;
   },
 };
-
+ 
 export default nextConfig;
