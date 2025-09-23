@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko-KR">
-      <body className="flex flex-col min-h-screen">
+      <body className="relative flex flex-col min-h-screen">
         <main className="flex-1">{children}</main>
         <div id="modal-root"></div>
         <Toaster
