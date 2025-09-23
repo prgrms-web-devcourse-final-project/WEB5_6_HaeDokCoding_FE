@@ -67,7 +67,7 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
       ref={menuRef}
     >
       <div className="flex items-center h-[36px] w-full  justify-center mt-3">
-        <LogoDark width={76} height={25} />
+        <LogoDark />
       </div>
       <div className="my-5">
         <ul className="flex flex-col gap-[12px] text-black px-2">
