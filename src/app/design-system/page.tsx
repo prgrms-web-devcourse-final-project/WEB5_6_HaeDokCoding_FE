@@ -3,13 +3,10 @@
 import Button from '@/shared/components/button/Button';
 import TextButton from '@/shared/components/button/TextButton';
 import Input from '@/shared/components/InputBox/Input';
-
 import { useState } from 'react';
 import { customToast } from '@/shared/components/toast/CustomToastUtils';
-import SelectBox from '@/shared/components/InputBox/SelectBox';
 import ModalLayout from '@/shared/components/modalPop/ModalLayout';
 import ConfirmPop from '@/shared/components/modalPop/ConfirmPop';
-
 import ChatInput from '@/shared/components/InputBox/ChatInput';
 
 function Page() {
