@@ -25,7 +25,7 @@ function CustomToast({ type, message, onClose }: Props) {
         aria-label="toast 닫기"
         className="absolute top-1 right-2"
       >
-        <Close aria-hidden />
+        <Close color="white" aria-hidden />
       </button>
     </div>
   );

@@ -1,6 +1,7 @@
 import Bell from '@/shared/assets/icons/bell_24.svg';
 import User from '@/shared/assets/icons/user_24.svg';
-import SignOut from '@/shared/assets/icons/signout_24.svg';
+// import SignOut from '@/shared/assets/icons/sign_out_24.svg';
+import SignIn from '@/shared/assets/icons/sign_in_24.svg';
 import { useRouter } from 'next/navigation';
 import tw from '@/shared/utills/tw';
 
@@ -27,28 +28,29 @@ function HeaderBtn({ pathname }: { pathname: string }) {
       },
     },
     {
-      icon: SignOut,
-      label: '로그아웃',
+      icon: SignIn,
+      label: '로그인',
       className: 'sm:block hidden',
       onClick: () => {
         //   console.log('로그아웃 클릭');
+        router.push('/login');
       },
     },
   ];
 
   return (
-    <div className="flex gap-[12px]">
+    <div className="flex gap-3">
       {headerBtn.map(({ icon: Icon, label, onClick, className }) => (
         <button
           key={label}
           className={tw(
-            'cursor-pointer fill-white hover:fill-white/80 transition-colors duration-200',
+            'cursor-pointer fill-white  hover:fill-teritiary/70 transition-colors duration-200',
             className
           )}
           aria-label={label}
           onClick={() => onClick(router)}
         >
-          <Icon />
+          <Icon width={24} height={24} />
         </button>
       ))}
     </div>

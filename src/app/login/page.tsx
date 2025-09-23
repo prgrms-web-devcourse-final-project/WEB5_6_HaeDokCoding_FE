@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 function Page() {
   return (
-    <div className="relative flex flex-1 flex-col items-center justify-center gap-4 min-h-screen">
+    <div className="page-layout max-w-824 relative flex-center flex-col gap-4">
       <div
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[75rem] h-full -z-10"
         aria-hidden
