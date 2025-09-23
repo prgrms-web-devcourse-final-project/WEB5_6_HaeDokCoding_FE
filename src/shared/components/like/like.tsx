@@ -1,6 +1,4 @@
 function like() {
-  return (
-    <div>like</div>
-  )
+  return <div>like</div>;
 }
-export default like
+export default like;
