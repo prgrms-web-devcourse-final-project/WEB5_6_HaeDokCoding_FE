@@ -8,6 +8,7 @@ import { customToast } from '@/shared/components/toast/CustomToastUtils';
 import ModalLayout from '@/shared/components/modalPop/ModalLayout';
 import ConfirmPop from '@/shared/components/modalPop/ConfirmPop';
 import ChatInput from '@/shared/components/InputBox/ChatInput';
+import SelectBox from '@/shared/components/InputBox/SelectBox';
 
 function Page() {
   const [isModalOpen, setModalOpen] = useState(false);
