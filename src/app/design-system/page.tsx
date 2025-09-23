@@ -2,10 +2,10 @@
 
 import Button from '@/shared/components/button/Button';
 import TextButton from '@/shared/components/button/TextButton';
-import ModalLayout from '@/shared/components/temp_ModalPop/ModalLayout';
+import ModalLayout from '@/shared/components/modalPop/ModalLayout';
 import { useState } from 'react';
 import { customToast } from '@/shared/components/toast/CustomToastUtils';
-import ConfirmPop from '@/shared/components/temp_ModalPop/ConfirmPop';
+import ConfirmPop from '@/shared/components/modalPop/ConfirmPop';
 
 function Page() {
   const [isModalOpen, setModalOpen] = useState(false);
