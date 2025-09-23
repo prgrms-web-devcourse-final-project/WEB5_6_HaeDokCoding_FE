@@ -10,6 +10,7 @@ import ConfirmPop from '@/shared/components/modalPop/ConfirmPop';
 import ChatInput from '@/shared/components/InputBox/ChatInput';
 import SelectBox from '@/shared/components/InputBox/SelectBox';
 import LikeBtn from '@/shared/components/like/LikeBtn';
+import Share from '@/shared/components/share/Share';
 
 function Page() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -141,6 +142,11 @@ function Page() {
         <div className="space-y-2">
           <h3 className="text-lg font-medium border-b pb-1">like</h3>
           <LikeBtn />
+        </div>
+        <div className="space-y-2">
+          <h3 className="text-lg font-medium border-b pb-1">Share</h3>
+          <Share />
+          <Share variants="community" />
         </div>
       </div>
     </div>
