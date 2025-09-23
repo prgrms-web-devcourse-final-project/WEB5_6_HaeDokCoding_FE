@@ -19,7 +19,7 @@ function HeaderBtn({ pathname }: { pathname: string }) {
     },
     {
       icon: User,
-      label: '유저',
+      label: '마이 페이지',
       className: `fill-white w-[27px] h-[27px] ${pathname === '/mypage' ? 'fill-tertiary hover:fill-tertiary' : ''}`,
       onClick: (router: RouterType) => {
         //   console.log('유저 클릭');

@@ -5,7 +5,7 @@ function HeaderLogo() {
   return (
     <div>
       <Link href="/">
-        <Logo />
+        <Logo aria-label="Ssoul 홈페이지로 이동" />
       </Link>
     </div>
   );
