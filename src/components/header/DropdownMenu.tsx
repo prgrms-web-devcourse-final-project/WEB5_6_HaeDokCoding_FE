@@ -4,17 +4,67 @@ import Close from '@/shared/assets/icons/close_32.svg';
 import User from '@/shared/assets/icons/user_24.svg';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
 
-function DropdownMenu({ setIsClicked }: { setIsClicked: (state: boolean) => void }) {
+interface Props {
+  isClicked: boolean;
+  setIsClicked: (state: boolean) => void;
+}
+
+function DropdownMenu({ isClicked, setIsClicked }: Props) {
   const pathname = usePathname();
+  const menuRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<(HTMLHeadingElement | null)[]>([]);
+
+  useEffect(() => {
+    if (!menuRef.current) return;
+
+    if (isClicked) {
+      gsap.fromTo(
+        menuRef.current,
+        {
+          x: -200,
+          opacity: 0,
+        },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'expo.inOut',
+        }
+      );
+    }
+  }, [isClicked]);
+
+  const handleMouseEnter = (index: number) => {
+    const el = textRef.current[index];
+    if (!el) return;
+    gsap.to(el, {
+      y: -5,
+      duration: 0.3,
+      ease: 'power1.out',
+    });
+  };
+
+  const handleMouseLeave = (index: number) => {
+    const el = textRef.current[index];
+    if (!el) return;
+    gsap.to(el, {
+      y: 0,
+      duration: 0.3,
+      ease: 'power1.out',
+    });
+  };
 
   return (
     <div
       className="w-full h-screen bg-secondary absolute top-0 left-0 px-[12px] font-serif block sm:hidden"
       role="menu"
-      aira-label="메인 네비게이션 메뉴"
+      aria-label="메인 네비게이션 메뉴"
       tabIndex={-1}
       id="mobile-dropdown-menu"
+      ref={menuRef}
     >
       <div className="flex items-center h-[36px] w-full  justify-center mt-3">
         <LogoDark width={76} height={25} />
@@ -30,7 +80,16 @@ function DropdownMenu({ setIsClicked }: { setIsClicked: (state: boolean) => void
                 aria-current={pathname === href ? 'page' : undefined}
               >
                 <span className="text-[20px] mr-3">{idx + 1}. </span>
-                <h1 className="text-[28px]">{label}</h1>
+                <h1
+                  className="text-[28px]"
+                  ref={(el) => {
+                    textRef.current[idx] = el;
+                  }}
+                  onMouseEnter={() => handleMouseEnter(idx)}
+                  onMouseLeave={() => handleMouseLeave(idx)}
+                >
+                  {label}
+                </h1>
               </Link>
             </li>
           ))}
