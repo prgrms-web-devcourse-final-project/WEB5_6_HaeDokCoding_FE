@@ -1,4 +1,4 @@
-import ShareBtn from '@/shared/assets/icons/share_24.svg';
+import ShareBtn from '@/shared/assets/icons/share_28.svg';
 
 interface Props {
   onClick?: () => void;
@@ -21,7 +21,11 @@ function Share({ onClick, variants = 'default', title, content }: Props) {
       aria-label="공유하기"
       onClick={onClick}
     >
-      <ShareBtn className="duration-100 hover:[&_*]:fill-white/50 [&_*]:duration-200" aria-hidden />
+      <ShareBtn
+        fill="transparent"
+        className="duration-100 object-contain  hover:[&_*]:fill-white/50 [&_*]:duration-200"
+        aria-hidden
+      />
     </button>
   );
 }

@@ -16,7 +16,7 @@ function LikeBtn() {
       onClick={handleClick}
     >
       <LikeIcon
-        fill={`${isClick ? '#81689d' : null}`}
+        fill={`${isClick ? '#81689d' : 'transparent'}`}
         className="duration-100  hover:[&_*]:fill-tertiary/50 [&_*]:duration-200"
         aria-hidden
       />
