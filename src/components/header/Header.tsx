@@ -5,42 +5,53 @@ import HeaderBtn from './HeaderBtn';
 import HeaderLogo from './HeaderLogo';
 import NavItem from './NavItem';
 import HamburgerMenu from './HamburgerMenu';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import tw from '@/shared/utills/tw';
 
 function Header() {
   const pathname = usePathname();
-  const headerRef = useRef<HTMLElement>(null);
+
+  const [showShadow, setShowShadow] = useState(true);
+
+  const [lastScrollTop, setLastScrollTop] = useState(0); // 마지막 스크롤 위치 저장
+  const headerRef = useRef<HTMLHeadElement>(null);
 
   useEffect(() => {
-    const target = document.getElementById('observer-target');
-    if (!target) return;
+    const handleScroll = () => {
+      const currentScrollTop = window.scrollY;
+      console.log(currentScrollTop, lastScrollTop);
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!headerRef.current) return;
+      if (Math.abs(currentScrollTop - lastScrollTop) < -5) return;
 
-        // 요소가 화면에 보이는지 아닌지 판단
-        if (!entry.isIntersecting) {
-          // 아니면
-          headerRef.current.classList.add('scroll-down');
-        } else {
-          // 맞으면
-          headerRef.current.classList.remove('scroll-down');
+      if (currentScrollTop > lastScrollTop) {
+        // 유저가 아래로 스크롤 -> 헤더 숨기기
+        if (headerRef.current) {
+          headerRef.current.style.top = '-60px';
+          setShowShadow(false);
         }
-      },
-      {
-        threshold: 0, // 0이면 한 픽셀이라도 보이면 isIntersecting가 true
+      } else {
+        // 유저가 위로 스크롤 -> 헤더 다시 보이기
+        if (headerRef.current) {
+          headerRef.current.style.top = '0';
+          setShowShadow(true);
+        }
       }
-    );
 
-    observer.observe(target);
+      setLastScrollTop(currentScrollTop); // 마지막 위치 갱신
+    };
 
-    return () => observer.disconnect();
-  }, []);
+    window.addEventListener('scroll', handleScroll);
+
+    // 클린업 함수
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollTop]);
 
   return (
     <header
-      className="bg-primary w-full h-[60px] flex items-center justify-between px-[12px] fixed top-0 left-0 z-50 transition-all duration-300"
+      className={tw(
+        `bg-primary w-full h-[60px] flex items-center justify-between px-[12px] fixed top-0 left-0 z-50 transition-all duration-300`,
+        showShadow && 'shadow-header'
+      )}
       ref={headerRef}
     >
       <HamburgerMenu />
