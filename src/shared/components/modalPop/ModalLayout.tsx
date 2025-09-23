@@ -75,7 +75,12 @@ function ModalLayout({
           {children && <div className="mt-5 py-2 text-white">{children}</div>}
 
           {buttons && (
-            <div className={tw('flex justify-center gap-2 pt-8', size === 'sm' && 'pt-5')}>
+            <div
+              className={tw(
+                'flex flex-col md:flex-row justify-center gap-2 pt-8',
+                size === 'sm' && 'pt-5'
+              )}
+            >
               {buttons}
             </div>
           )}

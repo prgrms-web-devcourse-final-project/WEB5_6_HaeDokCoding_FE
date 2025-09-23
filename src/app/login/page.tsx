@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import type { Metadata } from 'next';
-import SocialLoginButtons from './SocialLoginButtons';
 import loginBg from '@/shared/assets/images/login_bg.webp';
+import SocialLogin from './SocialLogin';
 
 export const metadata: Metadata = {
   title: 'SSOUL | 로그인',
@@ -17,11 +17,13 @@ function Page() {
       >
         <Image src={loginBg} alt="" fill className="object-cover md:object-contain object-bottom" />
       </div>
+
       <div className="flex flex-col gap-3 text-center">
         <h1 className="text-4xl font-bold">로그인</h1>
         <p>3초 로그인으로 SSOUL을 가볍게 즐겨보세요🍸</p>
       </div>
-      <SocialLoginButtons />
+
+      <SocialLogin />
     </div>
   );
 }
