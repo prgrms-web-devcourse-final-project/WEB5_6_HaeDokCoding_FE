@@ -1,6 +1,6 @@
 import Bell from '@/shared/assets/icons/bell_24.svg';
 import User from '@/shared/assets/icons/user_24.svg';
-import SignOut from '@/shared/assets/icons/singout_24.svg';
+import SignOut from '@/shared/assets/icons/signout_24.svg';
 import { useRouter } from 'next/navigation';
 import tw from '@/shared/utills/tw';
 
