@@ -39,11 +39,26 @@ function ModalLayout({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [open, onClose]);
 
+  // 팝업 열릴 시 scroll 막기
+  useEffect(() => {
+    if (open) document.body.style.overflow = 'hidden';
+    else document.body.style.overflow = '';
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
+
   if (!open) return null;
 
   return (
     <Portal>
-      <div className="fixed inset-0 bg-black/80 flex-center " onClick={onClose} aria-hidden="true">
+      <div className="fixed inset-0 flex items-center justify-center w-full h-full">
+        <div
+          className="fixed inset-0 bg-primary/90 flex-center "
+          onClick={onClose}
+          aria-hidden="true"
+        ></div>
         <div
           className={tw(
             'relative w-[calc(100%-1.5rem)] p-8 rounded-lg bg-bg-pop shadow-[0_4px_9px_0_rgba(255,255,255,0.25)]',
