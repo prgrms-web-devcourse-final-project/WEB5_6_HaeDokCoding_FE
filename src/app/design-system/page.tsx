@@ -29,7 +29,6 @@ function Page() {
           <h3 className="text-xl font-medium border-b pb-1">Input</h3>
           <Input placeholder="내용을 입력해주세요." />
           <Input placeholder="칵테일을 검색해 보세요" size="lg" />
-
         </div>
 
         {/* select */}
