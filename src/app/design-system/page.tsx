@@ -9,6 +9,7 @@ import ModalLayout from '@/shared/components/modalPop/ModalLayout';
 import ConfirmPop from '@/shared/components/modalPop/ConfirmPop';
 import ChatInput from '@/shared/components/InputBox/ChatInput';
 import SelectBox from '@/shared/components/InputBox/SelectBox';
+import LikeBtn from '@/shared/components/like/LikeBtn';
 
 function Page() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -136,7 +137,11 @@ function Page() {
       </div>
 
       <div className="space-y-3">
-        <h2 className="text-2xl font-semibold pb-1">Button</h2>
+        <h2 className="text-2xl font-semibold pb-1">Icons</h2>
+        <div className="space-y-2">
+          <h3 className="text-lg font-medium border-b pb-1">like</h3>
+          <LikeBtn />
+        </div>
       </div>
     </div>
   );
