@@ -47,7 +47,7 @@ function Welcome({ open, onClose }: Props) {
     >
       <div className="flex-center">
         <div className="relative w-32 h-32" aria-hidden>
-          <Image src={Ssury} alt="" fill className="object-contain" />
+          <Image src={Ssury} alt="" fill sizes="128px" className="object-contain" />
         </div>
       </div>
     </ModalLayout>
