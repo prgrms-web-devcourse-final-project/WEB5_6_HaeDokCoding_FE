@@ -1,5 +1,5 @@
 import { navItem } from '@/shared/utills/navigation';
-import LogoDark from '../../../public/logoDark.svg';
+import Image from 'next/image';
 import Close from '@/shared/assets/icons/close_32.svg';
 import User from '@/shared/assets/icons/user_24.svg';
 import Link from 'next/link';
@@ -66,8 +66,14 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
       id="mobile-dropdown-menu"
       ref={menuRef}
     >
-      <div className="flex items-center h-[36px] w-full  justify-center mt-3">
-        <LogoDark />
+      <div className="flex items-center h-[44px] w-full justify-center">
+        <Image
+          src="/logoDark.svg"
+          alt="Ssoul 로고"
+          width={60}
+          height={19}
+          className="md:w-[82px] sm:h-[26px]"
+        />
       </div>
       <div className="my-5">
         <ul className="flex flex-col gap-[12px] text-black px-2">
@@ -101,14 +107,14 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
           로그인/회원가입
         </button>
       </div>
-      <div className="absolute top-4 left-5">
+      <div className="absolute top-1.5 left-3">
         <button
           type="button"
           onClick={() => {
             setIsClicked(false);
           }}
         >
-          <Close stroke={'black'} />
+          <Close stroke={'black'} className="w-8 h-8" />
         </button>
       </div>
     </div>

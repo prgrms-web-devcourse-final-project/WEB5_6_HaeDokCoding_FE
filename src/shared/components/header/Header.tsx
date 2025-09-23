@@ -49,7 +49,7 @@ function Header() {
   return (
     <header
       className={tw(
-        `bg-primary w-full h-[60px] flex items-center justify-between px-[12px] fixed top-0 left-0 z-50 transition-all duration-300`,
+        `bg-primary w-full h-[44px] md:h-[60px] flex items-center justify-between px-[12px] fixed top-0 left-0 z-50 transition-all duration-300`,
         showShadow && 'shadow-header'
       )}
       ref={headerRef}
