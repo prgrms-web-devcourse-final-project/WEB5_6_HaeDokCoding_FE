@@ -8,9 +8,9 @@ function HeaderLogo() {
         <Image
           src="/logo.svg"
           alt="Ssoul 로고"
-          width={60}
-          height={19}
-          className="md:w-[82px] sm:h-[26px]"
+          width={82}
+          height={26}
+          className="w-[62px] md:w-[82px] h-auto"
         />
       </Link>
     </div>

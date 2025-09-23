@@ -50,7 +50,7 @@ function ScrollTopBtn() {
         onClick={scrollToTop}
         className="flex-center w-10 h-10 shadow-[0_4px_12px_0_rgba(0,0,0,0.5)] bg-secondary rounded-full"
       >
-        <Arrow aria-hidden />
+        <Arrow color="var(--color-primary)" aria-hidden />
       </button>
     </div>
   );

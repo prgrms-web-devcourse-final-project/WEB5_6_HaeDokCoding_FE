@@ -19,7 +19,7 @@ function Header() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollTop = window.scrollY;
-      console.log(currentScrollTop, lastScrollTop);
+      // console.log(currentScrollTop, lastScrollTop);
 
       if (Math.abs(currentScrollTop - lastScrollTop) < -5) return;
 

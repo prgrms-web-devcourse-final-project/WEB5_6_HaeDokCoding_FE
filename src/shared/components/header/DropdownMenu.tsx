@@ -70,9 +70,9 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
         <Image
           src="/logoDark.svg"
           alt="Ssoul 로고"
-          width={60}
-          height={19}
-          className="md:w-[82px] sm:h-[26px]"
+          width={82}
+          height={26}
+          className="w-[62px] md:w-[82px] h-auto"
         />
       </div>
       <div className="my-5">
@@ -101,8 +101,8 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
           ))}
         </ul>
       </div>
-      <div className="border border-t-[1px] border-t-gray flex py-[32px] gap-4">
-        <User width={32} height={32} />
+      <div className="border border-t-[1px] border-t-gray flex items-center py-[32px] gap-2">
+        <User color="var(--color-primary)" />
         <button type="button" className="text-black font-light text-xl hover:text-black/70">
           로그인/회원가입
         </button>
@@ -114,7 +114,7 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
             setIsClicked(false);
           }}
         >
-          <Close stroke={'black'} className="w-8 h-8" />
+          <Close color="var(--color-primary)" className="w-8 h-8" />
         </button>
       </div>
     </div>
