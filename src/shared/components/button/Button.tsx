@@ -20,13 +20,13 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const ButtonClass = cva(
   `
-  py-1 px-2 rounded-lg text-base flex-center text-navy duration-300 disabled:bg-gray disabled:cursor-not-allowed disabled:text-primary
+  py-1 px-2 rounded-lg text-base flex-center text-primary duration-300 disabled:bg-gray disabled:cursor-not-allowed disabled:text-primary enabled:hover:inset-shadow-black
   `,
   {
     variants: {
       color: {
-        default: 'bg-secondary text-navy enabled:hover:inset-shadow-black',
-        purple: 'bg-tertiary text-secondary enabled:hover:inset-shadow-white',
+        default: 'bg-secondary text-primary',
+        purple: 'bg-tertiary text-secondary',
       },
       size: {
         default: 'h-10, min-w-25',

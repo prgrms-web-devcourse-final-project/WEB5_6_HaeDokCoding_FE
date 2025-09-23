@@ -2,18 +2,21 @@
 
 import Button from '@/shared/components/button/Button';
 import TextButton from '@/shared/components/button/TextButton';
+
 import Input from '@/shared/components/InputBox/Input';
 import SelectBox from '@/shared/components/InputBox/SelectBox';
 import ConfirmPop from '@/shared/components/ModalPop/ConfirmPop';
 import ModalLayout from '@/shared/components/ModalPop/ModalLayout';
+
 import { useState } from 'react';
+import { customToast } from '@/shared/components/toast/CustomToastUtils';
 
 function Page() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isConfirmOpen, setConfirmOpen] = useState(false);
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 bg-primary">
       {/* 페이지 제목 */}
       <h1 className="text-2xl font-bold border-b pb-2">Design System</h1>
 
@@ -26,11 +29,12 @@ function Page() {
           <h3 className="text-xl font-medium border-b pb-1">Input</h3>
           <Input placeholder="내용을 입력해주세요." />
           <Input placeholder="칵테일을 검색해 보세요" size="lg" />
+
         </div>
 
         {/* select */}
         <div className="space-y-2">
-          <h3 className="text-xl font-medium border-b pb-1">select</h3>
+          <h3 className="text-lg font-medium border-b pb-1">select</h3>
           {/* 여기 컴포넌트 삽입 */}
           <SelectBox id="fruit" option={['', '논알콜', '약한 도수', '중간 도수']} title="도수" />
         </div>
@@ -38,10 +42,10 @@ function Page() {
 
       {/* Button */}
       <div className="space-y-3">
-        <h2 className="text-2xl font-semibold border-b pb-1">Button</h2>
+        <h2 className="text-2xl font-semibold pb-1">Button</h2>
 
         <div className="space-y-2">
-          <h3 className="text-xl font-medium border-b pb-1">Button</h3>
+          <h3 className="text-lg font-medium border-b pb-1">Button</h3>
           <Button type="button">버튼</Button>
           <Button color="purple" type="button">
             Button
@@ -64,15 +68,36 @@ function Page() {
 
       {/* popup */}
       <div className="space-y-3">
-        <h2 className="text-2xl font-semibold border-b pb-1">popup</h2>
+        <h2 className="text-2xl font-semibold pb-1">popup</h2>
 
         <div className="space-y-2">
-          <h3 className="text-xl font-medium border-b pb-1">toast</h3>
-          {/* 여기 컴포넌트 삽입 */}
+          <h3 className="text-lg font-medium border-b pb-1">toast</h3>
+          <div className="flex gap-2">
+            <button
+              className="px-4 py-2 bg-green-300 text-black rounded"
+              onClick={() => customToast.success('성공 메시지')}
+            >
+              Success Toast
+            </button>
+
+            <button
+              className="px-4 py-2 bg-yellow-100 text-black rounded"
+              onClick={() => customToast.info('정보 메시지')}
+            >
+              Info Toast
+            </button>
+
+            <button
+              className="px-4 py-2 bg-red-200 text-black rounded"
+              onClick={() => customToast.error('오류 메시지')}
+            >
+              Error Toast
+            </button>
+          </div>
         </div>
 
         <div className="space-y-2">
-          <h3 className="text-xl font-medium border-b pb-1">popup</h3>
+          <h3 className="text-lg font-medium border-b pb-1">popup</h3>
           {/* 모달 열기 버튼 */}
           <button
             onClick={() => setModalOpen(true)}
@@ -92,7 +117,11 @@ function Page() {
             onClose={() => setModalOpen(false)}
             title="제목"
             description="설명"
-            buttons={<>{/* 여기다가 버튼 컴포넌트 넣으면 됨 */}</>}
+            buttons={
+              <>
+                <Button type="button">버튼</Button>
+              </>
+            }
           >
             <div>모달팝업 내용</div>
           </ModalLayout>
