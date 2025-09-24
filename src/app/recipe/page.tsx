@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description: '칵테일 레시피가 궁금하신 분들을 위한 레시피 페이지',
 };
 
-export const selectOption = [
+const selectOption = [
   {
     option: ['', '약한 도수', '가벼운 도수', '중간 도수', '센 도수', '매우 센 도수'],
     title: '도수',
