@@ -78,7 +78,10 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
       <div className="my-5">
         <ul className="flex flex-col gap-[12px] text-black px-2">
           {navItem.map(({ label, href }, idx) => (
-            <li className={`font-normal ${pathname === href ? '' : 'px-3 py-[12px]'}`} key={href}>
+            <li
+              className={`font-normal ${pathname === href ? 'pl-1' : 'px-3 py-[12px]'}`}
+              key={href}
+            >
               <Link
                 href={href}
                 onNavigate={() => setIsClicked(false)}

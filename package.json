@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx"
-  }, 
+  },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "prettier --write",
@@ -20,6 +20,7 @@
   "dependencies": {
     "class-variance-authority": "^0.7.1",
     "gsap": "^3.13.0",
+    "lottie-react": "^2.4.1",
     "next": "15.5.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",

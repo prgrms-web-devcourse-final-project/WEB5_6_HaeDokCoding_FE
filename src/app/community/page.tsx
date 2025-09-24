@@ -1,4 +1,4 @@
 function Page() {
-  return <div>community</div>;
+  return <div></div>;
 }
 export default Page;
