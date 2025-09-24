@@ -150,6 +150,10 @@ function Page() {
           <Share />
           <Share variants="community" />
         </div>
+        <div className="space-y-2">
+          <h3 className="text-lg font-medium border-b pb-1">keep</h3>
+          <Keep />
+        </div>
       </div>
 
       <div className="space-y-3">
