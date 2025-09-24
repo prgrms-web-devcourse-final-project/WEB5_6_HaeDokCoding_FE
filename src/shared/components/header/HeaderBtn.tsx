@@ -21,7 +21,7 @@ function HeaderBtn({ pathname }: { pathname: string }) {
     {
       icon: User,
       label: '마이 페이지',
-      className: `${pathname === '/mypage' ? 'text-tertiary' : ''}`,
+      className: `${pathname === '/mypage' ? 'text-tertiary' : 'text-current'}`,
       onClick: (router: RouterType) => {
         //   console.log('유저 클릭');
         router.push('/mypage');
