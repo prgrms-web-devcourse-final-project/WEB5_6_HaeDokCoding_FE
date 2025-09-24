@@ -3,6 +3,12 @@ import CommunityHeader from '@/shared/components/community/CommunityHeader';
 import CommunityTab from '@/shared/components/community/CommunityTab';
 import PostCard from '@/shared/components/community/PostCard';
 import WriteBtn from '@/shared/components/community/WriteBtn';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '커뮤니티',
+  description: '칵테일에 관한 모든 이야기',
+};
 
 function Page() {
   return (
