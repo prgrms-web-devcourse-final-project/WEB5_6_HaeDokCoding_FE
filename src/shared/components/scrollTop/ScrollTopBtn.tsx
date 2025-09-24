@@ -1,6 +1,7 @@
 'use client';
 
 import Arrow from '@/shared/assets/icons/arrow_up_24.svg';
+import { throttle } from '@/shared/utills/throttle';
 import { useEffect, useRef, useState } from 'react';
 
 function ScrollTopBtn() {
@@ -25,10 +26,10 @@ function ScrollTopBtn() {
       }
     };
 
-    const handleScroll = () => {
+    const handleScroll = throttle(() => {
       const currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
       setIsVisible(currentScroll > 30);
-    };
+    }, 100);
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('wheel', cancelScroll, { passive: true });
