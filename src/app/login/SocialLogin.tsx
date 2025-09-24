@@ -6,9 +6,11 @@ import Google from '@/shared/assets/icons/google.svg';
 import tw from '@/shared/utills/tw';
 import Welcome from './Welcome';
 import { useState } from 'react';
+import { useAuthStore } from '@/shared/@store/auth';
 
 function SocialLogin() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { user } = useAuthStore();
 
   const socialButtons = [
     {
@@ -33,8 +35,10 @@ function SocialLogin() {
 
   // TODO: 백엔드 연동 로직 구현 필요
   const handleLogin = (id: string) => {
-    console.log(id);
-    setIsModalOpen(true);
+    const preLoginPath = sessionStorage.getItem('preLoginPath');
+    console.log('경로, id', preLoginPath, id);
+
+    // useAuthStore.getState().loginWithProvider(id as 'naver' | 'kakao' | 'google');
   };
 
   return (
@@ -54,7 +58,11 @@ function SocialLogin() {
       </div>
 
       {/* 웰컴 모달 (임시) */}
-      <Welcome open={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <Welcome
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        nickname={user?.nickname || '게스트'}
+      />
     </>
   );
 }
