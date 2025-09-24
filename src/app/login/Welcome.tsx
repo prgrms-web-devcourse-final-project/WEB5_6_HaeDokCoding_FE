@@ -10,16 +10,17 @@ import { useRouter } from 'next/navigation';
 interface Props {
   open: boolean;
   onClose: () => void;
+  nickname: string;
 }
 
-function Welcome({ open, onClose }: Props) {
+function Welcome({ open, onClose, nickname }: Props) {
   const router = useRouter();
 
   return (
     <ModalLayout
       open={open}
       onClose={onClose}
-      title="환영합니다!"
+      title={`환영합니다, ${nickname}님!`}
       description="바텐더 쑤리가 안내해드릴게요"
       buttons={
         <>
