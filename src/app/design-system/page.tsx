@@ -11,6 +11,7 @@ import ChatInput from '@/shared/components/InputBox/ChatInput';
 import SelectBox from '@/shared/components/InputBox/SelectBox';
 import LikeBtn from '@/shared/components/like/LikeBtn';
 import Share from '@/shared/components/share/Share';
+import Spinner from '@/shared/components/spinner/Spinner';
 
 function Page() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -148,6 +149,11 @@ function Page() {
           <Share />
           <Share variants="community" />
         </div>
+      </div>
+
+      <div className="space-y-3">
+        <h2 className="text-2xl font-semibold pb-1">Spinner</h2>
+        <Spinner />
       </div>
     </div>
   );
