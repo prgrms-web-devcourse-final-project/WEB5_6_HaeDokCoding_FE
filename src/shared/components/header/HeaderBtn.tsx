@@ -19,7 +19,7 @@ function HeaderBtn({ pathname }: { pathname: string }) {
     {
       icon: User,
       label: '마이 페이지',
-      className: `fill-white w-[27px] h-[27px] ${pathname === '/mypage' ? 'fill-tertiary hover:fill-tertiary' : ''}`,
+      className: `${pathname === '/mypage' ? 'text-tertiary' : ''}`,
       onClick: (router: RouterType) => {
         router.push('/mypage');
       },
@@ -27,7 +27,7 @@ function HeaderBtn({ pathname }: { pathname: string }) {
     {
       icon: SignIn,
       label: '로그인',
-      className: 'sm:block hidden',
+      className: `${pathname === '/login' ? 'text-tertiary' : ''}`,
       onClick: () => {
         router.push('/login');
       },
@@ -39,14 +39,14 @@ function HeaderBtn({ pathname }: { pathname: string }) {
       {headerBtn.map(({ icon: Icon, label, onClick, className }) => (
         <button
           key={label}
-          className={tw(
-            'cursor-pointer fill-white  hover:fill-teritiary/70 transition-colors duration-200',
-            className
-          )}
           aria-label={label}
           onClick={() => onClick(router)}
+          className={tw(
+            'flex-center rounded-full w-7 h-7 hover:bg-secondary/30 transition-colors duration-200',
+            className
+          )}
         >
-          <Icon width={24} height={24} />
+          <Icon width={24} height={24} className="text-current" />
         </button>
       ))}
     </div>
