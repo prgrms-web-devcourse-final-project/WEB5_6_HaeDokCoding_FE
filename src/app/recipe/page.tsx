@@ -14,20 +14,18 @@ export const metadata: Metadata = {
 export const selectOption = [
   {
     option: ['', '약한 도수', '가벼운 도수', '중간 도수', '센 도수', '매우 센 도수'],
-    title:'도수'
+    title: '도수',
   },
   {
     option: ['', '위스키', '진', '럼', '보드카', '데킬라', '리큐르'],
-    title:'베이스'
-  }, {
+    title: '베이스',
+  },
+  {
     option: ['', '클래식', '롱', '슈터', '숏'],
-    title:'글라스'
-  }
-]
+    title: '글라스',
+  },
+];
 function Page() {
-
-
-
   return (
     <div className="w-full">
       <PageHeader
@@ -36,7 +34,7 @@ function Page() {
         description="다양하고 재밌는 칵테일 레시피"
       />
       <div className="page-layout max-w-1224 mt-3">
-        <div className="flex justify-between items-center">
+        <section className="flex flex-col items-center gap-2 md:flex-row md:justify-between md:items-center ">
           <ul className="flex gap-3">
             {selectOption.map(({ option, title }, i) => (
               <li key={title + i}>
@@ -45,14 +43,14 @@ function Page() {
             ))}
           </ul>
           <Input placeholder="내용을 입력해 주세요." id="search" variant="search" />
-        </div>
-        <div className='flex justify-between items-center mt-3'>
+        </section>
+        <section className="h-10 flex justify-between items-center mt-3 border-b-1 border-gray-light">
           <p>n개</p>
-          <SelectBox option={['','댓글순']} title='최신순' />
-        </div>
-        <ul>
-          <Cocktails/>
-        </ul>
+          <SelectBox option={['', '댓글순']} title="최신순" />
+        </section>
+        <section className="mt-5">
+          <Cocktails />
+        </section>
       </div>
     </div>
   );
