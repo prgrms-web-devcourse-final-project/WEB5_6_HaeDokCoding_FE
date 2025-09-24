@@ -7,7 +7,6 @@ import { useState } from 'react';
 import { customToast } from '@/shared/components/toast/CustomToastUtils';
 import ModalLayout from '@/shared/components/modalPop/ModalLayout';
 import ConfirmPop from '@/shared/components/modalPop/ConfirmPop';
-import ChatInput from '@/shared/components/InputBox/ChatInput';
 import SelectBox from '@/shared/components/InputBox/SelectBox';
 import LikeBtn from '@/shared/components/like/LikeBtn';
 import Share from '@/shared/components/share/Share';
@@ -34,7 +33,6 @@ function Page() {
           <Input placeholder="내용을 입력해주세요." id="test" variant="search" />
           <Input placeholder="칵테일을 검색해 보세요" id="test" variant="comment" />
           <Input placeholder="내용을 입력해주세요." id="test" size="lg" />
-          <ChatInput placeholder="내용을 입력해주세요" id="test" />
         </div>
 
         {/* select */}
