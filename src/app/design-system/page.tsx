@@ -13,8 +13,6 @@ import LikeBtn from '@/shared/components/like/LikeBtn';
 import Share from '@/shared/components/share/Share';
 import Keep from '@/shared/components/keep/Keep';
 import Spinner from '@/shared/components/spinner/Spinner';
-import Keep from '@/shared/components/keep/Keep';
-import Spinner from '@/shared/components/spinner/Spinner';
 
 function Page() {
   const [isModalOpen, setModalOpen] = useState(false);
