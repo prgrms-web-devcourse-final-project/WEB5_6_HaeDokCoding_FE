@@ -1,3 +1,4 @@
+'use client'
 import { Ref, useState } from 'react';
 import Down from '@/shared/assets/icons/selectDown_24.svg';
 
