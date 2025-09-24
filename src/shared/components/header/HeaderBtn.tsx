@@ -14,16 +14,13 @@ function HeaderBtn({ pathname }: { pathname: string }) {
     {
       icon: Bell,
       label: '알림',
-      onClick: () => {
-        //   console.log('알림 클릭');
-      },
+      onClick: () => {},
     },
     {
       icon: User,
       label: '마이 페이지',
       className: `fill-white w-[27px] h-[27px] ${pathname === '/mypage' ? 'fill-tertiary hover:fill-tertiary' : ''}`,
       onClick: (router: RouterType) => {
-        //   console.log('유저 클릭');
         router.push('/mypage');
       },
     },
@@ -32,7 +29,6 @@ function HeaderBtn({ pathname }: { pathname: string }) {
       label: '로그인',
       className: 'sm:block hidden',
       onClick: () => {
-        //   console.log('로그아웃 클릭');
         router.push('/login');
       },
     },
