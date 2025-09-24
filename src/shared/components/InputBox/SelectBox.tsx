@@ -21,7 +21,7 @@ function SelectBox({ ref, option, title }: Props) {
   };
 
   return (
-    <div className="flex flex-col gap-2 relative h-6 w-30">
+    <div className="flex flex-col gap-2 relative h-6">
       <button
         ref={ref}
         className="flex gap-2 cursor-pointer text-base"

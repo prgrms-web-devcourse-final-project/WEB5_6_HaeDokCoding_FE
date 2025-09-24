@@ -22,3 +22,8 @@
 .scroll-down {
   transform: translateY(-100%);
 }
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
