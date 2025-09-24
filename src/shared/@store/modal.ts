@@ -1,14 +1,21 @@
 import { create } from 'zustand';
 
-interface ModalState {
-  welcomeOpen: boolean;
-  openModal: (modal: keyof ModalState) => void;
-  closeModal: (modal: keyof ModalState) => void;
+interface WelcomeModalData {
+  open: boolean;
+  nickname: string;
 }
 
-export const useModalStore = create<ModalState>((set) => ({
-  welcomeOpen: false,
+interface ModalStore {
+  welcomeModal: WelcomeModalData;
 
-  openModal: (modal) => set({ [modal]: true }),
-  closeModal: (modal) => set({ [modal]: false }),
+  openWelcomeModal: (nickname: string) => void;
+  closeWelcomeModal: () => void;
+}
+
+export const useModalStore = create<ModalStore>((set) => ({
+  welcomeModal: { open: false, nickname: '' },
+
+  openWelcomeModal: (nickname: string) => set({ welcomeModal: { open: true, nickname } }),
+
+  closeWelcomeModal: () => set({ welcomeModal: { open: false, nickname: '' } }),
 }));

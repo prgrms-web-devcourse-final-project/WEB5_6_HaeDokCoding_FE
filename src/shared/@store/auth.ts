@@ -5,6 +5,7 @@ interface User {
   id: string;
   email: string;
   nickname: string;
+  is_first_login: boolean;
   abv_degree?: number;
   provider?: 'naver' | 'kakao' | 'google';
 }
@@ -15,8 +16,9 @@ interface AuthState {
   isLoggedIn: boolean;
   setUser: (user: User, token: string) => void;
   logout: () => Promise<void>;
-  refreshToken: () => Promise<void>;
   loginWithProvider: (provider: User['provider']) => void;
+
+  updateUser: () => Promise<User | null>;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -28,7 +30,12 @@ export const useAuthStore = create<AuthState>((set) => ({
     window.location.href = `http://localhost:8080/oauth2/authorization/${provider}`;
   },
 
-  setUser: (user, token) => set({ user, accessToken: token, isLoggedIn: true }),
+  setUser: (user, token) => {
+    const updatedUser = { ...user, abv_degree: 5.0 };
+    set({ user: updatedUser, accessToken: token, isLoggedIn: true });
+
+    customToast.success(`${updatedUser.nickname}님, 로그인 성공 🎉`);
+  },
 
   logout: async () => {
     try {
@@ -45,24 +52,29 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
 
-  refreshToken: async () => {
+  updateUser: async () => {
     try {
       const res = await fetch('http://localhost:8080/api/user/auth/refresh', {
         method: 'POST',
         credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
       });
-      if (!res.ok) throw new Error('토큰 갱신 실패');
 
-      const result = await res.json();
-      if (result.code === 0) {
-        set({ isLoggedIn: true, user: result.data.user });
-        customToast.success(`환영합니다😊 \n ${result.data.user.nickname}님`);
-      } else {
-        throw new Error(result.message || '토큰 갱신 실패');
-      }
+      if (!res.ok) throw new Error('토큰 갱신 실패');
+      const data = await res.json();
+
+      console.log(data);
+      // if (data.accessToken && data.user) {
+      //   set({ accessToken: data.accessToken, user: data.user, isLoggedIn: true });
+      //   console.log('토큰 및 유저 정보 갱신 완료:', data.user);
+      //   return data.user;
+      // }
+
+      return null;
     } catch (err) {
-      console.error(err);
-      set({ user: null, accessToken: null, isLoggedIn: false });
+      console.error('updateUser 실패', err);
+      set({ accessToken: null, user: null, isLoggedIn: false });
+      return null;
     }
   },
 }));
