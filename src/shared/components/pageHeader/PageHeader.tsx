@@ -10,7 +10,7 @@ interface Props {
 function PageHeader({ src, title, description }: Props) {
   return (
     <div
-      className="h-40 w-full bg-repeat o-cover relative md:h-70 lg:h-100"
+      className="h-40 w-full bg-repeat o-cover relative md:h-65 lg:h-80"
       style={{
         backgroundImage: `url(${Star.src})`,
       }}
