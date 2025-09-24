@@ -77,7 +77,7 @@ function Page() {
           <div className="flex gap-2">
             <button
               className="px-4 py-2 bg-green-300 text-black rounded"
-              onClick={() => customToast.success('성공 메시지')}
+              onClick={() => customToast.success('성공 메시지 \n 줄바꿈은 이렇게')}
             >
               Success Toast
             </button>
