@@ -4,26 +4,30 @@ import PostLabel from './PostLabel';
 
 function PostCard({ label }: { label: string }) {
   return (
-    <div className="pt-12 pb-3 border-b-1 border-gray-light">
+    <article className="pt-[30] pb-3 border-b-1 border-gray-light">
       <PostLabel title={label} />
-      <div className="flex items-start justify-between mt-3 cursor-pointer">
+
+      <section className="flex items-start justify-between mt-3 cursor-pointer" role="link">
         <div className="flex flex-col gap-3">
-          <h1 className="font-bold sm:text-xl text-lg">칵테일 만들 때 준비물</h1>
+          <p className="font-bold sm:text-xl text-lg">칵테일 만들 때 준비물</p>
           <div className="font-light sm:text-[15px] text-sm">
             <p>칵테일 처음 만들어 보는데 랄랄</p>
             <p>가나다라마바사아자차카파타하</p>
           </div>
-          <div className="flex font-light sm:gap-3 gap-1 sm:text-[14px] text-[12px] text-gray">
-            <span>실버븬</span>
-            <span>|</span>
-            <span>3분 전</span>
-            <span>|</span>
-            <span>조회 3</span>
-            <span>|</span>
-            <span>댓글 3</span>
-          </div>
+          <ul
+            className="flex font-light sm:gap-3 gap-1 sm:text-[14px] text-[12px] text-gray"
+            aria-label="게시글 정보"
+          >
+            <li>실버븬</li>
+            <li aria-hidden="true">|</li>
+            <li>3분 전</li>
+            <li aria-hidden="true">|</li>
+            <li>조회 3</li>
+            <li aria-hidden="true">|</li>
+            <li>댓글 3</li>
+          </ul>
         </div>
-        <div className="flex items-start">
+        <figure className="flex items-start">
           <Image
             src={prePost}
             alt="예비사진"
@@ -31,9 +35,9 @@ function PostCard({ label }: { label: string }) {
             height={120}
             className="md:w-[120px] sm:w-[100px] w-[80px] self-start"
           />
-        </div>
-      </div>
-    </div>
+        </figure>
+      </section>
+    </article>
   );
 }
 

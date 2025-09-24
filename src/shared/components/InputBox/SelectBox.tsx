@@ -38,7 +38,7 @@ function SelectBox({ ref, option, title }: Props) {
 
       <ul
         className={`w-30 bg-white text-gray-dark p-2 rounded-xl  duration-200  absolute transition-all 
-         ${isOpen ? 'opacity-100 top-8' : 'opacity-0 pointer-events-none top-4'}`}
+         ${isOpen ? 'opacity-100 top-8 right-0' : 'opacity-0 pointer-events-none top-4 right-0'}`}
         role="listbox"
       >
         {option.map((v, i) => (

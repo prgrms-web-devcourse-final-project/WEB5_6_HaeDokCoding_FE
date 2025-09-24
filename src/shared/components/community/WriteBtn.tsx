@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Write from '@/shared/assets/icons/edit_28.svg';
 
 function WriteBtn() {

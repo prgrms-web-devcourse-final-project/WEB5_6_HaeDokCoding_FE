@@ -1,7 +1,9 @@
 function PostLabel({ title }: { title: string }) {
   return (
     <span
-      className={` text-primary py-1 px-2 rounded-md
+      role="status"
+      aria-label={title}
+      className={` text-primary py-1 px-2 rounded-md text-sm
             ${
               title === '레시피'
                 ? 'bg-[#FFE4E6]'
