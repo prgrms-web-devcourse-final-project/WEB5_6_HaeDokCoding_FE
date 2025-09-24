@@ -11,7 +11,6 @@ import ChatInput from '@/shared/components/InputBox/ChatInput';
 import SelectBox from '@/shared/components/InputBox/SelectBox';
 import LikeBtn from '@/shared/components/like/LikeBtn';
 import Share from '@/shared/components/share/Share';
-import Spinner from '@/shared/components/spinner/Spinner';
 import Keep from '@/shared/components/keep/Keep';
 import Spinner from '@/shared/components/spinner/Spinner';
 
