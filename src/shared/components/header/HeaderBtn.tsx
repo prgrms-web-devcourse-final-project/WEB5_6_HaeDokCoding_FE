@@ -1,15 +1,17 @@
 import Bell from '@/shared/assets/icons/bell_24.svg';
 import User from '@/shared/assets/icons/user_24.svg';
-// import SignOut from '@/shared/assets/icons/sign_out_24.svg';
+import SignOut from '@/shared/assets/icons/sign_out_24.svg';
 import SignIn from '@/shared/assets/icons/sign_in_24.svg';
 import { useRouter } from 'next/navigation';
 import tw from '@/shared/utills/tw';
+import { useAuthStore } from '@/shared/@store/auth';
 
 type RouterType = ReturnType<typeof useRouter>;
 
 function HeaderBtn({ pathname }: { pathname: string }) {
-  const router = useRouter();
+  const { isLoggedIn, logout } = useAuthStore();
 
+  const router = useRouter();
   const headerBtn = [
     {
       icon: Bell,
@@ -42,7 +44,7 @@ function HeaderBtn({ pathname }: { pathname: string }) {
           aria-label={label}
           onClick={() => onClick(router)}
           className={tw(
-            'flex-center rounded-full w-7 h-7 hover:bg-secondary/30 transition-colors duration-200',
+            'flex-center rounded-full w-7 h-7 hover:bg-secondary/10 transition-colors duration-200',
             className
           )}
         >
