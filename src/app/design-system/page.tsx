@@ -160,6 +160,11 @@ function Page() {
         <h2 className="text-2xl font-semibold pb-1">Spinner</h2>
         <Spinner />
       </div>
+
+      <div className="space-y-3">
+        <h2 className="text-2xl font-semibold pb-1">Spinner</h2>
+        <Spinner />
+      </div>
     </div>
   );
 }
