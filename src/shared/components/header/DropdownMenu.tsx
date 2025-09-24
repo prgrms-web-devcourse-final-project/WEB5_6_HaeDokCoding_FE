@@ -58,9 +58,9 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
   };
 
   return (
-    <div
+    <nav
       className="w-full h-screen bg-secondary absolute top-0 left-0 px-[12px] font-serif block sm:hidden"
-      role="menu"
+      role="navigation"
       aria-label="메인 네비게이션 메뉴"
       tabIndex={-1}
       id="mobile-dropdown-menu"
@@ -75,44 +75,46 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
           className="w-[62px] md:w-[82px] h-auto"
         />
       </div>
-      <div className="my-5">
-        <ul className="flex flex-col gap-[12px] text-black px-2">
-          {navItem.map(({ label, href }, idx) => (
-            <li
-              className={`font-normal ${pathname === href ? 'pl-1' : 'px-3 py-[12px]'}`}
-              key={href}
+
+      <ul className="flex flex-col gap-[12px] text-black px-2 my-5">
+        {navItem.map(({ label, href }, idx) => (
+          <li className={`font-normal ${pathname === href ? 'pl-1' : 'px-3 py-[12px]'}`} key={href}>
+            <Link
+              href={href}
+              onNavigate={() => setIsClicked(false)}
+              className={`items-start ${pathname === href ? 'bg-tertiary/70 inline-flex pr-5 p-2 rounded-md text-secondary' : 'hover:text-black/70 flex'}`}
+              aria-current={pathname === href ? 'page' : undefined}
             >
-              <Link
-                href={href}
-                onNavigate={() => setIsClicked(false)}
-                className={`items-start ${pathname === href ? 'bg-tertiary/70 inline-flex pr-5 p-2 rounded-md text-secondary' : 'hover:text-black/70 flex'}`}
-                aria-current={pathname === href ? 'page' : undefined}
+              <span className="text-[20px] mr-3">{idx + 1}. </span>
+              <span
+                className="text-[28px]"
+                ref={(el) => {
+                  textRef.current[idx] = el;
+                }}
+                onMouseEnter={() => handleMouseEnter(idx)}
+                onMouseLeave={() => handleMouseLeave(idx)}
               >
-                <span className="text-[20px] mr-3">{idx + 1}. </span>
-                <span
-                  className="text-[28px]"
-                  ref={(el) => {
-                    textRef.current[idx] = el;
-                  }}
-                  onMouseEnter={() => handleMouseEnter(idx)}
-                  onMouseLeave={() => handleMouseLeave(idx)}
-                >
-                  {label}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="border border-t-[1px] border-t-gray flex items-center py-[32px] gap-2">
+                {label}
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+
+      <section
+        aria-label="로그인 로그아웃"
+        className="border border-t-[1px] border-t-gray flex items-center py-[32px] gap-2"
+      >
         <User color="var(--color-primary)" />
         <button type="button" className="text-black font-light text-xl hover:text-black/70">
           로그인/회원가입
         </button>
-      </div>
+      </section>
+
       <div className="absolute top-1.5 left-3">
         <button
           type="button"
+          aria-label="모바일 메뉴 닫기"
           onClick={() => {
             setIsClicked(false);
           }}
@@ -120,7 +122,7 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
           <Close color="var(--color-primary)" className="w-8 h-8" />
         </button>
       </div>
-    </div>
+    </nav>
   );
 }
 
