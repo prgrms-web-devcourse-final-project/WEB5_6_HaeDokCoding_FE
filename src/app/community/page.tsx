@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 function Page() {
   return (
-    <main className="page-layout max-w-1024">
+    <div className="page-layout max-w-1024">
       <div className="mt-3 mb-10 flex flex-col gap-8 ">
         <section aria-labelledby="community-heading">
           <h1 id="community-heading" className="sr-only">
@@ -37,7 +37,7 @@ function Page() {
           <PostCard label="자유" />
         </section>
       </div>
-    </main>
+    </div>
   );
 }
 export default Page;
