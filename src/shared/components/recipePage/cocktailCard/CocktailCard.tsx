@@ -1,6 +1,6 @@
 import { StaticImageData } from 'next/image';
 import Image from 'next/image';
-import Img from '@/shared/assets/images/exampleCocktail.png';
+import Img from '@/shared/assets/images/dummy/exampleCocktail.png';
 import Keep from '@/shared/components/keep/Keep';
 
 interface Props {
