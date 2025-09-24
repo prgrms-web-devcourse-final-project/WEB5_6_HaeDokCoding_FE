@@ -10,7 +10,7 @@ interface Props {
 function NavItem({ pathname, className }: Props) {
   return (
     <nav className={tw(className)}>
-      <ul className="text-white flex gap-[24px] font-serif font-normal text-lg">
+      <ul className="text-white flex gap-[24px] font-serif font-normal text-base md:text-lg">
         {navItem.map(({ href, label }) => (
           <li key={href} className="">
             <Link
