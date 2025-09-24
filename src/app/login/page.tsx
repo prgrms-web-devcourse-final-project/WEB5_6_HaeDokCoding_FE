@@ -15,7 +15,13 @@ function Page() {
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[75rem] h-full -z-10"
         aria-hidden
       >
-        <Image src={loginBg} alt="" fill className="object-cover md:object-contain object-bottom" />
+        <Image
+          src={loginBg}
+          alt=""
+          fill
+          priority
+          className="object-cover md:object-contain object-bottom"
+        />
       </div>
 
       <div className="flex flex-col gap-3 text-center">
