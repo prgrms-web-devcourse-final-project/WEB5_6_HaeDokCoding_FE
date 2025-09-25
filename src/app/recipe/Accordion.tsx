@@ -22,10 +22,10 @@ const selectOption = [
 
 function Accordion() {
   return (
-    <ul className="flex gap-6">
-      {selectOption.map(({ id, option, title }, i) => {
+    <ul className="flex w-full gap-3">
+      {selectOption.map(({ id, option, title }) => {
         return (
-          <li key={i}>
+          <li key={id}>
             <SelectBox option={option} title={title} id={id} groupKey="filter" />
           </li>
         );

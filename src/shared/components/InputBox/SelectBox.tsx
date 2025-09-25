@@ -68,7 +68,15 @@ function SelectBox({ id, groupKey, ref, option, title, onChange }: Props) {
 
       <ul
         className={`w-30 bg-white text-gray-dark p-2 rounded-xl z-99 duration-200  absolute transition-all 
-         ${localOpen ? 'opacity-100 top-8 right-0' : 'opacity-0 pointer-events-none top-4 right-0'}`}
+         ${
+           groupKey
+             ? localOpen
+               ? 'opacity-100 top-8 left-0'
+               : 'opacity-0 pointer-events-none top-4 left-0'
+             : localOpen
+               ? 'opacity-100 top-8 right-0'
+               : 'opacity-0 pointer-events-none top-4 right-0'
+         }`}
         role="listbox"
       >
         {option.map((v, i) => (
