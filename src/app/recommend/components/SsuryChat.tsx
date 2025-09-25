@@ -1,0 +1,73 @@
+'use client';
+
+import Ssury from '@/shared/assets/ssury/ssury_shaker.webp';
+import Image from 'next/image';
+import { useState } from 'react';
+import ChatRadio from './ChatRadio';
+import ChatCocktailCard from './ChatCocktailCard';
+
+interface Message {
+  id: string;
+  text?: string;
+  type?: 'radio' | 'text' | 'recommend';
+}
+
+function SsuryChat() {
+  const [selected, setSelected] = useState('option1');
+
+  // radio 옵션
+  const options = [
+    { label: '옵션 1', value: 'option1' },
+    { label: '옵션 2', value: 'option2' },
+    { label: '옵션 3', value: 'option3' },
+  ];
+
+  // 메시지 (연속 메시지)
+  const messages: Message[] = [
+    {
+      id: '1',
+      text: '안녕하세요, 바텐더 쑤리에요. \n 취향에 맞는 칵테일을 추천해드릴게요!',
+    },
+    {
+      id: '2',
+      text: '어떤 유형으로 찾아드릴까요?',
+      type: 'radio',
+    },
+    {
+      id: '3',
+      type: 'recommend',
+    },
+  ];
+
+  return (
+    <article aria-label="취향추천 챗봇 메시지" className="max-w-[80%]">
+      <header className="flex items-end">
+        <div className="relative w-20 h-20">
+          <Image src={Ssury} alt="쑤리아바타" width={80} height={80} className="object-cover" />
+        </div>
+        <strong>쑤리</strong>
+      </header>
+
+      {/* 메시지 그룹 */}
+      <div className="flex flex-col gap-3 mt-3 pl-3">
+        {messages.map((msg) => (
+          <div key={msg.id}>
+            {msg.type === 'recommend' ? (
+              <ChatCocktailCard />
+            ) : (
+              <div className="flex flex-col w-fit min-w-[120px] p-3 rounded-2xl rounded-tl-none bg-white text-black">
+                {msg.text && <p className="whitespace-pre-line">{msg.text}</p>}
+
+                {/* radio */}
+                {msg.type === 'radio' && (
+                  <ChatRadio options={options} value={selected} onChange={setSelected} />
+                )}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </article>
+  );
+}
+export default SsuryChat;
