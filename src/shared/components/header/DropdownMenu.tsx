@@ -103,42 +103,6 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
         ))}
       </ul>
 
-      <section
-        aria-label="로그인 로그아웃"
-        className="border border-t-[1px] border-t-gray flex items-center py-[32px] gap-2"
-      >
-        <User color="var(--color-primary)" />
-        <button type="button" className="text-black font-light text-xl hover:text-black/70">
-          로그인/회원가입
-        </button>
-      </section>
-
-      <div className="my-5">
-        <ul className="flex flex-col gap-[12px] text-black px-2">
-          {navItem.map(({ label, href }, idx) => (
-            <li className={`font-normal ${pathname === href ? '' : 'px-3 py-[12px]'}`} key={href}>
-              <Link
-                href={href}
-                onNavigate={() => setIsClicked(false)}
-                className={`items-start ${pathname === href ? 'bg-tertiary/70 inline-flex pr-5 p-2 rounded-md text-secondary' : 'hover:text-black/70 flex'}`}
-                aria-current={pathname === href ? 'page' : undefined}
-              >
-                <span className="text-[20px] mr-3">{idx + 1}. </span>
-                <span
-                  className="text-[28px]"
-                  ref={(el) => {
-                    textRef.current[idx] = el;
-                  }}
-                  onMouseEnter={() => handleMouseEnter(idx)}
-                  onMouseLeave={() => handleMouseLeave(idx)}
-                >
-                  {label}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
       <div className="border border-t-[1px] border-t-gray flex items-center py-[32px] gap-2">
         {isLoggedIn ? (
           <button
@@ -163,16 +127,16 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
           </Link>
         )}
       </div>
+
       <div className="absolute top-1.5 left-3">
         <button
           type="button"
-          aria-label="모바일 메뉴 닫기"
+          aria-label="메인 네비게이션 메뉴 닫기"
           onClick={() => {
             setIsClicked(false);
           }}
-          aria-label="메인 네비게이션 메뉴 닫기"
         >
-          <Close color="var(--color-primary)" className="w-8 h-8" />
+          <Close color="var(--color-primary)" className="w-8 h-8" aria-hidden />
         </button>
       </div>
     </nav>

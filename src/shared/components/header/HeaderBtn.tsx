@@ -37,7 +37,7 @@ function HeaderBtn({ pathname }: { pathname: string }) {
   ];
 
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-2">
       {headerBtn.map(({ icon: Icon, label, onClick, className }) => (
         <button
           key={label}

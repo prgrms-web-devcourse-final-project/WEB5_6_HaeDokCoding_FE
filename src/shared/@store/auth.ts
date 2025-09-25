@@ -5,7 +5,7 @@ interface User {
   id: string;
   email: string;
   nickname: string;
-  is_first_login: boolean;
+  isFirstLogin: boolean;
   abv_degree?: number;
   provider?: 'naver' | 'kakao' | 'google';
 }
@@ -39,7 +39,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   logout: async () => {
     try {
-      await fetch('http://localhost:8080/api/user/auth/logout', {
+      await fetch('http://localhost:8080/user/auth/logout', {
         method: 'POST',
         credentials: 'include',
       });
@@ -54,7 +54,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   updateUser: async () => {
     try {
-      const res = await fetch('http://localhost:8080/api/user/auth/refresh', {
+      const res = await fetch('http://localhost:8080/user/auth/refresh', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -63,12 +63,15 @@ export const useAuthStore = create<AuthState>((set) => ({
       if (!res.ok) throw new Error('토큰 갱신 실패');
       const data = await res.json();
 
-      console.log(data);
-      // if (data.accessToken && data.user) {
-      //   set({ accessToken: data.accessToken, user: data.user, isLoggedIn: true });
-      //   console.log('토큰 및 유저 정보 갱신 완료:', data.user);
-      //   return data.user;
-      // }
+      console.log('updateUser response:', data);
+      const userInfo = data?.data?.user;
+      const accessToken = data?.data?.accessToken;
+
+      if (userInfo && accessToken) {
+        set({ user: userInfo, accessToken, isLoggedIn: true });
+        console.log('토큰 및 유저 정보 갱신 완료:', userInfo);
+        return userInfo;
+      }
 
       return null;
     } catch (err) {
