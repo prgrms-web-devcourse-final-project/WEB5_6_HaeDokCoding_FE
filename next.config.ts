@@ -1,13 +1,14 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+
   // TurboPack 설정
   experimental: {
     turbo: {
       rules: {
-        '.svg': {
+        '*.svg': {
           loaders: ['@svgr/webpack'],
-          as: '.js',
+          as: '*.js',
         },
       },
     },
@@ -20,11 +21,11 @@ const nextConfig: NextConfig = {
     config.module.rules.push(
       {
         ...fileLoaderRule,
-        test: /.svg$/i,
+        test: /\.svg$/i,
         resourceQuery: /url/,
       },
       {
-        test: /.svg$/i,
+        test: /\.svg$/i,
         issuer: fileLoaderRule.issuer,
         resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] },
         use: [
@@ -38,7 +39,7 @@ const nextConfig: NextConfig = {
         ],
       }
     );
-    fileLoaderRule.exclude = /.svg$/i;
+    fileLoaderRule.exclude = /\.svg$/i;
     return config;
   },
 };
