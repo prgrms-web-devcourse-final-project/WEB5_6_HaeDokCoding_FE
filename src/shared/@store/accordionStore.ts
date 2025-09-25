@@ -2,7 +2,6 @@
 import { create } from 'zustand';
 
 // select박스 아코디언 메뉴
-
 export type ID = string | number;
 
 type AccordionState = {

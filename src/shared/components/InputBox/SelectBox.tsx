@@ -1,7 +1,7 @@
 'use client';
 import { Ref, useMemo, useState } from 'react';
 import Down from '@/shared/assets/icons/selectDown_24.svg';
-import { ID, useAccordionStore } from '@/shared/@store/store';
+import { ID, useAccordionStore } from '@/shared/@store/accordionStore';
 import { useShallow } from 'zustand/shallow';
 
 interface Props {
