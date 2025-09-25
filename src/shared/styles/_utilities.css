@@ -3,6 +3,11 @@
     @apply flex justify-center items-center;
   }
 
+  .lg-absolute-center {
+    @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
+    @apply lg:static lg:left-auto lg:top-auto lg:translate-x-0 lg:translate-y-0;
+  }
+
   /* 
     모든 페이지는 div 한번 감싸야 함
     - flex-1 적용 → 상위 main/flex 구조에서 남은 화면 높이 채우기
