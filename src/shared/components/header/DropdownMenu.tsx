@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { useAuthStore } from '@/shared/@store/auth';
+import { setPreLoginPath } from '../auth/utils/setPreLoginPath';
 
 interface Props {
   isClicked: boolean;
@@ -116,9 +117,9 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
         ) : (
           <Link
             href="/login"
-            onNavigate={() => {
+            onNavigate={async () => {
               setIsClicked(false);
-              sessionStorage.setItem('preLoginPath', window.location.pathname);
+              await setPreLoginPath(window.location.pathname);
             }}
             className="flex items-center gap-2 text-black font-light text-xl hover:text-black/70"
           >

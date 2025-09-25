@@ -3,16 +3,17 @@
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuthStore } from '@/shared/@store/auth';
-import { useModalStore } from '@/shared/@store/modal';
 import { customToast } from '@/shared/components/toast/CustomToastUtils';
 import Spinner from '../spinner/Spinner';
+import WelcomeModal from './WelcomeModal';
+import { getCookie, removeCookie } from './utils/cookie';
 
 function LoginRedirectHandler() {
   const pathname = usePathname();
   const router = useRouter();
   const { user, updateUser } = useAuthStore();
-  const { openWelcomeModal } = useModalStore();
   const [loading, setLoading] = useState(true);
+  const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
 
   useEffect(() => {
     if (!user && loading) {
@@ -32,15 +33,28 @@ function LoginRedirectHandler() {
   useEffect(() => {
     if (!user || loading) return;
 
-    const preLoginPath = sessionStorage.getItem('preLoginPath') || '/';
+    const preLoginPath = getCookie('preLoginPath') || '/';
+    console.log(preLoginPath);
 
+    // 첫 유저일 경우 모달 오픈
     if (pathname.startsWith('/login/first-user')) {
-      openWelcomeModal(user.nickname);
-    } else if (pathname.startsWith('/login/success')) {
+      setWelcomeModalOpen(true);
+    }
+    // 기존 유저일 경우
+    else if (pathname.startsWith('/login/success')) {
       customToast.success(`${user.nickname}님 \n 로그인 성공 🎉`);
       router.replace(preLoginPath);
+      removeCookie('preLoginPath');
     }
-  }, [pathname, user, router, openWelcomeModal, loading]);
+  }, [pathname, user, loading, router]);
+
+  // 환영 모달 닫힐 때 이동
+  const handleCloseWelcomeModal = () => {
+    setWelcomeModalOpen(false);
+    const preLoginPath = getCookie('preLoginPath') || '/';
+    removeCookie('preLoginPath');
+    router.replace(preLoginPath);
+  };
 
   if (loading) {
     return (
@@ -50,6 +64,17 @@ function LoginRedirectHandler() {
     );
   }
 
-  return null;
+  return (
+    <>
+      {/* 첫 유저 모달 */}
+      {user && (
+        <WelcomeModal
+          userNickname={user.nickname}
+          open={welcomeModalOpen}
+          onClose={handleCloseWelcomeModal}
+        />
+      )}
+    </>
+  );
 }
 export default LoginRedirectHandler;
