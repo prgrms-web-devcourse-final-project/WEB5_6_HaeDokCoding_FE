@@ -141,12 +141,12 @@ function Page() {
         <h2 className="text-2xl font-semibold pb-1">Icons</h2>
         <div className="space-y-2">
           <h3 className="text-lg font-medium border-b pb-1">like</h3>
-          <LikeBtn />
+          <LikeBtn size="md" />
         </div>
         <div className="space-y-2">
           <h3 className="text-lg font-medium border-b pb-1">Share</h3>
-          <Share />
-          <Share variants="community" />
+          <Share size="md" />
+          <Share variants="community" size="md" />
         </div>
         <div className="space-y-2">
           <h3 className="text-lg font-medium border-b pb-1">keep</h3>
