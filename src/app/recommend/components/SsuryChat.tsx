@@ -40,10 +40,16 @@ function SsuryChat() {
   ];
 
   return (
-    <article aria-label="취향추천 챗봇 메시지" className="max-w-[80%]">
+    <article aria-label="취향추천 챗봇 메시지" className="">
       <header className="flex items-end">
-        <div className="relative w-20 h-20">
-          <Image src={Ssury} alt="쑤리아바타" width={80} height={80} className="object-cover" />
+        <div className="relative w-15 md:w-20 h-15 md:h-20">
+          <Image
+            src={Ssury}
+            alt="쑤리아바타"
+            width={80}
+            height={80}
+            className="object-cover w-15 h-15"
+          />
         </div>
         <strong>쑤리</strong>
       </header>
@@ -53,9 +59,19 @@ function SsuryChat() {
         {messages.map((msg) => (
           <div key={msg.id}>
             {msg.type === 'recommend' ? (
-              <ChatCocktailCard />
+              <ul className="inline-grid grid-cols-1 sm:grid-cols-3 gap-2 justify-start">
+                <li>
+                  <ChatCocktailCard />
+                </li>
+                <li>
+                  <ChatCocktailCard />
+                </li>
+                <li>
+                  <ChatCocktailCard />
+                </li>
+              </ul>
             ) : (
-              <div className="flex flex-col w-fit min-w-[120px] p-3 rounded-2xl rounded-tl-none bg-white text-black">
+              <div className="flex flex-col w-fit max-w-[80%] min-w-[120px] p-3 rounded-2xl rounded-tl-none bg-white text-black">
                 {msg.text && <p className="whitespace-pre-line">{msg.text}</p>}
 
                 {/* radio */}
