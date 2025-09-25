@@ -23,7 +23,7 @@
 
   /* 페이지 레이아웃 기본 값 */
   .page-layout {
-    @apply flex-1 w-full px-4 mx-auto;
+    @apply flex-1 w-full px-3 mx-auto;
   }
 
   /* max-width 별 */
