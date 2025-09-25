@@ -7,6 +7,9 @@ import Image from 'next/image'
 import Example from '@/shared/assets/images/dummy/exampleCocktail.png'
 import Short from '@/shared/assets/icons/short_36.svg'
 function page() {
+
+  // 모바일일때는 글 - 제목 - 밑에선 조그마할게
+  
   return (
     <div className="w-full relative">
       <StarBg className="absolute top-0 left-0 h-200 lg:h-202" />
@@ -20,65 +23,74 @@ function page() {
           </div>
         </nav>
 
-        <section className="flex flex-col items-center">
-        
-            <span className="bg-secondary w-1 h-81 absolute top-0 left-1/2 -translate-x-1/2 z-99"></span>
-            <span className="h-3 w-3 rounded-full absolute  top-80 left-1/2 -translate-x-1/2 z-99 bg-secondary"></span>
-         
+        <article className="flex flex-col items-center mt-4 lg:mt-0">
+          <span className="md:bg-secondary w-1 h-100 -translate-y-19 absolute top-0 left-1/2 -translate-x-1/2 md: z-2"></span>
+          <span className="h-3 w-3 rounded-full absolute  top-80 left-1/2 -translate-x-1/2 z-99 md:bg-secondary"></span>
 
           <div className="flex flex-col items-center">
-            <div className="flex justify-between ml-30 w-187.5 h-50">
-              <div className="flex flex-col">
+            <div
+              className="flex flex-col gap-3 relative md:flex-row md:justify-between 
+              md:ml-15 md:w-150
+              lg:ml-30 lg:w-187.5 h-50"
+            >
+              <div className="flex flex-col gap-1 items-center md:items-end">
                 <span>
                   <PostLabel title="레시피" />
                 </span>
-                <h2 className="font-serif font-bold text-4xl text-secondary">Old Fashioned</h2>
-                <h2 className="font-serif font-bold text-4xl text-secondary">올드 패션드</h2>
+                <h2 className="font-serif font-bold text-3xl  lg:text-4xl text-secondary">
+                  Old Fashioned
+                </h2>
+                <h2 className="font-serif font-bold text-right text-xl lg:text-4xl text-secondary">
+                  올드 패션드
+                </h2>
               </div>
 
-              <p className="md:text-sm lg:text-base self-end items-end text-secondary md:w-70 lg:w-100">
+              <p className="w-70 text-base  mr-5 md:text-sm md:mr-0 lg:text-base md:self-end text-secondary md:w-70 lg:w-100">
                 쿠바 아바나의 전설적인 바 엘 플로리디타(El Floridita).이곳에서 노벨문학상 작가
                 어니스트 헤밍웨이가 즐겨 찾던 특별한 한 잔이 탄생했습니다.
               </p>
-            </div>
-            <div
-              className="rounded-2xl mt-12
-           [filter:drop-shadow(0_0_20px_rgba(255,255,255,0.5))]
-          "
-            >
-              <Image src={Example} alt="" />
+              <span className="absolute w-0.5 h-11 -bottom-15 left-1/2 -translate-x-1/2 z-2 bg-secondary md:bg-transparent"></span>
+              <span className="absolute w-3 h-3 rounded-full -bottom-16 z-2 left-1/2 -translate-x-1/2 bg-secondary md:bg-transparent"></span>
             </div>
 
-            <div className="flex flex-col mt-5 gap-3">
+            <div
+              className="rounded-2xl mt-12
+           [filter:drop-shadow(0_0_20px_rgba(255,255,255,0.3))]
+          "
+            >
+              <Image src={Example} alt="" width="300" height="375" />
+            </div>
+
+            <dl className="flex flex-col mt-5 gap-3 w-75">
               <div className="flex gap-3 items-center">
-                <span className="flex gap-2">
-                  <p>도수</p>
+                <dt className="flex gap-2">
+                  <p className="text-base text-nowrap">도수</p>
                   <span>|</span>
-                </span>
-                <div className="flex gap-3 items-center">
+                </dt>
+                <dd className="flex gap-3 items-center">
                   <p className="text-xs">24.8%</p>
-                  <div className="w-50 h-3 rounded-full overflow-hidden border-[0.5px] border-gray relative">
+                  <div className="w-49 h-3 rounded-full overflow-hidden border-[0.5px] border-gray relative">
                     <div
                       className="absolute top-0 left-0 w-10  h-3 
                   bg-linear-to-r from-[#FFCA8D] to-[#FA2424]
                   "
                     ></div>
                   </div>
-                </div>
+                </dd>
               </div>
               <div className="flex items-center gap-3">
-                <span className="flex gap-3 items-center">
+                <dt className="flex gap-2 items-center">
                   <p>글래스 타입</p>
                   <span>|</span>
-                </span>
-                <div className="flex items-center gap-2">
+                </dt>
+                <dd className="flex items-center gap-2">
                   <Short />
                   <p>숏 드링크</p>
-                </div>
+                </dd>
               </div>
-            </div>
+            </dl>
           </div>
-        </section>
+        </article>
       </div>
     </div>
   );
