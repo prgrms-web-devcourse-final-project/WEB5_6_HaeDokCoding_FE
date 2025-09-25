@@ -6,13 +6,14 @@ import PostLabel from '@/shared/components/community/PostLabel';
 import Image from 'next/image'
 import Example from '@/shared/assets/images/dummy/exampleCocktail.png'
 import Short from '@/shared/assets/icons/short_36.svg'
+import SsuryShake from '@/shared/assets/ssury/ssury_make.webp'
 function page() {
 
   // 모바일일때는 글 - 제목 - 밑에선 조그마할게
   
   return (
     <div className="w-full relative">
-      <StarBg className="absolute top-0 left-0 h-200 lg:h-202" />
+      <StarBg className="absolute top-0 left-0 h-200 lg:h-200" />
 
       <div className="max-w-1024 page-layout">
         <nav className="mt-4 flex items-center justify-between ">
@@ -91,6 +92,50 @@ function page() {
             </dl>
           </div>
         </article>
+
+        <section className="mt-20 flex flex-col gap-5">
+          <dd className="border-b-1 h-18 border-white">
+            <div className="flex items-center gap-3">
+              <Image src={SsuryShake} alt="" width="40" height="40" />
+              <h3 className="text-3xl font-bold">레시피</h3>
+            </div>
+          </dd>
+          <dd className="flex flex-col md:flex-row  px-5 gap-5">
+            <dt className="flex flex-col gap-4 w-[50%]">
+              <h4 className="text-2xl font-bold">재료</h4>
+              <ul className="flex flex-col gap-2">
+                <li className="text-lg">
+                  럼 <span className="text-sm text-white/80">1 1/2oz | 90ml</span>
+                </li>
+                <li className="text-lg">
+                  심플시럽 <span className="text-sm text-white/80">1/2oz | 30ml</span>
+                </li>
+                <li className="text-lg">
+                  라임 <span className="text-sm text-white/80">1/2개</span>
+                </li>
+                <li className="text-lg">
+                  자몽 <span className="text-sm text-white/80">1/2개</span>
+                </li>
+              </ul>
+            </dt>
+
+            <span className="border-t-1 pt-5 md:border-l-1 md:border-t-0 md:px-10 border-white">
+              <dt className="flex flex-col gap-4 ">
+                <h4 className="text-2xl font-bold">만드는 법</h4>
+                <ol className="flex flex-col gap-2 list-decimal">
+                  <li>셰이커에 라임즙을 착즙기로 짜 넣습니다</li>
+                  <li>셰이커에 자몽즙을 착즙기로 짜 넣습니다</li>
+                  <li>셰이커에 재료를 넣습니다</li>
+                  <li>셰이킹 후 잔에 따라줍니다</li>
+                </ol>
+              </dt>
+            </span>
+          </dd>
+        </section>
+
+        <section className='mt-20'>
+          <h3 className='text-3xl font-bold'>추천리스트</h3>
+        </section>
       </div>
     </div>
   );
