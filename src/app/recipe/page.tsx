@@ -1,6 +1,10 @@
 import PageHeader from '@/shared/components/pageHeader/PageHeader';
 import { Metadata } from 'next';
-import Glass from '@/shared/assets/images/recipe_page_header.png';
+import Glass from '@/shared/assets/images/recipe_page_header.webp';
+import SelectBox from '@/shared/components/InputBox/SelectBox';
+import Input from '@/shared/components/InputBox/Input';
+import CocktailList from '@/shared/components/recipePage/cocktailList/CocktailList';
+import Accordion from './components/Accordion';
 
 export const metadata: Metadata = {
   title: 'SSOUL | 칵테일레시피',
@@ -10,12 +14,33 @@ export const metadata: Metadata = {
 function Page() {
   return (
     <div className="w-full">
-      <PageHeader
-        src={Glass}
-        title="Cocktail Recipes"
-        description="다양하고 재밌는 칵테일 레시피"
-      />
-      <div className="page-layout max-w-1224"></div>
+      <section>
+        <PageHeader
+          src={Glass}
+          title="Cocktail Recipes"
+          description="다양하고 재밌는 칵테일 레시피"
+        />
+      </section>
+      <div className="page-layout max-w-1224 mt-6">
+        <section className="flex flex-col-reverse items-start gap-6 md:flex-row md:justify-between md:items-center ">
+          <Accordion />
+          <Input
+            placeholder="내용을 입력해 주세요."
+            id="search"
+            variant="search"
+            className="w-full md:max-w-80"
+          />
+        </section>
+        <section>
+          <div className="h-10 flex justify-between items-center mt-3 border-b-1 border-gray-light">
+            <p>n개</p>
+            <SelectBox option={['', '댓글순', '인기순']} title="최신순" />
+          </div>
+          <section className="mt-5">
+            <CocktailList />
+          </section>
+        </section>
+      </div>
     </div>
   );
 }
