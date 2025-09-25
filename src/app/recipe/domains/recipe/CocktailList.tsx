@@ -1,5 +1,5 @@
 'use client';
-import CocktailCard from '../cocktailCard/CocktailCard';
+import CocktailCard from './CocktailCard';
 
 function CocktailList() {
   // const [data,setData] = useState([])

@@ -3,8 +3,9 @@ import { Metadata } from 'next';
 import Glass from '@/shared/assets/images/recipe_page_header.webp';
 import SelectBox from '@/shared/components/InputBox/SelectBox';
 import Input from '@/shared/components/InputBox/Input';
-import CocktailList from '@/shared/components/recipePage/cocktailList/CocktailList';
-import Accordion from './components/Accordion';
+
+import Accordion from './domains/components/Accordion';
+import CocktailList from './domains/recipe/CocktailList';
 
 export const metadata: Metadata = {
   title: 'SSOUL | 칵테일레시피',
