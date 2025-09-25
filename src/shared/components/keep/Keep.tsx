@@ -8,7 +8,8 @@ interface Props {
 
 function Keep({ className }: Props) {
   const [isClick, setIsClick] = useState(false);
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     setIsClick(!isClick);
   };
 
