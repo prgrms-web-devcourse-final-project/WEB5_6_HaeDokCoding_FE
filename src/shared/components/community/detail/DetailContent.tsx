@@ -4,9 +4,15 @@ import PostInfo from '../PostInfo';
 
 function DetailContent() {
   return (
-    <section>
-      <figure>
-        <Image src={prePost} alt="더미 이미지" width={100} height={100} />
+    <section className="mt-5 flex flex-col items-start w-full">
+      <figure className="w-full flex items-center justify-center sm:justify-start">
+        <Image
+          src={prePost}
+          alt="더미 이미지"
+          width={300}
+          height={300}
+          className="sm:w-[80%] w-full"
+        />
       </figure>
       <ul>
         <li>
