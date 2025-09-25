@@ -4,40 +4,54 @@ import Close from '@/shared/assets/icons/close_32.svg';
 import User from '@/shared/assets/icons/user_24.svg';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useAuthStore } from '@/shared/@store/auth';
 
 interface Props {
   isClicked: boolean;
   setIsClicked: (state: boolean) => void;
+  visible: boolean;
+  setVisible: (state: boolean) => void;
 }
 
-function DropdownMenu({ isClicked, setIsClicked }: Props) {
+function DropdownMenu({ isClicked, setIsClicked, visible, setVisible }: Props) {
   const pathname = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<(HTMLSpanElement | null)[]>([]);
+  const tlRef = useRef<GSAPTimeline | null>(null);
 
   const { isLoggedIn, logout } = useAuthStore();
 
   useEffect(() => {
     if (!menuRef.current) return;
+    if (!tlRef.current) {
+      const tl = gsap.timeline({
+        paused: true,
+        onReverseComplete: () => {
+          setVisible(false);
+        },
+      });
+
+      tl.fromTo(
+        menuRef.current,
+        { x: -200, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.5, ease: 'expo.inOut' }
+      );
+
+      tlRef.current = tl;
+    }
 
     if (isClicked) {
-      gsap.fromTo(
-        menuRef.current,
-        {
-          x: -200,
-          opacity: 0,
-        },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: 'expo.inOut',
-        }
-      );
+      setVisible(true);
+      tlRef.current.play();
+    } else {
+      tlRef.current.reverse();
     }
+
+    return () => {
+      // tl.kill();
+    };
   }, [isClicked]);
 
   const handleMouseEnter = (index: number) => {
@@ -62,7 +76,7 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
 
   return (
     <nav
-      className="w-full h-screen bg-secondary absolute top-0 left-0 px-[12px] font-serif block sm:hidden"
+      className={`w-full h-screen bg-secondary absolute top-0 left-0 px-[12px] font-serif block sm:hidden ${visible ? 'block' : 'hidden'} `}
       role="navigation"
       aria-label="메인 네비게이션 메뉴"
       tabIndex={-1}
