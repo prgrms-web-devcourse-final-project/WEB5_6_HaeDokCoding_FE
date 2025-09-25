@@ -5,19 +5,20 @@ interface Props {
   variants?: 'default' | 'community';
   title?: string;
   content?: string;
+  size: 'sm' | 'md';
 }
 
-function Share({ onClick, variants = 'default', title, content }: Props) {
+function Share({ onClick, variants = 'default', title, content, size }: Props) {
   // title과 content는 추후 API가 들어오면 사용예정 API가 들어오면 타입 옵셔널 체크 해제헤 주세요
 
   return (
     <button
       type="button"
-      className={
-        variants == 'community'
+      className={`${
+        variants == 'community' && size === 'md'
           ? 'w-13.75 h-13.75 flex-center border-1 border-white rounded-full'
           : ''
-      }
+      } bg-primary`}
       aria-label="공유하기"
       onClick={onClick}
     >

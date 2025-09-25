@@ -1,7 +1,7 @@
 import CommentIcon from '@/shared/assets/icons/comment_28.svg';
 import { useState } from 'react';
 
-function CommentBtn() {
+function CommentBtn({ size }: { size: 'sm' | 'md' }) {
   const [isClick, setIsClick] = useState(false);
 
   const handleClick = () => {
@@ -10,7 +10,7 @@ function CommentBtn() {
   return (
     <button
       type="button"
-      className="w-13.75 h-13.75 flex-center border-1 border-white rounded-full"
+      className={`${size === 'md' ? 'w-13.75 h-13.75 flex-center border-1 border-white rounded-full' : ''} bg-primary`}
       aria-label="코멘트 버튼"
       aria-pressed={isClick}
       onClick={handleClick}
