@@ -4,14 +4,12 @@ import Glass from '@/shared/assets/images/recipe_page_header.webp';
 import SelectBox from '@/shared/components/InputBox/SelectBox';
 import Input from '@/shared/components/InputBox/Input';
 import CocktailList from '@/shared/components/recipePage/cocktailList/CocktailList';
-import Accordion from './Accordion';
+import Accordion from './components/Accordion';
 
 export const metadata: Metadata = {
   title: 'SSOUL | 칵테일레시피',
   description: '칵테일 레시피가 궁금하신 분들을 위한 레시피 페이지',
 };
-
-// select는 좌측정렬 검색창 꽉차게
 
 function Page() {
   return (
