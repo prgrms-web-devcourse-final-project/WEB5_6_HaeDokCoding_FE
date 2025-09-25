@@ -5,6 +5,7 @@ import SignIn from '@/shared/assets/icons/sign_in_24.svg';
 import { useRouter } from 'next/navigation';
 import tw from '@/shared/utills/tw';
 import { useAuthStore } from '@/shared/@store/auth';
+import { setPreLoginPath } from '../auth/utils/setPreLoginPath';
 
 type RouterType = ReturnType<typeof useRouter>;
 
@@ -39,8 +40,8 @@ function HeaderBtn({ pathname }: { pathname: string }) {
             icon: SignIn,
             label: '로그인',
             className: `${pathname === '/login' ? 'text-tertiary' : ''}`,
-            onClick: () => {
-              sessionStorage.setItem('preLoginPath', window.location.pathname);
+            onClick: async () => {
+              await setPreLoginPath(window.location.pathname);
               router.push('/login');
             },
           },
