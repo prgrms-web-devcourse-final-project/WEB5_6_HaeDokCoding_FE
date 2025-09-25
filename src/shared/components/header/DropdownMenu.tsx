@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { useAuthStore } from '@/shared/@store/auth';
 
 interface Props {
   isClicked: boolean;
@@ -16,6 +17,8 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
   const pathname = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<(HTMLSpanElement | null)[]>([]);
+
+  const { isLoggedIn, logout } = useAuthStore();
 
   useEffect(() => {
     if (!menuRef.current) return;
@@ -100,25 +103,40 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
         ))}
       </ul>
 
-      <section
-        aria-label="로그인 로그아웃"
-        className="border border-t-[1px] border-t-gray flex items-center py-[32px] gap-2"
-      >
-        <User color="var(--color-primary)" />
-        <button type="button" className="text-black font-light text-xl hover:text-black/70">
-          로그인/회원가입
-        </button>
-      </section>
+      <div className="border border-t-[1px] border-t-gray flex items-center py-[32px] gap-2">
+        {isLoggedIn ? (
+          <button
+            type="button"
+            onClick={logout}
+            className="flex items-center gap-2 text-black font-light text-xl hover:text-black/70"
+          >
+            <User color="var(--color-primary)" aria-hidden />
+            <span>로그아웃</span>
+          </button>
+        ) : (
+          <Link
+            href="/login"
+            onNavigate={() => {
+              setIsClicked(false);
+              sessionStorage.setItem('preLoginPath', window.location.pathname);
+            }}
+            className="flex items-center gap-2 text-black font-light text-xl hover:text-black/70"
+          >
+            <User color="var(--color-primary)" aria-hidden />
+            <span>로그인/회원가입</span>
+          </Link>
+        )}
+      </div>
 
       <div className="absolute top-1.5 left-3">
         <button
           type="button"
-          aria-label="모바일 메뉴 닫기"
+          aria-label="메인 네비게이션 메뉴 닫기"
           onClick={() => {
             setIsClicked(false);
           }}
         >
-          <Close color="var(--color-primary)" className="w-8 h-8" />
+          <Close color="var(--color-primary)" className="w-8 h-8" aria-hidden />
         </button>
       </div>
     </nav>

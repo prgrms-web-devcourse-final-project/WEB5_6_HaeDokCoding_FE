@@ -6,20 +6,21 @@ import Button from '@/shared/components/button/Button';
 import ModalLayout from '@/shared/components/modalPop/ModalLayout';
 import Ssury from '@/shared/assets/ssury/ssury_jump.webp';
 import { useRouter } from 'next/navigation';
+import { useModalStore } from '@/shared/@store/modal';
+import { useAuthStore } from '@/shared/@store/auth';
 
-interface Props {
-  open: boolean;
-  onClose: () => void;
-}
-
-function Welcome({ open, onClose }: Props) {
+function Welcome() {
   const router = useRouter();
+  const { user } = useAuthStore();
+  const { welcomeModal, closeWelcomeModal } = useModalStore();
+
+  if (!welcomeModal.open || !user) return null;
 
   return (
     <ModalLayout
-      open={open}
-      onClose={onClose}
-      title="환영합니다!"
+      open={welcomeModal.open}
+      onClose={closeWelcomeModal}
+      title={`환영합니다, ${user.nickname}님!`}
       description="바텐더 쑤리가 안내해드릴게요"
       buttons={
         <>
@@ -27,7 +28,7 @@ function Welcome({ open, onClose }: Props) {
             type="button"
             color="purple"
             onClick={() => {
-              onClose();
+              closeWelcomeModal();
               router.push('/recipe');
             }}
           >
@@ -36,7 +37,7 @@ function Welcome({ open, onClose }: Props) {
           <Button
             type="button"
             onClick={() => {
-              onClose();
+              closeWelcomeModal();
               router.push('/recommend');
             }}
           >

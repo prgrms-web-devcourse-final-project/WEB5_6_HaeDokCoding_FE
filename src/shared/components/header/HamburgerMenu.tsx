@@ -14,7 +14,7 @@ function HamburgerMenu() {
     <>
       <button
         type="button"
-        className="sm:hidden block stroke-white hover:stroke-white/80 w-[63px]"
+        className="sm:hidden block stroke-white hover:stroke-white/80"
         onClick={(e) => handleClick(e)}
         aria-label="메뉴 열기"
         aria-expanded={isClicked}

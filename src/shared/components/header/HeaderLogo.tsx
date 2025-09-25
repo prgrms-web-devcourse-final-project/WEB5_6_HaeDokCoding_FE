@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 function HeaderLogo() {
   return (
-    <div>
+    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 sm:relative sm:left-auto sm:top-auto sm:translate-x-0 sm:translate-y-0">
       <Link href="/" aria-label="Ssoul 메인으로 이동">
         <Image
           src="/logo.svg"

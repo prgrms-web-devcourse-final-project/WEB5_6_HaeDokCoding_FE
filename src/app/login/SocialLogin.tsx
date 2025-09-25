@@ -4,11 +4,10 @@ import Naver from '@/shared/assets/icons/naver.svg';
 import Kakao from '@/shared/assets/icons/kakao.svg';
 import Google from '@/shared/assets/icons/google.svg';
 import tw from '@/shared/utills/tw';
-import Welcome from './Welcome';
-import { useState } from 'react';
+import { useAuthStore } from '@/shared/@store/auth';
 
 function SocialLogin() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { loginWithProvider } = useAuthStore();
 
   const socialButtons = [
     {
@@ -33,8 +32,7 @@ function SocialLogin() {
 
   // TODO: 백엔드 연동 로직 구현 필요
   const handleLogin = (id: string) => {
-    console.log(id);
-    setIsModalOpen(true);
+    loginWithProvider(id as 'naver' | 'kakao' | 'google');
   };
 
   return (
@@ -52,9 +50,6 @@ function SocialLogin() {
           </button>
         ))}
       </div>
-
-      {/* 웰컴 모달 (임시) */}
-      <Welcome open={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );
 }
