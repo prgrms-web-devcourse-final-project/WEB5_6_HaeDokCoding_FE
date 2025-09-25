@@ -24,7 +24,7 @@ function Page() {
         />
       </section>
       <div className="page-layout max-w-1224 mt-6">
-        <section className="flex flex-col-reverse items-center gap-6 md:flex-row md:justify-between md:items-center ">
+        <section className="flex flex-col-reverse items-start gap-6 md:flex-row md:justify-between md:items-center ">
           <Accordion />
           <Input
             placeholder="내용을 입력해 주세요."
@@ -36,7 +36,7 @@ function Page() {
         <section>
           <div className="h-10 flex justify-between items-center mt-3 border-b-1 border-gray-light">
             <p>n개</p>
-            <SelectBox option={['', '댓글순']} title="최신순" />
+            <SelectBox option={['', '댓글순', '인기순']} title="최신순" />
           </div>
           <section className="mt-5">
             <CocktailList />
