@@ -1,5 +1,5 @@
-import Star from '@/shared/assets/images/star_bg.webp';
 import Image, { StaticImageData } from 'next/image';
+import StarBg from '../starBg/StarBg';
 
 interface Props {
   src: StaticImageData;
@@ -9,12 +9,7 @@ interface Props {
 
 function PageHeader({ src, title, description }: Props) {
   return (
-    <div
-      className="h-40 w-full bg-repeat o-cover relative md:h-65 lg:h-80"
-      style={{
-        backgroundImage: `url(${Star.src})`,
-      }}
-    >
+    <StarBg className="relative h-40 md:h-65 lg:h-80">
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
         <Image src={src} alt="" width={src.width} height={src.height} />
         <div className="text-center text-nowrap font-serif font-bold flex flex-col absolute left-1/2 -translate-x-1/2 bottom-4 md:bottom-9 lg:bottom-[55px]">
@@ -26,7 +21,7 @@ function PageHeader({ src, title, description }: Props) {
           </p>
         </div>
       </div>
-    </div>
+    </StarBg>
   );
 }
 export default PageHeader;
