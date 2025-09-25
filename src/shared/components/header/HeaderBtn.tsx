@@ -13,27 +13,38 @@ function HeaderBtn({ pathname }: { pathname: string }) {
 
   const router = useRouter();
   const headerBtn = [
-    {
-      icon: Bell,
-      label: '알림',
-      onClick: () => {},
-    },
-    {
-      icon: User,
-      label: '마이 페이지',
-      className: `${pathname === '/mypage' ? 'text-tertiary' : 'text-current'}`,
-      onClick: (router: RouterType) => {
-        router.push('/mypage');
-      },
-    },
-    {
-      icon: SignIn,
-      label: '로그인',
-      className: `${pathname === '/login' ? 'text-tertiary' : ''}`,
-      onClick: () => {
-        router.push('/login');
-      },
-    },
+    ...(isLoggedIn
+      ? [
+          {
+            icon: Bell,
+            label: '알림',
+            onClick: () => {},
+          },
+          {
+            icon: User,
+            label: '마이 페이지',
+            className: pathname === '/mypage' ? 'text-tertiary' : 'text-current',
+            onClick: (router: RouterType) => router.push('/mypage'),
+          },
+          {
+            icon: SignOut,
+            label: '로그아웃',
+            onClick: async () => {
+              await logout();
+            },
+          },
+        ]
+      : [
+          {
+            icon: SignIn,
+            label: '로그인',
+            className: `${pathname === '/login' ? 'text-tertiary' : ''}`,
+            onClick: () => {
+              sessionStorage.setItem('preLoginPath', window.location.pathname);
+              router.push('/login');
+            },
+          },
+        ]),
   ];
 
   return (
