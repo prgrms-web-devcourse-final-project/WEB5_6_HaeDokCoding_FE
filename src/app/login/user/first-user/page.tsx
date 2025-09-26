@@ -3,4 +3,5 @@ import LoginRedirectHandler from '@/domains/login/components/LoginRedirectHandle
 function Page() {
   return <LoginRedirectHandler />;
 }
+
 export default Page;

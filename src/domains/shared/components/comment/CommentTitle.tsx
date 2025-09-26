@@ -1,7 +1,7 @@
-import EditDelete from '../EditDelete';
-import Profile from '../Profile';
+import EditDelete from '@/domains/community/detail/EditDelete';
+import Profile from '@/domains/community/detail/Profile';
 
-function CommentHeader() {
+function CommentTitle() {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-3">
@@ -14,4 +14,4 @@ function CommentHeader() {
   );
 }
 
-export default CommentHeader;
+export default CommentTitle;

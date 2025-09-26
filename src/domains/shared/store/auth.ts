@@ -1,5 +1,6 @@
 import { customToast } from '@/shared/components/toast/CustomToastUtils';
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 interface User {
   id: string;
@@ -21,63 +22,62 @@ interface AuthState {
   updateUser: () => Promise<User | null>;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  accessToken: null,
-  isLoggedIn: false,
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      user: null,
+      accessToken: null,
+      isLoggedIn: false,
 
-  loginWithProvider: (provider) => {
-    window.location.href = `http://localhost:8080/oauth2/authorization/${provider}`;
-  },
+      loginWithProvider: (provider) => {
+        window.location.href = `http://localhost:8080/oauth2/authorization/${provider}`;
+      },
 
-  setUser: (user, token) => {
-    const updatedUser = { ...user, abv_degree: 5.0 };
-    set({ user: updatedUser, accessToken: token, isLoggedIn: true });
+      setUser: (user, token) => {
+        const updatedUser = { ...user, abv_degree: 5.0 };
+        set({ user: updatedUser, accessToken: token, isLoggedIn: true });
+        customToast.success(`${updatedUser.nickname}님, 로그인 성공 🎉`);
+      },
 
-    customToast.success(`${updatedUser.nickname}님, 로그인 성공 🎉`);
-  },
+      logout: async () => {
+        try {
+          await fetch('http://localhost:8080/user/auth/logout', {
+            method: 'POST',
+            credentials: 'include',
+          });
+          customToast.success('로그아웃 되었습니다.');
+          set({ user: null, accessToken: null, isLoggedIn: false });
+        } catch (err) {
+          customToast.error('로그아웃 실패❌ \n 다시 시도해주세요.');
+          console.error('로그아웃 실패', err);
+        }
+      },
 
-  logout: async () => {
-    try {
-      await fetch('http://localhost:8080/user/auth/logout', {
-        method: 'POST',
-        credentials: 'include',
-      });
+      updateUser: async () => {
+        try {
+          const res = await fetch('http://localhost:8080/user/auth/refresh', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+          });
 
-      customToast.success('로그아웃 되었습니다.');
-      set({ user: null, accessToken: null, isLoggedIn: false });
-    } catch (err) {
-      customToast.error('로그아웃 실패❌ \n 다시 시도해주세요.');
-      console.error('로그아웃 실패', err);
-    }
-  },
+          if (!res.ok) throw new Error('토큰 갱신 실패');
+          const data = await res.json();
+          const userInfo = data?.data?.user;
+          const accessToken = data?.data?.accessToken;
 
-  updateUser: async () => {
-    try {
-      const res = await fetch('http://localhost:8080/user/auth/refresh', {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      if (!res.ok) throw new Error('토큰 갱신 실패');
-      const data = await res.json();
-
-      console.log('updateUser response:', data);
-      const userInfo = data?.data?.user;
-      const accessToken = data?.data?.accessToken;
-
-      if (userInfo && accessToken) {
-        set({ user: userInfo, accessToken, isLoggedIn: true });
-        console.log('토큰 및 유저 정보 갱신 완료:', userInfo);
-        return userInfo;
-      }
-
-      return null;
-    } catch (err) {
-      console.error('updateUser 실패', err);
-      set({ accessToken: null, user: null, isLoggedIn: false });
-      return null;
-    }
-  },
-}));
+          if (userInfo && accessToken) {
+            set({ user: userInfo, accessToken, isLoggedIn: true });
+            return userInfo;
+          }
+          return null;
+        } catch (err) {
+          console.error('updateUser 실패', err);
+          set({ accessToken: null, user: null, isLoggedIn: false });
+          return null;
+        }
+      },
+    }),
+    { name: 'auth-storage' } // localStorage key
+  )
+);

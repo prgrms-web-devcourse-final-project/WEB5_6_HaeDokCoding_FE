@@ -1,5 +1,5 @@
 import DetailMain from '@/domains/recipe/details/DetailMain';
-import StarBg from '@/domains/shared/starBg/StarBg';
+import StarBg from '@/domains/shared/components/star-bg/StarBg';
 
 function page() {
   return (

@@ -26,8 +26,8 @@ function CommunityTab() {
               tabIndex={selectedIdx === idx ? 0 : -1}
               onClick={() => setSelectedIdx(idx)}
               className={tw(
-                `border-1 py-1 px-3 rounded-2xl transition-colors ease-in`,
-                selectedIdx === idx ? 'bg-secondary text-primary' : ''
+                `border-1 py-1 px-3 rounded-2xl transition-colors ease-in min-w-18`,
+                selectedIdx === idx ? 'bg-secondary text-primary' : 'hover:bg-secondary/20'
               )}
             >
               {title}

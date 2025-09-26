@@ -4,6 +4,7 @@ import Img from '@/shared/assets/images/dummy/exampleCocktail.png';
 import Keep from '../shared/keep/Keep';
 import Label from '../shared/label/Label';
 
+
 interface Props {
   src?: StaticImageData;
   name?: string;

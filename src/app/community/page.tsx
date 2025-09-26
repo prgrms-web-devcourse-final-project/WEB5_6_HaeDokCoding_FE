@@ -1,12 +1,13 @@
-import CommunityFilter from '@/domains/community/CommunityFilter';
-import CommunityTab from '@/domains/community/CommunityTab';
-import PostCard from '@/domains/community/PostCard';
-import WriteBtn from '@/domains/community/WriteBtn';
-import PageHeader from '@/domains/shared/pageHeader/PageHeader';
+import CommunityFilter from '@/domains/community/main/CommunityFilter';
+import CommunityTab from '@/domains/community/main/CommunityTab';
+import PostCard from '@/domains/community/main/PostCard';
+import WriteBtn from '@/domains/community/main/WriteBtn';
+
+import PageHeader from '@/domains/shared/components/page-header/PageHeader';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '커뮤니티',
+  title: 'SSOUL | 커뮤니티',
   description: '칵테일에 관한 모든 이야기',
 };
 

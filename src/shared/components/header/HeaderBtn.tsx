@@ -1,69 +1,93 @@
+'use client';
+
 import Bell from '@/shared/assets/icons/bell_24.svg';
 import User from '@/shared/assets/icons/user_24.svg';
-import SignOut from '@/shared/assets/icons/sign_out_24.svg';
-import SignIn from '@/shared/assets/icons/sign_in_24.svg';
 import { useRouter } from 'next/navigation';
 import tw from '@/shared/utills/tw';
 import { useAuthStore } from '@/domains/shared/store/auth';
 import { setPreLoginPath } from '@/domains/shared/auth/utils/setPreLoginPath';
-
-type RouterType = ReturnType<typeof useRouter>;
+import { useState } from 'react';
+import LogoutConfirm from '@/domains/login/components/LogoutConfirm';
 
 function HeaderBtn({ pathname }: { pathname: string }) {
   const { isLoggedIn, logout } = useAuthStore();
-
   const router = useRouter();
-  const headerBtn = [
-    ...(isLoggedIn
-      ? [
-          {
-            icon: Bell,
-            label: '알림',
-            onClick: () => {},
-          },
-          {
-            icon: User,
-            label: '마이 페이지',
-            className: pathname === '/mypage' ? 'text-tertiary' : 'text-current',
-            onClick: (router: RouterType) => router.push('/mypage'),
-          },
-          {
-            icon: SignOut,
-            label: '로그아웃',
-            onClick: async () => {
-              await logout();
-            },
-          },
-        ]
-      : [
-          {
-            icon: SignIn,
-            label: '로그인',
-            className: `${pathname === '/login' ? 'text-tertiary' : ''}`,
-            onClick: async () => {
-              await setPreLoginPath(window.location.pathname);
-              router.push('/login');
-            },
-          },
-        ]),
+  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+
+  const navButtons = [
+    {
+      icon: Bell,
+      label: '알림',
+      onClick: () => setLogoutModalOpen(true),
+    },
+    {
+      icon: User,
+      label: '마이 페이지',
+      className: pathname === '/mypage' ? 'text-tertiary' : 'text-current',
+      hiddenMobile: true,
+      onClick: () => router.push('/mypage'),
+    },
   ];
 
+  const authButton = isLoggedIn
+    ? {
+        label: 'Logout',
+        onClick: () => setLogoutModalOpen(true),
+      }
+    : {
+        label: 'Login',
+        className: pathname === '/login' ? 'bg-white text-primary' : 'bg-transparent text-white',
+        onClick: async () => {
+          await setPreLoginPath(window.location.pathname);
+          router.push('/login');
+        },
+      };
   return (
-    <div className="flex gap-2">
-      {headerBtn.map(({ icon: Icon, label, onClick, className }) => (
+    <>
+      <div className="flex gap-2 items-center">
+        {/* 아이콘 버튼들 */}
+        <div className="flex gap-2">
+          {isLoggedIn &&
+            navButtons.map(({ icon: Icon, label, onClick, className, hiddenMobile }) => (
+              <button
+                key={label}
+                aria-label={label}
+                onClick={onClick}
+                className={tw(
+                  className,
+                  hiddenMobile ? 'hidden sm:flex' : '',
+                  'items-center justify-center rounded-full w-7 h-7 hover:bg-secondary/10 transition-colors duration-200'
+                )}
+              >
+                <Icon width={24} height={24} className="text-current" />
+              </button>
+            ))}
+        </div>
+
+        {/* 로그인/로그아웃 버튼 */}
         <button
-          key={label}
-          aria-label={label}
-          onClick={() => onClick(router)}
+          onClick={authButton.onClick}
           className={tw(
-            'flex-center rounded-full w-7 h-7 hover:bg-secondary/10 transition-colors duration-200',
-            className
+            'text-base font-serif border-1 px-2 py-1/2 rounded-xl border-white bg-primary  hover:bg-white/50 hover:text-primary transition-colors duration-200',
+            authButton.className
           )}
         >
-          <Icon width={24} height={24} className="text-current" />
+          {authButton.label}
         </button>
-      ))}
-    </div>
+      </div>
+
+      {/* 로그아웃 확인 모달 */}
+      {logoutModalOpen && (
+        <LogoutConfirm
+          open={logoutModalOpen}
+          onClose={() => setLogoutModalOpen(false)}
+          onLogout={async () => {
+            await logout();
+            setLogoutModalOpen(false);
+          }}
+        />
+      )}
+    </>
   );
 }
 
