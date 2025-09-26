@@ -1,7 +1,7 @@
-import CommunityFilter from '@/domains/community/CommunityFilter';
-import CommunityTab from '@/domains/community/CommunityTab';
-import PostCard from '@/domains/community/PostCard';
-import WriteBtn from '@/domains/community/WriteBtn';
+import CommunityFilter from '@/domains/community/main/CommunityFilter';
+import CommunityTab from '@/domains/community/main/CommunityTab';
+import PostCard from '@/domains/community/main/PostCard';
+import WriteBtn from '@/domains/community/main/WriteBtn';
 import PageHeader from '@/domains/shared/pageHeader/PageHeader';
 import { Metadata } from 'next';
 
