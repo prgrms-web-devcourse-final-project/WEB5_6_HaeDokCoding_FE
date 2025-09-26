@@ -1,6 +1,10 @@
 'use client';
 
-import SelectBox from '../InputBox/SelectBox';
+import SelectBox from "../shared/select-box/SelectBox";
+
+
+
+
 function CommunityFilter() {
   return (
     <section
