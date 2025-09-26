@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:src/domains/community/main/CommunityHeader.tsx
-import PageHeader from '../../shared/components/page-header/PageHeader';
-========
-import PageHeader from '../shared/components/page-header/PageHeader';
->>>>>>>> dev:src/domains/community/CommunityHeader.tsx
+import PageHeader from '@/domains/shared/components/page-header/PageHeader';
 
 function CommunityHeader() {
   return (

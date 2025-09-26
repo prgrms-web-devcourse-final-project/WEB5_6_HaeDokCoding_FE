@@ -1,10 +1,6 @@
 'use client';
 
-<<<<<<<< HEAD:src/domains/community/main/CommunityFilter.tsx
-import SelectBox from '../../shared/components/select-box/SelectBox';
-========
-import SelectBox from '../shared/components/select-box/SelectBox';
->>>>>>>> dev:src/domains/community/CommunityFilter.tsx
+import SelectBox from '@/domains/shared/components/select-box/SelectBox';
 
 function CommunityFilter() {
   return (

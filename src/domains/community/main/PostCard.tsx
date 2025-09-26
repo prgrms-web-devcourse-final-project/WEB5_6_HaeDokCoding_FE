@@ -2,11 +2,7 @@ import Image from 'next/image';
 import prePost from '@/shared/assets/images/prepost_img.webp';
 
 import PostInfo from './PostInfo';
-<<<<<<<< HEAD:src/domains/community/main/PostCard.tsx
-import Label from '../../shared/components/label/Label';
-========
-import Label from '../shared/components/label/Label';
->>>>>>>> dev:src/domains/community/PostCard.tsx
+import Label from '@/domains/shared/components/label/Label';
 
 function PostCard({ label }: { label: string }) {
   return (
