@@ -1,8 +1,9 @@
 'use client';
 
-import CommentBtn from '@/shared/components/comment/CommentBtn';
-import LikeBtn from '@/shared/components/like/LikeBtn';
-import Share from '@/shared/components/share/Share';
+import Share from "@/domains/shared/share/Share";
+import LikeBtn from "../../components/like/LikeBtn";
+
+
 
 function DetailTabMobile() {
   return (
