@@ -1,9 +1,9 @@
-function PostLabel({ title }: { title: string }) {
+function Label({ title }: { title: string }) {
   return (
     <span
       role="status"
       aria-label={title}
-      className={` text-primary py-1 px-2 rounded-md text-sm
+      className={` text-primary py-0.5 px-1.5 rounded-md text-sm
             ${
               title === '레시피'
                 ? 'bg-[#FFE4E6]'
@@ -21,4 +21,4 @@ function PostLabel({ title }: { title: string }) {
   );
 }
 
-export default PostLabel;
+export default Label;

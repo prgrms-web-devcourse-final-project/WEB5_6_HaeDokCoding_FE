@@ -2,17 +2,6 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
 
-  // TurboPack 설정
-  experimental: {
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
-  },
   // webpack 설정
   webpack: (config) => {
     // @ts-expect-error 타입 에러 무시
@@ -41,6 +30,14 @@ const nextConfig: NextConfig = {
     );
     fileLoaderRule.exclude = /\.svg$/i;
     return config;
+  },
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
+      },
+    }
   },
 };
 

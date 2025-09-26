@@ -1,7 +1,9 @@
-import PostLabel from '@/shared/components/community/PostLabel';
+
 import Image from 'next/image';
 import Short from '@/shared/assets/icons/short_36.svg';
 import Example from '@/shared/assets/images/dummy/exampleCocktail.png';
+import Label from '@/shared/components/label/Label';
+
 
 function DetailItem() {
   return (
@@ -13,7 +15,7 @@ function DetailItem() {
       >
         <div className="flex flex-col gap-1 items-center md:items-end">
           <span>
-            <PostLabel title="레시피" />
+            <Label title="레시피" />
           </span>
           <h2 className="font-serif font-bold text-3xl  lg:text-4xl text-secondary">
             Old Fashioned

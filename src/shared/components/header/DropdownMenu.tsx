@@ -1,69 +1,93 @@
+'use client';
+
 import { navItem } from '@/shared/utills/navigation';
 import Image from 'next/image';
 import Close from '@/shared/assets/icons/close_32.svg';
 import User from '@/shared/assets/icons/user_24.svg';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useAuthStore } from '@/shared/@store/auth';
+import { createPortal } from 'react-dom';
 import { setPreLoginPath } from '../auth/utils/setPreLoginPath';
 
 interface Props {
   isClicked: boolean;
   setIsClicked: (state: boolean) => void;
+  visible: boolean;
+  setVisible: (state: boolean) => void;
 }
 
-function DropdownMenu({ isClicked, setIsClicked }: Props) {
+function DropdownMenu({ isClicked, setIsClicked, visible, setVisible }: Props) {
   const pathname = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<(HTMLSpanElement | null)[]>([]);
+  const tlRef = useRef<GSAPTimeline | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   const { isLoggedIn, logout } = useAuthStore();
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
     if (!menuRef.current) return;
+    if (!tlRef.current) {
+      const tl = gsap.timeline({
+        paused: true,
+        onReverseComplete: () => {
+          setVisible(false);
+        },
+      });
+
+      tl.fromTo(
+        menuRef.current,
+        { x: -200, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.5, ease: 'expo.inOut' }
+      );
+
+      tlRef.current = tl;
+    }
 
     if (isClicked) {
-      gsap.fromTo(
-        menuRef.current,
-        {
-          x: -200,
-          opacity: 0,
-        },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: 'expo.inOut',
-        }
-      );
+      setVisible(true);
+      tlRef.current.play();
+    } else {
+      tlRef.current.reverse();
     }
+
+    return () => {
+      // tl.kill();
+    };
   }, [isClicked]);
 
-  const handleMouseEnter = (index: number) => {
-    const el = textRef.current[index];
-    if (!el) return;
-    gsap.to(el, {
-      y: -5,
-      duration: 0.3,
-      ease: 'power1.out',
-    });
-  };
+  if (!mounted) return null;
 
-  const handleMouseLeave = (index: number) => {
-    const el = textRef.current[index];
-    if (!el) return;
-    gsap.to(el, {
-      y: 0,
-      duration: 0.3,
-      ease: 'power1.out',
-    });
-  };
+  // const handleMouseEnter = (index: number) => {
+  //   const el = textRef.current[index];
+  //   if (!el) return;
+  //   gsap.to(el, {
+  //     y: -5,
+  //     duration: 0.3,
+  //     ease: 'power1.out',
+  //   });
+  // };
 
-  return (
+  // const handleMouseLeave = (index: number) => {
+  //   const el = textRef.current[index];
+  //   if (!el) return;
+  //   gsap.to(el, {
+  //     y: 0,
+  //     duration: 0.3,
+  //     ease: 'power1.out',
+  //   });
+  // };
+
+  return createPortal(
     <nav
-      className="w-full h-screen bg-secondary absolute top-0 left-0 px-[12px] font-serif block sm:hidden"
+      className={`w-full h-full z-1000 bg-secondary absolute top-0 left-0 px-[12px] font-serif block sm:hidden ${visible ? 'block' : 'hidden'} `}
       role="navigation"
       aria-label="메인 네비게이션 메뉴"
       tabIndex={-1}
@@ -81,7 +105,10 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
       </div>
       <ul className="flex flex-col gap-[12px] text-black px-2 my-5">
         {navItem.map(({ label, href }, idx) => (
-          <li className={`font-normal ${pathname === href ? 'pl-1' : 'px-3 py-[12px]'}`} key={href}>
+          <li
+            className={`font-normal transition-colors duration-300 ease-in-out ${pathname === href ? 'pl-1' : 'px-3 py-[12px]'}`}
+            key={href}
+          >
             <Link
               href={href}
               onNavigate={() => setIsClicked(false)}
@@ -94,8 +121,8 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
                 ref={(el) => {
                   textRef.current[idx] = el;
                 }}
-                onMouseEnter={() => handleMouseEnter(idx)}
-                onMouseLeave={() => handleMouseLeave(idx)}
+                // onMouseEnter={() => handleMouseEnter(idx)}
+                // onMouseLeave={() => handleMouseLeave(idx)}
               >
                 {label}
               </span>
@@ -140,7 +167,8 @@ function DropdownMenu({ isClicked, setIsClicked }: Props) {
           <Close color="var(--color-primary)" className="w-8 h-8" aria-hidden />
         </button>
       </div>
-    </nav>
+    </nav>,
+    document.body
   );
 }
 
