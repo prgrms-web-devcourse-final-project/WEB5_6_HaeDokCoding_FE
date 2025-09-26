@@ -39,7 +39,6 @@ function CocktailList() {
       <li className="w-full min-w-0 max-w-[320px] sm:max-w-none mx-auto sm:mx-0">
         <CocktailCard />
       </li>
-
     </ul>
   );
 }
