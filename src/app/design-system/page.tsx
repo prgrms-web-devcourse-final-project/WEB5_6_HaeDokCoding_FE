@@ -6,13 +6,13 @@ import Input from '@/shared/components/InputBox/Input';
 import { useState } from 'react';
 import { customToast } from '@/shared/components/toast/CustomToastUtils';
 import ModalLayout from '@/shared/components/modalPop/ModalLayout';
-import ConfirmPop from '@/shared/components/modalPop/ConfirmPop';
 import SelectBox from '@/domains/shared/select-box/SelectBox';
 
 import Spinner from '@/shared/components/spinner/Spinner';
 import LikeBtn from '@/domains/community/components/like/LikeBtn';
 import Share from '@/domains/shared/share/Share';
 import Keep from '@/domains/shared/keep/Keep';
+import ConfirmModal from '@/shared/components/modalPop/ConfirmModal';
 
 function Page() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -129,7 +129,7 @@ function Page() {
             <div>모달팝업 내용</div>
           </ModalLayout>
 
-          <ConfirmPop
+          <ConfirmModal
             open={isConfirmOpen}
             onClose={() => setConfirmOpen(false)}
             title="Confirm제목"

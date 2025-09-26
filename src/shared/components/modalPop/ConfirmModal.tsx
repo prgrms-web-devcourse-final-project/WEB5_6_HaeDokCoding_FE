@@ -9,7 +9,7 @@ interface Props {
   description?: React.ReactNode;
   children?: React.ReactNode;
 }
-function ConfirmPop({ ref, open, onClose, title, description, children }: Props) {
+function ConfirmModal({ ref, open, onClose, title, description, children }: Props) {
   return (
     <ModalLayout
       ref={ref}
@@ -33,4 +33,4 @@ function ConfirmPop({ ref, open, onClose, title, description, children }: Props)
     </ModalLayout>
   );
 }
-export default ConfirmPop;
+export default ConfirmModal;
