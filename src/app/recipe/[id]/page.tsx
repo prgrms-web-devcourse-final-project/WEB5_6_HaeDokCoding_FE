@@ -1,7 +1,6 @@
 import DetailMain from '@/domains/recipe/details/DetailMain';
 import StarBg from '@/shared/components/starBg/StarBg';
 
-
 function page() {
   return (
     <div className="w-full relative">

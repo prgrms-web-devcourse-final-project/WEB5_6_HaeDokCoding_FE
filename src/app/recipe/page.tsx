@@ -1,6 +1,5 @@
 import PageHeader from '@/shared/components/pageHeader/PageHeader';
 import { Metadata } from 'next';
-import Glass from '@/shared/assets/images/recipe_page_header.webp';
 import SelectBox from '@/shared/components/InputBox/SelectBox';
 import Input from '@/shared/components/InputBox/Input';
 
@@ -16,11 +15,7 @@ function Page() {
   return (
     <div className="w-full">
       <section>
-        <PageHeader
-          src={Glass}
-          title="Cocktail Recipes"
-          description="다양하고 재밌는 칵테일 레시피"
-        />
+        <PageHeader title="Cocktail Recipes" description="다양하고 재밌는 칵테일 레시피" />
       </section>
       <div className="page-layout max-w-1224 mt-6">
         <section className="flex flex-col-reverse items-start gap-6 md:flex-row md:justify-between md:items-center ">
