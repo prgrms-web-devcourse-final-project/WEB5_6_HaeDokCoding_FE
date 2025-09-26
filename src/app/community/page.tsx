@@ -1,4 +1,3 @@
-
 import CommunityFilter from '@/domains/community/main/CommunityFilter';
 import CommunityTab from '@/domains/community/main/CommunityTab';
 import PostCard from '@/domains/community/main/PostCard';
