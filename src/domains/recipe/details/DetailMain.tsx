@@ -6,9 +6,8 @@ import DetailsHeader from './DetailsHeader';
 import SsuryShake from '@/shared/assets/ssury/ssury_make.webp';
 import SsuryDrink from '@/shared/assets/ssury/ssury_drink.webp';
 import Image from 'next/image';
+import DetailList from './DetailList';
 
-import 'swiper/css';
-import DetailSwiper from './DetailSwiper';
 
 function DetailMain() {
   return (
@@ -41,7 +40,7 @@ function DetailMain() {
         </div>
 
         <div className="mt-5">
-          <DetailSwiper />
+          <DetailList />
         </div>
       </section>
 
