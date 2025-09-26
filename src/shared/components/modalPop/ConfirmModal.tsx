@@ -8,8 +8,19 @@ interface Props {
   title?: string;
   description?: React.ReactNode;
   children?: React.ReactNode;
+  onConfirm?: () => void;
+  onCancel?: () => void;
 }
-function ConfirmModal({ ref, open, onClose, title, description, children }: Props) {
+function ConfirmModal({
+  ref,
+  open,
+  onClose,
+  title,
+  description,
+  children,
+  onConfirm,
+  onCancel,
+}: Props) {
   return (
     <ModalLayout
       ref={ref}
@@ -20,10 +31,25 @@ function ConfirmModal({ ref, open, onClose, title, description, children }: Prop
       description={description}
       buttons={
         <>
-          <Button type="button" size="sm">
+          <Button
+            type="button"
+            size="sm"
+            onClick={() => {
+              onCancel?.();
+              onClose();
+            }}
+          >
             취소
           </Button>
-          <Button type="button" size="sm" color="purple">
+          <Button
+            type="button"
+            size="sm"
+            color="purple"
+            onClick={() => {
+              onConfirm?.();
+              onClose();
+            }}
+          >
             확인
           </Button>
         </>
