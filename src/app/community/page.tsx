@@ -3,7 +3,6 @@ import CommunityTab from '@/shared/components/community/CommunityTab';
 import PostCard from '@/shared/components/community/PostCard';
 import WriteBtn from '@/shared/components/community/WriteBtn';
 import PageHeader from '@/shared/components/pageHeader/PageHeader';
-import headerImg from '@/shared/assets/images/community_page_header.webp';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -14,7 +13,7 @@ export const metadata: Metadata = {
 function Page() {
   return (
     <div className="w-full">
-      <PageHeader src={headerImg} title="Community" description="칵테일에 관한 모든 이야기" />
+      <PageHeader title="Community" description="칵테일에 관한 모든 이야기" />
       <div className="page-layout max-w-1024">
         <div className="mt-3 mb-10 flex flex-col gap-8 ">
           <section aria-labelledby="community-heading">
