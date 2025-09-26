@@ -8,7 +8,7 @@ import PageHeader from '@/domains/shared/pageHeader/PageHeader';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '커뮤니티',
+  title: 'SSOUL | 커뮤니티',
   description: '칵테일에 관한 모든 이야기',
 };
 
