@@ -1,6 +1,6 @@
 'use client';
 
-import SelectBox from '@/shared/components/InputBox/SelectBox';
+import SelectBox from '@/domains/shared/select-box/SelectBox';
 
 const selectOption = [
   {
