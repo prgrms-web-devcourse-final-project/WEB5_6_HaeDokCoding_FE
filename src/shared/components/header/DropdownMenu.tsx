@@ -1,3 +1,5 @@
+'use client';
+
 import { navItem } from '@/shared/utills/navigation';
 import Image from 'next/image';
 import Close from '@/shared/assets/icons/close_32.svg';
