@@ -1,5 +1,5 @@
-import EditDelete from '../../community/detail/EditDelete';
-import Profile from '../../community/detail/Profile';
+import EditDelete from '@/domains/community/detail/EditDelete';
+import Profile from '@/domains/community/detail/Profile';
 
 function CommentTitle() {
   return (
