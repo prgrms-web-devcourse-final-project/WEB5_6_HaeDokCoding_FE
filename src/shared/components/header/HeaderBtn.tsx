@@ -4,8 +4,8 @@ import SignOut from '@/shared/assets/icons/sign_out_24.svg';
 import SignIn from '@/shared/assets/icons/sign_in_24.svg';
 import { useRouter } from 'next/navigation';
 import tw from '@/shared/utills/tw';
-import { useAuthStore } from '@/shared/@store/auth';
-import { setPreLoginPath } from '../auth/utils/setPreLoginPath';
+import { useAuthStore } from '@/domains/shared/store/auth';
+import { setPreLoginPath } from '@/domains/shared/auth/utils/setPreLoginPath';
 
 type RouterType = ReturnType<typeof useRouter>;
 

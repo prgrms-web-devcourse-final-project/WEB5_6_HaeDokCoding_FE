@@ -8,9 +8,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { useAuthStore } from '@/shared/@store/auth';
+
 import { createPortal } from 'react-dom';
-import { setPreLoginPath } from '../auth/utils/setPreLoginPath';
+import { useAuthStore } from '@/domains/shared/store/auth';
+import { setPreLoginPath } from '@/domains/shared/auth/utils/setPreLoginPath';
 
 interface Props {
   isClicked: boolean;
