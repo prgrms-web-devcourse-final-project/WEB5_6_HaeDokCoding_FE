@@ -1,6 +1,6 @@
 import PageHeader from '@/shared/components/pageHeader/PageHeader';
 import { Metadata } from 'next';
-import SelectBox from '@/shared/components/InputBox/SelectBox';
+import SelectBox from '@/domains/shared/select-box/SelectBox';
 import Input from '@/shared/components/InputBox/Input';
 
 import Accordion from '../../domains/recipe/components/main/Accordion';
