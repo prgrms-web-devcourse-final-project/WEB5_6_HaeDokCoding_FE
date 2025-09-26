@@ -3,7 +3,7 @@ import CommunityTab from '@/domains/community/main/CommunityTab';
 import PostCard from '@/domains/community/main/PostCard';
 import WriteBtn from '@/domains/community/main/WriteBtn';
 
-import PageHeader from '@/domains/shared/pageHeader/PageHeader';
+import PageHeader from '@/domains/shared/components/page-header/PageHeader';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

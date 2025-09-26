@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
-import SelectBox from '@/domains/shared/select-box/SelectBox';
-import Input from '@/shared/components/InputBox/Input';
+import SelectBox from '@/domains/shared/components/select-box/SelectBox';
+import Input from '@/shared/components/Input-box/Input';
 
 import Accordion from '../../domains/recipe/components/main/Accordion';
 import CocktailList from '@/domains/recipe/CocktailList';
-import PageHeader from '@/domains/shared/pageHeader/PageHeader';
+import PageHeader from '@/domains/shared/components/page-header/PageHeader';
 
 export const metadata: Metadata = {
   title: 'SSOUL | 칵테일레시피',

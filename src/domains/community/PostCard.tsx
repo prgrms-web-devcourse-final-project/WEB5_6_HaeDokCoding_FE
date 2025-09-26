@@ -2,7 +2,7 @@ import Image from 'next/image';
 import prePost from '@/shared/assets/images/prepost_img.webp';
 
 import PostInfo from './PostInfo';
-import Label from '../shared/label/Label';
+import Label from '../shared/components/label/Label';
 
 function PostCard({ label }: { label: string }) {
   return (
