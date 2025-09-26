@@ -1,5 +1,5 @@
 import Button from '@/shared/components/button/Button';
-import Input from '../../../InputBox/Input';
+import Input from '@/shared/components/InputBox/Input';
 
 function DetailComment() {
   return (

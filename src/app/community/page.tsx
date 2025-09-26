@@ -1,8 +1,8 @@
-import CommunityFilter from '@/shared/components/community/CommunityFilter';
-import CommunityTab from '@/shared/components/community/CommunityTab';
-import PostCard from '@/shared/components/community/PostCard';
-import WriteBtn from '@/shared/components/community/WriteBtn';
-import PageHeader from '@/shared/components/pageHeader/PageHeader';
+import CommunityFilter from '@/domains/community/CommunityFilter';
+import CommunityTab from '@/domains/community/CommunityTab';
+import PostCard from '@/domains/community/PostCard';
+import WriteBtn from '@/domains/community/WriteBtn';
+import PageHeader from '@/domains/shared/pageHeader/PageHeader';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

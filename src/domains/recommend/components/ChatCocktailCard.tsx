@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Dummy from '@/shared/assets/images/dummy/exampleCocktail.png';
 import Link from 'next/link';
-import Keep from '@/shared/components/keep/Keep';
+import Keep from '@/domains/shared/keep/Keep';
 
 function ChatCocktailCard() {
   return (

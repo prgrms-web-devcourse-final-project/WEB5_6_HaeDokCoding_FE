@@ -1,4 +1,4 @@
-import LoginRedirectHandler from '@/shared/components/auth/LoginRedirectHandler';
+import LoginRedirectHandler from '@/domains/shared/auth/LoginRedirectHandler';
 
 function Page() {
   return <LoginRedirectHandler />;
