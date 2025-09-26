@@ -6,7 +6,7 @@ import Close from '@/shared/assets/icons/close_32.svg';
 import User from '@/shared/assets/icons/user_24.svg';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useAuthStore } from '@/shared/@store/auth';
 import { createPortal } from 'react-dom';
@@ -24,8 +24,13 @@ function DropdownMenu({ isClicked, setIsClicked, visible, setVisible }: Props) {
   const menuRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<(HTMLSpanElement | null)[]>([]);
   const tlRef = useRef<GSAPTimeline | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   const { isLoggedIn, logout } = useAuthStore();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!menuRef.current) return;
@@ -57,6 +62,8 @@ function DropdownMenu({ isClicked, setIsClicked, visible, setVisible }: Props) {
       // tl.kill();
     };
   }, [isClicked]);
+
+  if (!mounted) return null;
 
   // const handleMouseEnter = (index: number) => {
   //   const el = textRef.current[index];
