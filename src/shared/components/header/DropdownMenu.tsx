@@ -65,26 +65,6 @@ function DropdownMenu({ isClicked, setIsClicked, visible, setVisible }: Props) {
 
   if (!mounted) return null;
 
-  // const handleMouseEnter = (index: number) => {
-  //   const el = textRef.current[index];
-  //   if (!el) return;
-  //   gsap.to(el, {
-  //     y: -5,
-  //     duration: 0.3,
-  //     ease: 'power1.out',
-  //   });
-  // };
-
-  // const handleMouseLeave = (index: number) => {
-  //   const el = textRef.current[index];
-  //   if (!el) return;
-  //   gsap.to(el, {
-  //     y: 0,
-  //     duration: 0.3,
-  //     ease: 'power1.out',
-  //   });
-  // };
-
   return createPortal(
     <nav
       className={`w-full h-full z-1000 bg-secondary absolute top-0 left-0 px-[12px] font-serif block sm:hidden ${visible ? 'block' : 'hidden'} `}
@@ -121,8 +101,6 @@ function DropdownMenu({ isClicked, setIsClicked, visible, setVisible }: Props) {
                 ref={(el) => {
                   textRef.current[idx] = el;
                 }}
-                // onMouseEnter={() => handleMouseEnter(idx)}
-                // onMouseLeave={() => handleMouseLeave(idx)}
               >
                 {label}
               </span>
