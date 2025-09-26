@@ -1,4 +1,4 @@
-import StarBg from '../starBg/StarBg';
+import StarBg from '../star-bg/StarBg';
 
 interface Props {
   title: string;

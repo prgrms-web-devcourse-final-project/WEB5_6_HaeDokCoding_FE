@@ -1,6 +1,6 @@
-import Share from '@/domains/shared/share/Share';
+import Share from '@/domains/shared/components/share/Share';
 import BackBtn from '../components/details/BackBtn';
-import Keep from '@/domains/shared/keep/Keep';
+import Keep from '@/domains/shared/components/keep/Keep';
 
 function DetailsHeader() {
   return (

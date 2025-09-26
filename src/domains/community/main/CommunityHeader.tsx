@@ -1,4 +1,4 @@
-import PageHeader from '../../shared/pageHeader/PageHeader';
+import PageHeader from '../../shared/components/page-header/PageHeader';
 
 function CommunityHeader() {
   return (

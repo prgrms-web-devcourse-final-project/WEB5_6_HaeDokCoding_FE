@@ -1,4 +1,4 @@
-import ConfirmModal from '@/shared/components/modalPop/ConfirmModal';
+import ConfirmModal from '@/shared/components/modal-pop/ConfirmModal';
 
 interface Props {
   open: boolean;

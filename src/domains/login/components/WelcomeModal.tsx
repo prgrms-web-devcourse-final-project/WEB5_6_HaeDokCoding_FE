@@ -3,7 +3,7 @@
 import Image from 'next/image';
 
 import Button from '@/shared/components/button/Button';
-import ModalLayout from '@/shared/components/modalPop/ModalLayout';
+import ModalLayout from '@/shared/components/modal-pop/ModalLayout';
 import Ssury from '@/shared/assets/ssury/ssury_jump.webp';
 import { useRouter } from 'next/navigation';
 

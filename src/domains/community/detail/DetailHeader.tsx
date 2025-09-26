@@ -1,4 +1,4 @@
-import Label from '@/domains/shared/label/Label';
+import Label from '@/domains/shared/components/label/Label';
 import EditDelete from './EditDelete';
 
 function DetailHeader() {
