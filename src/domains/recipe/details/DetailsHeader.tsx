@@ -7,7 +7,7 @@ function DetailsHeader() {
     <div className="mt-4 flex items-center justify-between ">
       <BackBtn />
       <div className="flex items-center gap-3">
-        <Share />
+        <Share size="sm" />
         <Keep />
       </div>
     </div>
