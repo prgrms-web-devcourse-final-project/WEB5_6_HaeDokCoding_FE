@@ -6,15 +6,13 @@ import DetailsHeader from './DetailsHeader';
 import SsuryShake from '@/shared/assets/ssury/ssury_make.webp';
 import SsuryDrink from '@/shared/assets/ssury/ssury_drink.webp';
 import Image from 'next/image';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { A11y, Keyboard, Pagination } from 'swiper/modules';
-import 'swiper/css';
 
-import DetailRecommendList from './DetailRecommendList';
+import 'swiper/css';
+import DetailSwiper from './DetailSwiper';
 
 function DetailMain() {
   return (
-    <div className="max-w-1024 page-layout">
+    <div className="max-w-1024 page-layout py-12">
       <DetailsHeader />
 
       <article className="flex flex-col items-center mt-4 lg:mt-0">
@@ -43,38 +41,7 @@ function DetailMain() {
         </div>
 
         <div className="mt-5">
-          <Swiper
-            slidesPerView={3}
-            spaceBetween={30}
-            pagination={{
-              clickable: true,
-            }}
-            a11y={{
-              enabled: true,
-              prevSlideMessage: '이전 슬라이드',
-              nextSlideMessage: '다음 슬라이드',
-              firstSlideMessage: '첫 번째 슬라이드입니다',
-              lastSlideMessage: '마지막 슬라이드입니다',
-              paginationBulletMessage: '슬라이드 {{index}} 보기',
-            }}
-            aria-roledescription="carousel"
-            keyboard={{ enabled: true, onlyInViewport: true }}
-            modules={[Pagination, A11y, Keyboard]}
-            className="mySwiper"
-          >
-            <SwiperSlide>
-              <DetailRecommendList />
-            </SwiperSlide>
-            <SwiperSlide>
-              <DetailRecommendList />
-            </SwiperSlide>
-            <SwiperSlide>
-              <DetailRecommendList />
-            </SwiperSlide>
-            <SwiperSlide>
-              <DetailRecommendList />
-            </SwiperSlide>
-          </Swiper>
+          <DetailSwiper />
         </div>
       </section>
 
