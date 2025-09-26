@@ -1,7 +1,9 @@
+
 import Image from 'next/image';
 import Short from '@/shared/assets/icons/short_36.svg';
 import Example from '@/shared/assets/images/dummy/exampleCocktail.png';
 import Label from '@/shared/components/label/Label';
+
 
 function DetailItem() {
   return (
