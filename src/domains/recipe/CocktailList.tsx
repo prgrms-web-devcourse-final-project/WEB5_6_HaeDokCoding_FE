@@ -13,7 +13,13 @@ function CocktailList() {
   //   }, []);
 
   return (
-    <ul className="grid gap-8 justify-items-center grid-cols-1 md:grid-cols-3 lg:grid-cols-4 ">
+    <ul
+      className="
+    grid gap-8
+    grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4
+    justify-items-center sm:justify-items-stretch
+  "
+    >
       {/* {
         data.map(({ cocktailImgUrl, cocktailId, cocktailName }) => (
           <li key={cocktailId}>
@@ -21,13 +27,19 @@ function CocktailList() {
           </li>
         ))
       } */}
+      <li className="w-full min-w-0 max-w-[320px] sm:max-w-none mx-auto sm:mx-0">
+        <CocktailCard />
+      </li>
+      <li className="w-full min-w-0 max-w-[320px] sm:max-w-none mx-auto sm:mx-0">
+        <CocktailCard />
+      </li>{' '}
+      <li className="w-full min-w-0 max-w-[320px] sm:max-w-none mx-auto sm:mx-0">
+        <CocktailCard />
+      </li>{' '}
+      <li className="w-full min-w-0 max-w-[320px] sm:max-w-none mx-auto sm:mx-0">
+        <CocktailCard />
+      </li>
 
-      <CocktailCard />
-      <CocktailCard />
-      <CocktailCard />
-      <CocktailCard />
-      <CocktailCard />
-      <CocktailCard />
     </ul>
   );
 }

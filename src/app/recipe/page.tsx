@@ -6,6 +6,8 @@ import Accordion from '../../domains/recipe/components/main/Accordion';
 import CocktailList from '@/domains/recipe/CocktailList';
 import PageHeader from '@/domains/shared/pageHeader/PageHeader';
 
+
+
 export const metadata: Metadata = {
   title: 'SSOUL | 칵테일레시피',
   description: '칵테일 레시피가 궁금하신 분들을 위한 레시피 페이지',
