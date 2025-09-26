@@ -4,6 +4,9 @@ import DetailsHeader from './DetailsHeader';
 import SsuryShake from '@/shared/assets/ssury/ssury_make.webp';
 import SsuryDrink from '@/shared/assets/ssury/ssury_drink.webp';
 import Image from 'next/image';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css/pagination';
+import DetailRecommendList from './DetailRecommendList';
 
 function DetailMain() {
   return (
@@ -33,7 +36,26 @@ function DetailMain() {
             <h3 className="text-3xl font-bold">추천리스트</h3>
           </div>
         </div>
-        {/* 여기에 컴포넌트 */}
+
+        <Swiper
+          slidesPerView={3}
+          spaceBetween={30}
+          pagination={{
+            clickable: true,
+          }}
+          modules={[Pagination]}
+          className="mySwiper"
+        >
+          <SwiperSlide>Slide 1</SwiperSlide>
+          <SwiperSlide>Slide 2</SwiperSlide>
+          <SwiperSlide>Slide 3</SwiperSlide>
+          <SwiperSlide>Slide 4</SwiperSlide>
+          <SwiperSlide>Slide 5</SwiperSlide>
+          <SwiperSlide>Slide 6</SwiperSlide>
+          <SwiperSlide>Slide 7</SwiperSlide>
+          <SwiperSlide>Slide 8</SwiperSlide>
+          <SwiperSlide>Slide 9</SwiperSlide>
+        </Swiper>
       </section>
 
       <section>{/* 여기에 댓글 컴포넌트 */}</section>
