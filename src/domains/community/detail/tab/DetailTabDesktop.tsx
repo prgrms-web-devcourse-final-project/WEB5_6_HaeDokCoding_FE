@@ -1,8 +1,8 @@
 'use client';
 
-import Share from "@/domains/shared/share/Share";
-import CommentBtn from "../../components/comment/CommentBtn";
-import LikeBtn from "../../components/like/LikeBtn";
+import Share from '@/domains/shared/share/Share';
+import CommentBtn from '../../components/comment/CommentBtn';
+import LikeBtn from '../../components/like/LikeBtn';
 
 function DetailTabDesktop() {
   return (
