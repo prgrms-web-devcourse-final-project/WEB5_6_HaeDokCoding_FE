@@ -1,13 +1,7 @@
 'use client';
 
-<<<<<<< HEAD
 import Share from '@/domains/shared/share/Share';
 import LikeBtn from '../../components/like/LikeBtn';
-=======
-import CommentBtn from '@/shared/components/comment/CommentBtn';
-import LikeBtn from '@/shared/components/like/LikeBtn';
-import Share from '@/shared/components/share/Share';
->>>>>>> 5754d67 ([docs] 폴더정리)
 
 function DetailTabMobile() {
   return (
