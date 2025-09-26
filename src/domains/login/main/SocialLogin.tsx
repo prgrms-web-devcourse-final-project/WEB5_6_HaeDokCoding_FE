@@ -4,7 +4,7 @@ import Naver from '@/shared/assets/icons/naver.svg';
 import Kakao from '@/shared/assets/icons/kakao.svg';
 import Google from '@/shared/assets/icons/google.svg';
 import tw from '@/shared/utills/tw';
-import { useAuthStore } from '@/shared/@store/auth';
+import { useAuthStore } from '@/domains/shared/store/auth';
 
 function SocialLogin() {
   const { loginWithProvider } = useAuthStore();

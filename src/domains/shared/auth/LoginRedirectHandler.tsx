@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useAuthStore } from '@/shared/@store/auth';
+
 import { customToast } from '@/shared/components/toast/CustomToastUtils';
-import Spinner from '../spinner/Spinner';
+
 import WelcomeModal from './WelcomeModal';
 import { getCookie, removeCookie } from './utils/cookie';
+import { useAuthStore } from '../store/auth';
+import Spinner from '@/shared/components/spinner/Spinner';
 
 function LoginRedirectHandler() {
   const pathname = usePathname();

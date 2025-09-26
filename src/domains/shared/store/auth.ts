@@ -1,5 +1,5 @@
+import { customToast } from '@/shared/components/toast/CustomToastUtils';
 import { create } from 'zustand';
-import { customToast } from '../components/toast/CustomToastUtils';
 
 interface User {
   id: string;
