@@ -27,6 +27,8 @@ function LoginRedirectHandler() {
           router.replace('/login');
         })
         .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
     }
   }, [user, loading, updateUser, router]);
 
@@ -34,14 +36,19 @@ function LoginRedirectHandler() {
     if (!user || loading) return;
 
     const preLoginPath = getCookie('preLoginPath') || '/';
-    console.log(preLoginPath);
+    // 로그인 상태인데 이전 페이지가 /login이면 메인으로 이동
+    if (user && preLoginPath === '/login') {
+      router.replace('/');
+      removeCookie('preLoginPath');
+      return;
+    }
 
     // 첫 유저일 경우 모달 오픈
-    if (pathname.startsWith('/login/first-user')) {
+    if (pathname.startsWith('/login/user/first-user')) {
       setWelcomeModalOpen(true);
     }
     // 기존 유저일 경우
-    else if (pathname.startsWith('/login/success')) {
+    else if (pathname.startsWith('/login/user/success')) {
       customToast.success(`${user.nickname}님 \n 로그인 성공 🎉`);
       router.replace(preLoginPath);
       removeCookie('preLoginPath');

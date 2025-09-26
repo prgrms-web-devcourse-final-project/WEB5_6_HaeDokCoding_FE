@@ -92,7 +92,7 @@ function ModalLayout({
           {buttons && (
             <div
               className={tw(
-                'flex flex-col md:flex-row justify-center gap-2 pt-8',
+                'flex flex-col sm:flex-row justify-center gap-2 pt-8',
                 size === 'sm' && 'pt-5'
               )}
             >

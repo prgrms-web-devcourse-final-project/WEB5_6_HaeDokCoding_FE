@@ -3,9 +3,18 @@ import ConfirmModal from '@/shared/components/modalPop/ConfirmModal';
 interface Props {
   open: boolean;
   onClose: () => void;
+  onLogout: () => void;
 }
 
-function LoginConfirm({ open, onClose }: Props) {
-  return <ConfirmModal open={open} onClose={onClose} description="정말 로그아웃 하시겠어요?" />;
+function LogoutConfirm({ open, onClose, onLogout }: Props) {
+  return (
+    <ConfirmModal
+      open={open}
+      onClose={onClose}
+      description="정말 로그아웃 하시겠어요?"
+      onConfirm={onLogout}
+      onCancel={onClose}
+    />
+  );
 }
-export default LoginConfirm;
+export default LogoutConfirm;
