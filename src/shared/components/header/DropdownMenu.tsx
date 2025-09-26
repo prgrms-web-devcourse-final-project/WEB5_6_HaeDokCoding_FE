@@ -64,7 +64,7 @@ function DropdownMenu({ isClicked, setIsClicked, visible, setVisible }: Props) {
     return () => {
       // tl.kill();
     };
-  }, [isClicked]);
+  }, [isClicked, setVisible]);
 
   if (!mounted) return null;
 
