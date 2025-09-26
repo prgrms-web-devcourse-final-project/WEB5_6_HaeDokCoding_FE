@@ -1,10 +1,9 @@
-import CommentList from '@/domains/community/detail/comment/CommentList';
-import DetailComment from '@/domains/community/detail/comment/DetailComment';
 import DetailContent from '@/domains/community/detail/DetailContent';
 import DetailHeader from '@/domains/community/detail/DetailHeader';
 import DetailTitle from '@/domains/community/detail/DetailTitle';
 import DetailTabDesktop from '@/domains/community/detail/tab/DetailTabDesktop';
 import StarBg from '@/domains/shared/components/star-bg/StarBg';
+import Comment from '@/domains/shared/components/comment/Comment';
 
 function Page() {
   return (
@@ -14,10 +13,7 @@ function Page() {
         <DetailHeader />
         <DetailTitle />
         <DetailContent />
-        <section className="mb-10">
-          <DetailComment />
-          <CommentList />
-        </section>
+        <Comment />
       </article>
       <div className="hidden md:block">
         <DetailTabDesktop />
