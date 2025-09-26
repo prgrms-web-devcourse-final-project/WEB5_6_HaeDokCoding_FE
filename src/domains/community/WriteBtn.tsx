@@ -2,7 +2,7 @@
 
 import Write from '@/shared/assets/icons/edit_28.svg';
 import { useRouter } from 'next/navigation';
-import Button from '../button/Button';
+import Button from '@/shared/components/button/Button';
 
 type RouterType = ReturnType<typeof useRouter>;
 
