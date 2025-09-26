@@ -8,7 +8,6 @@ import { customToast } from '@/shared/components/toast/CustomToastUtils';
 import ModalLayout from '@/shared/components/modalPop/ModalLayout';
 import ConfirmPop from '@/shared/components/modalPop/ConfirmPop';
 import SelectBox from '@/domains/shared/select-box/SelectBox';
-
 import Spinner from '@/shared/components/spinner/Spinner';
 import LikeBtn from '@/domains/community/components/like/LikeBtn';
 import Share from '@/domains/shared/share/Share';

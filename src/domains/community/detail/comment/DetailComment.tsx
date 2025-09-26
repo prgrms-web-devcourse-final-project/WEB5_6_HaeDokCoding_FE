@@ -1,5 +1,9 @@
 import Button from '@/shared/components/button/Button';
+<<<<<<< HEAD
 import Input from '@/shared/components/InputBox/Input';
+=======
+import Input from '../../../InputBox/Input';
+>>>>>>> 5754d67 ([docs] 폴더정리)
 
 function DetailComment() {
   return (
