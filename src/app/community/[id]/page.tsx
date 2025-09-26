@@ -1,10 +1,10 @@
-import CommentList from '@/domains/community/detail/comment/CommentList';
-import DetailComment from '@/domains/community/detail/comment/DetailComment';
+import CommentList from '@/domains/shared/comment/CommentList';
 import DetailContent from '@/domains/community/detail/DetailContent';
 import DetailHeader from '@/domains/community/detail/DetailHeader';
 import DetailTitle from '@/domains/community/detail/DetailTitle';
 import DetailTabDesktop from '@/domains/community/detail/tab/DetailTabDesktop';
 import StarBg from '@/domains/shared/starBg/StarBg';
+import CommentHeader from '@/domains/shared/comment/CommentHeader';
 
 function Page() {
   return (
@@ -14,8 +14,8 @@ function Page() {
         <DetailHeader />
         <DetailTitle />
         <DetailContent />
-        <section className="mb-10">
-          <DetailComment />
+        <section className="mb-10 border-t-1 border-gray ">
+          <CommentHeader />
           <CommentList />
         </section>
       </article>

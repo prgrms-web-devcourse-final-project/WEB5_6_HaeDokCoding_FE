@@ -8,7 +8,7 @@ import DetailTabMobile from './tab/DetailTabMobile';
 
 function DetailContent() {
   return (
-    <section className="mt-5 flex flex-col items-start w-full gap-3 border-b-1 border-gray pb-10 relative">
+    <section className="mt-5 flex flex-col items-start w-full gap-3 pb-10 relative">
       <figure className="flex items-center justify-center sm:justify-start mb-5 max-h-120">
         <Image src={prePost} alt="더미 이미지" height={600} className="sm:w-auto w-full" />
       </figure>

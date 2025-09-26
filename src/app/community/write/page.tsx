@@ -1,3 +1,4 @@
+import Category from '@/domains/community/write/Category';
 import CompleteBtn from '@/domains/community/write/CompleteBtn';
 import FormTitle from '@/domains/community/write/FormTitle';
 import WriteForm from '@/domains/community/write/WriteForm';
@@ -11,6 +12,7 @@ function Page() {
         <CompleteBtn />
         <section>
           <FormTitle />
+          <Category />
           <WriteForm />
         </section>
       </div>
