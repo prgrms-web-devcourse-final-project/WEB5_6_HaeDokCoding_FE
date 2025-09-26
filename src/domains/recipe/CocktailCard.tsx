@@ -1,7 +1,9 @@
 import { StaticImageData } from 'next/image';
 import Image from 'next/image';
 import Img from '@/shared/assets/images/dummy/exampleCocktail.png';
-import Keep from '../shared/components/keep/Keep';
+import Keep from '../shared/keep/Keep';
+import Label from '../shared/label/Label';
+
 
 interface Props {
   src?: StaticImageData;
@@ -11,11 +13,14 @@ interface Props {
 
 function CocktailCard({ src, name, nameKo }: Props) {
   return (
-    <li className="flex flex-col gap-4">
-      <div className="w-80 h-75 rounded-xl overflow-hidden md:w-62.5  relative">
+    <div className="flex flex-col gap-4">
+      <div className="aspect-[3/4] rounded-xl overflow-hidden max-w-80 max-h-75 md:max-w-62.5 relative">
         {/* <Image src={src} alt={name} fill /> */}
-        <Image src={Img} alt="" fill className="object-cover " />
-        <div className="flex justify-between absolute left-0 top-0">
+        <Image src={Img} alt="" fill className="w-full object-cover h-auto " />
+        <div className="flex w-full px-2 justify-between items-center absolute left-0 top-0">
+          <div>
+            <Label title="레시피" />
+          </div>
           <Keep />
         </div>
       </div>
@@ -23,7 +28,7 @@ function CocktailCard({ src, name, nameKo }: Props) {
         <h3 className="text-2xl">Old Fassioned</h3>
         <p className="text-base">올드 패션드</p>
       </div>
-    </li>
+    </div>
   );
 }
 export default CocktailCard;

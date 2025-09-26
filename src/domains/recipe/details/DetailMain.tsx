@@ -1,13 +1,17 @@
+'use client';
+
 import DetailItem from './DetailItem';
 import DetailRecipe from './DetailRecipe';
 import DetailsHeader from './DetailsHeader';
 import SsuryShake from '@/shared/assets/ssury/ssury_make.webp';
 import SsuryDrink from '@/shared/assets/ssury/ssury_drink.webp';
 import Image from 'next/image';
+import DetailList from './DetailList';
+
 
 function DetailMain() {
   return (
-    <div className="max-w-1024 page-layout">
+    <div className="max-w-1024 page-layout py-12">
       <DetailsHeader />
 
       <article className="flex flex-col items-center mt-4 lg:mt-0">
@@ -26,14 +30,18 @@ function DetailMain() {
         <DetailRecipe />
       </section>
 
-      <section className="mt-20">
+      <section className="mt-20" aria-labelledby="옆으로 슬라이드되는 리스트">
+        <h2 className="sr-only">추천 칵테일 리스트</h2>
         <div className="border-b-1 h-18 border-white">
           <div className="flex items-center gap-3">
             <Image src={SsuryDrink} alt="" width="48" height="48" />
             <h3 className="text-3xl font-bold">추천리스트</h3>
           </div>
         </div>
-        {/* 여기에 컴포넌트 */}
+
+        <div className="mt-5">
+          <DetailList />
+        </div>
       </section>
 
       <section>{/* 여기에 댓글 컴포넌트 */}</section>
