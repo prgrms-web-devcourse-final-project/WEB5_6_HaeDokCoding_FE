@@ -1,6 +1,6 @@
 'use client';
 
-import Share from '@/domains/shared/share/Share';
+import Share from '@/domains/shared/components/share/Share';
 import CommentBtn from '../../components/comment/CommentBtn';
 import LikeBtn from '../../components/like/LikeBtn';
 
