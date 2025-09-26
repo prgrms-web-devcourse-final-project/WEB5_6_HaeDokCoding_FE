@@ -1,10 +1,6 @@
 import Image from 'next/image';
 import prePost from '@/shared/assets/images/prepost_img.webp';
-<<<<<<< HEAD
-import PostInfo from '../main/PostInfo';
-=======
 import PostInfo from '../PostInfo';
->>>>>>> 5754d67 ([docs] 폴더정리)
 import CocktailTag from './CocktailTag';
 import DetailTabMobile from './tab/DetailTabMobile';
 
