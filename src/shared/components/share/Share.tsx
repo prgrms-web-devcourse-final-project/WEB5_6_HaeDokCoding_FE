@@ -15,8 +15,8 @@ function Share({ onClick, variants = 'default', title, content }: Props) {
       type="button"
       className={
         variants == 'community'
-          ? 'w-13.75 h-13.75 flex-center border-1 border-white rounded-full'
-          : ''
+          ? 'w-13.75 h-13.75 flex-center border-1 border-white rounded-full z-1'
+          : 'z-1'
       }
       aria-label="공유하기"
       onClick={onClick}
