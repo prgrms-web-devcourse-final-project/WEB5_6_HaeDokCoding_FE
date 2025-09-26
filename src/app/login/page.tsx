@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import type { Metadata } from 'next';
 import loginBg from '@/shared/assets/images/login_bg.webp';
-import SocialLogin from './SocialLogin';
+import SocialLogin from '@/domains/login/main/SocialLogin';
 
 export const metadata: Metadata = {
   title: 'SSOUL | 로그인',

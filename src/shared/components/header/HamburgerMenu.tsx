@@ -4,9 +4,13 @@ import DropdownMenu from './DropdownMenu';
 
 function HamburgerMenu() {
   const [isClicked, setIsClicked] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (!visible) {
+      setVisible(true);
+    }
     setIsClicked(true);
   };
 
@@ -22,7 +26,12 @@ function HamburgerMenu() {
       >
         <Menu />
       </button>
-      {isClicked && <DropdownMenu isClicked={isClicked} setIsClicked={setIsClicked} />}
+      <DropdownMenu
+        isClicked={isClicked}
+        setIsClicked={setIsClicked}
+        visible={visible}
+        setVisible={setVisible}
+      />
     </>
   );
 }

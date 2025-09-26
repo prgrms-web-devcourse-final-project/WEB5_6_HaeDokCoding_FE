@@ -1,7 +1,7 @@
+import ChatForm from '@/domains/recommend/components/ChatForm';
+import MyChat from '@/domains/recommend/components/MyChat';
+import SsuryChat from '@/domains/recommend/components/SsuryChat';
 import Bg from '@/shared/assets/images/recommend_bg.webp';
-import ChatForm from './components/ChatForm';
-import SsuryChat from './components/SsuryChat';
-import MyChat from './components/MyChat';
 
 function Page() {
   return (

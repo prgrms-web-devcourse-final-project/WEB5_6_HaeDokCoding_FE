@@ -39,4 +39,19 @@
   .max-w-full {
     @apply max-w-full;
   }
+
+  /* 스크롤 */
+  .scroll-up {
+    transform: translateY(0);
+  }
+  .scroll-down {
+    transform: translateY(-100%);
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }

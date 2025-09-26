@@ -6,12 +6,13 @@ import Input from '@/shared/components/InputBox/Input';
 import { useState } from 'react';
 import { customToast } from '@/shared/components/toast/CustomToastUtils';
 import ModalLayout from '@/shared/components/modalPop/ModalLayout';
-import ConfirmPop from '@/shared/components/modalPop/ConfirmPop';
-import SelectBox from '@/shared/components/InputBox/SelectBox';
-import LikeBtn from '@/shared/components/like/LikeBtn';
-import Share from '@/shared/components/share/Share';
-import Keep from '@/shared/components/keep/Keep';
+import SelectBox from '@/domains/shared/select-box/SelectBox';
+
 import Spinner from '@/shared/components/spinner/Spinner';
+import LikeBtn from '@/domains/community/components/like/LikeBtn';
+import Share from '@/domains/shared/share/Share';
+import Keep from '@/domains/shared/keep/Keep';
+import ConfirmModal from '@/shared/components/modalPop/ConfirmModal';
 
 function Page() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -128,7 +129,7 @@ function Page() {
             <div>모달팝업 내용</div>
           </ModalLayout>
 
-          <ConfirmPop
+          <ConfirmModal
             open={isConfirmOpen}
             onClose={() => setConfirmOpen(false)}
             title="Confirm제목"
@@ -141,12 +142,12 @@ function Page() {
         <h2 className="text-2xl font-semibold pb-1">Icons</h2>
         <div className="space-y-2">
           <h3 className="text-lg font-medium border-b pb-1">like</h3>
-          <LikeBtn />
+          <LikeBtn size="md" />
         </div>
         <div className="space-y-2">
           <h3 className="text-lg font-medium border-b pb-1">Share</h3>
-          <Share />
-          <Share variants="community" />
+          <Share size="md" />
+          <Share variants="community" size="md" />
         </div>
         <div className="space-y-2">
           <h3 className="text-lg font-medium border-b pb-1">keep</h3>
