@@ -8,7 +8,6 @@ import SsuryDrink from '@/shared/assets/ssury/ssury_drink.webp';
 import Image from 'next/image';
 import DetailList from './DetailList';
 
-
 function DetailMain() {
   return (
     <div className="max-w-1024 page-layout py-12">
