@@ -1,8 +1,8 @@
-import DetailRecommendList from "./DetailRecommendList";
+import DetailRecommendList from './DetailRecommendList';
 
 function DetailList() {
   return (
-    <ul className='flex justify-between gap-2'>
+    <ul className="flex justify-between gap-2">
       <li>
         <DetailRecommendList />
       </li>

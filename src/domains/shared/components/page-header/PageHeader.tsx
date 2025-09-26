@@ -1,3 +1,4 @@
+'use client';
 import StarBg from '../star-bg/StarBg';
 
 interface Props {
