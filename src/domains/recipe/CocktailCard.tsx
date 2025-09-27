@@ -1,9 +1,8 @@
 import { StaticImageData } from 'next/image';
 import Image from 'next/image';
 import Img from '@/shared/assets/images/dummy/exampleCocktail.png';
-import Keep from '../shared/keep/Keep';
-import Label from '../shared/label/Label';
-
+import Label from '../shared/components/label/Label';
+import Keep from '../shared/components/keep/Keep';
 
 interface Props {
   src?: StaticImageData;
@@ -14,7 +13,7 @@ interface Props {
 function CocktailCard({ src, name, nameKo }: Props) {
   return (
     <div className="flex flex-col gap-4">
-      <div className="aspect-[3/4] rounded-xl overflow-hidden max-w-80 max-h-75 md:max-w-62.5 relative">
+      <div className="aspect-[3/4] rounded-xl overflow-hidden max-w-80 max-h-75 lg:max-w-62.5 relative">
         {/* <Image src={src} alt={name} fill /> */}
         <Image src={Img} alt="" fill className="w-full object-cover h-auto " />
         <div className="flex w-full px-2 justify-between items-center absolute left-0 top-0">
