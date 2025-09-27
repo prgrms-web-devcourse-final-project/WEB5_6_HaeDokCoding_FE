@@ -49,7 +49,7 @@ function MyNav() {
           </li>
         ))}
       </ul>
-      {isClick == 0 && <TextButton className="self-end">전체삭제</TextButton>}
+      {(isClick == 0 || isClick == 2) && <TextButton className="self-end">전체삭제</TextButton>}
       {isClick == 1 && (
         <ul className="flex gap-5 w-full justify-center">
           {ActiveTab.map(({ id, title }, i) => (
