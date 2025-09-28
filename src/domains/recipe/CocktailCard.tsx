@@ -8,20 +8,23 @@ interface Props {
   src?: StaticImageData;
   name?: string;
   nameKo?: string;
+  type?: 'default' | 'myBar';
 }
 
-function CocktailCard({ src, name, nameKo }: Props) {
+function CocktailCard({ src, name, nameKo, type = 'default' }: Props) {
   return (
     <div className="flex flex-col gap-4">
       <div className="aspect-[3/4] rounded-xl overflow-hidden max-w-80 max-h-75 lg:max-w-62.5 relative">
         {/* <Image src={src} alt={name} fill /> */}
         <Image src={Img} alt="" fill className="w-full object-cover h-auto " />
-        <div className="flex w-full px-2 justify-between items-center absolute left-0 top-0">
-          <div>
-            <Label title="레시피" />
+        {type == 'default' && (
+          <div className="flex w-full px-2 justify-between items-center absolute left-0 top-0">
+            <div>
+              <Label title="레시피" />
+            </div>
+            <Keep />
           </div>
-          <Keep />
-        </div>
+        )}
       </div>
       <div className="flex flex-col gap-1 font-bold font-serif">
         <h3 className="text-2xl">Old Fassioned</h3>

@@ -1,4 +1,3 @@
-
 import CommentList from '@/domains/shared/components/comment/CommentList';
 function MyComment() {
   return (
@@ -7,4 +6,4 @@ function MyComment() {
     </div>
   );
 }
-export default MyComment
+export default MyComment;

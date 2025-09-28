@@ -59,7 +59,7 @@ export const TabClass = cva(
   }
 );
 
-function TabMenu({ title, setIsClick, isClick, role,type, index,id, ...rest }: Props) {
+function TabMenu({ title, setIsClick, isClick, role, type, index, id, ...rest }: Props) {
   const isActive = index == isClick;
 
   return (

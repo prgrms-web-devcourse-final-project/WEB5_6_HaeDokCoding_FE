@@ -1,4 +1,4 @@
-import Alarm from '../components/Alarm';
+import Alarm from '@/domains/mypage/components/Alarm';
 
 function MyAlarm() {
   return (

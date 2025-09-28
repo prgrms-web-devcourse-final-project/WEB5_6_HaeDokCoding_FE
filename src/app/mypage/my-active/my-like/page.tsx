@@ -1,4 +1,4 @@
-import PostCard from "@/domains/community/main/PostCard"
+import PostCard from '@/domains/community/main/PostCard';
 
 function MyPost() {
   return (
@@ -9,4 +9,4 @@ function MyPost() {
     </div>
   );
 }
-export default MyPost
+export default MyPost;
