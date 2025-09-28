@@ -1,3 +1,4 @@
+'use client';
 import tw from '@/shared/utills/tw';
 import { cva } from 'class-variance-authority';
 import { HTMLInputTypeAttribute, Ref } from 'react';
