@@ -15,6 +15,7 @@ function SkeletonRecipe() {
       </div>
 
       {/* 리스트 자리 */}
+
       <ul
         className=" 
         mt-5 
@@ -37,6 +38,7 @@ function SkeletonRecipe() {
           </li>
         ))}
       </ul>
+
     </div>
   );
 }

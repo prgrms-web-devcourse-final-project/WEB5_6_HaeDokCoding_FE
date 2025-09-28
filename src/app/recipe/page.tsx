@@ -35,6 +35,7 @@ function Page() {
               <p>n개</p>
               <SelectBox option={['', '댓글순', '인기순']} title="최신순" />
             </div>
+
             <section className="mt-5 ">
               <CocktailList />
             </section>
