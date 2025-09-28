@@ -48,7 +48,7 @@ function SsuryChat() {
             alt="쑤리아바타"
             width={80}
             height={80}
-            className="object-cover w-15 h-15"
+            className="object-cover w-15 h-15 md:w-20 md:h-20"
           />
         </div>
         <strong>쑤리</strong>

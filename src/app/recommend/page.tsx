@@ -2,6 +2,7 @@ import ChatForm from '@/domains/recommend/components/ChatForm';
 import MyChat from '@/domains/recommend/components/MyChat';
 import SsuryChat from '@/domains/recommend/components/SsuryChat';
 import Bg from '@/shared/assets/images/recommend_bg.webp';
+
 function Page() {
   return (
     <div
