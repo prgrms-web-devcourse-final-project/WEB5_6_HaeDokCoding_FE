@@ -23,7 +23,7 @@ export const TabClass = cva(
     variants: {
       type: {
         default: 'px-3 py-0.5 inset-ring-1 rounded-full ',
-        underLine: 'text-lg border-b-2 border-transparent',
+        underLine: 'text-base md:text-lg border-b-2 border-transparent',
       },
       isActive: {
         true: '',

@@ -25,7 +25,7 @@ function MySetting() {
         </div>
       </div>
 
-      <div className="flex justify-between items-end">
+      <div className="flex justify-between items-center">
         <TextButton onClick={() => setIsQuit(!isQuit)}>회원탈퇴</TextButton>
         <div className="flex gap-2">
           <Button color="purple">취소</Button>
