@@ -7,7 +7,12 @@ interface Props {
   isClick: number;
   setIsClick: Dispatch<SetStateAction<number>>;
   index: number;
+  role: string;
   type?: 'default' | 'underLine';
+  id: string;
+  tabIndex: number;
+  'aria-selected'?: 'true' | 'false';
+  'aria-controls'?: string;
 }
 
 export const TabClass = cva(
@@ -54,11 +59,13 @@ export const TabClass = cva(
   }
 );
 
-function TabMenu({ title, setIsClick, isClick, type, index, ...rest }: Props) {
+function TabMenu({ title, setIsClick, isClick, role,type, index,id, ...rest }: Props) {
   const isActive = index == isClick;
 
   return (
     <button
+      id={id}
+      role={role}
       className={tw(TabClass({ type, isActive }))}
       onClick={() => setIsClick(index)}
       {...rest}
