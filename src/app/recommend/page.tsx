@@ -2,11 +2,10 @@ import ChatForm from '@/domains/recommend/components/ChatForm';
 import MyChat from '@/domains/recommend/components/MyChat';
 import SsuryChat from '@/domains/recommend/components/SsuryChat';
 import Bg from '@/shared/assets/images/recommend_bg.webp';
-
 function Page() {
   return (
     <div
-      className="relative bg-repeat-y bg-top bg-auto w-full flex"
+      className="relative bg-repeat bg-auto w-full flex"
       style={{ backgroundImage: `url(${Bg.src})` }}
     >
       <h1 className="sr-only">취향추천하기</h1>
