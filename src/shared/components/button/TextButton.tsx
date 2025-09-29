@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { Ref } from 'react';
 
 interface Props {
@@ -5,26 +6,34 @@ interface Props {
   type?: 'button' | 'submit';
   ref?: Ref<HTMLButtonElement | null>;
   children: React.ReactNode;
+  onClick?: () => void;
   className?: string;
 }
 
 const SIZE = {
-  default: 'text-base flex flex-col justfy-center',
-  sm: 'text-sm flex flex-col justfy-center',
+  default:
+    'text-base flex flex-col justfy-center duration-200 border-b-1 border-gray hover:border-white hover:text-white',
+  sm: 'text-sm flex flex-col justfy-center duration-200 border-b-1 border-gray hover:border-white hover:text-whites',
 };
 
 function TextButton({
   type = 'button',
   children,
   className,
+  onClick,
   ref,
   size = 'default',
   ...rest
 }: Props) {
   return (
-    <button className={`${SIZE[size]} ${className}`} type={type} ref={ref} {...rest}>
+    <button
+      className={clsx(`text-gray hover:text-white,${SIZE[size]} ${className}`)}
+      type={type}
+      ref={ref}
+      {...rest}
+      onClick={onClick}
+    >
       {children}
-      <div className="h-[1px] w-100% bg-white"></div>
     </button>
   );
 }

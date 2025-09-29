@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Short from '@/shared/assets/icons/short_36.svg';
 import Example from '@/shared/assets/images/dummy/exampleCocktail.png';
 import Label from '@/domains/shared/components/label/Label';
+import AbvGraph from '@/domains/shared/components/abv-graph/AbvGraph';
 
 function DetailItem() {
   return (
@@ -47,13 +48,7 @@ function DetailItem() {
           </dt>
           <dd className="flex gap-3 items-center">
             <p className="text-xs">24.8%</p>
-            <div className="w-49 h-3 rounded-full overflow-hidden border-[0.5px] border-gray relative">
-              <div
-                className="absolute top-0 left-0 w-10  h-3 
-                  bg-linear-to-r from-[#FFCA8D] to-[#FA2424]
-                  "
-              ></div>
-            </div>
+            <AbvGraph />
           </dd>
         </div>
         <div className="flex items-center gap-3">

@@ -1,5 +1,4 @@
 'use client';
-
 import Lottie from 'lottie-react';
 import spinner from '@/shared/assets/lottie/loading.json';
 
