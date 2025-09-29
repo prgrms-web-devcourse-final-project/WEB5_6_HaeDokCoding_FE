@@ -31,7 +31,7 @@ function MyProfile() {
           </ul>
         </div>
         <aside className="flex flex-col gap-2 md:pt-3">
-          <MyAbv/>
+          <MyAbv />
           <AbvGraph />
         </aside>
       </header>

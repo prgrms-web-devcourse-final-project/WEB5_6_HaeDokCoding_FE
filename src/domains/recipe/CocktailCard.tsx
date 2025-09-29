@@ -27,7 +27,7 @@ function CocktailCard({ src, name, nameKo, type = 'default' }: Props) {
         )}
       </div>
       <div className="flex flex-col gap-1 font-bold font-serif">
-        <h3 className={type =="myBar" ? 'text-xl sm:text-2xl' : "text-2xl"}>Old Fassioned</h3>
+        <h3 className={type == 'myBar' ? 'text-xl sm:text-2xl' : 'text-2xl'}>Old Fassioned</h3>
         <p className="text-base">올드 패션드</p>
       </div>
     </div>

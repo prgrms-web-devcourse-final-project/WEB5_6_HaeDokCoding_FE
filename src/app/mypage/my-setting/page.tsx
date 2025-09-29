@@ -6,7 +6,6 @@ import { useState } from 'react';
 import EditNickName from '@/domains/mypage/components/EditNickName';
 import WithdrawModal from '@/domains/mypage/components/WithdrawModal';
 
-
 function MySetting() {
   const [isOpen, setIsOpen] = useState(false);
   const [isQuit, setIsQuit] = useState(false);
@@ -25,7 +24,7 @@ function MySetting() {
           <ToggleBtn />
         </div>
       </div>
-        <div className="p-4 bg-gray w-20 flex-center items-center">ToopTip</div>
+      <div className="p-4 bg-gray w-20 flex-center items-center">ToopTip</div>
       <div className="flex justify-between items-center">
         <TextButton onClick={() => setIsQuit(!isQuit)}>회원탈퇴</TextButton>
 

@@ -1,13 +1,12 @@
-'use client'
+'use client';
 import Help from '@/shared/assets/icons/help_24.svg';
 import ToolTip from '@/shared/components/tool-tip/ToolTip';
 import useMedia from '../hook/useMedia';
 
 function MyAbv() {
-
-  const isMd = useMedia('(min-width:768px)')
-  const position = isMd ? 'leftTop' : 'top'
-  const viewPoint = isMd ? 'web' : 'mobileLongText'
+  const isMd = useMedia('(min-width:768px)');
+  const position = isMd ? 'leftTop' : 'top';
+  const viewPoint = isMd ? 'web' : 'mobileLongText';
 
   return (
     <dl className="flex justify-between items-center text-gray-dark gap-2">
@@ -15,7 +14,7 @@ function MyAbv() {
         <p className="text-base md:text-lg text-bold">나의 알콜 도수</p>
 
         <ToolTip
-          message='알콜도수는 SSOUL 커뮤니티 활동을 종합해서 만든 활동 지표예요.'
+          message="알콜도수는 SSOUL 커뮤니티 활동을 종합해서 만든 활동 지표예요."
           viewPoint={viewPoint}
           position={position}
         >

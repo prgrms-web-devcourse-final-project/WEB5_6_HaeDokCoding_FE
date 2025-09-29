@@ -1,4 +1,3 @@
-
 import CrySsury from '@/shared/assets/ssury/ssury_cry.webp';
 import Image from 'next/image';
 import ModalLayout from '@/shared/components/modal-pop/ModalLayout';
@@ -15,9 +14,7 @@ function WithdrawModal({ open, onClose }: Props) {
       description="정말로 SSOUL을 탈퇴하실건가요?"
       open={open}
       onClose={onClose}
-      buttons={
-       <Button>탈퇴하기</Button>  
-      }
+      buttons={<Button>탈퇴하기</Button>}
     >
       <div className="flex-center">
         <div className="relative w-32 h-32" aria-hidden>
