@@ -55,24 +55,44 @@
     display: none;
   }
 
-  @media (min-width: 768px) {
-    .custom-scrollbar {
-      scrollbar-width: thin; /* Firefox 전용 */
-      scrollbar-color: #7a7581; /* Firefox 전용: thumb track */
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg) scale(1);
     }
 
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 4px;
-      border-radius: 8px;
+    10% {
+      transform: rotate(-25deg) scaleX(1.05) scaleY(0.95);
+    }
+    20% {
+      transform: rotate(25deg) scaleX(0.95) scaleY(1.05);
+    }
+    30% {
+      transform: rotate(-20deg) scaleX(1.05) scaleY(0.95);
+    }
+    40% {
+      transform: rotate(20deg) scaleX(0.95) scaleY(1.05);
     }
 
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background-color: #ab98c2;
-      border-radius: 8px;
+    50% {
+      transform: translateY(-10px) rotate(360deg) scale(1);
     }
 
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background-color: aliceblue;
+    60% {
+      transform: translateY(-25px) rotate(20deg) scaleX(1.05) scaleY(0.95);
     }
+    70% {
+      transform: translateY(-10px) rotate(-25deg) scaleX(0.95) scaleY(1.05);
+    }
+    80% {
+      transform: translateY(-5px) rotate(20deg) scaleX(1.02) scaleY(0.98);
+    }
+    90% {
+      transform: translateY(-2px) rotate(-15deg) scale(1);
+    }
+  }
+
+  .animate-shake {
+    animation: shake 3s ease-in-out infinite;
   }
 }

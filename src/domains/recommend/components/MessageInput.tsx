@@ -9,7 +9,7 @@ interface Props {
   onSubmit: (message: string) => void;
 }
 
-function ChatForm({ onSubmit }: Props) {
+function MessageInput({ onSubmit }: Props) {
   const [value, setValue] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -51,4 +51,4 @@ function ChatForm({ onSubmit }: Props) {
     </div>
   );
 }
-export default ChatForm;
+export default MessageInput;
