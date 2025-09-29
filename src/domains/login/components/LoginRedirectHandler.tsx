@@ -2,7 +2,7 @@
 
 import Spinner from '@/shared/components/spinner/Spinner';
 import WelcomeModal from '@/domains/login/components/WelcomeModal';
-import { useLoginRedirect } from '../hooks/useAuthHooks';
+import { useLoginRedirect } from '../hook/useAuthHooks';
 
 function LoginRedirectHandler() {
   const { loading, welcomeModalOpen, handleCloseWelcomeModal, user } = useLoginRedirect();

@@ -1,5 +1,5 @@
 import ConfirmModal from '@/shared/components/modal-pop/ConfirmModal';
-import { useLogout } from '../hooks/useAuthHooks';
+import { useLogout } from '../hook/useAuthHooks';
 
 interface Props {
   open: boolean;
