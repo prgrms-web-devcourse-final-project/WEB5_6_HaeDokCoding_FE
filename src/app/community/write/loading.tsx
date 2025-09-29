@@ -12,7 +12,7 @@ function loading() {
           <div className="h-13 w-full mt-10 bg-gray rounded-md" />
           {/* Category 자리 */}
           <div className="flex justify-end mt-10">
-            <div className="h-10 w-full max-w-[110px] bg-gray-300 rounded-md" />
+            <div className="h-10 w-full max-w-[110px] bg-gray rounded-md" />
           </div>
           {/* WriteForm 자리 (큰 박스) */}
           <div className="h-60 w-full bg-gray rounded-md" />
