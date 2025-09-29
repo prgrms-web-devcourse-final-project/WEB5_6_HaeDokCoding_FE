@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { customToast } from '@/shared/components/toast/CustomToastUtils';
 import { getCookie, removeCookie } from '@/domains/shared/auth/utils/cookie';
 import { useAuthStore } from '@/domains/shared/store/auth';
 import Spinner from '@/shared/components/spinner/Spinner';
 import WelcomeModal from '@/domains/login/components/WelcomeModal';
+import { useToast } from '@/shared/components/toast/useToast';
 
 function LoginRedirectHandler() {
   const pathname = usePathname();
@@ -14,6 +14,7 @@ function LoginRedirectHandler() {
   const { user, updateUser } = useAuthStore();
   const [loading, setLoading] = useState(true);
   const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
+  const { toastSuccess } = useToast();
 
   useEffect(() => {
     if (!user && loading) {
@@ -49,11 +50,11 @@ function LoginRedirectHandler() {
     }
     // 기존 유저일 경우
     else if (pathname.startsWith('/login/user/success')) {
-      customToast.success(`${user.nickname}님 \n 로그인 성공 🎉`);
+      toastSuccess(`${user.nickname}님 \n 로그인 성공 🎉`);
       router.replace(preLoginPath);
       removeCookie('preLoginPath');
     }
-  }, [pathname, user, loading, router]);
+  }, [pathname, user, loading, router, toastSuccess]);
 
   // 환영 모달 닫힐 때 이동
   const handleCloseWelcomeModal = () => {

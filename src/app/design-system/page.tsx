@@ -4,7 +4,6 @@ import Button from '@/shared/components/button/Button';
 import TextButton from '@/shared/components/button/TextButton';
 import Input from '@/shared/components/Input-box/Input';
 import { useState } from 'react';
-import { customToast } from '@/shared/components/toast/CustomToastUtils';
 import ModalLayout from '@/shared/components/modal-pop/ModalLayout';
 import SelectBox from '@/domains/shared/components/select-box/SelectBox';
 
@@ -13,10 +12,12 @@ import LikeBtn from '@/domains/community/components/like/LikeBtn';
 import Share from '@/domains/shared/components/share/Share';
 import Keep from '@/domains/shared/components/keep/Keep';
 import ConfirmModal from '@/shared/components/modal-pop/ConfirmModal';
+import { useToast } from '@/shared/components/toast/useToast';
 
 function Page() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isConfirmOpen, setConfirmOpen] = useState(false);
+  const { toastSuccess, toastInfo, toastError } = useToast();
 
   return (
     <div className="p-6 space-y-6 bg-primary">
@@ -78,21 +79,21 @@ function Page() {
           <div className="flex gap-2">
             <button
               className="px-4 py-2 bg-green-300 text-black rounded"
-              onClick={() => customToast.success('성공 메시지 \n 줄바꿈은 이렇게')}
+              onClick={() => toastSuccess('성공 메시지 \n 줄바꿈은 이렇게')}
             >
               Success Toast
             </button>
 
             <button
               className="px-4 py-2 bg-yellow-100 text-black rounded"
-              onClick={() => customToast.info('정보 메시지')}
+              onClick={() => toastInfo('정보 메시지')}
             >
               Info Toast
             </button>
 
             <button
               className="px-4 py-2 bg-red-200 text-black rounded"
-              onClick={() => customToast.error('오류 메시지')}
+              onClick={() => toastError('오류 메시지')}
             >
               Error Toast
             </button>
