@@ -3,14 +3,21 @@
 import Send from '@/shared/assets/icons/send_36.svg';
 import { handleTextareaSubmit } from '@/shared/utills/handleTextareaSubmit';
 import { resizeTextarea } from '@/shared/utills/textareaResize';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
-function ChatForm() {
+interface Props {
+  onSubmit: (message: string) => void;
+}
+
+function ChatForm({ onSubmit }: Props) {
+  const [value, setValue] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const onSubmit = (value: string) => {
-    console.log('전송:', value);
-    // API 호출 또는 부모 컴포넌트로 메시지 전달
+  const handleSubmit = (value: string) => {
+    const text = value.trim();
+    if (!text) return;
+    onSubmit(text);
+    setValue('');
   };
 
   return (
@@ -22,7 +29,9 @@ function ChatForm() {
           </label>
           <textarea
             ref={textareaRef}
-            onKeyDown={(e) => handleTextareaSubmit(e, textareaRef.current, onSubmit)}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            onKeyDown={(e) => handleTextareaSubmit(e, textareaRef.current, handleSubmit)}
             id="chatInput"
             name="chatInput"
             onInput={(e) => resizeTextarea(e.currentTarget)}
@@ -31,7 +40,7 @@ function ChatForm() {
           />
           <button
             type="button"
-            onClick={() => handleTextareaSubmit(null, textareaRef.current, onSubmit)}
+            onClick={() => handleTextareaSubmit(null, textareaRef.current, handleSubmit)}
             aria-label="보내기"
             className="flex-center w-10 md:w-13 h-10 md:h-13 rounded-xl border-1 border-white bg-secondary/20"
           >
