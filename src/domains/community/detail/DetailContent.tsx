@@ -2,7 +2,6 @@ import Image from 'next/image';
 import prePost from '@/shared/assets/images/prepost_img.webp';
 
 import PostInfo from '../components/post-info/PostInfo';
-
 import CocktailTag from '../components/tag/CocktailTag';
 import DetailTabMobile from './tab/DetailTabMobile';
 
