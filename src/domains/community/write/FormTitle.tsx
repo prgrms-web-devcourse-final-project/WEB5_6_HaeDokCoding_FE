@@ -1,6 +1,5 @@
 function FormTitle() {
   return (
-<<<<<<< HEAD
     <div className="w-full h-[69px] relative border-b-1 border-gray mt-5 flex items-end pb-2">
       <label id="title-label" htmlFor="writingTitle" className="sr-only">
         글 제목
@@ -16,12 +15,6 @@ function FormTitle() {
       <span id="title-count" aria-live="polite" className="text-gray ">
         0/20
       </span>
-=======
-    <div>
-      <label htmlFor="writingTitle"></label>
-      <input placeholder="제목을 입력해주세요." name="글쓰기제목" id="writingTitle" />
-      <span>0/20</span>
->>>>>>> dev
     </div>
   );
 }
