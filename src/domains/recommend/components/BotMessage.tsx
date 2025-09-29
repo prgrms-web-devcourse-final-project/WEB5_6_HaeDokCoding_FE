@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import BotCocktailCard from './BotCocktailCard';
 import BotOptions from './BotOptions';
+import TypingIndicator from './TypingIndicator';
 
 interface Message {
   id: string;
@@ -82,6 +83,7 @@ function BotMessage() {
             )}
           </div>
         ))}
+        <TypingIndicator />
       </div>
     </article>
   );
