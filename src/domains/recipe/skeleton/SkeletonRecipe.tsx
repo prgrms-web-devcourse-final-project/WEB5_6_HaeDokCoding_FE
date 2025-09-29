@@ -15,17 +15,30 @@ function SkeletonRecipe() {
       </div>
 
       {/* 리스트 자리 */}
-      <div className="mt-5 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+
+      <ul
+        className=" 
+        mt-5 
+        place-content-between
+    grid gap-8
+    grid-cols-1 
+    sm:justify-items-stretch
+    sm:[grid-template-columns:repeat(2,minmax(0,320px))]  
+    md:[grid-template-columns:repeat(3,minmax(0,250px))]  
+     lg:[grid-template-columns:repeat(4,minmax(0,250px))]
+    "
+      >
         {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className="w-full min-w-0">
-            <div className="relative w-full aspect-[3/4] max-w-80 max-h-75 md:max-w-62.5 overflow-hidden rounded-xl bg-gray animate-pulse" />
-            <div className="mt-4.5 space-y-2">
+          <li key={i} className="w-full min-w-0 justify-self-center sm:justify-self-stretch">
+            <div className="relative w-full max-w-[320px] mx-auto aspect-[3/4] overflow-hidden rounded-xl bg-gray animate-pulse md:w-62.5 h-75" />
+            <div className="mt-4.5 space-y-2 max-w-[320px] mx-auto">
               <div className="h-5 w-2/3 bg-gray rounded animate-pulse" />
               <div className="h-4 w-1/2 bg-gray rounded animate-pulse" />
             </div>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
+
     </div>
   );
 }
