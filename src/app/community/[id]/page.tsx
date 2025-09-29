@@ -3,7 +3,6 @@ import DetailHeader from '@/domains/community/detail/DetailHeader';
 import DetailTitle from '@/domains/community/detail/DetailTitle';
 import DetailTabDesktop from '@/domains/community/detail/tab/DetailTabDesktop';
 import Comment from '@/domains/shared/components/comment/Comment';
-import CommentList from '@/domains/shared/components/comment/CommentList';
 import StarBg from '@/domains/shared/components/star-bg/StarBg';
 
 function Page() {
