@@ -33,10 +33,7 @@ function Page() {
 
           <section aria-label="게시물 목록">
             <CommunityFilter />
-            <PostCard label="레시피" />
-            <PostCard label="팁" />
-            <PostCard label="질문" />
-            <PostCard label="자유" />
+            <PostCard />
           </section>
         </div>
       </div>
