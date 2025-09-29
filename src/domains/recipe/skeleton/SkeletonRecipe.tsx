@@ -38,7 +38,6 @@ function SkeletonRecipe() {
           </li>
         ))}
       </ul>
-
     </div>
   );
 }
