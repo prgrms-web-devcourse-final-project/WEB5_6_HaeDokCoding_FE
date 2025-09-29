@@ -8,6 +8,7 @@ interface Props {
 function StarBg({ className, children }: Props) {
   return (
     <div
+      aria-hidden
       className={`w-full bg-repeat ${className}`}
       style={{
         backgroundImage: `url(${Star.src})`,

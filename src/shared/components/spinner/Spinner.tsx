@@ -14,7 +14,7 @@ function Spinner() {
       role="status"
       aria-label="페이지를 불러오는 중입니다"
     >
-      <Lottie animationData={spinner} style={style} aria-hidden />
+      <Lottie animationData={spinner} style={style} aria-hidden loop={true} />
     </div>
   );
 }

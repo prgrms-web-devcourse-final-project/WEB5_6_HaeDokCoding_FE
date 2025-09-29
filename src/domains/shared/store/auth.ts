@@ -1,4 +1,3 @@
-import { customToast } from '@/shared/components/toast/CustomToastUtils';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -36,7 +35,6 @@ export const useAuthStore = create<AuthState>()(
       setUser: (user, token) => {
         const updatedUser = { ...user, abv_degree: 5.0 };
         set({ user: updatedUser, accessToken: token, isLoggedIn: true });
-        customToast.success(`${updatedUser.nickname}님, 로그인 성공 🎉`);
       },
 
       logout: async () => {
@@ -45,10 +43,8 @@ export const useAuthStore = create<AuthState>()(
             method: 'POST',
             credentials: 'include',
           });
-          customToast.success('로그아웃 되었습니다.');
           set({ user: null, accessToken: null, isLoggedIn: false });
         } catch (err) {
-          customToast.error('로그아웃 실패❌ \n 다시 시도해주세요.');
           console.error('로그아웃 실패', err);
         }
       },

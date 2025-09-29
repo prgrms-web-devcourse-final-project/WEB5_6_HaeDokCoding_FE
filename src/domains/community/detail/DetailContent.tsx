@@ -1,9 +1,8 @@
 import Image from 'next/image';
 import prePost from '@/shared/assets/images/prepost_img.webp';
 
-import PostInfo from '../main/PostInfo';
-
-import CocktailTag from './CocktailTag';
+import PostInfo from '../components/post-info/PostInfo';
+import CocktailTag from '../components/tag/CocktailTag';
 import DetailTabMobile from './tab/DetailTabMobile';
 
 function DetailContent() {
@@ -34,7 +33,7 @@ function DetailContent() {
         <br />
         <p>글입니다다다다다다다다다다다다</p>
       </article>
-      <CocktailTag />
+      <CocktailTag use="detail" />
       <PostInfo />
       <div className="block md:hidden mt-2">
         <DetailTabMobile />

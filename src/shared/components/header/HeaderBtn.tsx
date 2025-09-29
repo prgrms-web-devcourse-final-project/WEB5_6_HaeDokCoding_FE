@@ -10,7 +10,7 @@ import { useState } from 'react';
 import LogoutConfirm from '@/domains/login/components/LogoutConfirm';
 
 function HeaderBtn({ pathname }: { pathname: string }) {
-  const { isLoggedIn, logout } = useAuthStore();
+  const { isLoggedIn } = useAuthStore();
   const router = useRouter();
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
@@ -78,14 +78,7 @@ function HeaderBtn({ pathname }: { pathname: string }) {
 
       {/* 로그아웃 확인 모달 */}
       {logoutModalOpen && (
-        <LogoutConfirm
-          open={logoutModalOpen}
-          onClose={() => setLogoutModalOpen(false)}
-          onLogout={async () => {
-            await logout();
-            setLogoutModalOpen(false);
-          }}
-        />
+        <LogoutConfirm open={logoutModalOpen} onClose={() => setLogoutModalOpen(false)} />
       )}
     </>
   );

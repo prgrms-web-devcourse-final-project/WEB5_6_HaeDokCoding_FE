@@ -160,15 +160,7 @@ function DropdownMenu({ isClicked, setIsClicked, visible, setVisible }: Props) {
         </div>
       </nav>
       {logoutModalOpen && (
-        <LogoutConfirm
-          open={logoutModalOpen}
-          onClose={() => setLogoutModalOpen(false)}
-          onLogout={async () => {
-            await logout();
-            setLogoutModalOpen(false);
-            setIsClicked(false);
-          }}
-        />
+        <LogoutConfirm open={logoutModalOpen} onClose={() => setLogoutModalOpen(false)} />
       )}
     </>,
     document.body

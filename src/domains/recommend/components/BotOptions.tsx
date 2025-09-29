@@ -9,7 +9,7 @@ interface RadioGroupProps {
   onChange: (value: string) => void;
 }
 
-function ChatRadio({ options, value, onChange }: RadioGroupProps) {
+function BotOptions({ options, value, onChange }: RadioGroupProps) {
   return (
     <div role="radiogroup" className="flex flex-col gap-3 mt-5">
       {options.map((opt) => (
@@ -39,4 +39,4 @@ function ChatRadio({ options, value, onChange }: RadioGroupProps) {
     </div>
   );
 }
-export default ChatRadio;
+export default BotOptions;
