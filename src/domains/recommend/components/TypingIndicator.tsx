@@ -6,7 +6,15 @@ function TypingIndicator() {
     <div className="relative flex items-center w-fit p-3 rounded-2xl rounded-tl-none bg-white text-black overflow-hidden">
       <p className="inline-block animate-fade-in">준비 중…</p>
       <div className="relative w-10 h-10 animate-shake">
-        <Image src={shaker} alt="Cocktail Shaker" fill className="object-contain" priority />
+        <Image
+          src={shaker}
+          alt=""
+          width={40}
+          height={40}
+          className="object-contain"
+          priority
+          aria-hidden
+        />
       </div>
     </div>
   );
