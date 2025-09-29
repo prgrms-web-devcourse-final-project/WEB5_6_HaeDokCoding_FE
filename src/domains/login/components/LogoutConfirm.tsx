@@ -1,5 +1,4 @@
 import ConfirmModal from '@/shared/components/modal-pop/ConfirmModal';
-import { useToast } from '@/shared/components/toast/useToast';
 import { useLogout } from '../hooks/useAuthHooks';
 
 interface Props {

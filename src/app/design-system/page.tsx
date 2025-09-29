@@ -12,7 +12,7 @@ import LikeBtn from '@/domains/community/components/like/LikeBtn';
 import Share from '@/domains/shared/components/share/Share';
 import Keep from '@/domains/shared/components/keep/Keep';
 import ConfirmModal from '@/shared/components/modal-pop/ConfirmModal';
-import { useToast } from '@/shared/components/toast/useToast';
+import { useToast } from '@/shared/hook/useToast';
 
 function Page() {
   const [isModalOpen, setModalOpen] = useState(false);

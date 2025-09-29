@@ -1,9 +1,9 @@
 import { useAuthStore } from '@/domains/shared/store/auth';
-import { useToast } from '@/shared/components/toast/useToast';
 import { useCallback } from 'react';
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { getCookie, removeCookie } from '@/domains/shared/auth/utils/cookie';
+import { useToast } from '@/shared/hook/useToast';
 
 export const useLogout = () => {
   const logout = useAuthStore((state) => state.logout);

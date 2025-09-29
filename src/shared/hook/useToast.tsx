@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import toast from 'react-hot-toast';
-import CustomToast from './CustomToast';
+import CustomToast from '../components/toast/CustomToast';
 
 export const useToast = () => {
   const toastSuccess = useCallback((message: string) => {
