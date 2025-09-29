@@ -7,7 +7,7 @@ function MyProfile() {
   return (
     <section className="h-auto  p-6 bg-white rounded-2xl">
       <header className="flex flex-col gap-8 md:gap-3 md:flex-row md:justify-between ">
-        <div className="flex flex-col pb-4 md:pb-0 border-b-1 border-gray md:border-b-0 md:flex-col gap-6">
+        <div className="flex flex-col pb-4 md:pb-0 md:flex-col gap-6">
           <div className="rounded-full w-17.5 h-17.5 flex items-center gap-2">
             <Image src={Ssury} alt="" />
             <p className="text-gray-dark text-2xl font-bold">UserName</p>
@@ -31,7 +31,7 @@ function MyProfile() {
           </ul>
         </div>
         <aside className="flex flex-col gap-2 md:pt-3">
-          <MyAbv />
+          <MyAbv/>
           <AbvGraph />
         </aside>
       </header>

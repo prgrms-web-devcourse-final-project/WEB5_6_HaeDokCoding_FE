@@ -6,7 +6,7 @@ function Layout({ children }: { children: React.ReactNode }) {
     <div className="max-w-1024 page-layout py-12">
       <MyProfile />
       <MyNav />
-      <div className="mt-10">{children}</div>
+      <div className="mt-5">{children}</div>
     </div>
   );
 }

@@ -18,7 +18,7 @@ function CocktailCard({ src, name, nameKo, type = 'default' }: Props) {
         {/* <Image src={src} alt={name} fill /> */}
         <Image src={Img} alt="" fill className="w-full object-cover h-auto " />
         {type == 'default' && (
-          <div className="flex w-full px-2 justify-between items-center absolute left-0 top-0">
+          <div className="flex w-full pl-4 pr-3 py-1 justify-between items-center absolute left-0 top-0">
             <div>
               <Label title="레시피" />
             </div>
@@ -27,7 +27,7 @@ function CocktailCard({ src, name, nameKo, type = 'default' }: Props) {
         )}
       </div>
       <div className="flex flex-col gap-1 font-bold font-serif">
-        <h3 className="text-2xl">Old Fassioned</h3>
+        <h3 className={type =="myBar" ? 'text-xl sm:text-2xl' : "text-2xl"}>Old Fassioned</h3>
         <p className="text-base">올드 패션드</p>
       </div>
     </div>

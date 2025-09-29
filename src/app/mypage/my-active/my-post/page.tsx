@@ -2,11 +2,17 @@ import PostCard from '@/domains/community/main/PostCard';
 
 function MyPost() {
   return (
-    <div className="mt-5 flex flex-col gap-3">
-      <PostCard label="레시피"></PostCard>
-      <PostCard label="팁"></PostCard>
-      <PostCard label="레시피"></PostCard>
-    </div>
+    <ul>
+      <li>
+        <PostCard label="레시피"></PostCard>
+      </li>
+      <li>
+        <PostCard label="팁"></PostCard>
+      </li>
+      <li>
+        <PostCard label="레시피"></PostCard>
+      </li>
+    </ul>
   );
 }
 export default MyPost;
