@@ -3,8 +3,8 @@
 import Ssury from '@/shared/assets/ssury/ssury_shaker.webp';
 import Image from 'next/image';
 import { useState } from 'react';
-import ChatRadio from './ChatRadio';
-import ChatCocktailCard from './ChatCocktailCard';
+import BotCocktailCard from './BotCocktailCard';
+import BotOptions from './BotOptions';
 
 interface Message {
   id: string;
@@ -12,7 +12,7 @@ interface Message {
   type?: 'radio' | 'text' | 'recommend';
 }
 
-function SsuryChat() {
+function BotMessage() {
   const [selected, setSelected] = useState('option1');
 
   // radio 옵션
@@ -61,13 +61,13 @@ function SsuryChat() {
             {msg.type === 'recommend' ? (
               <ul className="inline-grid grid-cols-1 sm:grid-cols-3 gap-2 justify-start">
                 <li>
-                  <ChatCocktailCard />
+                  <BotCocktailCard />
                 </li>
                 <li>
-                  <ChatCocktailCard />
+                  <BotCocktailCard />
                 </li>
                 <li>
-                  <ChatCocktailCard />
+                  <BotCocktailCard />
                 </li>
               </ul>
             ) : (
@@ -76,7 +76,7 @@ function SsuryChat() {
 
                 {/* radio */}
                 {msg.type === 'radio' && (
-                  <ChatRadio options={options} value={selected} onChange={setSelected} />
+                  <BotOptions options={options} value={selected} onChange={setSelected} />
                 )}
               </div>
             )}
@@ -86,4 +86,4 @@ function SsuryChat() {
     </article>
   );
 }
-export default SsuryChat;
+export default BotMessage;

@@ -12,7 +12,7 @@ interface Props {
 //   { id: '2', sender: 'user', text: '배고파요' },
 // ];
 
-function MyChat({ message }: Props) {
+function UserMessage({ message }: Props) {
   return (
     <article aria-label="내 메시지" className="flex flex-col items-end">
       <header className="w-fit">
@@ -28,4 +28,4 @@ function MyChat({ message }: Props) {
     </article>
   );
 }
-export default MyChat;
+export default UserMessage;
