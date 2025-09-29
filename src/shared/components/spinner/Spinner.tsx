@@ -1,3 +1,5 @@
+'use client';
+
 import Lottie from 'lottie-react';
 import spinner from '@/shared/assets/lottie/loading.json';
 
@@ -13,7 +15,7 @@ function Spinner() {
       role="status"
       aria-label="페이지를 불러오는 중입니다"
     >
-      <Lottie animationData={spinner} style={style} aria-hidden />
+      <Lottie animationData={spinner} style={style} aria-hidden loop={true} />
     </div>
   );
 }

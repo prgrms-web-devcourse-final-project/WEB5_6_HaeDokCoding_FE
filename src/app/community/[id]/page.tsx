@@ -7,9 +7,9 @@ import Comment from '@/domains/shared/components/comment/Comment';
 
 function Page() {
   return (
-    <div className="w-full mb-10 flex relative">
+    <div className="w-full relative">
       <StarBg className="w-full h-32 absolute"></StarBg>
-      <article className="page-layout max-w-824 flex-1 z-5">
+      <article className="page-layout max-w-824 z-5">
         <DetailHeader />
         <DetailTitle />
         <DetailContent />
