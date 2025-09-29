@@ -14,10 +14,12 @@ function CocktailList() {
 
   return (
     <ul
-      className="
+      className=" place-content-between
     grid gap-8
-    grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4
-    justify-items-center sm:justify-items-stretch
+    grid-cols-1 sm:justify-items-stretch
+    sm:[grid-template-columns:repeat(2,minmax(0,320px))]  sm:gap-8    md:[grid-template-columns:repeat(3,minmax(0,250px))]  
+     lg:[grid-template-columns:repeat(4,minmax(0,250px))]
+    
   "
     >
       {/* {
