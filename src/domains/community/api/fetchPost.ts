@@ -13,3 +13,16 @@ export const fetchPost = async (): Promise<Post[] | null> => {
     return null;
   }
 };
+
+export const fetchPostByTab = async (selectedTab: string): Promise<Post[] | null> => {
+  try {
+    const data = await fetchPost();
+    if (!data) return null;
+
+    const filtered = data.filter((post) => post.categoryName === selectedTab);
+    return filtered;
+  } catch (err) {
+    console.error('글 목록 필터링 실패', err);
+    return null;
+  }
+};

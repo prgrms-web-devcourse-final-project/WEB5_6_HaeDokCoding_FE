@@ -1,8 +1,4 @@
-import CommunityFilter from '@/domains/community/main/CommunityFilter';
-import CommunityTab from '@/domains/community/main/CommunityTab';
-import PostCard from '@/domains/community/main/PostCard';
-import WriteBtn from '@/domains/community/main/WriteBtn';
-
+import Community from '@/domains/community/main/Community';
 import PageHeader from '@/domains/shared/components/page-header/PageHeader';
 import { Metadata } from 'next';
 
@@ -22,19 +18,7 @@ function Page() {
               커뮤니티 페이지
             </h1>
           </section>
-
-          <section
-            aria-label="탭과 글쓰기"
-            className="flex justify-between item-center sm:flex-row flex-col gap-4 mt-1"
-          >
-            <CommunityTab />
-            <WriteBtn />
-          </section>
-
-          <section aria-label="게시물 목록">
-            <CommunityFilter />
-            <PostCard />
-          </section>
+          <Community />
         </div>
       </div>
     </div>

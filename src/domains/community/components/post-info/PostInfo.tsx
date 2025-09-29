@@ -1,3 +1,5 @@
+import { elapsedTime } from '@/shared/utills/elapsedTime';
+
 type Props = {
   hasUserName?: boolean;
   userNickName: string;
@@ -24,7 +26,7 @@ function PostInfo({
           <li aria-hidden="true">|</li>
         </>
       )}
-      <li>3분 전</li>
+      <li>{elapsedTime(createdAt)}</li>
       <li aria-hidden="true">|</li>
       <li>조회 {viewCount}</li>
       <li aria-hidden="true">|</li>
