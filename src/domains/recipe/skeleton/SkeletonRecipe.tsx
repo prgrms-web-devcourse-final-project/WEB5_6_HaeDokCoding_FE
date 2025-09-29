@@ -15,6 +15,19 @@ function SkeletonRecipe() {
       </div>
 
       {/* 리스트 자리 */}
+<<<<<<<<< Temporary merge branch 1
+      <div className="mt-5 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div key={i} className="w-full min-w-0">
+            <div className="relative w-full aspect-[3/4] max-w-80 max-h-75 md:max-w-62.5 overflow-hidden rounded-xl bg-gray animate-pulse" />
+            <div className="mt-4.5 space-y-2">
+              <div className="h-5 w-2/3 bg-gray rounded animate-pulse" />
+              <div className="h-4 w-1/2 bg-gray rounded animate-pulse" />
+            </div>
+          </div>
+        ))}
+      </div>
+=========
       <ul
         className=" 
         mt-5 
@@ -37,6 +50,7 @@ function SkeletonRecipe() {
           </li>
         ))}
       </ul>
+>>>>>>>>> Temporary merge branch 2
     </div>
   );
 }
