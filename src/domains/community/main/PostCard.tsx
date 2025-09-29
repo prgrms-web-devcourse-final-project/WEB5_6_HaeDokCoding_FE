@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import prePost from '@/shared/assets/images/prepost_img.webp';
 
-import PostInfo from './PostInfo';
+import PostInfo from '../components/postInfo/PostInfo';
 import Label from '@/domains/shared/components/label/Label';
 
 function PostCard({ label }: { label: string }) {
   return (
-    <article className="pt-[30] pb-3 border-b-1 border-gray-light">
+    <article className="pt-5 pb-3 border-b-1 border-gray-light">
       <Label title={label} />
 
       <section className="flex items-start justify-between mt-3 cursor-pointer" role="link">
