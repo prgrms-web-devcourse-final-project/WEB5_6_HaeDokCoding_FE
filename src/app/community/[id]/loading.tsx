@@ -12,10 +12,7 @@ function loading() {
 
         {/* Content 자리 */}
         <div className="space-y-2 mt-5">
-          <div className="h-6 w-full bg-gray rounded-md" />
-          <div className="h-6 w-5/6 bg-gray rounded-md" />
-          <div className="h-6 w-3/4 bg-gray rounded-md" />
-          <div className="h-6 w-2/3 bg-gray rounded-md" />
+          <div className="h-70 w-full bg-gray rounded-md" />
         </div>
 
         {/* 댓글 */}
