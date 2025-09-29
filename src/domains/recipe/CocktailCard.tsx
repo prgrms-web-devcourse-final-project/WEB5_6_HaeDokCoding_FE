@@ -17,7 +17,7 @@ interface Props {
 
 function CocktailCard({ src, name, nameKo, keep = true, className, textSize1, textSize2 }: Props) {
   return (
-    <li className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4">
       <div
         className={tw(
           `${!className && 'w-80 h-75 md:w-62.5 '}  rounded-xl overflow-hidden relative`,
@@ -27,7 +27,10 @@ function CocktailCard({ src, name, nameKo, keep = true, className, textSize1, te
         {/* <Image src={src} alt={name} fill /> */}
         <Image src={Img} alt="" fill className="object-cover " />
         {keep && (
-          <div className="flex justify-between absolute left-0 top-0">
+          <div className="flex w-full px-2 items-center justify-between absolute left-0 top-0">
+            <div>
+              <Label title="레시피" />
+            </div>
             <Keep />
           </div>
         )}
@@ -36,7 +39,7 @@ function CocktailCard({ src, name, nameKo, keep = true, className, textSize1, te
         <h3 className={tw(`${!textSize1 && 'text-2xl'}`, textSize1)}>Old Fassioned</h3>
         <p className={tw(`${!textSize2 && 'text-base'}`, textSize2)}>올드 패션드</p>
       </div>
-    </li>
+    </div>
   );
 }
 export default CocktailCard;
