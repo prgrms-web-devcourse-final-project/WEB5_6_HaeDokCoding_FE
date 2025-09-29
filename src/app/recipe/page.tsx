@@ -5,6 +5,8 @@ import Input from '@/shared/components/Input-box/Input';
 import Accordion from '../../domains/recipe/components/main/Accordion';
 import CocktailList from '@/domains/recipe/CocktailList';
 import PageHeader from '@/domains/shared/components/page-header/PageHeader';
+import { Suspense } from 'react';
+import SkeletonRecipe from '@/domains/recipe/skeleton/SkeletonRecipe';
 
 export const metadata: Metadata = {
   title: 'SSOUL | 칵테일레시피',
@@ -18,24 +20,27 @@ function Page() {
         <PageHeader title="Cocktail Recipes" description="다양하고 재밌는 칵테일 레시피" />
       </section>
       <div className="page-layout max-w-1224 mt-6">
-        <section className="flex flex-col-reverse items-start gap-6 md:flex-row md:justify-between md:items-center ">
-          <Accordion />
-          <Input
-            placeholder="내용을 입력해 주세요."
-            id="search"
-            variant="search"
-            className="w-full md:max-w-80"
-          />
-        </section>
-        <section>
-          <div className="h-10 flex justify-between items-center mt-3 border-b-1 border-gray-light">
-            <p>n개</p>
-            <SelectBox option={['', '댓글순', '인기순']} title="최신순" />
-          </div>
-          <section className="mt-5">
-            <CocktailList />
+        <Suspense fallback={<SkeletonRecipe />}>
+          <section className="flex flex-col-reverse items-start gap-6 md:flex-row md:justify-between md:items-center ">
+            <Accordion />
+            <Input
+              placeholder="내용을 입력해 주세요."
+              id="search"
+              variant="search"
+              className="w-full md:max-w-80"
+            />
           </section>
-        </section>
+          <section>
+            <div className="h-10 flex justify-between items-center mt-3 border-b-1 border-gray-light">
+              <p>n개</p>
+              <SelectBox option={['', '댓글순', '인기순']} title="최신순" />
+            </div>
+
+            <section className="mt-5 ">
+              <CocktailList />
+            </section>
+          </section>
+        </Suspense>
       </div>
     </div>
   );

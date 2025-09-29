@@ -1,6 +1,7 @@
 import { StaticImageData } from 'next/image';
 import Image from 'next/image';
 import Img from '@/shared/assets/images/dummy/exampleCocktail.png';
+import Label from '../shared/components/label/Label';
 import Keep from '../shared/components/keep/Keep';
 import tw from '@/shared/utills/tw';
 
