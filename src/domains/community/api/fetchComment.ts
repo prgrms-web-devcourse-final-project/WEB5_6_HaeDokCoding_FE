@@ -3,7 +3,7 @@ import { Post } from '../types/post';
 
 export const fetchComment = async (postId: number): Promise<Post[] | null> => {
   try {
-    const res = await fetch(`${getApi}posts/${postId}/comments`, {
+    const res = await fetch(`${getApi}/posts/${postId}/comments`, {
       method: 'GET',
     });
     const data = await res.json();

@@ -37,7 +37,7 @@ function PostCard({ posts, setPosts }: Props) {
 
   return (
     <>
-      {posts &&
+      {posts.length > 0 ? (
         posts.map(
           ({
             postId,
@@ -93,7 +93,10 @@ function PostCard({ posts, setPosts }: Props) {
               </section>
             </article>
           )
-        )}
+        )
+      ) : (
+        <div className="w-full flex items-center justify-center mt-20">작성된 글이 없습니다.</div>
+      )}
     </>
   );
 }

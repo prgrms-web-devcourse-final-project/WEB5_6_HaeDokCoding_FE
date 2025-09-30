@@ -3,7 +3,7 @@ import { Post } from '@/domains/community/types/post';
 
 export const fetchPost = async (): Promise<Post[] | null> => {
   try {
-    const res = await fetch(`${getApi}posts`, {
+    const res = await fetch(`${getApi}/posts`, {
       method: 'GET',
       cache: 'no-store',
     });
