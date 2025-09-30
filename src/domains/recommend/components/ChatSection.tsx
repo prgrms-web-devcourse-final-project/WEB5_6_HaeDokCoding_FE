@@ -5,6 +5,7 @@ import BotMessage from './bot/BotMessage';
 import UserMessage from './user/UserMessage';
 import NewMessageAlert from './bot/NewMessageAlert';
 import MessageInput from './user/MessageInput';
+import { useChatScroll } from '../hook/useChatScroll';
 
 // TODOS : 아직 api 몰라서 임시 type
 interface ChatMessage {
@@ -15,10 +16,8 @@ interface ChatMessage {
 
 function ChatSection() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const chatEndRef = useRef<HTMLDivElement>(null);
-  const chatListRef = useRef<HTMLDivElement>(null);
-  const isScrollBottom = useRef(true);
-  const [showNewMessageAlert, setShowNewMessageAlert] = useState(false);
+  const { chatListRef, chatEndRef, showNewMessageAlert, handleCheckBottom, handleScrollToBottom } =
+    useChatScroll(messages.length);
 
   const handleSubmit = (message: string) => {
     // 사용자 메시지
@@ -36,33 +35,6 @@ function ChatSection() {
 
   //   return () => clearInterval(interval);
   // }, []);
-
-  // 스크롤 제일 아래인지 체크
-  const handleCheckBottom = (e: React.UIEvent<HTMLDivElement>) => {
-    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
-
-    isScrollBottom.current = scrollTop + clientHeight >= scrollHeight - 10;
-
-    if (isScrollBottom.current) setShowNewMessageAlert(false);
-  };
-
-  // 새 메시지가 들어오면 자동 스크롤
-  useEffect(() => {
-    if (isScrollBottom.current) {
-      chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-      setShowNewMessageAlert(false); // 새메세지 숨김
-    } else {
-      setShowNewMessageAlert(true); // 새메세지 보여줌
-    }
-  }, [messages]);
-
-  // 스크롤 제일 아래로
-  const handleScrollToBottom = () => {
-    if (chatListRef.current) {
-      chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-      isScrollBottom.current = true;
-    }
-  };
 
   return (
     <section className="mx-auto w-full flex-1">
