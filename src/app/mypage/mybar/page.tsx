@@ -1,5 +1,4 @@
 import CocktailCard from '@/domains/recipe/CocktailCard';
-import Img from '@/shared/assets/images/dummy/exampleCocktail.png';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -14,35 +13,7 @@ function Page() {
   "
     >
       <CocktailCard
-        src={Img}
-        textSize1="text-xl"
-        name="Old Pashioned"
-        nameKo="올드 패션드"
-        keep={false}
-      ></CocktailCard>
-      <CocktailCard
-        src={Img}
-        textSize1="text-xl"
-        name="Old Pashioned"
-        nameKo="올드 패션드"
-        keep={false}
-      ></CocktailCard>
-      <CocktailCard
-        src={Img}
-        textSize1="text-xl"
-        name="Old Pashioned"
-        nameKo="올드 패션드"
-        keep={false}
-      ></CocktailCard>
-      <CocktailCard
-        src={Img}
-        textSize1="text-xl"
-        name="Old Pashioned"
-        nameKo="올드 패션드"
-        keep={false}
-      ></CocktailCard>
-      <CocktailCard
-        src={Img}
+        src=""
         textSize1="text-xl"
         name="Old Pashioned"
         nameKo="올드 패션드"

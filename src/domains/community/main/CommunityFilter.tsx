@@ -1,7 +1,7 @@
 'use client';
 
-import SelectBox from '@/domains/shared/components/select-box/SelectBox';
 import { Post } from '../types/post';
+import SelectBox from '@/shared/components/select-box/SelectBox';
 
 type Props = {
   posts: Post[];

@@ -1,6 +1,5 @@
 'use client';
 
-import CocktailImg from '@/shared/assets/images/exampleCocktail.png';
 import Image from 'next/image';
 import { useState } from 'react';
 import DeleteIcon from '@/shared/assets/icons/close_20.svg';
@@ -15,7 +14,7 @@ function UploadedImage() {
       onMouseLeave={() => setHovered(false)}
     >
       <Image
-        src={CocktailImg}
+        src={''}
         alt="칵테일 이미지 예시"
         className="rounded-xl w-full h-full object-cover pointer-events-none"
       />
