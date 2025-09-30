@@ -1,7 +1,6 @@
 'use client';
-import { Ref, useEffect, useMemo, useRef, useState } from 'react';
+import { Ref, useMemo, useRef, useState } from 'react';
 import Down from '@/shared/assets/icons/selectDown_24.svg';
-
 import { useShallow } from 'zustand/shallow';
 import { ID, useAccordionStore } from '@/domains/recipe/store/accordionStore';
 import useCloseOutside from '../../hook/useCloseOutside';
@@ -20,24 +19,19 @@ interface Props {
 function SelectBox({ id, groupKey, ref, option, title, onChange, use }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [select, setSelect] = useState('');
-
   const menuRef = useRef<HTMLDivElement>(null);
 
   const ingroup = !!groupKey;
+  // groupKey가 있을경우 true
   // groupkey일 경우 전달받은 ID로 식별 아닐경우 title로 식별
-  const keyId = useMemo<ID>(() => id ?? title, [id, title]);
 
-  useCloseOutside({
-    menuRef,
-    onClose: () => {
-      if (!ingroup) setIsOpen(false);
-      else closeGroup(groupKey);
-    },
-  });
+  const keyId = useMemo<ID>(() => id ?? title, [id, title]);
+  // id가 없을경우 title로 키 아이디를 받음
 
   const { openId, toggleGroup, closeGroup } = useAccordionStore(
     useShallow((s) => ({
       openId: ingroup ? (s.openByGroup[groupKey] ?? null) : null,
+      // 그룹키가 없으면 openId == null 따라서 state로 관리됨
       toggleGroup: s.toggle,
       closeGroup: s.closeGroup,
     }))
@@ -46,9 +40,15 @@ function SelectBox({ id, groupKey, ref, option, title, onChange, use }: Props) {
   //groupkey가 있을 떄와 없을때로 구분해서 state혹은 store로 관리
   const localOpen = ingroup ? openId === keyId : isOpen;
 
+  // 그룹일 경우 filter와 id abv | base | glass 를
   const toggle = () => {
     if (ingroup) toggleGroup(groupKey, keyId);
-    else setIsOpen((v) => !v);
+    else
+      setIsOpen((prev) => {
+        const next = !prev;
+        console.log('TOGGLE BTN CLICK:', { prev, next });
+        return next;
+      });
   };
 
   const close = () => {
@@ -63,8 +63,13 @@ function SelectBox({ id, groupKey, ref, option, title, onChange, use }: Props) {
     close();
   };
 
+  useCloseOutside({
+    menuRef,
+    onClose: close,
+  });
+
   return (
-    <div className="flex flex-col gap-2 relative h-6" ref={menuRef}>
+    <div className="flex flex-col gap-2 relative h-6" ref={menuRef} id="select">
       <button
         ref={ref}
         className="flex gap-2 cursor-pointer text-base"
