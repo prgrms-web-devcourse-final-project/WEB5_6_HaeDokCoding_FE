@@ -22,7 +22,7 @@ function MyPost() {
 
   return (
     <section>
-      <PostCard posts={posts} setPosts={setPosts} isLoading={isLoading} />
+      <PostCard posts={posts} isLoading={isLoading} />
     </section>
   );
 }

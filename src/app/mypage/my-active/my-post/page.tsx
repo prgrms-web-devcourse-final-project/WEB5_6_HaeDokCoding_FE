@@ -22,7 +22,7 @@ function MyPost() {
 
   return (
     <div>
-      <PostCard posts={posts} setPosts={setPosts} isLoading={isLoading} />
+      <PostCard posts={posts} isLoading={isLoading} />
     </div>
   );
 }
