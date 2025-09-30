@@ -5,7 +5,7 @@ import prePost from '@/shared/assets/images/prepost_img.webp';
 
 import PostInfo from '../components/post-info/PostInfo';
 import Label from '@/domains/shared/components/label/Label';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { fetchPost } from '../api/fetchPost';
 import { Post } from '@/domains/community/types/post';
 import { useRouter } from 'next/navigation';
@@ -13,7 +13,7 @@ import CommunitySkeleton from './CommunitySkeleton';
 
 type Props = {
   posts: Post[];
-  setPosts: (value: Post[]) => void;
+  setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
 };
 
 function PostCard({ posts, setPosts }: Props) {
