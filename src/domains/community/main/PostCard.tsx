@@ -7,7 +7,7 @@ import PostInfo from '../components/post-info/PostInfo';
 import Label from '@/domains/shared/components/label/Label';
 import { Post } from '@/domains/community/types/post';
 import { useRouter } from 'next/navigation';
-import CommunitySkeleton from './CommunitySkeleton';
+import SkeletonPostCard from '@/domains/shared/skeleton/SkeletonPostCard';
 
 type Props = {
   posts: Post[];
@@ -21,7 +21,7 @@ function PostCard({ posts, isLoading }: Props) {
     router.push(`/community/${id}`);
   };
 
-  if (isLoading) return <CommunitySkeleton />;
+  if (isLoading) return <SkeletonPostCard />;
   if (posts.length === 0)
     return (
       <div className="w-full flex items-center justify-center mt-20">작성된 글이 없습니다.</div>
