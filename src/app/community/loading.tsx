@@ -1,4 +1,4 @@
-function loading() {
+function Loading() {
   return (
     <div className="w-full animate-pulse">
       <div className="page-layout max-w-[1024px]">
@@ -22,4 +22,4 @@ function loading() {
   );
 }
 
-export default loading;
+export default Loading;

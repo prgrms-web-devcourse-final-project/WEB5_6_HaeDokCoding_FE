@@ -1,4 +1,4 @@
-function loading() {
+function Loading() {
   return (
     <div className="w-full mb-20 flex relative animate-pulse">
       <div className="page-layout max-w-[824px] flex-1 z-5 space-y-6 mt-12">
@@ -30,4 +30,4 @@ function loading() {
   );
 }
 
-export default loading;
+export default Loading;

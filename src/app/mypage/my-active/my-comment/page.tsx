@@ -7,10 +7,6 @@ export const metadata: Metadata = {
 };
 
 function Page() {
-  return (
-    <>
-      <CommentList />
-    </>
-  );
+  return <>{/* <CommentList /> */}</>;
 }
 export default Page;
