@@ -1,3 +1,4 @@
+import { getApi } from '@/app/api/config/appConfig';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -29,7 +30,7 @@ export const useAuthStore = create<AuthState>()(
       isLoggedIn: false,
 
       loginWithProvider: (provider) => {
-        window.location.href = `http://localhost:8080/oauth2/authorization/${provider}`;
+        window.location.href = `${getApi}/oauth2/authorization/${provider}`;
       },
 
       setUser: (user, token) => {
@@ -39,7 +40,7 @@ export const useAuthStore = create<AuthState>()(
 
       logout: async () => {
         try {
-          await fetch('http://localhost:8080/user/auth/logout', {
+          await fetch(`${getApi}/user/auth/logout`, {
             method: 'POST',
             credentials: 'include',
           });
@@ -51,7 +52,7 @@ export const useAuthStore = create<AuthState>()(
 
       updateUser: async () => {
         try {
-          const res = await fetch('http://localhost:8080/user/auth/refresh', {
+          const res = await fetch(`${getApi}/user/auth/refresh`, {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },

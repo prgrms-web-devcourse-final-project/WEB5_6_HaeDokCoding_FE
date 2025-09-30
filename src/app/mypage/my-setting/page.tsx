@@ -24,7 +24,6 @@ function MySetting() {
           <ToggleBtn />
         </div>
       </div>
-      <div className="p-4 bg-gray w-20 flex-center items-center">ToopTip</div>
       <div className="flex justify-between items-center">
         <TextButton onClick={() => setIsQuit(!isQuit)}>회원탈퇴</TextButton>
 
