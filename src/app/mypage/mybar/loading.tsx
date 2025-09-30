@@ -1,6 +1,6 @@
 import SkeletonCocktailCard from '@/domains/recipe/skeleton/SkeletonCocktailCard';
 
-function loading() {
+function Loading() {
   return (
     <div
       className="grid grid-cols-1 justify-items-center mt-10 gap-8
@@ -21,4 +21,4 @@ function loading() {
     </div>
   );
 }
-export default loading;
+export default Loading;

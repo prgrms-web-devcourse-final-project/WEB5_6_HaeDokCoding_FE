@@ -1,6 +1,6 @@
 import SkeletonAlarm from '@/domains/recipe/skeleton/SkeletonAlarm';
 
-function loading() {
+function Loading() {
   return (
     <div className="flex flex-col gap-3">
       <SkeletonAlarm></SkeletonAlarm>
@@ -11,7 +11,7 @@ function loading() {
     </div>
   );
 }
-export default loading;
+export default Loading;
 
 // function SkeletonAlarmList({ count = 5 }: { count?: number }) {
 //   return (

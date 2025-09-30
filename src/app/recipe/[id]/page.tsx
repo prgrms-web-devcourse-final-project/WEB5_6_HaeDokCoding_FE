@@ -1,7 +1,7 @@
 import DetailMain from '@/domains/recipe/details/DetailMain';
 import StarBg from '@/domains/shared/components/star-bg/StarBg';
 
-function page() {
+function Page() {
   return (
     <div className="w-full relative">
       <StarBg className="absolute top-0 left-0 h-200 lg:h-200" />
@@ -9,4 +9,4 @@ function page() {
     </div>
   );
 }
-export default page;
+export default Page;

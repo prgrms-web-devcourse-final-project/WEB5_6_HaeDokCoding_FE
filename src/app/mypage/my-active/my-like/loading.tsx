@@ -1,6 +1,6 @@
 import SkeletonPostCard from '@/domains/shared/skeleton/SkeletonPostCard';
 
-function loading() {
+function Loading() {
   return (
     <ul>
       {Array.from({ length: 6 }).map((_, i) => (
@@ -12,4 +12,4 @@ function loading() {
   );
 }
 
-export default loading;
+export default Loading;

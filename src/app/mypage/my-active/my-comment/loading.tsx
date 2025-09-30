@@ -1,4 +1,4 @@
-function loading() {
+function Loading() {
   return (
     <ul aria-hidden="true" className="flex flex-col mt-6 animate-pulse">
       {Array.from({ length: 2 }).map((_, i) => (
@@ -21,4 +21,4 @@ function loading() {
     </ul>
   );
 }
-export default loading;
+export default Loading;

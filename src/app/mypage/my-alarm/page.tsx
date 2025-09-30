@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: 'SSOUL 서비스에서 나의 활동을 관리할 수 있는 페이지입니다',
 };
 
-function MyAlarm() {
+function Page() {
   return (
     <div className="flex flex-col gap-3">
       <Alarm></Alarm>
@@ -17,4 +17,4 @@ function MyAlarm() {
     </div>
   );
 }
-export default MyAlarm;
+export default Page;

@@ -1,6 +1,6 @@
 import SkeletonSetting from '@/domains/mypage/skeleton/main/SkeletonSetting';
 
-function loading() {
+function Loading() {
   return <SkeletonSetting />;
 }
-export default loading;
+export default Loading;
