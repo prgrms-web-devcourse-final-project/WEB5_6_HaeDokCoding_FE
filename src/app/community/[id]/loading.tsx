@@ -1,4 +1,4 @@
-function loading() {
+function Loading() {
   return (
     <div className="w-full mb-10 flex relative animate-pulse">
       {/* 메인 콘텐츠 */}
@@ -27,4 +27,4 @@ function loading() {
   );
 }
 
-export default loading;
+export default Loading;
