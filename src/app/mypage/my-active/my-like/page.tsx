@@ -1,5 +1,3 @@
-'use client';
-
 import PostCard from '@/domains/community/main/PostCard';
 import { Metadata } from 'next';
 
