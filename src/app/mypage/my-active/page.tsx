@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 
-function Page() {
+function page() {
   return redirect('/mypage/my-active/my-post');
 }
-export default Page;
+export default page;

@@ -1,5 +1,4 @@
 import Image from 'next/image';
-
 function DetailRecommendList() {
   return (
     <div className="flex flex-col gap-3">

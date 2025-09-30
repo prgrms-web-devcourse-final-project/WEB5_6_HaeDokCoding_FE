@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-
 import Input from '@/shared/components/Input-box/Input';
 
 import Accordion from '../../domains/recipe/components/main/Accordion';
@@ -7,7 +6,8 @@ import CocktailList from '@/domains/recipe/CocktailList';
 import PageHeader from '@/domains/shared/components/page-header/PageHeader';
 import { Suspense } from 'react';
 import SkeletonRecipe from '@/domains/recipe/skeleton/SkeletonRecipe';
-import SelectBox from '@/shared/components/select-box/SelectBox';
+import SelectBox from '@/domains/shared/components/select-box/SelectBox';
+
 
 export const metadata: Metadata = {
   title: 'SSOUL | 칵테일레시피',
