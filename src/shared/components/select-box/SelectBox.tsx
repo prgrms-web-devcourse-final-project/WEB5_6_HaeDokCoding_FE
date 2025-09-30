@@ -3,7 +3,7 @@ import { Ref, useMemo, useRef, useState } from 'react';
 import Down from '@/shared/assets/icons/selectDown_24.svg';
 import { useShallow } from 'zustand/shallow';
 import { ID, useAccordionStore } from '@/domains/recipe/store/accordionStore';
-import useCloseOutside from '../../hook/useCloseOutside';
+import useCloseOutside from '@/shared/hook/useCloseOutside';
 
 interface Props {
   id?: ID;

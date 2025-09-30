@@ -5,7 +5,6 @@ import TextButton from '@/shared/components/button/TextButton';
 import Input from '@/shared/components/Input-box/Input';
 import { useState } from 'react';
 import ModalLayout from '@/shared/components/modal-pop/ModalLayout';
-import SelectBox from '@/domains/shared/components/select-box/SelectBox';
 
 import Spinner from '@/shared/components/spinner/Spinner';
 import LikeBtn from '@/domains/community/components/like/LikeBtn';
@@ -13,6 +12,7 @@ import Share from '@/domains/shared/components/share/Share';
 import Keep from '@/domains/shared/components/keep/Keep';
 import ConfirmModal from '@/shared/components/modal-pop/ConfirmModal';
 import { useToast } from '@/shared/hook/useToast';
+import SelectBox from '@/shared/components/select-box/SelectBox';
 
 function Page() {
   const [isModalOpen, setModalOpen] = useState(false);
