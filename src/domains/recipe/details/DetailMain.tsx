@@ -9,6 +9,7 @@ import Image from 'next/image';
 import DetailList from './DetailList';
 import { Suspense } from 'react';
 import SkeletonDetail from '../skeleton/SkeletonDetail';
+import RecipeComment from '../components/details/RecipeComment';
 
 function DetailMain() {
   return (
@@ -46,7 +47,9 @@ function DetailMain() {
           </div>
         </section>
 
-        <section>{/* 여기에 댓글 컴포넌트 */}</section>
+        <section className="mt-20">
+          <RecipeComment />
+        </section>
       </div>
     </Suspense>
   );
