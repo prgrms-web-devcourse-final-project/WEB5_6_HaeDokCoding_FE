@@ -2,11 +2,11 @@
 import TabMenu from '@/domains/mypage/main/TabMenu';
 import TextButton from '@/shared/components/button/TextButton';
 import Link from 'next/link';
-
 import { useState } from 'react';
 import DeleteAllModal from '../components/DeleteAllModal';
+import { usePathname } from 'next/navigation';
 
-const options = [
+const MAIN_TABMENU = [
   {
     title: '나만의 BAR',
     href: '/mypage/mybar',
@@ -25,7 +25,7 @@ const options = [
   },
 ];
 
-const ActiveTab = [
+const SUB_TABMENU = [
   {
     title: '내가 쓴 글',
     href: '/mypage/my-active/my-post',
@@ -41,8 +41,14 @@ const ActiveTab = [
 ];
 
 function MyNav() {
-  const [isClick, setIsClick] = useState(0);
-  const [activeTab, setActiveTab] = useState(0);
+  const pathname = usePathname();
+
+  const currentIndex = MAIN_TABMENU.findIndex((opt) => pathname.startsWith(opt.href));
+  const isActive = currentIndex === -1 ? 0 : currentIndex;
+
+  const subIndex = SUB_TABMENU.findIndex((opt) => pathname.startsWith(opt.href));
+  const isSubActive = subIndex === -1 ? 0 : subIndex;
+
   const [isDeleteAll, setIsDeleteAll] = useState(false);
 
   return (
@@ -56,8 +62,8 @@ function MyNav() {
 
       <nav aria-label="마이페이지 섹션">
         <ul role="tablist" className="mt-3 md:mt-10 flex justify-center gap-3">
-          {options.map(({ title, href }, i) => {
-            const selected = i === isClick;
+          {MAIN_TABMENU.map(({ title, href }, i) => {
+            const selected = i === isActive;
             const tabId = `main-tab-${i}`;
             const panelId = `main-panel-${i}`;
             return (
@@ -68,8 +74,7 @@ function MyNav() {
                     role="tab"
                     index={i}
                     title={title}
-                    isClick={isClick}
-                    setIsClick={setIsClick}
+                    isClick={isActive}
                     aria-selected={selected ? 'true' : 'false'}
                     aria-controls={panelId}
                     tabIndex={selected ? 0 : -1}
@@ -80,29 +85,29 @@ function MyNav() {
           })}
         </ul>
       </nav>
-      {options.map((_, i) => (
+      {MAIN_TABMENU.map((_, i) => (
         <div
           key={`main-panel-${i}`}
           id={`main-panel-${i}`}
           role="tabpanel"
           aria-labelledby={`main-tab-${i}`}
-          hidden={isClick !== i}
+          hidden={isActive !== i}
         >
           {/* 필요하면 여기 메인 탭별 콘텐츠 렌더 */}
         </div>
       ))}
 
-      {(isClick == 0 || isClick == 2) && (
+      {(isActive == 0 || isActive == 2) && (
         <TextButton className="self-end" onClick={() => setIsDeleteAll(!isDeleteAll)}>
           전체삭제
         </TextButton>
       )}
 
-      {isClick == 1 && (
+      {isActive == 1 && (
         <nav aria-label="내 활동 하위 탭">
           <ul role="tablist" className="flex gap-5 w-full justify-center">
-            {ActiveTab.map(({ href, title }, i) => {
-              const selected = i === activeTab;
+            {SUB_TABMENU.map(({ href, title }, i) => {
+              const selected = i === isSubActive;
               const tabId = `sub-tab-${i}`;
               const panelId = `sub-panel-${i}`;
               return (
@@ -116,8 +121,7 @@ function MyNav() {
                       role="tab"
                       title={title}
                       type="underLine"
-                      isClick={activeTab}
-                      setIsClick={setActiveTab}
+                      isClick={isSubActive}
                       index={i}
                     />
                   </Link>
@@ -127,14 +131,14 @@ function MyNav() {
           </ul>
         </nav>
       )}
-      {isClick === 1 &&
-        ActiveTab.map((_, i) => (
+      {isActive === 1 &&
+        SUB_TABMENU.map((_, i) => (
           <div
             key={`sub-panel-${i}`}
             id={`sub-panel-${i}`}
             role="tabpanel"
             aria-labelledby={`sub-tab-${i}`}
-            hidden={activeTab !== i}
+            hidden={isActive !== i}
           >
             {/* 필요하면 여기 서브 탭별 콘텐츠 렌더 */}
           </div>
