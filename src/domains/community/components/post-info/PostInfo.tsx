@@ -17,7 +17,7 @@ function PostInfo({
 }: Props) {
   return (
     <ul
-      className="flex font-light sm:gap-3 gap-1 sm:text-[14px] text-[12px] text-gray"
+      className="flex font-light sm:gap-3 gap-1 sm:text-sm text-xs text-gray"
       aria-label="게시글 정보"
     >
       {hasUserName && (

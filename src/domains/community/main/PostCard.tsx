@@ -41,15 +41,15 @@ function PostCard({ posts, isLoading }: Props) {
           commentCount,
           imageUrl,
         }) => (
-          <article className="pt-5 pb-3 border-b-1 border-gray-light" key={postId}>
+          <article className="py-4 sm:py-5 border-b-1 border-gray-light" key={postId}>
             <Label title={categoryName} />
 
             <section
               onClick={() => handlePost(postId)}
-              className="flex items-center justify-between mt-3 cursor-pointer h-full"
+              className="flex items-center gap-3 justify-between mt-3 cursor-pointer h-full"
               role="link"
             >
-              <div className="flex flex-col gap-2 md:max-w-[820px] sm:max-w-[440] max-w-[310px] flex-grow content-between h-full">
+              <div className="flex flex-col gap-3 md:max-w-[51.25rem] sm:max-w-[27.5rem] max-w-[19.375rem] flex-grow content-between h-full">
                 <p className="font-bold sm:text-xl text-lg">{title}</p>
                 <div className="font-light sm:text-[15px] text-sm md:max-w-[820px] sm:max-w-[440px] max-w-[210px] h-full">
                   <p
