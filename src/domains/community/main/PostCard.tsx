@@ -45,10 +45,10 @@ function PostCard({ posts, isLoading }: Props) {
 
             <section
               onClick={() => handlePost(postId)}
-              className="flex items-start justify-between mt-3 cursor-pointer h-full content-between"
+              className="flex items-start justify-between mt-3 cursor-pointer h-full max-h-[115px] content-between"
               role="link"
             >
-              <div className="flex flex-col gap-2 max-w-[860px] flex-grow">
+              <div className="flex flex-col gap-2 max-w-[860px] flex-grow md:h-[115px] md:max-h-[115px] sm:h-[85px] sm:max-h-[85px]">
                 <p className="font-bold sm:text-xl text-lg">{title}</p>
                 <div className="font-light sm:text-[15px] text-sm md:max-w-[850px] sm:max-w-[500px] max-w-[210px] h-full">
                   <p
