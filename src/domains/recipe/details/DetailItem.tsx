@@ -36,7 +36,7 @@ function DetailItem() {
            [filter:drop-shadow(0_0_20px_rgba(255,255,255,0.3))]
           "
       >
-        <Image src='' alt="" width="300" height="375" />
+        <Image src="" alt="" width="300" height="375" />
       </div>
 
       <dl className="flex flex-col mt-5 gap-3 w-75">
