@@ -8,36 +8,24 @@ import BotOptions from './BotOptions';
 import TypingIndicator from './TypingIndicator';
 
 interface Message {
-  id: string;
-  text?: string;
+  id: number;
+  message?: string;
   type?: 'radio' | 'text' | 'recommend';
 }
 
-function BotMessage() {
+interface BotMessages {
+  messages: Message[];
+  isTyping?: boolean;
+}
+
+function BotMessage({ messages, isTyping = false }: BotMessages) {
   const [selected, setSelected] = useState('option1');
 
-  // radio 옵션
+  // 임시 radio 옵션
   const options = [
     { label: '옵션 1', value: 'option1' },
     { label: '옵션 2', value: 'option2' },
     { label: '옵션 3', value: 'option3' },
-  ];
-
-  // 메시지 (연속 메시지)
-  const messages: Message[] = [
-    {
-      id: '1',
-      text: '안녕하세요, 바텐더 쑤리에요. \n 취향에 맞는 칵테일을 추천해드릴게요!',
-    },
-    {
-      id: '2',
-      text: '어떤 유형으로 찾아드릴까요?',
-      type: 'radio',
-    },
-    {
-      id: '3',
-      type: 'recommend',
-    },
   ];
 
   return (
@@ -73,7 +61,7 @@ function BotMessage() {
               </ul>
             ) : (
               <div className="flex flex-col w-fit max-w-[80%] min-w-[120px] p-3 rounded-2xl rounded-tl-none bg-white text-black">
-                {msg.text && <p className="whitespace-pre-line">{msg.text}</p>}
+                {msg.message && <p className="whitespace-pre-line">{msg.message}</p>}
 
                 {/* radio */}
                 {msg.type === 'radio' && (
@@ -83,7 +71,7 @@ function BotMessage() {
             )}
           </div>
         ))}
-        <TypingIndicator />
+        {isTyping && <TypingIndicator />}
       </div>
     </article>
   );

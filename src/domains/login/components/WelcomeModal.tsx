@@ -20,8 +20,12 @@ function Welcome({ userNickname, open, onClose }: Props) {
     <ModalLayout
       open={open}
       onClose={onClose}
-      title={`환영합니다, ${userNickname}님!`}
-      description="바텐더 쑤리가 안내해드릴게요"
+      title={`환영합니다! `}
+      description={
+        <span className="block text-center">
+          {userNickname}님 <br /> 바텐더 쑤리가 안내해드릴게요
+        </span>
+      }
       buttons={
         <>
           <Button
@@ -48,7 +52,7 @@ function Welcome({ userNickname, open, onClose }: Props) {
     >
       <div className="flex-center">
         <div className="relative w-32 h-32" aria-hidden>
-          <Image src={Ssury} alt="" fill sizes="128px" className="object-contain" />
+          <Image src={Ssury} alt="" fill className="object-contain" sizes="8rem" priority />
         </div>
       </div>
     </ModalLayout>
