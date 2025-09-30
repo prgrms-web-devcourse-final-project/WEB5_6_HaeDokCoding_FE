@@ -34,8 +34,8 @@ function TagModal({ isOpen, setIsOpen }: Props) {
           {Array.from({ length: 16 }, (_, index) => (
             <div key={index} className="relative">
               <CocktailCard
-                src=''
-                name=''
+                src=""
+                name=""
                 keep={false}
                 className="w-full md:h-[100px] h-[120px]"
                 textSize1="md:text-sm text-[10px] font-normal truncate md:w-24 w-18"
