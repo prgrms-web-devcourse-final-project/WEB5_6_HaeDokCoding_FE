@@ -1,9 +1,9 @@
 import CommentList from '@/domains/shared/components/comment/CommentList';
 function MyComment() {
   return (
-    <ul>
+    <section>
       <CommentList></CommentList>
-    </ul>
+    </section>
   );
 }
 export default MyComment;
