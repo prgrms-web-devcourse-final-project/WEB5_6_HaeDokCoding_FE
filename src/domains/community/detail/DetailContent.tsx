@@ -34,7 +34,7 @@ function DetailContent() {
         <p>글입니다다다다다다다다다다다다</p>
       </article>
       <CocktailTag use="detail" />
-      <PostInfo />
+      {/* <PostInfo createdAt={} /> */}
       <div className="block md:hidden mt-2">
         <DetailTabMobile />
       </div>

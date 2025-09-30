@@ -45,7 +45,6 @@ function PostCard({ posts, setPosts }: Props) {
             title,
             content,
             userNickName,
-            commentCount,
             viewCount,
             createdAt,
             imageUrl,
@@ -77,9 +76,9 @@ function PostCard({ posts, setPosts }: Props) {
                   <PostInfo
                     hasUserName={true}
                     userNickName={userNickName}
-                    commentCount={commentCount}
                     viewCount={viewCount}
                     createdAt={createdAt}
+                    postId={postId}
                   />
                 </div>
                 <figure className="flex items-center flex-shrink-0 w-[115px] h-[115px]">
