@@ -81,7 +81,7 @@ function PostCard({ posts, setPosts }: Props) {
                     postId={postId}
                   />
                 </div>
-                <figure className="flex items-center flex-shrink-0 w-[115px] h-[115px]">
+                <figure className="flex items-center flex-shrink-0 md:w-[115px] md:h-[115px] w-[85px] h-[85px]">
                   <Image
                     src={prePost}
                     alt="예비사진"

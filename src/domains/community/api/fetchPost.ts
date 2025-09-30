@@ -1,8 +1,9 @@
+import { getApi } from '@/app/api/config/appConfig';
 import { Post } from '@/domains/community/types/post';
 
 export const fetchPost = async (): Promise<Post[] | null> => {
   try {
-    const res = await fetch('http://localhost:8080/posts', {
+    const res = await fetch(`${getApi}posts`, {
       method: 'GET',
       cache: 'no-store',
     });
