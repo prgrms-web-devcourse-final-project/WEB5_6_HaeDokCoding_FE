@@ -1,13 +1,11 @@
-import { StaticImageData } from 'next/image';
 import Image from 'next/image';
-import Img from '@/shared/assets/images/dummy/exampleCocktail.png';
 import Label from '../shared/components/label/Label';
 import Keep from '../shared/components/keep/Keep';
 import tw from '@/shared/utills/tw';
 
 interface Props {
-  src?: StaticImageData;
-  name?: string;
+  src: string;
+  name: string;
   nameKo?: string;
   keep?: boolean;
   className?: string;
@@ -25,7 +23,7 @@ function CocktailCard({ src, name, nameKo, keep = true, className, textSize1, te
         )}
       >
         {/* <Image src={src} alt={name} fill /> */}
-        <Image src={Img} alt="" fill className="object-cover " />
+        <Image src={src} alt={name} fill className="object-cover " />
         {keep && (
           <div className="flex w-full pl-4 px-3 py-2 items-center justify-between absolute left-0 top-0">
             <div>
@@ -36,7 +34,7 @@ function CocktailCard({ src, name, nameKo, keep = true, className, textSize1, te
         )}
       </div>
       <div className="flex flex-col gap-1 font-bold font-serif">
-        <h3 className={tw(`${!textSize1 && 'text-2xl'}`, textSize1)}>Old Fassioned</h3>
+        <h3 className={tw(`${!textSize1 && 'text-2xl'}`, textSize1)}>{name}</h3>
         <p className={tw(`${!textSize2 && 'text-base'}`, textSize2)}>올드 패션드</p>
       </div>
     </div>

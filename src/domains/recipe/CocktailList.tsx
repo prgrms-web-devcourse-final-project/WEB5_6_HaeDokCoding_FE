@@ -1,16 +1,18 @@
 'use client';
+import { useEffect, useState } from 'react';
 import CocktailCard from './CocktailCard';
+import { getApi } from '@/app/api/config/appConfig';
 
 function CocktailList() {
-  // const [data,setData] = useState([])
-  //   useEffect(() => {
-  //     fetch('http://localhost:8080/api/cocktails')
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         console.log(data.data)
-  //         setData(data.data)
-  //       });
-  //   }, []);
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetch(`${getApi}/cocktails`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.data);
+        setData(data.data);
+      });
+  }, []);
 
   return (
     <ul
@@ -22,25 +24,11 @@ function CocktailList() {
     
   "
     >
-      {/* {
-        data.map(({ cocktailImgUrl, cocktailId, cocktailName }) => (
-          <li key={cocktailId}>
-            <CocktailCard src={cocktailImgUrl} name={cocktailName} nameKo={cocktailName} />
-          </li>
-        ))
-      } */}
-      <li className="w-full min-w-0 max-w-[320px] sm:max-w-none mx-auto sm:mx-0">
-        <CocktailCard />
-      </li>
-      <li className="w-full min-w-0 max-w-[320px] sm:max-w-none mx-auto sm:mx-0">
-        <CocktailCard />
-      </li>{' '}
-      <li className="w-full min-w-0 max-w-[320px] sm:max-w-none mx-auto sm:mx-0">
-        <CocktailCard />
-      </li>{' '}
-      <li className="w-full min-w-0 max-w-[320px] sm:max-w-none mx-auto sm:mx-0">
-        <CocktailCard />
-      </li>
+      {data.map(({ cocktailImgUrl, cocktailId, cocktailName }) => (
+        <li key={cocktailId}>
+          <CocktailCard src={cocktailImgUrl} name={cocktailName} nameKo={cocktailName} />
+        </li>
+      ))}
     </ul>
   );
 }
