@@ -9,40 +9,40 @@ function MyBar() {
   "
     >
       <CocktailCard
-          src={Img}
-          textSize1="text-xl"
-          name="Old Pashioned"
-          nameKo="올드 패션드"
-          keep={false}
-        ></CocktailCard>
-        <CocktailCard
-          src={Img}
-          textSize1="text-xl"
-          name="Old Pashioned"
-          nameKo="올드 패션드"
-          keep={false}
-        ></CocktailCard>
-        <CocktailCard
-          src={Img}
-          textSize1="text-xl"
-          name="Old Pashioned"
-          nameKo="올드 패션드"
-          keep={false}
-        ></CocktailCard>
-        <CocktailCard
-          src={Img}
-          textSize1="text-xl"
-          name="Old Pashioned"
-          nameKo="올드 패션드"
-          keep={false}
-        ></CocktailCard>
-        <CocktailCard
-          src={Img}
-          textSize1="text-xl"
-          name="Old Pashioned"
-          nameKo="올드 패션드"
-          keep={false}
-        ></CocktailCard>
+        src={Img}
+        textSize1="text-xl"
+        name="Old Pashioned"
+        nameKo="올드 패션드"
+        keep={false}
+      ></CocktailCard>
+      <CocktailCard
+        src={Img}
+        textSize1="text-xl"
+        name="Old Pashioned"
+        nameKo="올드 패션드"
+        keep={false}
+      ></CocktailCard>
+      <CocktailCard
+        src={Img}
+        textSize1="text-xl"
+        name="Old Pashioned"
+        nameKo="올드 패션드"
+        keep={false}
+      ></CocktailCard>
+      <CocktailCard
+        src={Img}
+        textSize1="text-xl"
+        name="Old Pashioned"
+        nameKo="올드 패션드"
+        keep={false}
+      ></CocktailCard>
+      <CocktailCard
+        src={Img}
+        textSize1="text-xl"
+        name="Old Pashioned"
+        nameKo="올드 패션드"
+        keep={false}
+      ></CocktailCard>
     </div>
   );
 }
