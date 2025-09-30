@@ -22,7 +22,7 @@ function Comment({ postId }: Props) {
 
   return (
     <section className="mb-10 border-t-1 border-gray ">
-      <CommentHeader />
+      <CommentHeader postId={postId} comments={comments} setComments={setComments} />
       <CommentList comments={comments} />
     </section>
   );
