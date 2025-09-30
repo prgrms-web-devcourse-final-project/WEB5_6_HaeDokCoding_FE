@@ -52,7 +52,7 @@ export const useAuthStore = create<AuthState>()(
 
       updateUser: async () => {
         try {
-          const res = await fetch('http://localhost:8080/user/auth/refresh', {
+          const res = await fetch(`${getApi}}/user/auth/refresh`, {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
