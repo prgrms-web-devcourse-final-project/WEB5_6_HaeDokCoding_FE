@@ -5,20 +5,44 @@ import Img from '@/shared/assets/images/dummy/exampleCocktail.png';
 function MyBar() {
   return (
     <div
-      className="grid grid-cols-2 mt-10 gap-8 w-full sm:[grid-template-columns:repeat(2,minmax(0,320px))]  md:justify-evenly md:[grid-template-columns:repeat(3,minmax(0,250px))]  
-     lg:[grid-template-columns:repeat(4,minmax(0,250px))]"
+      className="grid grid-cols-1 justify-items-center mt-10 gap-8  sm:[grid-template-columns:repeat(2,minmax(0,320px))]  sm:justify-evenly md:[grid-template-columns:repeat(3,minmax(0,250px))]  
+  "
     >
-      <CocktailCard src={Img} type="myBar" name="Old Pashioned" nameKo="올드 패션드"></CocktailCard>
       <CocktailCard
         src={Img}
-        type="myBar"
+        textSize1="text-xl"
         name="Old Pashioned"
         nameKo="올드 패션드"
-      ></CocktailCard>{' '}
-      <CocktailCard src={Img} type="myBar" name="Old Pashioned" nameKo="올드 패션드"></CocktailCard>{' '}
-      <CocktailCard src={Img} type="myBar" name="Old Pashioned" nameKo="올드 패션드"></CocktailCard>{' '}
-      <CocktailCard src={Img} type="myBar" name="Old Pashioned" nameKo="올드 패션드"></CocktailCard>{' '}
-      <CocktailCard src={Img} type="myBar" name="Old Pashioned" nameKo="올드 패션드"></CocktailCard>
+        keep={false}
+      ></CocktailCard>
+      <CocktailCard
+        src={Img}
+        textSize1="text-xl"
+        name="Old Pashioned"
+        nameKo="올드 패션드"
+        keep={false}
+      ></CocktailCard>
+      <CocktailCard
+        src={Img}
+        textSize1="text-xl"
+        name="Old Pashioned"
+        nameKo="올드 패션드"
+        keep={false}
+      ></CocktailCard>
+      <CocktailCard
+        src={Img}
+        textSize1="text-xl"
+        name="Old Pashioned"
+        nameKo="올드 패션드"
+        keep={false}
+      ></CocktailCard>
+      <CocktailCard
+        src={Img}
+        textSize1="text-xl"
+        name="Old Pashioned"
+        nameKo="올드 패션드"
+        keep={false}
+      ></CocktailCard>
     </div>
   );
 }
