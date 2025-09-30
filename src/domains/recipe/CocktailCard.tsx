@@ -4,6 +4,8 @@ import Img from '@/shared/assets/images/dummy/exampleCocktail.png';
 import Label from '../shared/components/label/Label';
 import Keep from '../shared/components/keep/Keep';
 import tw from '@/shared/utills/tw';
+import { Suspense } from 'react';
+import SkeletonMyBar from '../mypage/skeleton/pages/SkeletonMyBar';
 
 interface Props {
   src?: StaticImageData;
