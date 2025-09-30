@@ -5,19 +5,16 @@ import prePost from '@/shared/assets/images/prepost_img.webp';
 
 import PostInfo from '../components/post-info/PostInfo';
 import Label from '@/domains/shared/components/label/Label';
-import React, { useEffect, useState } from 'react';
-import { fetchPost } from '../api/fetchPost';
 import { Post } from '@/domains/community/types/post';
 import { useRouter } from 'next/navigation';
 import CommunitySkeleton from './CommunitySkeleton';
 
 type Props = {
   posts: Post[];
-  setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
   isLoading: boolean;
 };
 
-function PostCard({ posts, setPosts, isLoading }: Props) {
+function PostCard({ posts, isLoading }: Props) {
   const router = useRouter();
 
   const handlePost = (id: number) => {
