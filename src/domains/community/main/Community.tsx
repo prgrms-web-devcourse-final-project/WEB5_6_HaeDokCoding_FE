@@ -34,8 +34,8 @@ function Community() {
       </section>
 
       <section aria-label="게시물 목록">
-        <CommunityFilter posts={posts} setPosts={setPosts} />
-        <PostCard posts={posts} setPosts={setPosts} isLoading={isLoading} />
+        <CommunityFilter posts={posts} />
+        <PostCard posts={posts} isLoading={isLoading} />
       </section>
     </>
   );
