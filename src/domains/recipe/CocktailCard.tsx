@@ -27,7 +27,7 @@ function CocktailCard({ src, name, nameKo, keep = true, className, textSize1, te
         {/* <Image src={src} alt={name} fill /> */}
         <Image src={Img} alt="" fill className="object-cover " />
         {keep && (
-          <div className="flex w-full px-2 items-center justify-between absolute left-0 top-0">
+          <div className="flex w-full pl-4 px-3 py-2 items-center justify-between absolute left-0 top-0">
             <div>
               <Label title="레시피" />
             </div>
