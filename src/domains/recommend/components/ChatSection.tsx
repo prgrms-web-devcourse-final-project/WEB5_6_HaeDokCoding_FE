@@ -32,7 +32,7 @@ function ChatSection() {
   //       ...prev,
   //       { id: prev.length + 1, message: `새 메시지 ${prev.length + 1}`, sender: 'bot' },
   //     ]);
-  //   }, 3000);
+  //   }, 1000);
 
   //   return () => clearInterval(interval);
   // }, []);
