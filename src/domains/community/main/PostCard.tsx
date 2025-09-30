@@ -39,18 +39,19 @@ function PostCard({ posts, isLoading }: Props) {
           viewCount,
           createdAt,
           commentCount,
+          imageUrl,
         }) => (
           <article className="pt-5 pb-3 border-b-1 border-gray-light" key={postId}>
             <Label title={categoryName} />
 
             <section
               onClick={() => handlePost(postId)}
-              className="flex items-start justify-between mt-3 cursor-pointer h-full max-h-[115px] content-between"
+              className="flex items-center justify-between mt-3 cursor-pointer h-full"
               role="link"
             >
-              <div className="flex flex-col gap-2 max-w-[860px] flex-grow md:h-[115px] md:max-h-[115px] sm:h-[85px] sm:max-h-[85px]">
+              <div className="flex flex-col gap-2 md:max-w-[820px] sm:max-w-[440] max-w-[310px] flex-grow content-between h-full">
                 <p className="font-bold sm:text-xl text-lg">{title}</p>
-                <div className="font-light sm:text-[15px] text-sm md:max-w-[850px] sm:max-w-[500px] max-w-[210px] h-full">
+                <div className="font-light sm:text-[15px] text-sm md:max-w-[820px] sm:max-w-[440px] max-w-[210px] h-full">
                   <p
                     className="h-10"
                     style={{
@@ -73,13 +74,15 @@ function PostCard({ posts, isLoading }: Props) {
                 />
               </div>
               <figure className="flex items-center flex-shrink-0 md:w-[115px] md:h-[115px] w-[85px] h-[85px]">
-                <Image
-                  src={prePost}
-                  alt="예비사진"
-                  width={105}
-                  height={105}
-                  className="w-full h-full object-cover self-center"
-                />
+                {imageUrl && (
+                  <Image
+                    src={prePost}
+                    alt="예비사진"
+                    width={105}
+                    height={105}
+                    className="w-full h-full object-cover self-center"
+                  />
+                )}
               </figure>
             </section>
           </article>
