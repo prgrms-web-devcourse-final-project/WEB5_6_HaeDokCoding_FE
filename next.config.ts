@@ -4,6 +4,11 @@ const nextConfig: NextConfig = {
 
   // webpack 설정
   webpack: (config) => {
+
+    env: {
+      NPUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL;
+    }
+
     // @ts-expect-error 타입 에러 무시
     const fileLoaderRule = config.module.rules.find((rule) => rule.test?.test?.('.svg'));
 
