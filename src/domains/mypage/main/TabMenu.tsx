@@ -1,11 +1,9 @@
 import tw from '@/shared/utills/tw';
 import { cva } from 'class-variance-authority';
-import { Dispatch, SetStateAction } from 'react';
 
 interface Props {
   title: string;
   isClick: number;
-  setIsClick: Dispatch<SetStateAction<number>>;
   index: number;
   role: string;
   type?: 'default' | 'underLine';
@@ -59,17 +57,11 @@ export const TabClass = cva(
   }
 );
 
-function TabMenu({ title, setIsClick, isClick, role, type, index, id, ...rest }: Props) {
+function TabMenu({ title, isClick, role, type, index, id, ...rest }: Props) {
   const isActive = index == isClick;
 
   return (
-    <button
-      id={id}
-      role={role}
-      className={tw(TabClass({ type, isActive }))}
-      onClick={() => setIsClick(index)}
-      {...rest}
-    >
+    <button id={id} role={role} className={tw(TabClass({ type, isActive }))} {...rest}>
       {title}
     </button>
   );

@@ -8,14 +8,15 @@ type Props = {
 function useCloseOutside({ menuRef, onClose }: Props) {
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
+      e.stopPropagation();
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         onClose();
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('click', handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('click', handleClickOutside);
     };
   }, [menuRef, onClose]);
 }
