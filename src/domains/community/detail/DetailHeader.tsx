@@ -1,10 +1,14 @@
 import Label from '@/domains/shared/components/label/Label';
 import EditDelete from './EditDelete';
 
-function DetailHeader() {
+type Props = {
+  categoryName: string;
+};
+
+function DetailHeader({ categoryName }: Props) {
   return (
     <section className="mt-15 flex justify-between items-center">
-      <Label title="팁" />
+      <Label title={categoryName} />
       <EditDelete use="post" />
     </section>
   );

@@ -4,7 +4,12 @@ import Share from '@/domains/shared/components/share/Share';
 import CommentBtn from '../../components/comment/CommentBtn';
 import LikeBtn from '../../components/like/LikeBtn';
 
-function DetailTabDesktop() {
+type Props = {
+  likeCount: number;
+  commentCount: number;
+};
+
+function DetailTabDesktop({ likeCount, commentCount }: Props) {
   return (
     <section
       aria-label="게시글 인터랙션 버튼"
@@ -14,11 +19,11 @@ function DetailTabDesktop() {
         <div className="flex md:flex-col md:gap-10 w-full h-full">
           <div className="flex md:flex-col justify-center items-center gap-2 text-sm text-gray">
             <LikeBtn size="md" />
-            <span>2</span>
+            <span>{likeCount}</span>
           </div>
           <div className="flex md:flex-col justify-center items-center gap-2 text-sm text-gray">
             <CommentBtn size="md" />
-            <span>2</span>
+            <span>{commentCount}</span>
           </div>
           <div>
             <Share variants="community" size="md" />

@@ -1,7 +1,7 @@
 import { getApi } from '@/app/api/config/appConfig';
-import { Post } from '../types/post';
+import { CommentType } from '../types/post';
 
-export const fetchComment = async (postId: number): Promise<Post[] | null> => {
+export const fetchComment = async (postId: number): Promise<CommentType[] | null> => {
   try {
     const res = await fetch(`${getApi}/posts/${postId}/comments`, {
       method: 'GET',

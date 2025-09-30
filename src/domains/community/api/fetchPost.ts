@@ -1,5 +1,6 @@
 import { getApi } from '@/app/api/config/appConfig';
 import { Post } from '@/domains/community/types/post';
+import { ParamValue } from 'next/dist/server/request/params';
 
 export const fetchPost = async (): Promise<Post[] | null> => {
   try {
@@ -11,6 +12,19 @@ export const fetchPost = async (): Promise<Post[] | null> => {
     return data.data;
   } catch (err) {
     console.error('글 목록 불러오기 실패', err);
+    return null;
+  }
+};
+
+export const fetchPostById = async (postId: ParamValue) => {
+  try {
+    const res = await fetch(`${getApi}/posts/${postId}`, {
+      method: 'GET',
+    });
+    const data = await res.json();
+    return data.data;
+  } catch (err) {
+    console.error('글 내용 불러오기 실패', err);
     return null;
   }
 };

@@ -14,3 +14,13 @@ export interface Post {
   commentCount: number;
   viewCount: number;
 }
+
+export interface CommentType {
+  commentId: number;
+  postId: number;
+  userNickName: string;
+  createdAt: string;
+  updatedAt: string;
+  status: 'PUBLIC' | 'PRIVATE';
+  content: string; //
+}
