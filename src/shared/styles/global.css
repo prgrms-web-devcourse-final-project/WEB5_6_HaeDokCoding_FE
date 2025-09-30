@@ -1,0 +1,16 @@
+@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-neo.css');
+@import url('https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap');
+@import 'tailwindcss';
+
+@import './_base.css';
+@import './_theme.css';
+@import './_utilities.css';
+@import './_components.css';
+
+:root {
+  font-family: 'NanumSquareNeo', sans-serif;
+  line-height: 1.5;
+  font-weight: 500;
+  color: #fff;
+  background-color: var(--color-primary);
+}
