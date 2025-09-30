@@ -1,14 +1,27 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CommunityFilter from './CommunityFilter';
 import CommunityTab from './CommunityTab';
 import PostCard from './PostCard';
 import WriteBtn from './WriteBtn';
 import { Post } from '../types/post';
+import { fetchPost } from '../api/fetchPost';
 
 function Community() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      const data = await fetchPost();
+      if (!data) return;
+      setPosts(data);
+      setIsLoading(false);
+    };
+    fetchData();
+  }, [setPosts]);
 
   return (
     <>
@@ -21,8 +34,8 @@ function Community() {
       </section>
 
       <section aria-label="게시물 목록">
-        <CommunityFilter postNumber={posts.length} />
-        <PostCard posts={posts} setPosts={setPosts} />
+        <CommunityFilter posts={posts} setPosts={setPosts} />
+        <PostCard posts={posts} setPosts={setPosts} isLoading={isLoading} />
       </section>
     </>
   );
