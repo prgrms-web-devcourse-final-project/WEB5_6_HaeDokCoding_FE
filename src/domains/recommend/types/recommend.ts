@@ -1,14 +1,22 @@
-export interface Option {
+export interface StepOption {
   value: string;
   label: string;
   description: string | null;
 }
 
+export interface StepRecommendationItem {
+  cocktailId: number;
+  cocktailName: string;
+  cocktailNameKo: string;
+  cocktailImgUrl: string;
+  alcoholStrength: string;
+}
+
 export interface StepRecommendation {
   currentStep: number;
   stepTitle: string;
-  options: Option[];
-  recommendations?: string[] | null;
+  options: StepOption[];
+  recommendations?: StepRecommendationItem[];
   completed: boolean;
 }
 

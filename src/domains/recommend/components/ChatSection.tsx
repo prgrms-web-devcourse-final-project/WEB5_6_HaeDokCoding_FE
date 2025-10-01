@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import BotMessage from './bot/BotMessage';
 import UserMessage from './user/UserMessage';
 import NewMessageAlert from './bot/NewMessageAlert';
@@ -13,12 +13,23 @@ import {
   fetchSendTextMessage,
 } from '../api/chat';
 import { useAuthStore } from '@/domains/shared/store/auth';
-import { ChatMessage, stepPayload } from '../types/recommend';
+import {
+  ChatMessage,
+  stepPayload,
+  StepRecommendation,
+  StepRecommendationItem,
+} from '../types/recommend';
 
 function ChatSection() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const { chatListRef, chatEndRef, showNewMessageAlert, handleCheckBottom, handleScrollToBottom } =
     useChatScroll(messages.length);
+
+  const selectedOptions = useRef<{
+    selectedAlcoholStrength?: string;
+    selectedAlcoholBaseType?: string;
+    selectedCocktailType?: string;
+  }>({});
 
   const handleSubmitText = async (message: string) => {
     const userId = useAuthStore.getState().user?.id;
@@ -52,36 +63,40 @@ function ChatSection() {
       return;
     }
 
+    const selectedLabel = stepData.options?.find((opt) => opt.value === value)?.label ?? value;
+
     setMessages((prev) => [
       ...prev,
       {
         id: tempId,
         userId,
-        message: value,
+        message: selectedLabel,
         sender: 'USER',
         type: 'text',
         createdAt: tempCreatedAt,
       },
     ]);
 
-    const payload: stepPayload = {
-      message: value,
-      userId,
-      currentStep: stepData.currentStep + 1,
-    };
-
-    // step에 따라 선택값 추가
-    switch (stepData.currentStep) {
+    switch (stepData.currentStep + 1) {
       case 2:
-        payload.selectedAlcoholStrength = value;
+        selectedOptions.current.selectedAlcoholStrength = value;
         break;
       case 3:
-        payload.selectedAlcoholBaseType = value;
+        selectedOptions.current.selectedAlcoholBaseType = value;
         break;
       case 4:
-        payload.selectedCocktailType = value;
+        selectedOptions.current.selectedCocktailType = value;
         break;
     }
+
+    const payload: stepPayload = {
+      message: selectedLabel,
+      userId,
+      currentStep: stepData.currentStep + 1,
+      ...selectedOptions.current,
+    };
+
+    console.log('payload to API', payload);
 
     // 챗봇 API 호출
     const botMessage = await fetchSendStepMessage(payload);
@@ -102,13 +117,21 @@ function ChatSection() {
     loadChatHistory();
   }, []);
 
+  const getRecommendations = (
+    type: string | undefined,
+    stepData?: StepRecommendation | null
+  ): StepRecommendationItem[] => {
+    if (type !== 'CARD_LIST' || !stepData?.recommendations) return [];
+    return stepData.recommendations;
+  };
+
   return (
-    <section className="mx-auto w-full flex-1">
+    <section className="flex-1 flex flex-col w-full  overflow-hidden">
       <h2 className="sr-only">대화 목록 및 입력 창</h2>
       <div
         ref={chatListRef}
         onScroll={handleCheckBottom}
-        className="flex flex-col gap-10 pt-12 px-3 overflow-y-auto max-h-[calc(100vh-116px)]  md:max-h-[calc(100vh-144px)]"
+        className="absolute top-0 left-0 right-0 bottom-16 px-3 pt-12 pb-5 overflow-y-auto"
       >
         {messages.map(({ id, message, type, sender, stepData }) =>
           sender === 'USER' ? (
@@ -120,11 +143,9 @@ function ChatSection() {
                 {
                   id,
                   message,
-                  type:
-                    type === 'TEXT' || type === 'RADIO_OPTIONS' || type === 'RECOMMEND'
-                      ? type
-                      : 'TEXT',
-                  options: stepData?.options?.map((o) => o.label) ?? [],
+                  type: type ?? 'TEXT',
+                  options: type === 'RADIO_OPTIONS' ? (stepData?.options ?? []) : [],
+                  recommendations: getRecommendations(type, stepData),
                 },
               ]}
               onSelectedOption={handleSelectedOption}
