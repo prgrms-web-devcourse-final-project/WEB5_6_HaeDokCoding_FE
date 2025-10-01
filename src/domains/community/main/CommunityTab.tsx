@@ -2,7 +2,7 @@
 
 import tw from '@/shared/utills/tw';
 import { useEffect, useState } from 'react';
-import { fetchPost, fetchPostByTab } from '../api/fetchPost';
+import { fetchPost } from '../api/fetchPost';
 import { Post } from '../types/post';
 
 type Props = {
@@ -20,19 +20,19 @@ const tabItem = [
 function CommunityTab({ setPosts }: Props) {
   const [selectedIdx, setSelectedIdx] = useState(0);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const selectedTab = tabItem[selectedIdx].title;
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const selectedTab = tabItem[selectedIdx].title;
 
-      let data;
-      if (selectedTab === '전체') data = await fetchPost();
-      else data = await fetchPostByTab(selectedTab);
+  //     let data;
+  //     if (selectedTab === '전체') data = await fetchPost();
+  //     else data = await fetchPostByTab(selectedTab);
 
-      if (!data) return;
-      setPosts(data);
-    };
-    fetchData();
-  }, [selectedIdx, setPosts]);
+  //     if (!data) return;
+  //     setPosts(data);
+  //   };
+  //   fetchData();
+  // }, [selectedIdx, setPosts]);
 
   return (
     <section className="relative sm:w-[70%] w-full" aria-label="커뮤니티 탭">
