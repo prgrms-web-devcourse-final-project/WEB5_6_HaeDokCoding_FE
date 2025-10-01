@@ -13,12 +13,10 @@ import ConfirmModal from '@/shared/components/modal-pop/ConfirmModal';
 import { useToast } from '@/shared/hook/useToast';
 import SelectBox from '@/domains/shared/components/select-box/SelectBox';
 
-
 function Page() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isConfirmOpen, setConfirmOpen] = useState(false);
   const { toastSuccess, toastInfo, toastError } = useToast();
-
 
   return (
     <div className="p-6 space-y-6 bg-primary">

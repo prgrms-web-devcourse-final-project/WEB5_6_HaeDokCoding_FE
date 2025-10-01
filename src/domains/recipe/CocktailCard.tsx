@@ -35,7 +35,7 @@ function CocktailCard({ src, name, nameKo, keep = true, className, textSize1, te
       </div>
       <div className="flex flex-col gap-1 font-bold font-serif">
         <h3 className={tw(`${!textSize1 && 'text-2xl'}`, textSize1)}>{name}</h3>
-        <p className={tw(`${!textSize2 && 'text-base'}`, textSize2)}>올드 패션드</p>
+        <p className={tw(`${!textSize2 && 'text-base'}`, textSize2)}>{nameKo}</p>
       </div>
     </div>
   );

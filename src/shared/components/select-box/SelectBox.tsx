@@ -5,7 +5,6 @@ import { useShallow } from 'zustand/shallow';
 import { ID, useAccordionStore } from '@/domains/recipe/store/accordionStore';
 import useCloseOutside from '@/shared/hook/useCloseOutside';
 
-
 interface Props {
   id?: ID;
   groupKey?: string;
@@ -21,7 +20,6 @@ function SelectBox({ id, groupKey, ref, option, title, onChange, use }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [select, setSelect] = useState('');
   const menuRef = useRef<HTMLDivElement>(null);
-
 
   const ingroup = !!groupKey;
   // groupKey가 있을경우 true
@@ -80,7 +78,6 @@ function SelectBox({ id, groupKey, ref, option, title, onChange, use }: Props) {
 
   return (
     <div className="flex flex-col gap-2 relative h-6" ref={menuRef}>
-
       <button
         ref={ref}
         className="flex gap-2 cursor-pointer text-base"

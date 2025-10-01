@@ -1,5 +1,4 @@
-import SelectBox from "@/domains/shared/components/select-box/SelectBox";
-
+import SelectBox from '@/domains/shared/components/select-box/SelectBox';
 
 function Category() {
   return (

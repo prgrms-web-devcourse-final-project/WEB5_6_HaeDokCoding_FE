@@ -6,4 +6,4 @@ function Page() {
     </ul>
   );
 }
-export default Page
+export default Page;
