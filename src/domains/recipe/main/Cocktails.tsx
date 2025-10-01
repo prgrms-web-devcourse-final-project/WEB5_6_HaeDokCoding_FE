@@ -6,7 +6,7 @@ import CocktailList from './CocktailList';
 import { getApi } from '@/app/api/config/appConfig';
 
 export interface Cocktail {
-  alcoholStrength: 'NON_ALCOHOLIC' | 'WEAK' | 'LIGHT' | 'MEDIUM' | 'STRONG' | 'VERY_STRONG';
+  alcoholStrength: string;
   cocktailId: number;
   cocktailName: string;
   cocktailImgUrl: string;
@@ -39,7 +39,10 @@ function Cocktails() {
       const json = await res.json();
       const list: Cocktail[] = json.data ?? [];
 
-      setData((prev) => [...prev, ...list]);
+      // key 중복방지
+      setData((prev) =>
+        Array.from(new Map([...prev, ...list].map((i) => [i.cocktailId, i])).values())
+      );
 
       if (list.length > 0) {
         setLastId(list[list.length - 1].cocktailId);
@@ -54,7 +57,9 @@ function Cocktails() {
   };
 
   useEffect(() => {
-    RecipeFetch();
+    if (data.length === 0) {
+      RecipeFetch();
+    }
   }, []);
 
   return (

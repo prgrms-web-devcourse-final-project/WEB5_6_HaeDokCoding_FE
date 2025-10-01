@@ -28,18 +28,24 @@ function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId }: Props) {
       className="place-content-between
     grid gap-8 justify-items-center
     grid-cols-1 sm:justify-items-stretch
-    sm:[grid-template-columns:repeat(2,minmax(0,320px))]  sm:gap-8    md:[grid-template-columns:repeat(3,minmax(0,250px))]  
+    sm:[grid-template-columns:repeat(2,minmax(0,320px))]  sm:gap-8 md:[grid-template-columns:repeat(3,minmax(0,250px))]  
      lg:[grid-template-columns:repeat(4,minmax(0,250px))]
-    
   "
     >
-      {cocktails.map(({ cocktailImgUrl, cocktailId, cocktailName, cocktailNameKo }) => (
-        <li key={cocktailId}>
-          <Link href={`/recipe/${String(cocktailId)}`}>
-            <CocktailCard src={cocktailImgUrl} name={cocktailName} nameKo={cocktailNameKo} />
-          </Link>
-        </li>
-      ))}
+      {cocktails.map(
+        ({ cocktailImgUrl, cocktailId, cocktailName, cocktailNameKo, alcoholStrength }) => (
+          <li key={cocktailId}>
+            <Link href={`/recipe/${String(cocktailId)}`}>
+              <CocktailCard
+                src={cocktailImgUrl}
+                name={cocktailName}
+                nameKo={cocktailNameKo}
+                alcohol={alcoholStrength}
+              />
+            </Link>
+          </li>
+        )
+      )}
       <div ref={cocktailRef} className="h-2.5"></div>
     </ul>
   );

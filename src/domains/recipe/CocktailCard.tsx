@@ -8,13 +8,27 @@ interface Props {
   name: string;
   nameKo?: string;
   keep?: boolean;
+  alcohol?: string;
   title?: string;
   className?: string;
   textSize1?: string;
   textSize2?: string;
 }
 
-function CocktailCard({ src, name, nameKo, keep = true, className, textSize1, textSize2 }: Props) {
+function CocktailCard({
+  src,
+  name,
+  nameKo,
+  keep = true,
+  className,
+  textSize1,
+  textSize2,
+  alcohol,
+}: Props) {
+  const alcoholTitle = alcohol?.replace(/\(\d+(~\d+)?%\~?\)/g, '').trim();
+
+  console.log(alcoholTitle);
+
   return (
     <div className="flex flex-col gap-4">
       <div
@@ -26,9 +40,7 @@ function CocktailCard({ src, name, nameKo, keep = true, className, textSize1, te
         <Image src={src} alt={name} fill className="object-cover" sizes="250px" />
         {keep && (
           <div className="flex w-full pl-4 px-3 py-2 items-center justify-between absolute left-0 top-0">
-            <div>
-              <Label title="레시피" />
-            </div>
+            <div>{alcoholTitle && <Label title={alcoholTitle} />}</div>
             <Keep />
           </div>
         )}
