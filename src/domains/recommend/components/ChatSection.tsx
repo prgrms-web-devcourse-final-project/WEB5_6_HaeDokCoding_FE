@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import BotMessage from './bot/BotMessage';
 import UserMessage from './user/UserMessage';
 import NewMessageAlert from './bot/NewMessageAlert';
 import MessageInput from './user/MessageInput';
 import { useChatScroll } from '../hook/useChatScroll';
+import { fetchChatMessage } from '../api/chat';
 
 // TODOS : 아직 api 몰라서 임시 type
 interface ChatMessage {
@@ -19,10 +20,18 @@ function ChatSection() {
   const { chatListRef, chatEndRef, showNewMessageAlert, handleCheckBottom, handleScrollToBottom } =
     useChatScroll(messages.length);
 
-  const handleSubmit = (message: string) => {
+  const handleSubmit = async (message: string) => {
     // 사용자 메시지
     setMessages((prev) => [...prev, { id: prev.length + 1, message, sender: 'user' }]);
   };
+
+  useEffect(() => {
+    const testApi = async () => {
+      const data = await fetchChatMessage('테스트 메시지');
+      console.log('Chat API response:', data);
+    };
+    testApi();
+  }, []);
 
   // 쑤리 임시 메시지
   // useEffect(() => {
