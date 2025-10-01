@@ -20,11 +20,13 @@ function Cocktails() {
   const [isLoading, setIsLoading] = useState(false);
   const [hasNextPage, setHasNextPage] = useState(true);
 
+  const num = data.map((a) => a.cocktailId);
   const RecipeFetch = async () => {
     if (isLoading || !hasNextPage) return;
     setIsLoading(true);
 
     try {
+      // lastId 초기값이 null값이어서 URL로 받음
       const url = new URL(`${getApi}/cocktails`);
       url.searchParams.set('size', String(SIZE));
       if (typeof lastId == 'number') {
@@ -57,7 +59,7 @@ function Cocktails() {
 
   return (
     <section>
-      <CocktailFilter cocktails={data} />
+      <CocktailFilter cocktailsEA={num} />
       <section className="mt-5 ">
         <CocktailList
           cocktails={data}

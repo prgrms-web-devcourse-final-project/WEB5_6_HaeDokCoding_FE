@@ -1,10 +1,16 @@
-function DetailRecipe() {
+interface Props {
+  ingredient: string;
+  recipe: string;
+}
+
+function DetailRecipe({ ingredient, recipe }: Props) {
   return (
     <div className="flex flex-col md:flex-row  px-5 gap-5">
       <article className="flex flex-col gap-4 w-[50%]">
         <h4 className="text-2xl font-bold">재료</h4>
         <ul className="flex flex-col gap-2">
-          <li className="text-lg">
+          {ingredient}
+          {/* <li className="text-lg">
             럼 <span className="text-sm text-white/80">1 1/2oz | 90ml</span>
           </li>
           <li className="text-lg">
@@ -15,7 +21,7 @@ function DetailRecipe() {
           </li>
           <li className="text-lg">
             자몽 <span className="text-sm text-white/80">1/2개</span>
-          </li>
+          </li> */}
         </ul>
       </article>
 
@@ -23,10 +29,11 @@ function DetailRecipe() {
         <article className="flex flex-col gap-4 ">
           <h4 className="text-2xl font-bold">만드는 법</h4>
           <ol className="flex flex-col gap-2 pl-4 list-decimal">
-            <li>셰이커에 라임즙을 착즙기로 짜 넣습니다</li>
+            {recipe}
+            {/* <li>셰이커에 라임즙을 착즙기로 짜 넣습니다</li>
             <li>셰이커에 자몽즙을 착즙기로 짜 넣습니다</li>
             <li>셰이커에 재료를 넣습니다</li>
-            <li>셰이킹 후 잔에 따라줍니다</li>
+            <li>셰이킹 후 잔에 따라줍니다</li> */}
           </ol>
         </article>
       </span>

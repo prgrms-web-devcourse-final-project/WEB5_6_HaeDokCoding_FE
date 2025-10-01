@@ -8,6 +8,7 @@ interface Props {
   name: string;
   nameKo?: string;
   keep?: boolean;
+  title?: string;
   className?: string;
   textSize1?: string;
   textSize2?: string;
@@ -22,8 +23,7 @@ function CocktailCard({ src, name, nameKo, keep = true, className, textSize1, te
           className
         )}
       >
-        {/* <Image src={src} alt={name} fill /> */}
-        <Image src={src} alt={name} fill className="object-cover " />
+        <Image src={src} alt={name} fill className="object-cover" sizes="250px" />
         {keep && (
           <div className="flex w-full pl-4 px-3 py-2 items-center justify-between absolute left-0 top-0">
             <div>

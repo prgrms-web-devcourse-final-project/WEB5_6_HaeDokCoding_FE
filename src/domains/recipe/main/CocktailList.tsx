@@ -16,7 +16,7 @@ function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId }: Props) {
   const cocktailRef = useRef(null);
   const onIntersect: IntersectionObserverCallback = ([entry]) => {
     if (!lastId) return;
-    if (entry.isIntersecting && lastId > 0) {
+    if (entry.isIntersecting && lastId > 1) {
       RecipeFetch();
     }
   };
@@ -34,7 +34,7 @@ function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId }: Props) {
   "
     >
       {cocktails.map(({ cocktailImgUrl, cocktailId, cocktailName, cocktailNameKo }) => (
-        <li key={cocktailName + cocktailImgUrl}>
+        <li key={cocktailId}>
           <Link href={`/recipe/${String(cocktailId)}`}>
             <CocktailCard src={cocktailImgUrl} name={cocktailName} nameKo={cocktailNameKo} />
           </Link>
