@@ -3,7 +3,11 @@
 import Share from '@/domains/shared/components/share/Share';
 import LikeBtn from '../../components/like/LikeBtn';
 
-function DetailTabMobile() {
+type Props = {
+  likeCount: number;
+};
+
+function DetailTabMobile({ likeCount }: Props) {
   return (
     <section
       aria-label="게시글 인터랙션 버튼"
@@ -12,7 +16,7 @@ function DetailTabMobile() {
       <div className="flex w-full h-full justify-start items-center gap-3">
         <div className="flex justify-center items-center gap-1 text-sm text-gray">
           <LikeBtn size="sm" />
-          <span>2</span>
+          <span>{likeCount}</span>
         </div>
         <div className="flex items-center">
           <Share variants="community" size="sm" />

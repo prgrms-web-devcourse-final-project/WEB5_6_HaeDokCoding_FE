@@ -6,6 +6,7 @@ import CocktailCard from '@/domains/recipe/CocktailCard';
 import ModalLayout from '@/shared/components/modal-pop/ModalLayout';
 import Button from '@/shared/components/button/Button';
 import TagList from '../../components/tag/TagList';
+import { useState } from 'react';
 
 type Props = {
   isOpen: boolean;
@@ -13,6 +14,8 @@ type Props = {
 };
 
 function TagModal({ isOpen, setIsOpen }: Props) {
+  const [tags, setTags] = useState<string[] | null>(null);
+
   return (
     <ModalLayout
       open={isOpen}
@@ -27,13 +30,15 @@ function TagModal({ isOpen, setIsOpen }: Props) {
         variant="search"
       />
       <div className="mt-5">
-        <TagList hasDelete={true} />
+        <TagList hasDelete={true} tags={tags} />
       </div>
       <div className="mt-5 flex items-center justify-center">
         <ul className="p-2 rounded-xl grid md:grid-cols-4 grid-cols-2 gap-3 w-full max-w-[560px] md:max-h-[450px] max-h-[330px] overflow-y-auto custom-scrollbar will-change-scroll">
           {Array.from({ length: 16 }, (_, index) => (
             <div key={index} className="relative">
               <CocktailCard
+                src=""
+                name=""
                 keep={false}
                 className="w-full md:h-[100px] h-[120px]"
                 textSize1="md:text-sm text-[10px] font-normal truncate md:w-24 w-18"
