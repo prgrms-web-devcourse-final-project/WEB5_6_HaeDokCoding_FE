@@ -6,44 +6,101 @@ import UserMessage from './user/UserMessage';
 import NewMessageAlert from './bot/NewMessageAlert';
 import MessageInput from './user/MessageInput';
 import { useChatScroll } from '../hook/useChatScroll';
-import { fetchChatMessage } from '../api/chat';
-
-// TODOS : 아직 api 몰라서 임시 type
-interface ChatMessage {
-  id: number;
-  message: string;
-  sender: 'user' | 'bot';
-}
+import {
+  fetchChatHistory,
+  fetchGreeting,
+  fetchSendStepMessage,
+  fetchSendTextMessage,
+} from '../api/chat';
+import { useAuthStore } from '@/domains/shared/store/auth';
+import { ChatMessage, stepPayload } from '../types/recommend';
 
 function ChatSection() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const { chatListRef, chatEndRef, showNewMessageAlert, handleCheckBottom, handleScrollToBottom } =
     useChatScroll(messages.length);
 
-  const handleSubmit = async (message: string) => {
-    // 사용자 메시지
-    setMessages((prev) => [...prev, { id: prev.length + 1, message, sender: 'user' }]);
+  const handleSubmitText = async (message: string) => {
+    const userId = useAuthStore.getState().user?.id;
+    if (!userId) return;
+
+    const tempId = Date.now().toString();
+    const tempCreatedAt = new Date().toISOString();
+
+    // 유저 메시지 낙관적 업데이트
+    setMessages((prev) => [
+      ...prev,
+      { id: tempId, userId, message, sender: 'USER', type: 'text', createdAt: tempCreatedAt },
+    ]);
+
+    const botMessage = await fetchSendTextMessage({ message, userId });
+    if (botMessage) setMessages((prev) => [...prev, botMessage]);
   };
 
-  useEffect(() => {
-    const testApi = async () => {
-      const data = await fetchChatMessage('테스트 메시지');
-      console.log('Chat API response:', data);
+  const handleSelectedOption = async (value: string) => {
+    const userId = useAuthStore.getState().user?.id;
+    if (!userId) return;
+
+    const tempId = Date.now().toString();
+    const tempCreatedAt = new Date().toISOString();
+
+    const lastMessage = messages[messages.length - 1];
+    const stepData = lastMessage?.stepData;
+
+    if (!stepData) {
+      await handleSubmitText(value);
+      return;
+    }
+
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: tempId,
+        userId,
+        message: value,
+        sender: 'USER',
+        type: 'text',
+        createdAt: tempCreatedAt,
+      },
+    ]);
+
+    const payload: stepPayload = {
+      message: value,
+      userId,
+      currentStep: stepData.currentStep + 1,
     };
-    testApi();
+
+    // step에 따라 선택값 추가
+    switch (stepData.currentStep) {
+      case 2:
+        payload.selectedAlcoholStrength = value;
+        break;
+      case 3:
+        payload.selectedAlcoholBaseType = value;
+        break;
+      case 4:
+        payload.selectedCocktailType = value;
+        break;
+    }
+
+    // 챗봇 API 호출
+    const botMessage = await fetchSendStepMessage(payload);
+    if (botMessage) setMessages((prev) => [...prev, botMessage]);
+  };
+
+  // 채팅 기록 불러오기, 없으면 greeting 호출
+  useEffect(() => {
+    const loadChatHistory = async () => {
+      const history = await fetchChatHistory();
+      if (history && history.length > 0) {
+        setMessages(history.sort((a, b) => Number(a.id) - Number(b.id)));
+      } else {
+        const greeting = await fetchGreeting('');
+        if (greeting) setMessages([greeting]);
+      }
+    };
+    loadChatHistory();
   }, []);
-
-  // 쑤리 임시 메시지
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setMessages((prev) => [
-  //       ...prev,
-  //       { id: prev.length + 1, message: `새 메시지 ${prev.length + 1}`, sender: 'bot' },
-  //     ]);
-  //   }, 1000);
-
-  //   return () => clearInterval(interval);
-  // }, []);
 
   return (
     <section className="mx-auto w-full flex-1">
@@ -53,18 +110,32 @@ function ChatSection() {
         onScroll={handleCheckBottom}
         className="flex flex-col gap-10 pt-12 px-3 overflow-y-auto max-h-[calc(100vh-116px)]  md:max-h-[calc(100vh-144px)]"
       >
-        {messages.map(({ id, message, sender }) =>
-          sender === 'user' ? (
-            <UserMessage key={id} message={message} />
+        {messages.map(({ id, message, type, sender, stepData }) =>
+          sender === 'USER' ? (
+            <UserMessage key={`${id}-${sender}`} message={message} />
           ) : (
-            <BotMessage key={id} messages={[{ id, type: 'text', message }]} />
+            <BotMessage
+              key={`${id}-${sender}`}
+              messages={[
+                {
+                  id,
+                  message,
+                  type:
+                    type === 'TEXT' || type === 'RADIO_OPTIONS' || type === 'RECOMMEND'
+                      ? type
+                      : 'TEXT',
+                  options: stepData?.options?.map((o) => o.label) ?? [],
+                },
+              ]}
+              onSelectedOption={handleSelectedOption}
+            />
           )
         )}
 
         <div ref={chatEndRef}></div>
         {showNewMessageAlert && <NewMessageAlert onClick={handleScrollToBottom} />}
       </div>
-      <MessageInput onSubmit={handleSubmit} />
+      <MessageInput onSubmit={handleSubmitText} />
     </section>
   );
 }

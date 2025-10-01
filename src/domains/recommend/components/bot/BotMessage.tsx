@@ -7,26 +7,23 @@ import BotCocktailCard from './BotCocktailCard';
 import BotOptions from './BotOptions';
 import TypingIndicator from './TypingIndicator';
 
-interface Message {
-  id: number;
-  message?: string;
-  type?: 'radio' | 'text' | 'recommend';
+interface BotMessage {
+  id: string;
+  message: string;
+  type?: 'TEXT' | 'RADIO_OPTIONS' | 'RECOMMEND';
+  options?: string[];
 }
 
 interface BotMessages {
-  messages: Message[];
+  messages: BotMessage[];
   isTyping?: boolean;
+  onSelectedOption?: (value: string) => void;
 }
 
-function BotMessage({ messages, isTyping = false }: BotMessages) {
-  const [selected, setSelected] = useState('option1');
+function BotMessage({ messages, isTyping = false, onSelectedOption }: BotMessages) {
+  const [selected, setSelected] = useState('');
 
-  // 임시 radio 옵션
-  const options = [
-    { label: '옵션 1', value: 'option1' },
-    { label: '옵션 2', value: 'option2' },
-    { label: '옵션 3', value: 'option3' },
-  ];
+  console.log(messages);
 
   return (
     <article aria-label="취향추천 챗봇 메시지" className="">
@@ -47,14 +44,8 @@ function BotMessage({ messages, isTyping = false }: BotMessages) {
       <div className="flex flex-col gap-3 mt-3 pl-3">
         {messages.map((msg) => (
           <div key={msg.id}>
-            {msg.type === 'recommend' ? (
+            {msg.type === 'RECOMMEND' ? (
               <ul className="inline-grid grid-cols-1 sm:grid-cols-3 gap-2 justify-start">
-                <li>
-                  <BotCocktailCard />
-                </li>
-                <li>
-                  <BotCocktailCard />
-                </li>
                 <li>
                   <BotCocktailCard />
                 </li>
@@ -64,8 +55,15 @@ function BotMessage({ messages, isTyping = false }: BotMessages) {
                 {msg.message && <p className="whitespace-pre-line">{msg.message}</p>}
 
                 {/* radio */}
-                {msg.type === 'radio' && (
-                  <BotOptions options={options} value={selected} onChange={setSelected} />
+                {msg.type === 'RADIO_OPTIONS' && msg.options?.length && (
+                  <BotOptions
+                    options={msg.options.map((label) => ({ label, value: label }))}
+                    value={selected}
+                    onChange={(val) => {
+                      setSelected(val);
+                      onSelectedOption?.(val);
+                    }}
+                  />
                 )}
               </div>
             )}
