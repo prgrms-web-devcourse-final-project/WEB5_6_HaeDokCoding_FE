@@ -1,11 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import BotMessage from './bot/BotMessage';
-import UserMessage from './user/UserMessage';
-import NewMessageAlert from './bot/NewMessageAlert';
 import MessageInput from './user/MessageInput';
-import { useChatScroll } from '../hook/useChatScroll';
 import {
   fetchChatHistory,
   fetchGreeting,
@@ -23,8 +19,7 @@ import ChatList from './ChatList';
 
 function ChatSection() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const { chatListRef, chatEndRef, showNewMessageAlert, handleCheckBottom, handleScrollToBottom } =
-    useChatScroll(messages.length);
+
   const [userCurrentStep, setUserCurrentStep] = useState(0);
   const [isBotTyping, setIsBotTyping] = useState(false);
 
@@ -163,11 +158,6 @@ function ChatSection() {
         userCurrentStep={userCurrentStep}
         onSelectedOption={handleSelectedOption}
         getRecommendations={getRecommendations}
-        chatListRef={chatListRef}
-        chatEndRef={chatEndRef}
-        showNewMessageAlert={showNewMessageAlert}
-        handleCheckBottom={handleCheckBottom}
-        handleScrollToBottom={handleScrollToBottom}
         isBotTyping={isBotTyping}
       />
       <MessageInput onSubmit={handleSubmitText} />

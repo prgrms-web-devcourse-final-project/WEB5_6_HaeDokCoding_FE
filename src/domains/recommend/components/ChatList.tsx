@@ -1,3 +1,4 @@
+import { useChatScroll } from '../hook/useChatScroll';
 import { ChatListProps } from '../types/recommend';
 import BotMessage from './bot/BotMessage';
 import NewMessageAlert from './bot/NewMessageAlert';
@@ -9,13 +10,11 @@ function ChatList({
   userCurrentStep,
   onSelectedOption,
   getRecommendations,
-  chatListRef,
-  chatEndRef,
-  showNewMessageAlert,
-  handleCheckBottom,
-  handleScrollToBottom,
   isBotTyping,
 }: ChatListProps) {
+  const { chatListRef, chatEndRef, showNewMessageAlert, handleCheckBottom, handleScrollToBottom } =
+    useChatScroll(messages.length);
+
   return (
     <div
       ref={chatListRef}
@@ -23,10 +22,7 @@ function ChatList({
       className="absolute top-0 left-0 right-0 bottom-20 w-full gap-5 px-3 pt-12 pb-5 flex flex-col items-center overflow-y-auto pr-2"
     >
       <div className="max-w-1024 w-full">
-        {messages.map((msg, idx) => {
-          const isLastMessage = idx === messages.length - 1;
-          const showTyping = isLastMessage && msg.sender === 'CHATBOT' && isBotTyping;
-
+        {messages.map((msg) => {
           if (msg.sender === 'USER') {
             return <UserMessage key={`${msg.id}-${msg.sender}`} message={msg.message} />;
           }
@@ -53,8 +49,8 @@ function ChatList({
         {isBotTyping && <TypingIndicator />}
 
         <div ref={chatEndRef}></div>
+        {showNewMessageAlert && <NewMessageAlert onClick={handleScrollToBottom} />}
       </div>
-      {showNewMessageAlert && <NewMessageAlert onClick={handleScrollToBottom} />}
     </div>
   );
 }
