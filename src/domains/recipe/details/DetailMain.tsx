@@ -7,11 +7,54 @@ import SsuryShake from '@/shared/assets/ssury/ssury_make.webp';
 import SsuryDrink from '@/shared/assets/ssury/ssury_drink.webp';
 import Image from 'next/image';
 import DetailList from './DetailList';
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import SkeletonDetail from '../skeleton/SkeletonDetail';
 import RecipeComment from '../components/details/RecipeComment';
+import { useParams } from 'next/navigation';
+import { getApi } from '@/app/api/config/appConfig';
 
 function DetailMain() {
+  const { id } = useParams();
+
+  const [cocktail, setCocktail] = useState();
+
+  const fetchData = async () => {
+    const res = await fetch(`${getApi}/cocktails/${id}`);
+    const json = await res.json();
+    if (!res.ok) throw new Error('데이터 요청 실패');
+    setCocktail(json.data);
+  };
+
+  useEffect(() => {
+    fetchData();
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      // 레시피 페이지로 돌아가지 않는 경우 (헤더 탭 클릭 등)
+      // 네비게이션 플래그를 제거하여 스크롤 복원 방지
+      const currentPath = window.location.pathname;
+
+      // 디테일 페이지를 벗어나는 경우
+      if (!currentPath.includes('/recipe')) {
+        sessionStorage.removeItem('cocktails_scroll_state_nav_flag');
+      }
+    };
+  }, []);
+
+  if (!cocktail) return;
+  const {
+    cocktailImgUrl,
+    cocktailName,
+    cocktailNameKo,
+    cocktailStory,
+    alcoholStrength,
+    cocktailType,
+    ingredient,
+    recipe,
+  } = cocktail;
+
   return (
     <Suspense fallback={<SkeletonDetail />}>
       <div className="max-w-1024 page-layout py-12">
@@ -20,7 +63,14 @@ function DetailMain() {
         <article className="flex flex-col items-center mt-4 lg:mt-0">
           <span className="md:bg-secondary w-1 h-100 -translate-y-19 absolute top-0 left-1/2 -translate-x-1/2 md: z-2"></span>
           <span className="h-3 w-3 rounded-full absolute  top-80 left-1/2 -translate-x-1/2 z-99 md:bg-secondary"></span>
-          <DetailItem />
+          <DetailItem
+            name={cocktailName}
+            nameKo={cocktailNameKo}
+            story={cocktailStory}
+            src={cocktailImgUrl}
+            abv={alcoholStrength}
+            glassType={cocktailType}
+          />
         </article>
 
         <section className="mt-20 flex flex-col gap-5">
@@ -30,7 +80,7 @@ function DetailMain() {
               <h3 className="text-3xl font-bold">레시피</h3>
             </div>
           </div>
-          <DetailRecipe />
+          <DetailRecipe ingredient={ingredient} recipe={recipe} />
         </section>
 
         <section className="mt-20" aria-labelledby="옆으로 슬라이드되는 리스트">

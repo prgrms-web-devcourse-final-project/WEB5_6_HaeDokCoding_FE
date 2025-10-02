@@ -1,4 +1,4 @@
-import CommentList from '@/domains/shared/components/comment/CommentList';
+// import CommentList from '@/domains/shared/components/comment/CommentList';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
