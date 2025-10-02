@@ -18,7 +18,7 @@ function DetailRecipe({ ingredient, recipe }: Props) {
         </ul>
       </article>
 
-      <span className="border-t-1 w-1/2 pt-5 md:border-l-1 md:border-t-0 md:px-10 border-white">
+      <span className="border-t-1 w-full md:w-1/2 pt-5 md:border-l-1 md:border-t-0 md:px-10 border-white">
         <article className="flex flex-col gap-4 ">
           <h4 className="text-2xl font-bold">만드는 법</h4>
           <ol className="flex flex-col gap-2 pl-4 list-decimal">

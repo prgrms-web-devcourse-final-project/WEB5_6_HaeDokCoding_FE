@@ -5,3 +5,12 @@ export interface Cocktail {
   cocktailImgUrl: string;
   cocktailNameKo: string;
 }
+
+export interface RecommendCocktail{
+  id: number,
+  cocktailNameKo: string,
+  cocktailName: string,
+  cocktailImgUrl: string,
+  alcoholStrength: string,
+  alcoholBaseType:string
+}

@@ -34,7 +34,7 @@ function CocktailCard({
     <div className="flex flex-col gap-4">
       <div
         className={tw(
-          `${!className && 'w-80 h-75 md:w-62.5 '}  rounded-xl overflow-hidden relative`,
+          `${!className && 'w-80 h-75 md:w-62.5 '} rounded-xl overflow-hidden relative`,
           className
         )}
       >
