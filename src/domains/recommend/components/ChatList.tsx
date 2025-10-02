@@ -13,13 +13,13 @@ function ChatList({
   isBotTyping,
 }: ChatListProps) {
   const { chatListRef, chatEndRef, showNewMessageAlert, handleCheckBottom, handleScrollToBottom } =
-    useChatScroll(messages.length);
+    useChatScroll(messages[messages.length - 1]?.id);
 
   return (
     <div
       ref={chatListRef}
       onScroll={handleCheckBottom}
-      className="absolute top-0 left-0 right-0 bottom-20 w-full gap-5 px-3 pt-12 pb-5 flex flex-col items-center overflow-y-auto pr-2"
+      className="absolute top-0 left-0 bottom-18 sm:bottom-21 w-full gap-5 px-3 pt-12 pb-4 flex flex-col items-center overflow-y-auto pr-2"
     >
       <div className="max-w-1024 w-full">
         {messages.map((msg) => {
