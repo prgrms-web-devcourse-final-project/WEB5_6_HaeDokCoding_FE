@@ -53,8 +53,8 @@ function ChatList({
         {isBotTyping && <TypingIndicator />}
 
         <div ref={chatEndRef}></div>
-        {showNewMessageAlert && <NewMessageAlert onClick={handleScrollToBottom} />}
       </div>
+      {showNewMessageAlert && <NewMessageAlert onClick={handleScrollToBottom} />}
     </div>
   );
 }
