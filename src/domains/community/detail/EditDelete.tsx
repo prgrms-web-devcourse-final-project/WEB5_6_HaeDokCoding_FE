@@ -1,4 +1,13 @@
-function EditDelete({ use }: { use: 'post' | 'comment' }) {
+type Props = {
+  use: 'post' | 'comment';
+  isEditing?: boolean;
+  onEdit?: () => void;
+  onCancelEdit?: () => void;
+  onDelete?: () => void;
+  onSubmitEdit?: () => void;
+};
+
+function EditDelete({ use, isEditing, onEdit, onCancelEdit, onDelete, onSubmitEdit }: Props) {
   return (
     <div
       role="group"
@@ -8,15 +17,17 @@ function EditDelete({ use }: { use: 'post' | 'comment' }) {
       <button
         type="button"
         className={`hover:text-white transition-colors ${use === 'comment' ? ' underline underline-offset-4' : ''}`}
+        onClick={isEditing ? onSubmitEdit : onEdit}
       >
-        수정
+        {isEditing ? '완료' : '수정'}
       </button>
       <span aria-hidden="true">|</span>
       <button
         type="button"
         className={`hover:text-white transition-colors ${use === 'comment' ? ' underline underline-offset-4' : ''}`}
+        onClick={isEditing ? onCancelEdit : onDelete}
       >
-        삭제
+        {isEditing ? '취소' : '삭제'}
       </button>
     </div>
   );
