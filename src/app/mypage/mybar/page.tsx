@@ -1,4 +1,4 @@
-import CocktailCard from '@/domains/recipe/CocktailCard';
+import CocktailCard from '@/domains/shared/components/cocktailCard/CocktailCard';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
