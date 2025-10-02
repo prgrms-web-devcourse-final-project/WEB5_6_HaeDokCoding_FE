@@ -32,27 +32,25 @@ function Textarea({
   };
 
   return (
-    <div className="pl-4 pr-2 py-1 w-full rounded-lg bg-white text-primary flex items-end gap-2 placeholder:text-gray-dark">
-      <label htmlFor={id} className="flex-1">
-        <textarea
-          id={id}
-          spellCheck={false}
-          placeholder={placeholder}
-          className={tw(
-            `outline-none w-full flex-1 leading-${size} min-h-[45px] max-h-[150px]`,
-            className
-          )}
-          ref={ref}
-          onChange={handleResize}
-          onKeyDown={onKeyDown}
-          {...rest}
-        />
-      </label>
+    <div className="pl-4 pr-2 w-full rounded-lg bg-white text-primary flex items-center gap-2 placeholder:text-gray-dark min-h-10 max-h-[150px]">
+      <textarea
+        id={id}
+        spellCheck={false}
+        placeholder={placeholder}
+        className={tw(
+          `outline-none w-full flex-1 leading-[1.2] resize-none text-md h-[24px] py-[0.8px] no-scrollbar`,
+          className
+        )}
+        ref={ref}
+        onChange={handleResize}
+        onKeyDown={onKeyDown}
+        {...rest}
+      />
       <Button
         color="purple"
         type="submit"
         size="auto"
-        className="w-12 h-12 text-xs px-1.5 py-[1px] rounded-sm shadow-md mb-1"
+        className="w-12 h-7 text-xs px-1.5 py-[1px] mt-[0.5px] rounded-sm shadow-md mb-1 absolute bottom-[1.2px] right-2"
         onClick={onClick}
       >
         입력

@@ -69,11 +69,11 @@ function CommentHeader({
   return (
     <section aria-label="댓글" className="mt-6 w-full">
       {totalComment && <span>댓글 {comments?.length || 0}</span>}
-      <div className="w-full relative mt-5">
+      <div className="w-full relative mt-5 ">
         <Textarea
           placeholder="댓글로 의견을 남겨주세요"
           id="community-comment"
-          className="w-full pt-2"
+          className="w-full "
           ref={commentRef}
           onKeyDown={handleKeyDown}
           onClick={postComment}

@@ -13,7 +13,6 @@ export const fetchComment = async (postId: number): Promise<CommentType[] | null
     const filteredComments = data.data.filter(
       (comment: CommentType) => comment.status !== 'DELETED'
     );
-    console.log(filteredComments);
 
     return filteredComments;
   } catch (err) {
