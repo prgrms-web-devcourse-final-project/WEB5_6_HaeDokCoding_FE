@@ -11,7 +11,7 @@ import Share from '@/domains/shared/components/share/Share';
 import Keep from '@/domains/shared/components/keep/Keep';
 import ConfirmModal from '@/shared/components/modal-pop/ConfirmModal';
 import { useToast } from '@/shared/hook/useToast';
-import SelectBox from '@/domains/shared/components/select-box/SelectBox';
+import SelectBox from '@/shared/components/select-box/SelectBox';
 
 function Page() {
   const [isModalOpen, setModalOpen] = useState(false);
