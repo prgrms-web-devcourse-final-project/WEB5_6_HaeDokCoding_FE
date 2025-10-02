@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Label from '@/domains/shared/components/label/Label';
 import AbvGraph from '@/domains/shared/components/abv-graph/AbvGraph';
 import { labelTitle } from '../utills/labelTitle';
+import { useGlass } from './hook/useGlass';
 
 interface Props {
   name: string;
@@ -17,7 +18,7 @@ function DetailItem({ name, nameKo, story, src, abv, glassType }: Props) {
   const abvNum = abv.replace(/\(([^)]*)\)/g, '$1').split(' ').reverse().slice(0, 1).toString()
   const maxAbv = abvNum.replace(/[~%]/g, " ").split(' ').filter(str => str.trim() !== '').map(Number)
 
-  // const glassIcon =  useGlass(glassType)
+  const glassIcon =  useGlass(glassType)
  
   return (
     <div className="flex flex-col items-center">
@@ -61,7 +62,7 @@ function DetailItem({ name, nameKo, story, src, abv, glassType }: Props) {
             <span>|</span>
           </dt>
           <dd className="flex items-center ">
-            {/* {glassIcon} */}
+            {glassIcon}
             <p>{ glassType == '숏' || '롱' ? `${glassType} 드링크`: `${glassType} 칵테일` }</p>
           </dd>
         </div>

@@ -5,6 +5,7 @@ interface Props {
 
 function DetailRecipe({ ingredient, recipe }: Props) {
   const ingredients = ingredient.trim().split(',').filter(Boolean);
+  console.log(ingredient)
   const recipes = recipe.trim().split('.').filter(Boolean);
 
   return (
