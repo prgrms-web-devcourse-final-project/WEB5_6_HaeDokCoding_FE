@@ -2,7 +2,7 @@ import { getApi } from '@/app/api/config/appConfig';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-interface User {
+export interface User {
   id: string;
   email: string;
   nickname: string;

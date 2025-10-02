@@ -28,9 +28,9 @@ function PostInfo({
       )}
       <li>{elapsedTime(createdAt)}</li>
       <li aria-hidden="true">|</li>
-      <li>조회 {viewCount}</li>
+      <li>조회 {viewCount || 0}</li>
       <li aria-hidden="true">|</li>
-      <li>댓글 {commentCount}</li>
+      <li>댓글 {commentCount + 1 || 0}</li>
     </ul>
   );
 }

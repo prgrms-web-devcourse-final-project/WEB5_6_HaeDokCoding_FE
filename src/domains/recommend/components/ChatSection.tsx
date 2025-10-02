@@ -5,85 +5,161 @@ import BotMessage from './bot/BotMessage';
 import UserMessage from './user/UserMessage';
 import NewMessageAlert from './bot/NewMessageAlert';
 import MessageInput from './user/MessageInput';
-
-// TODOS : 아직 api 몰라서 임시 type
-interface ChatMessage {
-  id: number;
-  message: string;
-  sender: 'user' | 'bot';
-}
+import { useChatScroll } from '../hook/useChatScroll';
+import {
+  fetchChatHistory,
+  fetchGreeting,
+  fetchSendStepMessage,
+  fetchSendTextMessage,
+} from '../api/chat';
+import { useAuthStore } from '@/domains/shared/store/auth';
+import {
+  ChatMessage,
+  stepPayload,
+  StepRecommendation,
+  RecommendationItem,
+} from '../types/recommend';
+import ChatList from './ChatList';
 
 function ChatSection() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const chatEndRef = useRef<HTMLDivElement>(null);
-  const chatListRef = useRef<HTMLDivElement>(null);
-  const isScrollBottom = useRef(true);
-  const [showNewMessageAlert, setShowNewMessageAlert] = useState(false);
+  const { chatListRef, chatEndRef, showNewMessageAlert, handleCheckBottom, handleScrollToBottom } =
+    useChatScroll(messages.length);
+  const [userCurrentStep, setUserCurrentStep] = useState(0);
+  const [isBotTyping, setIsBotTyping] = useState(false);
 
-  const handleSubmit = (message: string) => {
-    // 사용자 메시지
-    setMessages((prev) => [...prev, { id: prev.length + 1, message, sender: 'user' }]);
+  const selectedOptions = useRef<{
+    selectedAlcoholStrength?: string;
+    selectedAlcoholBaseType?: string;
+    selectedCocktailType?: string;
+  }>({});
+
+  // 일반 텍스트 보낼 시
+  const handleSubmitText = async (message: string) => {
+    const userId = useAuthStore.getState().user?.id;
+    if (!userId) return;
+
+    const tempId = Date.now().toString();
+    const tempCreatedAt = new Date().toISOString();
+
+    // 유저 메시지 낙관적 업데이트
+    setMessages((prev) => [
+      ...prev,
+      { id: tempId, userId, message, sender: 'USER', type: 'text', createdAt: tempCreatedAt },
+    ]);
+
+    const botMessage = await fetchSendTextMessage({ message, userId });
+    if (botMessage) setMessages((prev) => [...prev, botMessage]);
   };
 
-  // 쑤리 임시 메시지
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setMessages((prev) => [
-  //       ...prev,
-  //       { id: prev.length + 1, message: `새 메시지 ${prev.length + 1}`, sender: 'bot' },
-  //     ]);
-  //   }, 1000);
+  // 옵션 클릭 시
+  const handleSelectedOption = async (value: string) => {
+    const userId = useAuthStore.getState().user?.id;
+    if (!userId) return;
 
-  //   return () => clearInterval(interval);
-  // }, []);
+    const tempId = Date.now().toString();
+    const tempCreatedAt = new Date().toISOString();
 
-  // 스크롤 제일 아래인지 체크
-  const handleCheckBottom = (e: React.UIEvent<HTMLDivElement>) => {
-    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+    const lastMessage = messages[messages.length - 1];
+    const stepData = lastMessage?.stepData;
 
-    isScrollBottom.current = scrollTop + clientHeight >= scrollHeight - 10;
+    if (!stepData) {
+      await handleSubmitText(value);
+      return;
+    }
 
-    if (isScrollBottom.current) setShowNewMessageAlert(false);
+    const selectedLabel = stepData.options?.find((opt) => opt.value === value)?.label ?? value;
+
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: tempId,
+        userId,
+        message: selectedLabel,
+        sender: 'USER',
+        type: 'text',
+        createdAt: tempCreatedAt,
+      },
+    ]);
+
+    const nextStep = value === 'QA' ? 0 : (stepData?.currentStep ?? 0) + 1;
+    setUserCurrentStep(nextStep);
+
+    switch (stepData.currentStep + 1) {
+      case 2:
+        selectedOptions.current.selectedAlcoholStrength = value;
+        break;
+      case 3:
+        selectedOptions.current.selectedAlcoholBaseType = value;
+        break;
+      case 4:
+        selectedOptions.current.selectedCocktailType = value;
+        break;
+    }
+
+    const payload: stepPayload = {
+      message: selectedLabel,
+      userId,
+      currentStep: nextStep,
+      ...selectedOptions.current,
+    };
+
+    const typingTimer = setTimeout(() => setIsBotTyping(true), 300);
+
+    try {
+      const botMessage = await fetchSendStepMessage(payload);
+
+      clearTimeout(typingTimer);
+      setIsBotTyping(false);
+
+      if (botMessage) {
+        setMessages((prev) => [...prev, botMessage]);
+      }
+    } catch (err) {
+      clearTimeout(typingTimer);
+      setIsBotTyping(false);
+      console.error(err);
+    }
   };
 
-  // 새 메시지가 들어오면 자동 스크롤
+  // 채팅 기록 불러오기 없으면 greeting 호출
   useEffect(() => {
-    if (isScrollBottom.current) {
-      chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-      setShowNewMessageAlert(false); // 새메세지 숨김
-    } else {
-      setShowNewMessageAlert(true); // 새메세지 보여줌
-    }
-  }, [messages]);
+    const loadChatHistory = async () => {
+      const history = await fetchChatHistory();
+      if (history && history.length > 0) {
+        setMessages(history.sort((a, b) => Number(a.id) - Number(b.id)));
+      } else {
+        const greeting = await fetchGreeting('');
+        if (greeting) setMessages([greeting]);
+      }
+    };
+    loadChatHistory();
+  }, []);
 
-  // 스크롤 제일 아래로
-  const handleScrollToBottom = () => {
-    if (chatListRef.current) {
-      chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-      isScrollBottom.current = true;
-    }
+  const getRecommendations = (
+    type: string | undefined,
+    stepData?: StepRecommendation | null
+  ): RecommendationItem[] => {
+    if (type !== 'CARD_LIST' || !stepData?.recommendations) return [];
+    return stepData.recommendations;
   };
 
   return (
-    <section className="mx-auto w-full flex-1">
+    <section className="relative flex-1 flex flex-col w-fulloverflow-hidden">
       <h2 className="sr-only">대화 목록 및 입력 창</h2>
-      <div
-        ref={chatListRef}
-        onScroll={handleCheckBottom}
-        className="flex flex-col gap-10 pt-12 px-3 overflow-y-auto max-h-[calc(100vh-116px)]  md:max-h-[calc(100vh-144px)]"
-      >
-        {messages.map(({ id, message, sender }) =>
-          sender === 'user' ? (
-            <UserMessage key={id} message={message} />
-          ) : (
-            <BotMessage key={id} messages={[{ id, type: 'text', message }]} />
-          )
-        )}
-
-        <div ref={chatEndRef}></div>
-        {showNewMessageAlert && <NewMessageAlert onClick={handleScrollToBottom} />}
-      </div>
-      <MessageInput onSubmit={handleSubmit} />
+      <ChatList
+        messages={messages}
+        userCurrentStep={userCurrentStep}
+        onSelectedOption={handleSelectedOption}
+        getRecommendations={getRecommendations}
+        chatListRef={chatListRef}
+        chatEndRef={chatEndRef}
+        showNewMessageAlert={showNewMessageAlert}
+        handleCheckBottom={handleCheckBottom}
+        handleScrollToBottom={handleScrollToBottom}
+        isBotTyping={isBotTyping}
+      />
+      <MessageInput onSubmit={handleSubmitText} />
     </section>
   );
 }

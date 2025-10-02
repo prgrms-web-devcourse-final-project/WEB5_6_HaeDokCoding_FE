@@ -10,23 +10,28 @@ import Comment from '@/domains/community/detail/Comment';
 import StarBg from '@/domains/shared/components/star-bg/StarBg';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import DetailSkeleton from '@/domains/community/detail/DetailSkeleton';
 
 function Page() {
   const params = useParams();
   const [postDetail, setPostDetail] = useState<Post | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const postId = params.id;
     const fetchData = async () => {
+      setIsLoading(true);
       const data = await fetchPostById(postId);
       if (!data) return;
 
       setPostDetail(data);
+      setIsLoading(false);
     };
     fetchData();
   }, [params.id, setPostDetail]);
 
-  if (!postDetail) return <div>게시글을 불러오지 못했습니다.</div>;
+  if (isLoading) return <DetailSkeleton />;
+  if (!postDetail) return null;
 
   const {
     categoryName,

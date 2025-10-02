@@ -21,7 +21,7 @@ function MessageInput({ onSubmit }: Props) {
   };
 
   return (
-    <div className="fixed left-1/2 bottom-0 -translate-x-1/2 w-full max-w-[62.5rem] px-3 py-4 bg-primary">
+    <div className="fixed left-1/2 bottom-0 -translate-x-1/2 w-full max-w-[64rem] px-3 py-4 bg-primary">
       <form onSubmit={(e) => e.preventDefault()}>
         <div className="flex items-end w-full gap-2">
           <label htmlFor="chatInput" className="sr-only">

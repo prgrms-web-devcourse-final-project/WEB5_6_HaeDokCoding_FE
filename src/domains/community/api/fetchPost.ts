@@ -4,7 +4,7 @@ import { ParamValue } from 'next/dist/server/request/params';
 
 export const fetchPost = async (): Promise<Post[] | null> => {
   try {
-    const res = await fetch(`${getApi}/posts`, {
+    const res = await fetch(`${getApi}/posts?postSortStatus=LATEST`, {
       method: 'GET',
       cache: 'no-store',
     });
