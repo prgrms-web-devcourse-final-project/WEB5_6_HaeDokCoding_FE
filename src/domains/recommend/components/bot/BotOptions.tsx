@@ -27,12 +27,17 @@ function BotOptions({ options, value, onChange, step, currentStep }: BotOptionsP
             value={opt.value}
             checked={value === opt.value}
             onChange={() => onChange(opt.value)}
-            disabled={currentStep > step}
+            disabled={currentStep > step && value !== opt.value}
             className="sr-only"
           />
           <span
             className={`w-full rounded-3xl px-2 py-1 text-center transition-colors duration-150
-      ${value === opt.value ? 'bg-secondary shadow-[inset_0_0_6px_rgba(255,196,1,1)]' : 'bg-gray-light'} ${currentStep > step && 'cursor-not-allowed'}`}
+              ${
+                value === opt.value
+                  ? 'bg-secondary shadow-[inset_0_0_6px_rgba(255,196,1,1)]'
+                  : 'bg-gray-light'
+              } 
+              ${currentStep > step && value !== opt.value ? 'cursor-not-allowed bg-gray-light' : 'hover:bg-secondary'}`}
           >
             <span>{opt.label}</span>
           </span>

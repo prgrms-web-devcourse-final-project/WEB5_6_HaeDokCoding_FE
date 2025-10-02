@@ -103,7 +103,11 @@ function ChatSection() {
 
     // 챗봇 API 호출
     const botMessage = await fetchSendStepMessage(payload);
-    if (botMessage) setMessages((prev) => [...prev, botMessage]);
+    if (botMessage) {
+      setTimeout(() => {
+        setMessages((prev) => [...prev, botMessage]);
+      }, 500); // 0.5초
+    }
   };
 
   // 채팅 기록 불러오기, 없으면 greeting 호출
@@ -134,7 +138,7 @@ function ChatSection() {
       <div
         ref={chatListRef}
         onScroll={handleCheckBottom}
-        className="absolute top-0 left-0 right-0 bottom-20 px-3 pt-12 pb-5 overflow-y-auto"
+        className="absolute top-0 left-0 right-0 bottom-20 gap-5 px-3 pt-12 pb-5 overflow-y-auto"
       >
         {messages.map(({ id, message, type, sender, stepData }) =>
           sender === 'USER' ? (
