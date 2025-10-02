@@ -34,6 +34,33 @@ function ChatSection() {
     selectedCocktailType?: string;
   }>({});
 
+  const handleSendMessage = async (payload: stepPayload | { message: string; userId: string }) => {
+    const typingTimer = setTimeout(() => setIsBotTyping(true), 300);
+
+    try {
+      if (!('currentStep' in payload)) {
+        const botMessage = await fetchSendTextMessage(payload);
+        clearTimeout(typingTimer);
+        setIsBotTyping(false);
+
+        if (!botMessage) return;
+        setTimeout(() => setMessages((prev) => [...prev, botMessage]), 500);
+        return;
+      }
+
+      const botMessage = await fetchSendStepMessage(payload);
+      clearTimeout(typingTimer);
+      setIsBotTyping(false);
+
+      if (!botMessage) return;
+      setTimeout(() => setMessages((prev) => [...prev, botMessage]), 500);
+    } catch (err) {
+      clearTimeout(typingTimer);
+      setIsBotTyping(false);
+      console.error(err);
+    }
+  };
+
   // 일반 텍스트 보낼 시
   const handleSubmitText = async (message: string) => {
     const userId = useAuthStore.getState().user?.id;
@@ -48,8 +75,7 @@ function ChatSection() {
       { id: tempId, userId, message, sender: 'USER', type: 'text', createdAt: tempCreatedAt },
     ]);
 
-    const botMessage = await fetchSendTextMessage({ message, userId });
-    if (botMessage) setMessages((prev) => [...prev, botMessage]);
+    await handleSendMessage({ message, userId });
   };
 
   // 옵션 클릭 시
@@ -104,22 +130,7 @@ function ChatSection() {
       ...selectedOptions.current,
     };
 
-    const typingTimer = setTimeout(() => setIsBotTyping(true), 300);
-
-    try {
-      const botMessage = await fetchSendStepMessage(payload);
-
-      clearTimeout(typingTimer);
-      setIsBotTyping(false);
-
-      if (botMessage) {
-        setMessages((prev) => [...prev, botMessage]);
-      }
-    } catch (err) {
-      clearTimeout(typingTimer);
-      setIsBotTyping(false);
-      console.error(err);
-    }
+    await handleSendMessage(payload);
   };
 
   // 채팅 기록 불러오기 없으면 greeting 호출
