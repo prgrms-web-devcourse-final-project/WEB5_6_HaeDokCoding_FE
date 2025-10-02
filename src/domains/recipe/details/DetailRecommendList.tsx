@@ -16,13 +16,7 @@ function DetailRecommendList({src,name,nameKo}:Props) {
           w-full max-w-62.5 aspect-[5/6]               
         "
       >
-        <Image
-          src={src}
-          alt={`${nameKo} 사진`}
-          fill
-          className="object-cover"
-          sizes="(max-width: 1024px) 60vw, 250px"
-        />
+        <Image src={src} alt={`${nameKo} 사진`} fill className="object-cover" sizes="250px" />
       </div>
       <div className="flex flex-col gap-1">
         <h4 className="font-serif  text-base truncate lg:text-lg">{name}</h4>
