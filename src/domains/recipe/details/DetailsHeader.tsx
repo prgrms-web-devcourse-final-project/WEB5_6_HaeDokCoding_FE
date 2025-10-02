@@ -4,7 +4,7 @@ import Keep from '@/domains/shared/components/keep/Keep';
 
 function DetailsHeader() {
   return (
-    <div className="mt-4 flex items-center justify-between ">
+    <div className="flex items-center justify-between ">
       <BackBtn />
       <div className="flex items-center gap-3">
         <Share size="sm" />

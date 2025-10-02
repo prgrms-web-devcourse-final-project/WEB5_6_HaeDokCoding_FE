@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 
 function Page() {
-  return redirect('/mypage/mybar');
+  return redirect('/mypage/my-bar');
 }
 export default Page;

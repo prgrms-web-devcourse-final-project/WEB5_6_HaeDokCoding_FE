@@ -1,4 +1,4 @@
-import PostCard from '@/domains/community/main/PostCard';
+// import PostCard from '@/domains/community/main/PostCard';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

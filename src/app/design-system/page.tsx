@@ -5,7 +5,6 @@ import TextButton from '@/shared/components/button/TextButton';
 import Input from '@/shared/components/Input-box/Input';
 import { useState } from 'react';
 import ModalLayout from '@/shared/components/modal-pop/ModalLayout';
-
 import Spinner from '@/shared/components/spinner/Spinner';
 import LikeBtn from '@/domains/community/components/like/LikeBtn';
 import Share from '@/domains/shared/components/share/Share';
