@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import Link from 'next/link';
 import { useIntersectionObserver } from '@/domains/shared/hook/useIntersectionObserver';
 import { Cocktail } from '../types/types';
-import CocktailCard from '@/domains/shared/components/cocktailCard/CocktailCard';
+import CocktailCard from '@/domains/shared/components/cocktail-card/CocktailCard';
 
 interface Props {
   cocktails: Cocktail[];

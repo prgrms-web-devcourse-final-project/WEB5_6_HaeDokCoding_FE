@@ -6,8 +6,7 @@ import ModalLayout from '@/shared/components/modal-pop/ModalLayout';
 import Button from '@/shared/components/button/Button';
 import TagList from '../../components/tag/TagList';
 import { useState } from 'react';
-import CocktailCard from '@/domains/shared/components/cocktailCard/CocktailCard';
-
+import CocktailCard from '@/domains/shared/components/cocktail-card/CocktailCard';
 type Props = {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
