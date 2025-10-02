@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Keep from '@/domains/shared/components/keep/Keep';
-import { StepRecommendationItem } from '../../types/recommend';
+import { RecommendationItem } from '../../types/recommend';
 
 function BotCocktailCard({
   cocktailId,
@@ -9,7 +9,7 @@ function BotCocktailCard({
   cocktailNameKo,
   cocktailImgUrl,
   alcoholStrength,
-}: StepRecommendationItem) {
+}: RecommendationItem) {
   return (
     <div className="relative flex flex-col w-full min-w-[200px] rounded-2xl overflow-hidden bg-white shadow-[0_0_12px_rgba(255,255,255,0.4)]">
       <Link href="/" className="block relative">

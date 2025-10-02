@@ -17,14 +17,16 @@ import {
   ChatMessage,
   stepPayload,
   StepRecommendation,
-  StepRecommendationItem,
+  RecommendationItem,
 } from '../types/recommend';
+import ChatList from './ChatList';
 
 function ChatSection() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const { chatListRef, chatEndRef, showNewMessageAlert, handleCheckBottom, handleScrollToBottom } =
     useChatScroll(messages.length);
   const [userCurrentStep, setUserCurrentStep] = useState(0);
+  const [isBotTyping, setIsBotTyping] = useState(false);
 
   const selectedOptions = useRef<{
     selectedAlcoholStrength?: string;
@@ -32,6 +34,7 @@ function ChatSection() {
     selectedCocktailType?: string;
   }>({});
 
+  // 일반 텍스트 보낼 시
   const handleSubmitText = async (message: string) => {
     const userId = useAuthStore.getState().user?.id;
     if (!userId) return;
@@ -101,16 +104,25 @@ function ChatSection() {
       ...selectedOptions.current,
     };
 
-    // 챗봇 API 호출
-    const botMessage = await fetchSendStepMessage(payload);
-    if (botMessage) {
-      setTimeout(() => {
+    const typingTimer = setTimeout(() => setIsBotTyping(true), 300);
+
+    try {
+      const botMessage = await fetchSendStepMessage(payload);
+
+      clearTimeout(typingTimer);
+      setIsBotTyping(false);
+
+      if (botMessage) {
         setMessages((prev) => [...prev, botMessage]);
-      }, 500); // 0.5초
+      }
+    } catch (err) {
+      clearTimeout(typingTimer);
+      setIsBotTyping(false);
+      console.error(err);
     }
   };
 
-  // 채팅 기록 불러오기, 없으면 greeting 호출
+  // 채팅 기록 불러오기 없으면 greeting 호출
   useEffect(() => {
     const loadChatHistory = async () => {
       const history = await fetchChatHistory();
@@ -127,7 +139,7 @@ function ChatSection() {
   const getRecommendations = (
     type: string | undefined,
     stepData?: StepRecommendation | null
-  ): StepRecommendationItem[] => {
+  ): RecommendationItem[] => {
     if (type !== 'CARD_LIST' || !stepData?.recommendations) return [];
     return stepData.recommendations;
   };
@@ -135,36 +147,18 @@ function ChatSection() {
   return (
     <section className="flex-1 flex flex-col w-full  overflow-hidden">
       <h2 className="sr-only">대화 목록 및 입력 창</h2>
-      <div
-        ref={chatListRef}
-        onScroll={handleCheckBottom}
-        className="absolute top-0 left-0 right-0 bottom-20 gap-5 px-3 pt-12 pb-5 overflow-y-auto"
-      >
-        {messages.map(({ id, message, type, sender, stepData }) =>
-          sender === 'USER' ? (
-            <UserMessage key={`${id}-${sender}`} message={message} />
-          ) : (
-            <BotMessage
-              key={`${id}-${sender}`}
-              messages={[
-                {
-                  id,
-                  message,
-                  type: type ?? 'TEXT',
-                  options: type === 'RADIO_OPTIONS' ? (stepData?.options ?? []) : [],
-                  recommendations: getRecommendations(type, stepData),
-                },
-              ]}
-              stepData={stepData}
-              currentStep={userCurrentStep}
-              onSelectedOption={handleSelectedOption}
-            />
-          )
-        )}
-
-        <div ref={chatEndRef}></div>
-        {showNewMessageAlert && <NewMessageAlert onClick={handleScrollToBottom} />}
-      </div>
+      <ChatList
+        messages={messages}
+        userCurrentStep={userCurrentStep}
+        onSelectedOption={handleSelectedOption}
+        getRecommendations={getRecommendations}
+        chatListRef={chatListRef}
+        chatEndRef={chatEndRef}
+        showNewMessageAlert={showNewMessageAlert}
+        handleCheckBottom={handleCheckBottom}
+        handleScrollToBottom={handleScrollToBottom}
+        isBotTyping={isBotTyping}
+      />
       <MessageInput onSubmit={handleSubmitText} />
     </section>
   );

@@ -23,13 +23,13 @@ export const fetchGreeting = async (message: string): Promise<ChatMessage | null
     const data = await res.json();
 
     return {
-      id: data.data.timestamp ?? Date.now().toString(), // 임시: id가 항상 존재하도록 fallback 추가
+      id: String(data.data.id),
       userId,
-      message: data.data.message ?? '',
-      sender: 'CHATBOT',
-      type: data.data.type ?? 'text', // 임시: type이 없으면 기본 'text'
+      message: data.data.message,
+      sender: data.data.sender ?? 'CHATBOT',
+      type: data.data.type,
       stepData: data.data.stepData ?? null,
-      createdAt: data.data.timestamp ?? new Date().toISOString(), // 임시: createdAt 추가
+      createdAt: data.data.timestamp,
     };
   } catch (err) {
     console.error('Greeting API 호출 에러:', err);
@@ -51,13 +51,13 @@ export const fetchSendTextMessage = async (payload: TextPayload): Promise<ChatMe
     const data = await res.json();
 
     return {
-      id: data.data.timestamp ?? Date.now().toString(),
+      id: String(data.data.id),
       userId: data.data.userId ?? payload.userId,
-      message: data.data.message ?? '',
-      sender: 'CHATBOT',
-      type: data.data.type ?? 'text',
+      message: data.data.message,
+      sender: data.data.sender ?? 'CHATBOT',
+      type: data.data.type,
       stepData: data.data.stepData ?? null,
-      createdAt: data.data.timestamp ?? new Date().toISOString(),
+      createdAt: data.data.timestamp,
     };
   } catch (err) {
     console.error('Text 메시지 전송 실패:', err);
@@ -79,13 +79,13 @@ export const fetchSendStepMessage = async (payload: stepPayload): Promise<ChatMe
     const data = await res.json();
 
     return {
-      id: data.data.timestamp ?? Date.now().toString(),
-      userId: data.data.userId ?? payload.userId,
-      message: data.data.message ?? '',
-      sender: 'CHATBOT',
-      type: data.data.type ?? 'text',
+      id: String(data.data.id),
+      userId: data.data.userId,
+      message: data.data.message,
+      sender: data.data.sender ?? 'CHATBOT',
+      type: data.data.type,
       stepData: data.data.stepData ?? null,
-      createdAt: data.data.timestamp ?? new Date().toISOString(),
+      createdAt: data.data.timestamp,
     };
   } catch (err) {
     console.error('Step 메시지 전송 실패:', err);
@@ -111,7 +111,7 @@ export const fetchChatHistory = async (): Promise<ChatMessage[] | null> => {
     const data = await res.json();
 
     return data.data.map((item: ChatHistoryItem) => ({
-      id: String(item.id), // number → string
+      id: String(item.id),
       userId: item.userId,
       message: item.message,
       sender: item.sender,

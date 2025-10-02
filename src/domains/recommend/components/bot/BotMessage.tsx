@@ -5,32 +5,24 @@ import Image from 'next/image';
 import { useState } from 'react';
 import BotCocktailCard from './BotCocktailCard';
 import BotOptions from './BotOptions';
-import TypingIndicator from './TypingIndicator';
-import { StepOption, StepRecommendation, StepRecommendationItem } from '../../types/recommend';
+import { StepOption, StepRecommendation, RecommendationItem } from '../../types/recommend';
 
 interface BotMessage {
   id: string;
   message: string;
   type: string;
   options?: StepOption[];
-  recommendations?: StepRecommendationItem[];
+  recommendations?: RecommendationItem[];
 }
 
 interface BotMessages {
   messages: BotMessage[];
-  isTyping?: boolean;
-  onSelectedOption?: (value: string) => void;
   stepData?: StepRecommendation | null;
   currentStep?: number;
+  onSelectedOption?: (value: string) => void;
 }
 
-function BotMessage({
-  messages,
-  isTyping = false,
-  onSelectedOption,
-  stepData,
-  currentStep,
-}: BotMessages) {
+function BotMessage({ messages, stepData, currentStep, onSelectedOption }: BotMessages) {
   const [selected, setSelected] = useState('');
 
   return (
@@ -87,7 +79,6 @@ function BotMessage({
             )}
           </div>
         ))}
-        {isTyping && <TypingIndicator />}
       </div>
     </article>
   );

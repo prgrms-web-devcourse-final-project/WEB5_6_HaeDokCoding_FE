@@ -4,7 +4,7 @@ export interface StepOption {
   description: string | null;
 }
 
-export interface StepRecommendationItem {
+export interface RecommendationItem {
   cocktailId: number;
   cocktailName: string;
   cocktailNameKo: string;
@@ -16,7 +16,7 @@ export interface StepRecommendation {
   currentStep: number;
   stepTitle: string;
   options: StepOption[];
-  recommendations?: StepRecommendationItem[];
+  recommendations?: RecommendationItem[];
   completed: boolean;
 }
 
@@ -25,9 +25,9 @@ export interface ChatMessage {
   userId?: string;
   message: string;
   sender: 'USER' | 'CHATBOT';
-  type?: string; // optional, 기본 text
+  type?: string;
   stepData?: StepRecommendation | null;
-  createdAt: string; // timestamp
+  createdAt: string;
 }
 
 export interface ChatHistoryItem {
@@ -49,4 +49,22 @@ export interface stepPayload extends TextPayload {
   selectedAlcoholStrength?: string;
   selectedAlcoholBaseType?: string;
   selectedCocktailType?: string;
+}
+
+export interface ChatListProps {
+  messages: ChatMessage[];
+  userCurrentStep: number;
+  onSelectedOption: (value: string) => void;
+  getRecommendations: (
+    type: string | undefined,
+    stepData?: StepRecommendation | null
+  ) => RecommendationItem[];
+
+  chatListRef: React.RefObject<HTMLDivElement | null>;
+  chatEndRef: React.RefObject<HTMLDivElement | null>;
+  showNewMessageAlert: boolean;
+  handleCheckBottom: (e: React.UIEvent<HTMLDivElement>) => void;
+  handleScrollToBottom: () => void;
+
+  isBotTyping: boolean;
 }
