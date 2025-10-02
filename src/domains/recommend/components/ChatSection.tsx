@@ -24,6 +24,7 @@ function ChatSection() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const { chatListRef, chatEndRef, showNewMessageAlert, handleCheckBottom, handleScrollToBottom } =
     useChatScroll(messages.length);
+  const [userCurrentStep, setUserCurrentStep] = useState(0);
 
   const selectedOptions = useRef<{
     selectedAlcoholStrength?: string;
@@ -48,6 +49,7 @@ function ChatSection() {
     if (botMessage) setMessages((prev) => [...prev, botMessage]);
   };
 
+  // 옵션 클릭 시
   const handleSelectedOption = async (value: string) => {
     const userId = useAuthStore.getState().user?.id;
     if (!userId) return;
@@ -77,6 +79,9 @@ function ChatSection() {
       },
     ]);
 
+    const nextStep = value === 'QA' ? 0 : (stepData?.currentStep ?? 0) + 1;
+    setUserCurrentStep(nextStep);
+
     switch (stepData.currentStep + 1) {
       case 2:
         selectedOptions.current.selectedAlcoholStrength = value;
@@ -92,11 +97,9 @@ function ChatSection() {
     const payload: stepPayload = {
       message: selectedLabel,
       userId,
-      currentStep: stepData.currentStep + 1,
+      currentStep: nextStep,
       ...selectedOptions.current,
     };
-
-    console.log('payload to API', payload);
 
     // 챗봇 API 호출
     const botMessage = await fetchSendStepMessage(payload);
@@ -131,7 +134,7 @@ function ChatSection() {
       <div
         ref={chatListRef}
         onScroll={handleCheckBottom}
-        className="absolute top-0 left-0 right-0 bottom-16 px-3 pt-12 pb-5 overflow-y-auto"
+        className="absolute top-0 left-0 right-0 bottom-20 px-3 pt-12 pb-5 overflow-y-auto"
       >
         {messages.map(({ id, message, type, sender, stepData }) =>
           sender === 'USER' ? (
@@ -148,6 +151,8 @@ function ChatSection() {
                   recommendations: getRecommendations(type, stepData),
                 },
               ]}
+              stepData={stepData}
+              currentStep={userCurrentStep}
               onSelectedOption={handleSelectedOption}
             />
           )

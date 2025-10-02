@@ -6,7 +6,7 @@ import { useState } from 'react';
 import BotCocktailCard from './BotCocktailCard';
 import BotOptions from './BotOptions';
 import TypingIndicator from './TypingIndicator';
-import { StepOption, StepRecommendationItem } from '../../types/recommend';
+import { StepOption, StepRecommendation, StepRecommendationItem } from '../../types/recommend';
 
 interface BotMessage {
   id: string;
@@ -20,9 +20,17 @@ interface BotMessages {
   messages: BotMessage[];
   isTyping?: boolean;
   onSelectedOption?: (value: string) => void;
+  stepData?: StepRecommendation | null;
+  currentStep?: number;
 }
 
-function BotMessage({ messages, isTyping = false, onSelectedOption }: BotMessages) {
+function BotMessage({
+  messages,
+  isTyping = false,
+  onSelectedOption,
+  stepData,
+  currentStep,
+}: BotMessages) {
   const [selected, setSelected] = useState('');
 
   return (
@@ -66,6 +74,8 @@ function BotMessage({ messages, isTyping = false, onSelectedOption }: BotMessage
                 {msg.type === 'RADIO_OPTIONS' && msg.options?.length && (
                   <BotOptions
                     options={msg.options}
+                    step={stepData?.currentStep ?? 0}
+                    currentStep={currentStep ?? 0}
                     value={selected}
                     onChange={(val) => {
                       setSelected(val);
