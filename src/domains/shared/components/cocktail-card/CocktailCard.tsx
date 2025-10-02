@@ -1,9 +1,10 @@
 import Image from 'next/image';
 
 import tw from '@/shared/utills/tw';
-import { labelTitle } from '@/domains/recipe/utill/labelTitle';
+
 import Label from '../label/Label';
 import Keep from '../keep/Keep';
+import { labelTitle } from '@/domains/recipe/utills/labelTitle';
 
 interface Props {
   src: string;

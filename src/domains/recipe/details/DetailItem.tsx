@@ -2,7 +2,9 @@ import Image from 'next/image';
 import Short from '@/shared/assets/icons/short_36.svg';
 import Label from '@/domains/shared/components/label/Label';
 import AbvGraph from '@/domains/shared/components/abv-graph/AbvGraph';
-import { labelTitle } from '../utill/labelTitle';
+import { labelTitle } from '../utills/labelTitle';
+
+
 
 interface Props {
   name: string;
