@@ -145,7 +145,7 @@ function ChatSection() {
   };
 
   return (
-    <section className="flex-1 flex flex-col w-full  overflow-hidden">
+    <section className="relative flex-1 flex flex-col w-fulloverflow-hidden">
       <h2 className="sr-only">대화 목록 및 입력 창</h2>
       <ChatList
         messages={messages}
