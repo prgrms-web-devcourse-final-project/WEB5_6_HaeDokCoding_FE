@@ -1,4 +1,3 @@
-
 import CocktailCard from '@/domains/shared/components/cocktail-card/CocktailCard';
 import { Metadata } from 'next';
 

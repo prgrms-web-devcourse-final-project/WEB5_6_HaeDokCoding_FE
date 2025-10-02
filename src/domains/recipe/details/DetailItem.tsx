@@ -4,8 +4,6 @@ import Label from '@/domains/shared/components/label/Label';
 import AbvGraph from '@/domains/shared/components/abv-graph/AbvGraph';
 import { labelTitle } from '../utills/labelTitle';
 
-
-
 interface Props {
   name: string;
   nameKo: string;
