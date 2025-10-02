@@ -9,7 +9,7 @@ type Props = {
   comments: CommentType[] | null;
   currentUserNickname?: string;
   onUpdateComment: (commentId: number, postId: number, content: string) => Promise<void>;
-  onDeleteComment: (commentId: number, postId: number) => Promise<void>;
+  onDeleteComment: (commentId: number, postId: number) => void;
   onLoadMore?: (lastCommentId: number) => void; // ← 무한스크롤 콜백
   isEnd?: boolean;
   isLoading: boolean;

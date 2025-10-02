@@ -1,15 +1,21 @@
 import { getApi } from '@/app/api/config/appConfig';
 import { CommentType } from '../types/post';
-import { fetchPost, fetchPostById } from './fetchPost';
-import { ParamValue } from 'next/dist/server/request/params';
 
 export const fetchComment = async (postId: number): Promise<CommentType[] | null> => {
   try {
     const res = await fetch(`${getApi}/posts/${postId}/comments`, {
       method: 'GET',
+      cache: 'no-store', // 캐시 비활성화
     });
     const data = await res.json();
-    return data.data;
+
+    //삭제된 댓글은 제외
+    const filteredComments = data.data.filter(
+      (comment: CommentType) => comment.status !== 'DELETED'
+    );
+    console.log(filteredComments);
+
+    return filteredComments;
   } catch (err) {
     console.error('해당 글의 댓글 조회 실패', err);
     return null;

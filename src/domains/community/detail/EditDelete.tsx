@@ -17,17 +17,17 @@ function EditDelete({ use, isEditing, onEdit, onCancelEdit, onDelete, onSubmitEd
       <button
         type="button"
         className={`hover:text-white transition-colors ${use === 'comment' ? ' underline underline-offset-4' : ''}`}
-        onClick={isEditing ? onSubmitEdit : onEdit}
+        onClick={isEditing ? onCancelEdit : onEdit}
       >
-        {isEditing ? '완료' : '수정'}
+        {isEditing ? '취소' : '수정'}
       </button>
       <span aria-hidden="true">|</span>
       <button
         type="button"
         className={`hover:text-white transition-colors ${use === 'comment' ? ' underline underline-offset-4' : ''}`}
-        onClick={isEditing ? onCancelEdit : onDelete}
+        onClick={isEditing ? onSubmitEdit : onDelete}
       >
-        {isEditing ? '취소' : '삭제'}
+        {isEditing ? '완료' : '삭제'}
       </button>
     </div>
   );

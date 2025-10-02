@@ -21,6 +21,6 @@ export interface CommentType {
   userNickName: string;
   createdAt: string;
   updatedAt: string;
-  status: 'PUBLIC' | 'PRIVATE';
+  status: 'PUBLIC' | 'PRIVATE' | 'DELETED';
   content: string; //
 }
