@@ -1,12 +1,14 @@
+import { Virtualizer } from '@tanstack/react-virtual';
 import gsap from 'gsap';
 import { useEffect, useRef } from 'react';
 
 type Props = {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  rowVirtualize: Virtualizer<HTMLElement, Element>;
 };
 
-function AutoGrowingTextarea({ value, onChange }: Props) {
+function AutoGrowingTextarea({ value, onChange, rowVirtualize }: Props) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
@@ -26,6 +28,17 @@ function AutoGrowingTextarea({ value, onChange }: Props) {
       textarea.removeEventListener('input', handleInput);
     };
   }, []);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      requestAnimationFrame(() => {
+        const li = textareaRef.current?.closest('li') as HTMLElement | null;
+        if (li) {
+          rowVirtualize.measureElement(li);
+        }
+      });
+    }
+  }, [value]);
 
   useEffect(() => {
     if (!textareaRef.current) return;

@@ -9,6 +9,6 @@ export function useItemVirtualizer(
     count: items?.length ?? 0,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 95,
-    overscan: 5,
+    overscan: 4,
   });
 }

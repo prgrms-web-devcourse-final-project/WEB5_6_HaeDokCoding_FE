@@ -28,7 +28,6 @@ function CommentList({
   const parentRef = useRef<HTMLDivElement | null>(null);
   const [editCommentId, setEditCommentId] = useState<number | null>(null);
   const [editedContentMap, setEditedContentMap] = useState<Record<number, string>>({});
-
   const firstItemRef = useRef<HTMLLIElement | null>(null);
   const rowVirtualizer = useItemVirtualizer(comments, parentRef);
   useCommentEnterAnimation(comments, parentRef);
@@ -39,6 +38,22 @@ function CommentList({
     onLoadMore: onLoadMore ?? (() => {}),
   });
 
+  const prevComments = usePrevious(comments);
+
+  // 새 댓글이 추가됐을 때 스크롤 맨 위로
+  useEffect(() => {
+    if (!comments || !prevComments) return;
+
+    const newLength = comments.length;
+    const oldLength = prevComments.length;
+
+    if (newLength > oldLength) {
+      requestAnimationFrame(() => {
+        rowVirtualizer.scrollToIndex(0);
+      });
+    }
+  }, [comments, prevComments, rowVirtualizer]);
+
   if (!comments || comments.length === 0) {
     return null;
   }
@@ -47,7 +62,7 @@ function CommentList({
     <>
       <div
         aria-label="댓글 목록"
-        className="flex flex-col mt-6 overflow-y-auto no-scrollbar"
+        className="flex flex-col mt-6 overflow-y-auto "
         ref={parentRef}
         style={{ height: '600px', position: 'relative' }}
       >
@@ -63,9 +78,19 @@ function CommentList({
               <li
                 className="border-b-1 border-gray py-3"
                 key={key}
+                data-index={index}
                 ref={(el) => {
-                  if (index === 0) firstItemRef.current = el;
-                  if (isLast) observeLastItem(el);
+                  if (el) {
+                    requestAnimationFrame(() => {
+                      try {
+                        rowVirtualizer.measureElement(el);
+                      } catch (e) {
+                        console.error('measureElement failed', e);
+                      }
+                    });
+                    if (index === 0) firstItemRef.current = el;
+                    if (isLast) observeLastItem(el);
+                  }
                 }}
                 style={{
                   position: 'absolute',
@@ -73,6 +98,7 @@ function CommentList({
                   left: 0,
                   width: '100%',
                   transform: `translateY(${start}px)`,
+                  minHeight: '60px', // ← 최소 보장
                 }}
               >
                 <article>
@@ -110,10 +136,11 @@ function CommentList({
                       });
                     }}
                   />
-                  <article className="mt-4">
+                  <article className="mt-4 h-full">
                     {isEditing ? (
                       <AutoGrowingTextarea
                         value={editedContentMap[commentId] ?? content}
+                        rowVirtualize={rowVirtualizer}
                         onChange={(e) =>
                           setEditedContentMap((prev) => ({
                             ...prev,
@@ -131,6 +158,23 @@ function CommentList({
               </li>
             );
           })}
+          {isEnd && (
+            <li
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                transform: `translateY(${rowVirtualizer.getTotalSize()}px)`,
+                textAlign: 'center',
+                padding: '1rem',
+                color: '#999',
+                fontSize: '14px',
+              }}
+            >
+              더 이상 댓글이 없어요.
+            </li>
+          )}
         </ul>
       </div>
     </>
