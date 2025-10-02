@@ -1,6 +1,6 @@
 'use client';
 
-import { Ref, useMemo, useRef, useState } from 'react';
+import { Ref, useEffect, useMemo, useRef, useState } from 'react';
 import Down from '@/shared/assets/icons/selectDown_24.svg';
 import { useShallow } from 'zustand/shallow';
 import { ID, useAccordionStore } from '@/domains/recipe/store/accordionStore';

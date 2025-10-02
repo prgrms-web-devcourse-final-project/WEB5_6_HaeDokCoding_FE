@@ -1,18 +1,20 @@
 'use client';
 import { useRef } from 'react';
-import CocktailCard from '../CocktailCard';
-import { Cocktail } from './Cocktails';
+
 import Link from 'next/link';
 import { useIntersectionObserver } from '@/domains/shared/hook/useIntersectionObserver';
+import { Cocktail } from '../types/types';
+import CocktailCard from '@/domains/shared/components/cocktailCard/CocktailCard';
 
 interface Props {
   cocktails: Cocktail[];
   RecipeFetch: (cursor?: string | undefined) => Promise<void>;
   hasNextPage: boolean;
   lastId: number | null;
+  onItemClick: () => void;
 }
 
-function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId }: Props) {
+function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId, onItemClick }: Props) {
   const cocktailRef = useRef(null);
   const onIntersect: IntersectionObserverCallback = ([entry]) => {
     if (!lastId) return;
@@ -34,8 +36,13 @@ function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId }: Props) {
     >
       {cocktails.map(
         ({ cocktailImgUrl, cocktailId, cocktailName, cocktailNameKo, alcoholStrength }) => (
-          <li key={cocktailId}>
-            <Link href={`/recipe/${String(cocktailId)}`}>
+          <li key={cocktailId} onClick={onItemClick}>
+            <Link
+              href={`/recipe/${String(cocktailId)}`}
+              onClick={() => {
+                sessionStorage.setItem('listScrollY', String(window.scrollY));
+              }}
+            >
               <CocktailCard
                 src={cocktailImgUrl}
                 name={cocktailName}

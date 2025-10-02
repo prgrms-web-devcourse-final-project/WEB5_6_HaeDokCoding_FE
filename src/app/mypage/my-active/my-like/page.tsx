@@ -7,27 +7,6 @@ export const metadata: Metadata = {
 };
 
 function Page() {
-  return (
-    <ul>
-      <li>
-        <PostCard label="레시피"></PostCard>
-      </li>
-      <li>
-        <PostCard label="레시피"></PostCard>
-      </li>
-      <li>
-        <PostCard label="레시피"></PostCard>
-      </li>
-      <li>
-        <PostCard label="레시피"></PostCard>
-      </li>
-      <li>
-        <PostCard label="레시피"></PostCard>
-      </li>
-      <li>
-        <PostCard label="레시피"></PostCard>
-      </li>
-    </ul>
-  );
+  return <section>{/* <PostCard posts={posts} isLoading={isLoading} /> */}</section>;
 }
 export default Page;

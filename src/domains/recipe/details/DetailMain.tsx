@@ -27,6 +27,7 @@ function DetailMain() {
 
   useEffect(() => {
     fetchData();
+    window.scrollTo(0, 0);
   }, []);
 
   if (!cocktail) return;

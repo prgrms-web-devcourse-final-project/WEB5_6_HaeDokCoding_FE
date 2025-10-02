@@ -5,7 +5,7 @@ function RecipeComment() {
   return (
     <div className="mb-10 border-t-1 border-gray">
       <CommentHeader totalComment={true} />
-      <CommentList />
+      {/* <CommentList /> */}
     </div>
   );
 }

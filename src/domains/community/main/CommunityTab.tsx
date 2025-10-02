@@ -1,7 +1,13 @@
 'use client';
 
 import tw from '@/shared/utills/tw';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { fetchPost, fetchPostByTab } from '../api/fetchPost';
+import { Post } from '../types/post';
+
+type Props = {
+  setPosts: (value: Post[]) => void;
+};
 
 const tabItem = [
   { title: '전체' },
@@ -11,8 +17,22 @@ const tabItem = [
   { title: '자유' },
 ];
 
-function CommunityTab() {
+function CommunityTab({ setPosts }: Props) {
   const [selectedIdx, setSelectedIdx] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const selectedTab = tabItem[selectedIdx].title;
+
+      let data;
+      if (selectedTab === '전체') data = await fetchPost();
+      else data = await fetchPostByTab(selectedTab);
+
+      if (!data) return;
+      setPosts(data);
+    };
+    fetchData();
+  }, [selectedIdx, setPosts]);
 
   return (
     <section className="relative sm:w-[70%] w-full" aria-label="커뮤니티 탭">

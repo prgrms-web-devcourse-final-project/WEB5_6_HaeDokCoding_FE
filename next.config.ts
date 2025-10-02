@@ -1,16 +1,14 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-
-    images: {
-      domains: ['www.thecocktaildb.com']
-    },
-    env: {
-      NPUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL
-    },
+  images: {
+    domains: ['www.thecocktaildb.com'],
+  },
+  env: {
+    NPUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+  },
   // webpack 설정
   webpack: (config) => {
-
     // @ts-expect-error 타입 에러 무시
     const fileLoaderRule = config.module.rules.find((rule) => rule.test?.test?.('.svg'));
 
@@ -44,7 +42,7 @@ const nextConfig: NextConfig = {
         loaders: ['@svgr/webpack'],
         as: '*.js',
       },
-    }
+    },
   },
 };
 

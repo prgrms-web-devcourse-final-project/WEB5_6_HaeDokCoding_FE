@@ -1,7 +1,9 @@
 import Image from 'next/image';
-import Label from '../shared/components/label/Label';
-import Keep from '../shared/components/keep/Keep';
+
 import tw from '@/shared/utills/tw';
+import { labelTitle } from '@/domains/recipe/utill/labelTitle';
+import Label from '../label/Label';
+import Keep from '../keep/Keep';
 
 interface Props {
   src: string;
@@ -25,9 +27,7 @@ function CocktailCard({
   textSize2,
   alcohol,
 }: Props) {
-  const alcoholTitle = alcohol?.replace(/\(\d+(~\d+)?%\~?\)/g, '').trim();
-
-  console.log(alcoholTitle);
+  const alcoholTitle = labelTitle(alcohol);
 
   return (
     <div className="flex flex-col gap-4">
