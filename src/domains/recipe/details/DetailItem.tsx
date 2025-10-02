@@ -2,41 +2,43 @@ import Image from 'next/image';
 import Short from '@/shared/assets/icons/short_36.svg';
 import Label from '@/domains/shared/components/label/Label';
 import AbvGraph from '@/domains/shared/components/abv-graph/AbvGraph';
+import { labelTitle } from '../utills/labelTitle';
 
-function DetailItem() {
+interface Props {
+  name: string;
+  nameKo: string;
+  story: string;
+  abv: string;
+  src: string;
+  glassType: string;
+}
+
+function DetailItem({ name, nameKo, story, src, abv, glassType }: Props) {
+  const alcoholTitle = labelTitle(abv);
+
   return (
     <div className="flex flex-col items-center">
-      <div
-        className="flex flex-col gap-3 relative md:flex-row md:justify-between 
-              md:ml-15 md:w-150
-              lg:ml-30 lg:w-187.5 h-50"
-      >
-        <div className="flex flex-col gap-1 items-center md:items-end">
-          <span>
-            <Label title="레시피" />
-          </span>
-          <h2 className="font-serif font-bold text-3xl  lg:text-4xl text-secondary">
-            Old Fashioned
+      <div className="flex flex-col w-full gap-3 relative md:flex-row md:justify-between md:w-150 md:gap-20  lg:w-187.5 h-50">
+        <div className="flex flex-col gap-1 items-center md:items-end md:w-1/2">
+          <span>{alcoholTitle && <Label title={alcoholTitle} />}</span>
+          <h2 className="w-fit font-serif font-bold  text-right text-3xl lg:text-4xl text-secondary ">
+            {name}
           </h2>
           <h2 className="font-serif font-bold text-right text-xl lg:text-4xl text-secondary">
-            올드 패션드
+            {nameKo}
           </h2>
         </div>
 
-        <p className="w-70 text-base  mr-5 md:text-sm md:mr-0 lg:text-base md:self-end text-secondary md:w-70 lg:w-100">
-          쿠바 아바나의 전설적인 바 엘 플로리디타(El Floridita).이곳에서 노벨문학상 작가 어니스트
-          헤밍웨이가 즐겨 찾던 특별한 한 잔이 탄생했습니다.
+        <p className=" text-base self-center w-3/4 md:text-sm md:self-end text-secondary md:w-70 lg:text-base lg:w-100">
+          {story}
         </p>
-        <span className="absolute w-0.5 h-11 -bottom-15 left-1/2 -translate-x-1/2 z-2 bg-secondary md:bg-transparent"></span>
-        <span className="absolute w-3 h-3 rounded-full -bottom-16 z-2 left-1/2 -translate-x-1/2 bg-secondary md:bg-transparent"></span>
+
+        <span className="absolute w-0.5 h-11 -bottom-37 md:-bottom-3 left-1/2 -translate-x-1/2 z-2 bg-secondary md:bg-transparent"></span>
+        <span className="absolute w-3 h-3 rounded-full -bottom-38 z-2 left-1/2 -translate-x-1/2 bg-secondary md:bg-transparent"></span>
       </div>
 
-      <div
-        className="rounded-2xl mt-12
-           [filter:drop-shadow(0_0_20px_rgba(255,255,255,0.3))]
-          "
-      >
-        <Image src="" alt="" width="300" height="375" />
+      <div className="rounded-2xl overflow-hidden w-75 h-93.75 mt-32 md:mt-4 lg:mt-7 [filter:drop-shadow(0_0_20px_rgba(255,255,255,0.3))]">
+        <Image src={src} alt={`${nameKo}사진`} fill className="object-cover" />
       </div>
 
       <dl className="flex flex-col mt-5 gap-3 w-75">
@@ -46,7 +48,7 @@ function DetailItem() {
             <span>|</span>
           </dt>
           <dd className="flex gap-3 items-center">
-            <p className="text-xs">24.8%</p>
+            <p className="text-xs">{abv}</p>
             <AbvGraph />
           </dd>
         </div>
@@ -57,7 +59,7 @@ function DetailItem() {
           </dt>
           <dd className="flex items-center gap-2">
             <Short />
-            <p>숏 드링크</p>
+            <p>{glassType} 드링크</p>
           </dd>
         </div>
       </dl>

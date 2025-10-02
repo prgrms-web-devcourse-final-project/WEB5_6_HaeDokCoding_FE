@@ -1,19 +1,83 @@
-import Button from '@/shared/components/button/Button';
-import Input from '@/shared/components/Input-box/Input';
+import { CommentType } from '@/domains/community/types/post';
+import { useRef } from 'react';
+import Textarea from '@/shared/components/textarea-box/Textarea';
+import { intervalCall } from '@/shared/utills/intervalCall';
+import { resizeTextarea } from '@/shared/utills/textareaResize';
+import { useToast } from '@/shared/hook/useToast';
 
-function CommentHeader({ totalComment = false }: { totalComment?: boolean }) {
+type Props = {
+  totalComment?: boolean;
+  postId: number;
+  comments: CommentType[] | null;
+  onCommentAdded: () => void; //댓글 추가 후 실행할 콜백
+  postCommentsApi: (postId: number, comment: string) => Promise<CommentType[] | null>;
+};
+
+function CommentHeader({
+  totalComment = false,
+  postId,
+  comments,
+  onCommentAdded,
+  postCommentsApi,
+}: Props) {
+  const commentRef = useRef<HTMLTextAreaElement | null>(null);
+  const intervalCall1000 = intervalCall(1000);
+  const { toastError } = useToast();
+
+  const createComment = async (commentText: string) => {
+    if (!postId || !commentText.trim()) return false;
+    if (commentText.length > 500) {
+      toastError('댓글은 500자 이하로 입력해주세요.');
+      return false;
+    }
+
+    const data = await postCommentsApi(postId, commentText);
+    if (!data) return false;
+
+    if (commentRef.current) {
+      commentRef.current.value = '';
+      resizeTextarea(commentRef.current);
+    }
+
+    onCommentAdded();
+    return true;
+  };
+
+  const postComment = async () => {
+    const newComment = commentRef.current?.value ?? '';
+    await createComment(newComment);
+    // if (success && comments) {
+    //   updateCommentCount(postId, comments.length + 1);
+    // }
+  };
+
+  const handleKeyDown = async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      const newComment = commentRef.current?.value ?? '';
+      if (!newComment.trim()) return;
+
+      intervalCall1000(async () => {
+        const success = await createComment(newComment);
+        if (!success) {
+          console.error('엔터키로 댓글 작성 실패');
+        }
+      });
+    }
+  };
+
   return (
     <section aria-label="댓글" className="mt-6 w-full">
-      {totalComment && <span>댓글 2</span>}
-      <div className="w-full relative mt-5">
-        <Input placeholder="댓글로 의견을 남겨주세요" id="community-comment" className="w-full" />
-        <Button
-          color="purple"
-          className="absolute right-2 top-1/2 -translate-y-1/2 w-13 h-7 text-sm pt-1.5"
-          size="auto"
-        >
-          입력
-        </Button>
+      {totalComment && <span>댓글 {comments?.length || 0}</span>}
+      <div className="w-full relative mt-5 ">
+        <Textarea
+          placeholder="댓글로 의견을 남겨주세요"
+          id="community-comment"
+          className="w-full "
+          ref={commentRef}
+          onKeyDown={handleKeyDown}
+          onClick={postComment}
+        />
       </div>
     </section>
   );

@@ -28,6 +28,14 @@ function SelectBox({ id, groupKey, ref, option, title, onChange, use }: Props) {
   const keyId = useMemo<ID>(() => id ?? title, [id, title]);
   // id가 없을경우 title로 키 아이디를 받음
 
+  useCloseOutside({
+    menuRef,
+    onClose: () => {
+      if (!ingroup) setIsOpen(false);
+      else closeGroup(groupKey);
+    },
+  });
+
   const { openId, toggleGroup, closeGroup } = useAccordionStore(
     useShallow((s) => ({
       openId: ingroup ? (s.openByGroup[groupKey] ?? null) : null,
@@ -69,7 +77,7 @@ function SelectBox({ id, groupKey, ref, option, title, onChange, use }: Props) {
   });
 
   return (
-    <div className="flex flex-col gap-2 relative h-6" ref={menuRef} id="select">
+    <div className="flex flex-col gap-2 relative h-6" ref={menuRef}>
       <button
         ref={ref}
         className="flex gap-2 cursor-pointer text-base"

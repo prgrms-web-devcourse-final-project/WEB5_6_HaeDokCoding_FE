@@ -2,12 +2,11 @@
 
 import AddIcon from '@/shared/assets/icons/add_24.svg';
 import Input from '@/shared/components/Input-box/Input';
-import CocktailCard from '@/domains/recipe/CocktailCard';
 import ModalLayout from '@/shared/components/modal-pop/ModalLayout';
 import Button from '@/shared/components/button/Button';
 import TagList from '../../components/tag/TagList';
 import { useState } from 'react';
-
+import CocktailCard from '@/domains/shared/components/cocktail-card/CocktailCard';
 type Props = {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
