@@ -37,7 +37,7 @@ function CocktailCard({
           className
         )}
       >
-        <Image src={src} alt={name} fill className="object-cover" sizes="250px" />
+        <Image src={src} alt={name} fill className="object-cover" />
         {keep && (
           <div className="flex w-full pl-4 px-3 py-2 items-center justify-between absolute left-0 top-0">
             <div>{alcoholTitle && <Label title={alcoholTitle} />}</div>

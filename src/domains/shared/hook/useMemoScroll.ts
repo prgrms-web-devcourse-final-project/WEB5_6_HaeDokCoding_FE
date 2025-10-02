@@ -14,7 +14,7 @@ interface ScrollState<T> {
   timestamp: number;
 }
 
-export function useScrollRestoration<T>({
+export function useMemoScroll<T>({
   storageKey,
   eventName = 'resetScroll',
 }: UseScrollRestorationProps) {

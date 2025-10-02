@@ -5,7 +5,7 @@ import CocktailFilter from './CocktailFilter';
 import CocktailList from './CocktailList';
 import { getApi } from '@/app/api/config/appConfig';
 import { Cocktail } from '../types/types';
-import { useScrollRestoration } from '../../shared/hook/useMemoScroll';
+import { useMemoScroll } from '../../shared/hook/useMemoScroll';
 
 function Cocktails() {
   const SIZE = 20;
@@ -20,7 +20,7 @@ function Cocktails() {
     setHasNextPage,
     handleItemClick,
     shouldFetch,
-  } = useScrollRestoration<Cocktail>({
+  } = useMemoScroll<Cocktail>({
     storageKey: 'cocktails_scroll_state',
     eventName: 'resetCocktailsScroll',
   });

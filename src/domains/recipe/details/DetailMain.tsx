@@ -30,6 +30,19 @@ function DetailMain() {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    return () => {
+      // 레시피 페이지로 돌아가지 않는 경우 (헤더 탭 클릭 등)
+      // 네비게이션 플래그를 제거하여 스크롤 복원 방지
+      const currentPath = window.location.pathname;
+
+      // 디테일 페이지를 벗어나는 경우
+      if (!currentPath.includes('/recipe')) {
+        sessionStorage.removeItem('cocktails_scroll_state_nav_flag');
+      }
+    };
+  }, []);
+
   if (!cocktail) return;
   const {
     cocktailImgUrl,
