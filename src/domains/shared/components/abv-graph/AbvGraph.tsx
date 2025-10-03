@@ -1,11 +1,12 @@
 import clsx from 'clsx';
 
 interface Props {
-  max: number;
-  abv: number;
+  max?: number;
+  abv?: number;
 }
 
 function AbvGraph({ max, abv }: Props) {
+  if(!abv) return 
   const safeMax = Math.max(0, max || 0.0001);
   const rawPct = (abv / safeMax) * 100;
   const pct = Math.min(100, Math.max(0, Number.isFinite(rawPct) ? rawPct : 0));
