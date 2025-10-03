@@ -1,21 +1,41 @@
+import { ozToMl } from './hook/ozToMl';
+
+type Recipe = {
+  ingredientName: string;
+  amount: string;
+  unit: string;
+};
+
 interface Props {
-  ingredient: string;
+  ingredient: Recipe[];
   recipe: string;
 }
 
 function DetailRecipe({ ingredient, recipe }: Props) {
-  const ingredients = ingredient.trim().split(',').filter(Boolean);
-  console.log(ingredient)
   const recipes = recipe.trim().split('.').filter(Boolean);
+  const arr = ingredient.map((a) => ({
+    ...a,
+    convert: ozToMl(a.amount),
+  }));
 
   return (
     <div className="flex flex-col md:flex-row  px-5 gap-5">
       <article className="flex flex-col gap-4 w-[50%]">
         <h4 className="text-2xl font-bold">재료</h4>
         <ul className="flex flex-col gap-2">
-          {ingredients.map((v, i) => (
-            <li key={i}>{v}</li>
-          ))}
+          {arr.map((v, i) => {
+            return (
+              <li key={i} className="flex gap-3">
+                <p>{v.ingredientName}</p>
+                <span className="text-white/80 text-sm">
+                  {v.amount}
+                  {v.unit}
+
+                  {v.unit == 'oz' && `${' '}|${' '} ${v.convert} ml`}
+                </span>
+              </li>
+            );
+          })}
         </ul>
       </article>
 

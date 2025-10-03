@@ -1,13 +1,12 @@
 import Image from 'next/image';
 
-interface Props{
-  src: string,
-  name: string,
-  nameKo:string
+interface Props {
+  src: string;
+  name: string;
+  nameKo: string;
 }
 
-
-function DetailRecommendList({src,name,nameKo}:Props) {
+function DetailRecommendList({ src, name, nameKo }: Props) {
   return (
     <div className="flex flex-col gap-3">
       <div
