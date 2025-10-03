@@ -1,13 +1,13 @@
 'use client';
 import Back from '@/shared/assets/icons/back_36.svg';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 function BackBtn() {
-  const router = useRouter();
-
   return (
-    <button type="button" className="z-1" onClick={router.back} aria-label="뒤로가기">
-      <Back />
+    <button type="button" className="z-1" aria-label="뒤로가기">
+      <Link href="/recipe">
+        <Back />
+      </Link>
     </button>
   );
 }

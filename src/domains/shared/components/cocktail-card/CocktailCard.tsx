@@ -34,11 +34,11 @@ function CocktailCard({
     <div className="flex flex-col gap-4">
       <div
         className={tw(
-          `${!className && 'w-80 h-75 md:w-62.5 '}  rounded-xl overflow-hidden relative`,
+          `${!className && 'w-80 h-75 md:w-62.5 '} rounded-xl overflow-hidden relative`,
           className
         )}
       >
-        <Image src={src} alt={name} fill className="object-cover" />
+        <Image src={src} alt={name} fill className="object-cover" sizes="320px" priority />
         {keep && (
           <div className="flex w-full pl-4 px-3 py-2 items-center justify-between absolute left-0 top-0">
             <div>{alcoholTitle && <Label title={alcoholTitle} />}</div>
