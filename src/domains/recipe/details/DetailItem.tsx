@@ -34,11 +34,13 @@ function DetailItem({ name, nameKo, story, src, abv, glassType }: Props) {
       <div className="flex flex-col w-full gap-3 relative md:flex-row md:justify-between md:w-150 md:gap-20  lg:w-187.5 h-50">
         <div className="flex flex-col gap-1 items-center md:items-end md:w-1/2">
           <span>{alcoholTitle && <Label title={alcoholTitle} />}</span>
-          <h2 className="w-fit font-serif font-bold  text-right text-3xl lg:text-4xl text-secondary ">
-            {name}
-          </h2>
-          <h2 className="font-serif font-bold text-right text-xl lg:whitespace-nowrap lg:text-4xl text-secondary">
-            {nameKo}
+          <h2 className="flex flex-col gap-2">
+            <span className="w-fit font-serif font-bold  text-right text-3xl lg:text-4xl text-secondary ">
+              {name}
+            </span>
+            <span className="font-serif font-bold text-right text-xl lg:whitespace-nowrap lg:text-4xl text-secondary">
+              {nameKo}
+            </span>
           </h2>
         </div>
 

@@ -25,7 +25,7 @@ function DetailsHeader({ id }: { id: number }) {
   }, []);
 
   return (
-    <div className="flex items-center justify-between ">
+    <div className="flex items-center justify-between pb-5 sm:pb-12">
       {isShare && meta && (
         <ShareModal
           open={isShare}

@@ -54,7 +54,8 @@ function DetailMain({ id }: { id: number }) {
 
   return (
     <Suspense fallback={<SkeletonDetail />}>
-      <div className="max-w-1024 page-layout py-12">
+      <h1 className="sr-only">${cocktailNameKo} 상세정보</h1>
+      <div className="max-w-1024 page-layout pt-4 pb-6 sm:pb-12">
         <DetailsHeader id={id} />
 
         <article className="flex flex-col items-center mt-4 lg:mt-0">
@@ -71,22 +72,17 @@ function DetailMain({ id }: { id: number }) {
         </article>
 
         <section className="mt-20 flex flex-col gap-5">
-          <div className="border-b-1 h-18 border-white">
-            <div className="flex items-center gap-3">
-              <Image src={SsuryShake} alt="" width="48" height="48" />
-              <h3 className="text-3xl font-bold">레시피</h3>
-            </div>
+          <div className="border-b-1 h-18 border-white flex gap-3 items-center">
+            <Image src={SsuryShake} alt="" width="48" height="48" />
+            <h3 className="text-2xl font-bold">레시피</h3>
           </div>
           <DetailRecipe ingredient={ingredient} recipe={recipe} />
         </section>
 
-        <section className="mt-20" aria-labelledby="옆으로 슬라이드되는 리스트">
-          <h2 className="sr-only">추천 칵테일 리스트</h2>
-          <div className="border-b-1 h-18 border-white">
-            <div className="flex items-center gap-3">
-              <Image src={SsuryDrink} alt="" width="48" height="48" />
-              <h3 className="text-3xl font-bold">추천리스트</h3>
-            </div>
+        <section className="mt-20">
+          <div className="border-b-1 h-18 border-white flex items-center gap-3">
+            <Image src={SsuryDrink} alt="" width="48" height="48" />
+            <h3 className="text-2xl font-bold">추천리스트</h3>
           </div>
 
           <div className="mt-5">
