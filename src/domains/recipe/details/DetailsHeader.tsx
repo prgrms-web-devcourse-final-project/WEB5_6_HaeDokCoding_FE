@@ -5,7 +5,6 @@ import Keep from '@/domains/shared/components/keep/Keep';
 import { useEffect, useState } from 'react';
 import ShareModal from '@/domains/shared/components/share/ShareModal';
 import { getApi } from '@/app/api/config/appConfig';
-import { ParamValue } from 'next/dist/server/request/params';
 
 interface Meta {
   title: string;
@@ -13,7 +12,7 @@ interface Meta {
   url: string;
 }
 
-function DetailsHeader({ id }: { id: ParamValue }) {
+function DetailsHeader({ id }: { id: number }) {
   const [isShare, setIsShare] = useState(false);
   const [meta, setMeta] = useState<Meta | null>(null);
   const url = async () => {
