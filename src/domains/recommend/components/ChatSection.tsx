@@ -19,10 +19,7 @@ import ChatList from './ChatList';
 
 function ChatSection() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-
   const [userCurrentStep, setUserCurrentStep] = useState(0);
-  const [isBotTyping, setIsBotTyping] = useState(false);
-
   const selectedOptions = useRef<{
     selectedAlcoholStrength?: string;
     selectedAlcoholBaseType?: string;
@@ -30,11 +27,13 @@ function ChatSection() {
   }>({});
 
   const handleSendMessage = async (payload: stepPayload | { message: string; userId: string }) => {
-    // Typing 임시메시지
+    const tempTypingId = `typing-${Date.now()}`;
+
+    // Typing 메시지 임시 추가
     setMessages((prev) => [
       ...prev,
       {
-        id: 'typing',
+        id: tempTypingId,
         sender: 'CHATBOT',
         type: 'TYPING',
         message: '',
@@ -50,11 +49,10 @@ function ChatSection() {
 
       if (!botMessage) return;
 
-      // Typing 임시메시지 제거 후 실제 메시지 추가
-      setMessages((prev) => [...prev.filter((m) => m.type !== 'TYPING'), botMessage]);
+      setMessages((prev) => prev.map((msg) => (msg.id === tempTypingId ? botMessage : msg)));
     } catch (err) {
       console.error(err);
-      setMessages((prev) => prev.filter((m) => m.type !== 'TYPING'));
+      setMessages((prev) => prev.filter((msg) => msg.id !== tempTypingId));
     }
   };
 
@@ -166,7 +164,6 @@ function ChatSection() {
         userCurrentStep={userCurrentStep}
         onSelectedOption={handleSelectedOption}
         getRecommendations={getRecommendations}
-        isBotTyping={isBotTyping}
       />
       <MessageInput onSubmit={handleSubmitText} />
     </section>
