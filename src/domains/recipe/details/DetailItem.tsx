@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import Short from '@/shared/assets/icons/short_36.svg';
 import Label from '@/domains/shared/components/label/Label';
 import AbvGraph from '@/domains/shared/components/abv-graph/AbvGraph';
 import { labelTitle } from '../utills/labelTitle';
+import useGlass from './hook/useGlass';
 
 interface Props {
   name: string;
@@ -15,6 +15,19 @@ interface Props {
 
 function DetailItem({ name, nameKo, story, src, abv, glassType }: Props) {
   const alcoholTitle = labelTitle(abv);
+  const abvNum = abv
+    .replace(/\(([^)]*)\)/g, '$1')
+    .split(' ')
+    .reverse()
+    .slice(0, 1)
+    .toString();
+  const maxAbv = abvNum
+    .replace(/[~%]/g, ' ')
+    .split(' ')
+    .filter((str) => str.trim() !== '')
+    .map(Number);
+
+  const glassIcon = useGlass(glassType);
 
   return (
     <div className="flex flex-col items-center">
@@ -37,8 +50,15 @@ function DetailItem({ name, nameKo, story, src, abv, glassType }: Props) {
         <span className="absolute w-3 h-3 rounded-full -bottom-38 z-2 left-1/2 -translate-x-1/2 bg-secondary md:bg-transparent"></span>
       </div>
 
-      <div className="rounded-2xl overflow-hidden w-75 h-93.75 mt-32 md:mt-4 lg:mt-7 [filter:drop-shadow(0_0_20px_rgba(255,255,255,0.3))]">
-        <Image src={src} alt={`${nameKo}사진`} fill className="object-cover" />
+      <div className="rounded-2xl overflow-hidden w-75 h-93.75 mt-32 md:mt-4 lg:mt-7 [filter:drop-shadow(0_0_20px_rgba(255,255,255,0.3))] relative">
+        <Image
+          src={src}
+          alt={`${nameKo}사진`}
+          fill
+          className="object-cover"
+          sizes="300px"
+          priority
+        />
       </div>
 
       <dl className="flex flex-col mt-5 gap-3 w-75">
@@ -48,8 +68,8 @@ function DetailItem({ name, nameKo, story, src, abv, glassType }: Props) {
             <span>|</span>
           </dt>
           <dd className="flex gap-3 items-center">
-            <p className="text-xs">{abv}</p>
-            <AbvGraph />
+            <p className="text-xs">{abvNum}</p>
+            <AbvGraph abv={Math.max(...maxAbv)} max={40} />
           </dd>
         </div>
         <div className="flex items-center gap-3">
@@ -57,9 +77,13 @@ function DetailItem({ name, nameKo, story, src, abv, glassType }: Props) {
             <p>글래스 타입</p>
             <span>|</span>
           </dt>
-          <dd className="flex items-center gap-2">
-            <Short />
-            <p>{glassType} 드링크</p>
+          <dd className="flex items-center ">
+            {glassIcon}
+            <p>
+              {glassType == '숏' || glassType == '롱'
+                ? `${glassType} 드링크`
+                : `${glassType} 칵테일`}
+            </p>
           </dd>
         </div>
       </dl>
