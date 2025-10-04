@@ -3,11 +3,13 @@ import DetailMain from '@/domains/recipe/details/DetailMain';
 import StarBg from '@/domains/shared/components/star-bg/StarBg';
 import { Metadata } from 'next';
 
-type Props = {
-  params: { id: string };
-};
+type RouteParams = { id: string };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<RouteParams>;
+}): Promise<Metadata> {
   const { id } = await params;
   const res = await fetch(`${getApi}/cocktails/${id}`);
   const recipe = await res.json();
@@ -28,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export async function Page({ params }: Props) {
+async function Page({ params }: { params: Promise<RouteParams> }) {
   const { id } = await params;
 
   return (
