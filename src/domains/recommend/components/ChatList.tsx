@@ -26,20 +26,14 @@ function ChatList({
           const showProfile = !prevMsg || prevMsg.sender !== msg.sender;
 
           if (msg.sender === 'USER') {
-            return (
-              <UserMessage
-                key={`${msg.id}-${msg.sender}`}
-                message={msg.message}
-                showProfile={showProfile}
-              />
-            );
+            return <UserMessage key={keyId} message={msg.message} showProfile={showProfile} />;
           }
 
           const isTyping = msg.type === 'TYPING';
 
           return (
             <BotMessage
-              key={`${keyId}-${msg.sender}`}
+              key={keyId}
               messages={[
                 {
                   id: msg.id,

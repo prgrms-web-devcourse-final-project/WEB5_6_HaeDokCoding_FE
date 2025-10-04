@@ -21,13 +21,14 @@ function ChatSection() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [userCurrentStep, setUserCurrentStep] = useState(0);
   const selectedOptions = useRef<{
+    selectedSearchType?: string;
     selectedAlcoholStrength?: string;
     selectedAlcoholBaseType?: string;
     selectedCocktailType?: string;
   }>({});
 
   const isInputDisabled =
-    selectedOptions.current.selectedCocktailType !== 'QA' && userCurrentStep < 3;
+    selectedOptions.current.selectedSearchType !== 'QA' && userCurrentStep < 3;
 
   const handleSendMessage = async (payload: stepPayload | { message: string; userId: string }) => {
     const tempTypingId = `typing-${Date.now()}`;
@@ -117,6 +118,11 @@ function ChatSection() {
 
     const nextStep = value === 'QA' ? 0 : (stepData?.currentStep ?? 0) + 1;
     setUserCurrentStep(nextStep);
+
+    // 0단계에서 QA 선택 시
+    if (stepData.currentStep === 0 && value === 'QA') {
+      selectedOptions.current.selectedSearchType = 'QA';
+    }
 
     switch (stepData.currentStep + 1) {
       case 2:
