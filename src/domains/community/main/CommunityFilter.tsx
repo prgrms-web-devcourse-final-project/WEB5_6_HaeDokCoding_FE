@@ -3,7 +3,7 @@
 import { Post } from '../types/post';
 import SelectBox from '@/shared/components/select-box/SelectBox';
 import { Dispatch, SetStateAction, useEffect } from 'react';
-import { fetchPostByFilter } from '../api/fetchPost';
+import { fetchPostByTab } from '../api/fetchPost';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 type Props = {
@@ -22,17 +22,20 @@ function CommunityFilter({ posts, setPosts }: Props) {
   const query = searchParams.get('category');
   const router = useRouter();
 
+  const currentCategory = searchParams.get(query as string) || 'all';
+
   useEffect(() => {
     console.log(query);
   }, [query]);
 
   const handleChange = async (selectTitle: string) => {
     if (!query) return;
+
     console.log(selectTitle);
 
-    const data = await fetchPostByFilter({
-      filter: selectTitle,
+    const data = await fetchPostByTab({
       category: query,
+      filter: sortMap[selectTitle as keyof typeof sortMap],
     });
     if (!data) return;
     setPosts(data);

@@ -9,8 +9,7 @@ import { Post } from '@/domains/community/types/post';
 import { useRouter } from 'next/navigation';
 import SkeletonPostCard from '@/domains/shared/skeleton/SkeletonPostCard';
 import { useInfiniteScrollObserver } from '@/shared/hook/useInfiniteScrollObserver';
-import { useEffect, useRef } from 'react';
-import { fetchPost } from '../api/fetchPost';
+import { useRef } from 'react';
 
 type Props = {
   posts: Post[] | null;
@@ -21,24 +20,13 @@ type Props = {
   onLoadMore?: (lastCommentId: number) => void;
 };
 
-function PostCard({ posts, setPost, isLoading, setIsLoading, isEnd, onLoadMore }: Props) {
+function PostCard({ posts, isLoading, isEnd, onLoadMore }: Props) {
   const router = useRouter();
   const firstItemRef = useRef<HTMLElement | null>(null);
 
   const handlePost = (id: number) => {
     router.push(`/community/${id}`);
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      const data = await fetchPost();
-      if (!data) return;
-      setPost(data);
-      setIsLoading(false);
-    };
-    fetchData();
-  }, [setPost, setIsLoading]);
 
   const observeLastItem = useInfiniteScrollObserver<HTMLElement>({
     items: posts,

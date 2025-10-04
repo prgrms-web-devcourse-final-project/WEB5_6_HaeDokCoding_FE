@@ -33,63 +33,57 @@ export const fetchPostById = async (postId: ParamValue) => {
   }
 };
 
-export const fetchPostByTab = async (category: string, lastId?: number): Promise<Post[] | null> => {
-  try {
-    const res = await fetch(
-      `${getApi}/posts?categoryId=${tabItem.findIndex((tab) => tab.key === category)}&${lastId ? `lastId=${lastId}&` : ''}postSortStatus=LATEST`,
-      {
-        method: 'GET',
-        cache: 'no-store',
-      }
-    );
-
-    const data = await res.json();
-    if (!data) return null;
-
-    const filtered = data.data.filter((post: Post) => post.categoryName === category);
-    return filtered;
-  } catch (err) {
-    console.error('글 목록 필터링 실패', err);
-    return null;
-  }
-};
-
-export const fetchPostByFilter = async ({
-  filter,
-  lastId,
+export const fetchPostByTab = async ({
   category,
+  filter = 'LATEST',
+  lastId,
   lastLikeCount,
   lastCommentCount,
 }: {
-  filter: string;
-  lastId?: number;
   category?: string;
+  filter?: 'LATEST' | 'POPULAR' | 'COMMENTS';
+  lastId?: number;
   lastLikeCount?: number;
   lastCommentCount?: number;
-}) => {
+}): Promise<Post[] | null> => {
   try {
-    let url;
+    const params = new URLSearchParams();
+
+    if (category && category !== 'all') {
+      const categoryId = tabItem.findIndex((tab) => tab.key === category);
+      if (categoryId >= 0) {
+        params.set('categoryId', categoryId.toString());
+      }
+    }
+
+    if (lastId) params.set('lastId', lastId.toString());
+
     switch (filter) {
-      case '인기순':
-        url = `${getApi}/posts?${category ? `categoryId=${tabItem.findIndex((tab) => tab.key === category)}&` : ''}${lastId ? `lastId=${lastId}&` : ''}lastLikeCount=${lastLikeCount}&postSortStatus=POPULAR`;
+      case 'POPULAR':
+        if (lastLikeCount) params.set('lastLikeCount', lastLikeCount.toString());
+        params.set('postSortStatus', 'POPULAR');
         break;
-      case '댓글순':
-        url = `${getApi}/posts?${category ? `categoryId=${tabItem.findIndex((tab) => tab.key === category)}&` : ''}${lastId ? `lastId=${lastId}&` : ''}lastCommentCount=${lastCommentCount}&postSortStatus=COMMENTS`;
+      case 'COMMENTS':
+        if (lastCommentCount) params.set('lastCommentCount', lastCommentCount.toString());
+        params.set('postSortStatus', 'COMMENTS');
         break;
+      case 'LATEST':
       default:
-        url = `${getApi}/posts?${category ? `categoryId=${tabItem.findIndex((tab) => tab.key === category)}&` : ''}${lastId ? `lastId=${lastId}&` : ''}postSortStatus=LATEST`;
+        params.set('postSortStatus', 'LATEST');
         break;
     }
 
-    const res = await fetch(url ?? '', {
+    const res = await fetch(`${getApi}/posts?${params.toString()}`, {
       method: 'GET',
       cache: 'no-store',
     });
 
     const data = await res.json();
     if (!data) return null;
+
+    return data.data; // 필요하다면 filter 추가 가능
   } catch (err) {
-    console.error('글 목록 필터링 실패', err);
+    console.error('글 목록 가져오기 실패', err);
     return null;
   }
 };

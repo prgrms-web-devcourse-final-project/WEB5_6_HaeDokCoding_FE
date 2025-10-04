@@ -9,6 +9,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 type Props = {
   setPosts: (value: Post[] | null) => void;
   setIsLoading: (value: boolean) => void;
+  setIsEnd: (value: boolean) => void;
 };
 
 export const tabItem = [
@@ -19,30 +20,17 @@ export const tabItem = [
   { key: 'chat', label: '자유' },
 ];
 
-function CommunityTab({ setPosts, setIsLoading }: Props) {
+function CommunityTab({ setPosts, setIsLoading, setIsEnd }: Props) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
   const currentSort = searchParams.get('postSortStatus') || 'LATEST';
-  console.log(currentSort);
 
   const [selectedCategory, setSelectedCategory] = useState(() => {
     const param = searchParams.get('category') || 'all';
-    const isValid = tabItem.map(({ key }) => key === param);
-    return isValid ? param : 'all';
+    const exists = tabItem.some(({ key }) => key === param);
+    return exists ? param : 'all';
   });
-
-  const handleTab = async (category: string) => {
-    setIsLoading(true);
-    if (category === 'all') {
-      const data = await fetchPost();
-      setPosts(data);
-    } else {
-      const data = await fetchPostByTab(category);
-      setPosts(data);
-    }
-    setIsLoading(false);
-  };
 
   return (
     <section className="relative sm:w-[70%] w-full" aria-label="커뮤니티 탭">
@@ -56,8 +44,10 @@ function CommunityTab({ setPosts, setIsLoading }: Props) {
               tabIndex={selectedCategory === key ? 0 : -1}
               onClick={() => {
                 setSelectedCategory(key);
-                router.push(`?category=${key}`);
-                handleTab(key);
+                const params = new URLSearchParams();
+                params.set('category', key);
+                params.set('postSortStatus', currentSort); // ✅ 현재 필터 상태 유지
+                router.push(`?${params.toString()}`);
               }}
               className={tw(
                 `border-1 py-1 px-3 rounded-2xl transition-colors ease-in min-w-18`,
