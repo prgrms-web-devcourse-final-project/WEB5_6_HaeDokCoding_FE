@@ -22,10 +22,12 @@ export const useChatScroll = (lastMessageId: string) => {
       return;
     }
 
-    requestAnimationFrame(() => {
+    const frameId = requestAnimationFrame(() => {
       chatEndRef.current?.scrollIntoView({ behavior: 'auto' });
       setShowNewMessageAlert(false);
     });
+
+    return () => cancelAnimationFrame(frameId);
   }, [lastMessageId]);
 
   // 스크롤 제일 아래로
