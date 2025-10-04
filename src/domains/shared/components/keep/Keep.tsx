@@ -3,12 +3,11 @@
 import { deleteKeep, postKeep } from '@/app/api/keep/keep';
 import KeepIcon from '@/shared/assets/icons/keep_36.svg';
 import KeepIconActive from '@/shared/assets/icons/keep_active_36.svg';
-import { ParamValue } from 'next/dist/server/request/params';
 import { useState } from 'react';
 
 interface Props {
   className?: string;
-  cocktailId?: ParamValue;
+  cocktailId?: number;
 }
 
 function Keep({ className, cocktailId }: Props) {
@@ -20,6 +19,7 @@ function Keep({ className, cocktailId }: Props) {
     setIsClick(!isClick);
 
     try {
+      if (!cocktailId) return;
       if (!isClick) {
         await postKeep(cocktailId);
       } else {

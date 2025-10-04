@@ -44,7 +44,7 @@ function CocktailCard({
         {keep && (
           <div className="flex w-full pl-4 px-3 py-2 items-center justify-between absolute left-0 top-0">
             <div>{alcoholTitle && <Label title={alcoholTitle} />}</div>
-            <Keep cocktailId={id!} />
+            {id && <Keep cocktailId={id} />}
           </div>
         )}
       </div>

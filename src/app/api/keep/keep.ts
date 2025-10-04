@@ -1,7 +1,7 @@
 import { ParamValue } from 'next/dist/server/request/params';
 import { getApi } from '../config/appConfig';
 
-export async function postKeep(CocktailId: ParamValue) {
+export async function postKeep(CocktailId: number) {
   const res = await fetch(`${getApi}/me/bar/${CocktailId}/keep`, {
     method: 'POST',
     credentials: 'include',
@@ -16,7 +16,7 @@ export async function postKeep(CocktailId: ParamValue) {
   return payload;
 }
 
-export async function deleteKeep(CocktailId: ParamValue) {
+export async function deleteKeep(CocktailId: number) {
   const res = await fetch(`${getApi}/me/bar/${CocktailId}/keep`, {
     method: 'DELETE',
     credentials: 'include',
