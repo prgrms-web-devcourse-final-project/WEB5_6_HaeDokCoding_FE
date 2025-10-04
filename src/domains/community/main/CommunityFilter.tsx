@@ -1,64 +1,41 @@
 'use client';
 
-import { getApi } from '@/app/api/config/appConfig';
 import { Post } from '../types/post';
 import SelectBox from '@/shared/components/select-box/SelectBox';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
+import { fetchPostByFilter } from '../api/fetchPost';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 type Props = {
   posts: Post[] | null;
   setPosts: Dispatch<SetStateAction<Post[] | null>>;
 };
 
+const sortMap = {
+  최신순: 'LATEST',
+  인기순: 'POPULAR',
+  댓글순: 'COMMENTS',
+} as const;
+
 function CommunityFilter({ posts, setPosts }: Props) {
-  const handleChange = (selectTitle: string) => {
+  const searchParams = useSearchParams();
+  const query = searchParams.get('category');
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log(query);
+  }, [query]);
+
+  const handleChange = async (selectTitle: string) => {
+    if (!query) return;
     console.log(selectTitle);
 
-    const fetchData = async () => {
-      if (selectTitle === '최신순') {
-        try {
-          const res = await fetch(`${getApi}/posts?postSortStatus=LATEST`, {
-            method: 'GET',
-          });
-          const data = await res.json();
-          setPosts(data.data);
-        } catch (err) {
-          console.error('에러', err);
-          return null;
-        }
-      } else if (selectTitle === '인기순') {
-        try {
-          const res = await fetch(
-            `${getApi}/posts?postSortStatus=POPULAR&lastId={lastId}&lastLikeCount={lastLikeCount}`,
-            {
-              method: 'GET',
-              mode: 'no-cors',
-            }
-          );
-          const data = await res.json();
-          setPosts(data.data);
-        } catch (err) {
-          console.error('에러', err);
-          return null;
-        }
-      } else if (selectTitle === '댓글순') {
-        try {
-          const res = await fetch(
-            `${getApi}/posts?postSortStatus=COMMENTS&lastId={lastId}&lastCommentCount={lastCommentCount}`,
-            {
-              method: 'GET',
-              mode: 'no-cors',
-            }
-          );
-          const data = await res.json();
-          setPosts(data.data);
-        } catch (err) {
-          console.error('에러', err);
-          return null;
-        }
-      }
-    };
-    fetchData();
+    const data = await fetchPostByFilter({
+      filter: selectTitle,
+      category: query,
+    });
+    if (!data) return;
+    setPosts(data);
   };
 
   return (
@@ -70,7 +47,12 @@ function CommunityFilter({ posts, setPosts }: Props) {
       <SelectBox
         option={['최신순', '인기순', '댓글순']}
         title={'최신순'}
-        onChange={(value) => handleChange(value)}
+        onChange={(value) => {
+          const sortValue = sortMap[value as keyof typeof sortMap];
+
+          handleChange(value);
+          router.push(`?category=${query || '전체'}&postSortStatus=${sortValue}`);
+        }}
       />
     </section>
   );

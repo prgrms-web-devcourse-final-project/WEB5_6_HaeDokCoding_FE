@@ -1,56 +1,70 @@
 'use client';
 
 import tw from '@/shared/utills/tw';
-import { useEffect, useState } from 'react';
-import { fetchPost } from '../api/fetchPost';
 import { Post } from '../types/post';
+import { useState } from 'react';
+import { fetchPost, fetchPostByTab } from '../api/fetchPost';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 type Props = {
-  setPosts: (value: Post[]) => void;
+  setPosts: (value: Post[] | null) => void;
+  setIsLoading: (value: boolean) => void;
 };
 
-const tabItem = [
-  { title: '전체' },
-  { title: '레시피' },
-  { title: '팁' },
-  { title: '질문' },
-  { title: '자유' },
+export const tabItem = [
+  { key: 'all', label: '전체' },
+  { key: 'recipe', label: '레시피' },
+  { key: 'tip', label: '팁' },
+  { key: 'question', label: '질문' },
+  { key: 'chat', label: '자유' },
 ];
 
-function CommunityTab({ setPosts }: Props) {
-  const [selectedIdx, setSelectedIdx] = useState(0);
+function CommunityTab({ setPosts, setIsLoading }: Props) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const selectedTab = tabItem[selectedIdx].title;
+  const currentSort = searchParams.get('postSortStatus') || 'LATEST';
+  console.log(currentSort);
 
-  //     let data;
-  //     if (selectedTab === '전체') data = await fetchPost();
-  //     else data = await fetchPostByTab(selectedTab);
+  const [selectedCategory, setSelectedCategory] = useState(() => {
+    const param = searchParams.get('category') || 'all';
+    const isValid = tabItem.map(({ key }) => key === param);
+    return isValid ? param : 'all';
+  });
 
-  //     if (!data) return;
-  //     setPosts(data);
-  //   };
-  //   fetchData();
-  // }, [selectedIdx, setPosts]);
+  const handleTab = async (category: string) => {
+    setIsLoading(true);
+    if (category === 'all') {
+      const data = await fetchPost();
+      setPosts(data);
+    } else {
+      const data = await fetchPostByTab(category);
+      setPosts(data);
+    }
+    setIsLoading(false);
+  };
 
   return (
     <section className="relative sm:w-[70%] w-full" aria-label="커뮤니티 탭">
       <div className="w-full overflow-x-scroll no-scrollbar scroll-smooth">
         <div className="flex gap-3 w-max" aria-label="커뮤니티 카테고리">
-          {tabItem.map(({ title }, idx) => (
+          {tabItem.map(({ key, label }) => (
             <button
-              key={title + idx}
+              key={key}
               role="tab"
-              aria-selected={selectedIdx === idx}
-              tabIndex={selectedIdx === idx ? 0 : -1}
-              onClick={() => setSelectedIdx(idx)}
+              aria-selected={selectedCategory === key}
+              tabIndex={selectedCategory === key ? 0 : -1}
+              onClick={() => {
+                setSelectedCategory(key);
+                router.push(`?category=${key}`);
+                handleTab(key);
+              }}
               className={tw(
                 `border-1 py-1 px-3 rounded-2xl transition-colors ease-in min-w-18`,
-                selectedIdx === idx ? 'bg-secondary text-primary' : 'hover:bg-secondary/20'
+                selectedCategory === key ? 'bg-secondary text-primary' : 'hover:bg-secondary/20'
               )}
             >
-              {title}
+              {label}
             </button>
           ))}
         </div>
