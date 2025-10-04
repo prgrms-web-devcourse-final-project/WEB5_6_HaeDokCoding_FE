@@ -21,7 +21,8 @@ function ChatList({
     >
       <div className="max-w-1024 w-full flex flex-col gap-5">
         {messages.map((msg, i) => {
-          const keyId = msg.id ?? `temp-${msg.sender}-${i}-${Date.now()}`;
+          const keyId =
+            !msg.id || msg.id === 'null' ? `temp-${msg.sender}-${i}-${Math.random()}` : msg.id;
           const prevMsg = messages[i - 1];
           const showProfile = !prevMsg || prevMsg.sender !== msg.sender;
 
