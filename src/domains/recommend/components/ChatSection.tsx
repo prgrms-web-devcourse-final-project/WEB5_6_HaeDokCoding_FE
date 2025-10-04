@@ -1,11 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import BotMessage from './bot/BotMessage';
-import UserMessage from './user/UserMessage';
-import NewMessageAlert from './bot/NewMessageAlert';
 import MessageInput from './user/MessageInput';
-import { useChatScroll } from '../hook/useChatScroll';
 import {
   fetchChatHistory,
   fetchGreeting,
@@ -23,8 +19,7 @@ import ChatList from './ChatList';
 
 function ChatSection() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const { chatListRef, chatEndRef, showNewMessageAlert, handleCheckBottom, handleScrollToBottom } =
-    useChatScroll(messages.length);
+
   const [userCurrentStep, setUserCurrentStep] = useState(0);
   const [isBotTyping, setIsBotTyping] = useState(false);
 
@@ -33,6 +28,33 @@ function ChatSection() {
     selectedAlcoholBaseType?: string;
     selectedCocktailType?: string;
   }>({});
+
+  const handleSendMessage = async (payload: stepPayload | { message: string; userId: string }) => {
+    const typingTimer = setTimeout(() => setIsBotTyping(true), 300);
+
+    try {
+      if (!('currentStep' in payload)) {
+        const botMessage = await fetchSendTextMessage(payload);
+        clearTimeout(typingTimer);
+        setIsBotTyping(false);
+
+        if (!botMessage) return;
+        setTimeout(() => setMessages((prev) => [...prev, botMessage]), 500);
+        return;
+      }
+
+      const botMessage = await fetchSendStepMessage(payload);
+      clearTimeout(typingTimer);
+      setIsBotTyping(false);
+
+      if (!botMessage) return;
+      setTimeout(() => setMessages((prev) => [...prev, botMessage]), 500);
+    } catch (err) {
+      clearTimeout(typingTimer);
+      setIsBotTyping(false);
+      console.error(err);
+    }
+  };
 
   // 일반 텍스트 보낼 시
   const handleSubmitText = async (message: string) => {
@@ -48,8 +70,7 @@ function ChatSection() {
       { id: tempId, userId, message, sender: 'USER', type: 'text', createdAt: tempCreatedAt },
     ]);
 
-    const botMessage = await fetchSendTextMessage({ message, userId });
-    if (botMessage) setMessages((prev) => [...prev, botMessage]);
+    await handleSendMessage({ message, userId });
   };
 
   // 옵션 클릭 시
@@ -92,9 +113,6 @@ function ChatSection() {
       case 3:
         selectedOptions.current.selectedAlcoholBaseType = value;
         break;
-      case 4:
-        selectedOptions.current.selectedCocktailType = value;
-        break;
     }
 
     const payload: stepPayload = {
@@ -104,22 +122,7 @@ function ChatSection() {
       ...selectedOptions.current,
     };
 
-    const typingTimer = setTimeout(() => setIsBotTyping(true), 300);
-
-    try {
-      const botMessage = await fetchSendStepMessage(payload);
-
-      clearTimeout(typingTimer);
-      setIsBotTyping(false);
-
-      if (botMessage) {
-        setMessages((prev) => [...prev, botMessage]);
-      }
-    } catch (err) {
-      clearTimeout(typingTimer);
-      setIsBotTyping(false);
-      console.error(err);
-    }
+    await handleSendMessage(payload);
   };
 
   // 채팅 기록 불러오기 없으면 greeting 호출
@@ -145,18 +148,13 @@ function ChatSection() {
   };
 
   return (
-    <section className="relative flex-1 flex flex-col w-fulloverflow-hidden">
+    <section className="relative flex-1 flex flex-col items-center w-full">
       <h2 className="sr-only">대화 목록 및 입력 창</h2>
       <ChatList
         messages={messages}
         userCurrentStep={userCurrentStep}
         onSelectedOption={handleSelectedOption}
         getRecommendations={getRecommendations}
-        chatListRef={chatListRef}
-        chatEndRef={chatEndRef}
-        showNewMessageAlert={showNewMessageAlert}
-        handleCheckBottom={handleCheckBottom}
-        handleScrollToBottom={handleScrollToBottom}
         isBotTyping={isBotTyping}
       />
       <MessageInput onSubmit={handleSubmitText} />
