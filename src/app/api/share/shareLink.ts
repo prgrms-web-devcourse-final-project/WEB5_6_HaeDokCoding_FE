@@ -4,7 +4,7 @@ export const handleShareKakao = (title: string, src: string, url: string) => {
     objectType: 'feed', // 공유 타입
     content: {
       title: '🍸SSOUL에서 칵테일 정보보기',
-      description: title + '먹고 공유하기',
+      description: title + '에 대한 정보와 레시피를 한눈에 확인하세요😁',
       imageUrl: src,
       link: {
         mobileWebUrl: url,
