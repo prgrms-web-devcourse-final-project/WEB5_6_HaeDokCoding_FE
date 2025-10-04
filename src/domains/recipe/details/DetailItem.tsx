@@ -37,7 +37,7 @@ function DetailItem({ name, nameKo, story, src, abv, glassType }: Props) {
           <h2 className="w-fit font-serif font-bold  text-right text-3xl lg:text-4xl text-secondary ">
             {name}
           </h2>
-          <h2 className="font-serif font-bold text-right text-xl lg:text-4xl text-secondary">
+          <h2 className="font-serif font-bold text-right text-xl lg:whitespace-nowrap lg:text-4xl text-secondary">
             {nameKo}
           </h2>
         </div>

@@ -1,17 +1,33 @@
 'use client';
+
+import { deleteKeep, postKeep } from '@/app/api/keep/keep';
 import KeepIcon from '@/shared/assets/icons/keep_36.svg';
 import KeepIconActive from '@/shared/assets/icons/keep_active_36.svg';
+import { ParamValue } from 'next/dist/server/request/params';
 import { useState } from 'react';
 
 interface Props {
   className?: string;
+  cocktailId?: ParamValue;
 }
 
-function Keep({ className }: Props) {
+function Keep({ className, cocktailId }: Props) {
   const [isClick, setIsClick] = useState(false);
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     e.stopPropagation();
+
     setIsClick(!isClick);
+
+    try {
+      if (!isClick) {
+        await postKeep(cocktailId);
+      } else {
+        await deleteKeep(cocktailId);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

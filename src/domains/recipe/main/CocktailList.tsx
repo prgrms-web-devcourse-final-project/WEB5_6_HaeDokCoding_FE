@@ -44,6 +44,7 @@ function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId, onItemClick
               }}
             >
               <CocktailCard
+                id={cocktailId}
                 src={cocktailImgUrl}
                 name={cocktailName}
                 nameKo={cocktailNameKo}

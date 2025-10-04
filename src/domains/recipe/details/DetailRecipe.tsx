@@ -20,7 +20,7 @@ function DetailRecipe({ ingredient, recipe }: Props) {
 
   return (
     <div className="flex flex-col md:flex-row  px-5 gap-5">
-      <article className="flex flex-col gap-4 w-[50%]">
+      <article className="flex flex-col gap-4 w-full md:w-[50%]">
         <h4 className="text-2xl font-bold">재료</h4>
         <ul className="flex flex-col gap-2">
           {arr.map((v, i) => {
