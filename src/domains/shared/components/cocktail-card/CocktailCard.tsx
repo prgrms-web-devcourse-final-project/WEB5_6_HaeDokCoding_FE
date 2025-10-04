@@ -7,7 +7,7 @@ import Keep from '../keep/Keep';
 import { labelTitle } from '@/domains/recipe/utills/labelTitle';
 
 interface Props {
-  id?: string;
+  id?: number;
   src: string;
   name: string;
   nameKo?: string;

@@ -3,7 +3,7 @@ import DetailMain from '@/domains/recipe/details/DetailMain';
 import StarBg from '@/domains/shared/components/star-bg/StarBg';
 import { Metadata } from 'next';
 
-type RouteParams = { id: string };
+type RouteParams = { id: number };
 
 export async function generateMetadata({
   params,

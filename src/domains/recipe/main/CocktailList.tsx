@@ -38,7 +38,7 @@ function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId, onItemClick
         ({ cocktailImgUrl, cocktailId, cocktailName, cocktailNameKo, alcoholStrength }) => (
           <li key={cocktailId} onClick={onItemClick}>
             <Link
-              href={`/recipe/${String(cocktailId)}`}
+              href={`/recipe/${cocktailId}`}
               onClick={() => {
                 sessionStorage.setItem('listScrollY', String(window.scrollY));
               }}

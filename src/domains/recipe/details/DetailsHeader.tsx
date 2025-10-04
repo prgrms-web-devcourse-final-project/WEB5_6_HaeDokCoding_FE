@@ -12,7 +12,7 @@ interface Meta {
   url: string;
 }
 
-function DetailsHeader({ id }: { id: string }) {
+function DetailsHeader({ id }: { id: number }) {
   const [isShare, setIsShare] = useState(false);
   const [meta, setMeta] = useState<Meta | null>(null);
   const url = async () => {

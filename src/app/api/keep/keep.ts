@@ -1,6 +1,6 @@
 import { getApi } from '../config/appConfig';
 
-export async function postKeep(CocktailId: string) {
+export async function postKeep(CocktailId: number) {
   const res = await fetch(`${getApi}/me/bar/${CocktailId}/keep`, {
     method: 'POST',
     credentials: 'include',
@@ -15,7 +15,7 @@ export async function postKeep(CocktailId: string) {
   return payload;
 }
 
-export async function deleteKeep(CocktailId: string) {
+export async function deleteKeep(CocktailId: number) {
   const res = await fetch(`${getApi}/me/bar/${CocktailId}/keep`, {
     method: 'DELETE',
     credentials: 'include',

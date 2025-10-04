@@ -12,7 +12,7 @@ import SkeletonDetail from '../skeleton/SkeletonDetail';
 import RecipeComment from '../components/details/RecipeComment';
 import { getApi } from '@/app/api/config/appConfig';
 
-function DetailMain({ id }: { id: string }) {
+function DetailMain({ id }: { id: number }) {
   const [cocktail, setCocktail] = useState();
 
   const fetchData = async () => {

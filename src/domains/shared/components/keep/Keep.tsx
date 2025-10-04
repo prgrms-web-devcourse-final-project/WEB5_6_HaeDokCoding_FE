@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 interface Props {
   className?: string;
-  cocktailId?: string;
+  cocktailId?: number;
 }
 
 function Keep({ className, cocktailId }: Props) {
