@@ -1,9 +1,9 @@
 'use client';
 
-import { deleteKeep, postKeep } from '@/app/api/keep/keep';
 import KeepIcon from '@/shared/assets/icons/keep_36.svg';
 import KeepIconActive from '@/shared/assets/icons/keep_active_36.svg';
 import { useState } from 'react';
+import { deleteKeep, postKeep } from '../../api/keep/keep';
 
 interface Props {
   className?: string;

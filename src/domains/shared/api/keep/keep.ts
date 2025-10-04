@@ -1,4 +1,4 @@
-import { getApi } from '../config/appConfig';
+import { getApi } from '@/app/api/config/appConfig';
 
 export async function postKeep(CocktailId: number) {
   const res = await fetch(`${getApi}/me/bar/${CocktailId}/keep`, {
