@@ -59,8 +59,8 @@ function DetailMain({ id }: { id: number }) {
         <DetailsHeader id={id} />
 
         <article className="flex flex-col items-center mt-4 lg:mt-0">
-          <span className="md:bg-secondary w-1 h-100 -translate-y-19 absolute top-0 left-1/2 -translate-x-1/2 md: z-2"></span>
-          <span className="h-3 w-3 rounded-full absolute  top-80 left-1/2 -translate-x-1/2 z-2 md:bg-secondary"></span>
+          <span className="md:bg-secondary w-1 h-104 -translate-y-19 absolute top-0 left-1/2 -translate-x-1/2 md: z-2"></span>
+          <span className="h-3 w-3 rounded-full absolute  top-82 left-1/2 -translate-x-1/2 z-2 md:bg-secondary"></span>
           <DetailItem
             name={cocktailName}
             nameKo={cocktailNameKo}
