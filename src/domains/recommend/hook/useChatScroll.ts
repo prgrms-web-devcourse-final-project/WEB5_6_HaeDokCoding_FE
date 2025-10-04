@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export const useChatScroll = (lastMessageId: string) => {
+export const useChatScroll = (lastMessageId: string, isBotTyping: boolean) => {
   const chatEndRef = useRef<HTMLDivElement>(null);
   const chatListRef = useRef<HTMLDivElement>(null);
   const isScrollBottom = useRef(true);
@@ -17,18 +17,16 @@ export const useChatScroll = (lastMessageId: string) => {
 
   // 새 메시지가 들어오면 자동 스크롤
   useEffect(() => {
-    if (!isScrollBottom.current) {
-      setShowNewMessageAlert(true);
-      return;
-    }
-
     const frameId = requestAnimationFrame(() => {
-      chatEndRef.current?.scrollIntoView({ behavior: 'auto' });
-      setShowNewMessageAlert(false);
+      setTimeout(() => {
+        chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        isScrollBottom.current = true;
+        setShowNewMessageAlert(false);
+      }, 50); // 50ms 정도 살짝 기다림
     });
 
     return () => cancelAnimationFrame(frameId);
-  }, [lastMessageId]);
+  }, [lastMessageId, isBotTyping]);
 
   // 스크롤 제일 아래로
   const handleScrollToBottom = () => {
