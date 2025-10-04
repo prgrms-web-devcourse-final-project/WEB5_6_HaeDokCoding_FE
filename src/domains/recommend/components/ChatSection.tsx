@@ -30,29 +30,31 @@ function ChatSection() {
   }>({});
 
   const handleSendMessage = async (payload: stepPayload | { message: string; userId: string }) => {
-    const typingTimer = setTimeout(() => setIsBotTyping(true), 300);
+    // Typing 임시메시지
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: 'typing',
+        sender: 'CHATBOT',
+        type: 'TYPING',
+        message: '',
+        createdAt: new Date().toISOString(),
+      },
+    ]);
 
     try {
-      if (!('currentStep' in payload)) {
-        const botMessage = await fetchSendTextMessage(payload);
-        clearTimeout(typingTimer);
-        setIsBotTyping(false);
-
-        if (!botMessage) return;
-        setTimeout(() => setMessages((prev) => [...prev, botMessage]), 500);
-        return;
-      }
-
-      const botMessage = await fetchSendStepMessage(payload);
-      clearTimeout(typingTimer);
-      setIsBotTyping(false);
+      const botMessage =
+        'currentStep' in payload
+          ? await fetchSendStepMessage(payload)
+          : await fetchSendTextMessage(payload);
 
       if (!botMessage) return;
-      setTimeout(() => setMessages((prev) => [...prev, botMessage]), 500);
+
+      // Typing 임시메시지 제거 후 실제 메시지 추가
+      setMessages((prev) => [...prev.filter((m) => m.type !== 'TYPING'), botMessage]);
     } catch (err) {
-      clearTimeout(typingTimer);
-      setIsBotTyping(false);
       console.error(err);
+      setMessages((prev) => prev.filter((m) => m.type !== 'TYPING'));
     }
   };
 
@@ -70,7 +72,16 @@ function ChatSection() {
       { id: tempId, userId, message, sender: 'USER', type: 'text', createdAt: tempCreatedAt },
     ]);
 
-    await handleSendMessage({ message, userId });
+    const nextStep = userCurrentStep === 3 ? userCurrentStep + 1 : userCurrentStep;
+
+    const payload: stepPayload = {
+      currentStep: nextStep,
+      message,
+      userId,
+      ...selectedOptions.current,
+    };
+
+    await handleSendMessage(payload);
   };
 
   // 옵션 클릭 시

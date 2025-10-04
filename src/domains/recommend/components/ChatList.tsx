@@ -2,7 +2,6 @@ import { useChatScroll } from '../hook/useChatScroll';
 import { ChatListProps } from '../types/recommend';
 import BotMessage from './bot/BotMessage';
 import NewMessageAlert from './bot/NewMessageAlert';
-import TypingIndicator from './bot/TypingIndicator';
 import UserMessage from './user/UserMessage';
 
 function ChatList({
@@ -10,7 +9,6 @@ function ChatList({
   userCurrentStep,
   onSelectedOption,
   getRecommendations,
-  isBotTyping,
 }: ChatListProps) {
   const { chatListRef, chatEndRef, showNewMessageAlert, handleCheckBottom, handleScrollToBottom } =
     useChatScroll(messages[messages.length - 1]?.id);
@@ -33,7 +31,7 @@ function ChatList({
               messages={[
                 {
                   id: msg.id,
-                  message: msg.message,
+                  message: msg.type === 'TYPING' ? '' : msg.message,
                   type: msg.type ?? 'TEXT',
                   options: msg.type === 'RADIO_OPTIONS' ? (msg.stepData?.options ?? []) : [],
                   recommendations: getRecommendations(msg.type, msg.stepData),
@@ -45,8 +43,6 @@ function ChatList({
             />
           );
         })}
-
-        {isBotTyping && <TypingIndicator />}
 
         <div ref={chatEndRef}></div>
         {showNewMessageAlert && <NewMessageAlert onClick={handleScrollToBottom} />}

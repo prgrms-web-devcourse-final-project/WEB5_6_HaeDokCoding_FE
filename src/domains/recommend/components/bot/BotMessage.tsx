@@ -6,6 +6,7 @@ import { useState } from 'react';
 import BotCocktailCard from './BotCocktailCard';
 import BotOptions from './BotOptions';
 import { StepOption, StepRecommendation, RecommendationItem } from '../../types/recommend';
+import TypingIndicator from './TypingIndicator';
 
 interface BotMessage {
   id: string;
@@ -19,10 +20,11 @@ interface BotMessages {
   messages: BotMessage[];
   stepData?: StepRecommendation | null;
   currentStep?: number;
+  children?: React.ReactNode;
   onSelectedOption?: (value: string) => void;
 }
 
-function BotMessage({ messages, stepData, currentStep, onSelectedOption }: BotMessages) {
+function BotMessage({ messages, stepData, currentStep, onSelectedOption, children }: BotMessages) {
   const [selected, setSelected] = useState('');
 
   return (
@@ -59,8 +61,13 @@ function BotMessage({ messages, stepData, currentStep, onSelectedOption }: BotMe
                 ))}
               </ul>
             ) : (
-              <div className="flex flex-col w-fit max-w-[80%] min-w-[120px] p-3 rounded-2xl rounded-tl-none bg-white text-black">
-                {msg.message && <p className="whitespace-pre-line">{msg.message}</p>}
+              <div className="flex flex-col w-fit max-w-[80%] min-w-[120px] p-3 rounded-2xl rounded-tl-none bg-white text-black opacity-0 animate-fadeIn">
+                {msg.type === 'TYPING' ? (
+                  <TypingIndicator />
+                ) : (
+                  // 실제 메시지 내용
+                  <p className="whitespace-pre-line">{msg.message}</p>
+                )}
 
                 {/* radio */}
                 {msg.type === 'RADIO_OPTIONS' && msg.options?.length && (
@@ -75,6 +82,7 @@ function BotMessage({ messages, stepData, currentStep, onSelectedOption }: BotMe
                     }}
                   />
                 )}
+                {/* {children} */}
               </div>
             )}
           </div>
