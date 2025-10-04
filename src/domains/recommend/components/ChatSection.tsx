@@ -26,6 +26,9 @@ function ChatSection() {
     selectedCocktailType?: string;
   }>({});
 
+  const isInputDisabled =
+    selectedOptions.current.selectedCocktailType !== 'QA' && userCurrentStep < 3;
+
   const handleSendMessage = async (payload: stepPayload | { message: string; userId: string }) => {
     const tempTypingId = `typing-${Date.now()}`;
 
@@ -165,7 +168,7 @@ function ChatSection() {
         onSelectedOption={handleSelectedOption}
         getRecommendations={getRecommendations}
       />
-      <MessageInput onSubmit={handleSubmitText} />
+      <MessageInput onSubmit={handleSubmitText} disabled={isInputDisabled} />
     </section>
   );
 }
