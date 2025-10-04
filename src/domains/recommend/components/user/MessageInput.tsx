@@ -21,9 +21,9 @@ function MessageInput({ onSubmit }: Props) {
   };
 
   return (
-    <div className="fixed left-1/2 bottom-0 -translate-x-1/2 w-full max-w-[64rem] px-3 py-4 bg-primary">
-      <form onSubmit={(e) => e.preventDefault()}>
-        <div className="flex items-end w-full gap-2">
+    <div className="fixed left-0 bottom-0 w-full px-3 py-4 flex-center bg-primary">
+      <form onSubmit={(e) => e.preventDefault()} className="w-full max-w-[64rem]">
+        <div className="flex items-end gap-2">
           <label htmlFor="chatInput" className="sr-only">
             질문 입력창
           </label>

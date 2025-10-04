@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export const useChatScroll = (messagesLength: number) => {
+export const useChatScroll = (lastMessageId: string) => {
   const chatEndRef = useRef<HTMLDivElement>(null);
   const chatListRef = useRef<HTMLDivElement>(null);
   const isScrollBottom = useRef(true);
@@ -17,13 +17,18 @@ export const useChatScroll = (messagesLength: number) => {
 
   // 새 메시지가 들어오면 자동 스크롤
   useEffect(() => {
-    if (isScrollBottom.current) {
-      chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-      setShowNewMessageAlert(false); // 새메세지 숨김
-    } else {
-      setShowNewMessageAlert(true); // 새메세지 보여줌
+    if (!isScrollBottom.current) {
+      setShowNewMessageAlert(true);
+      return;
     }
-  }, [messagesLength]);
+
+    const frameId = requestAnimationFrame(() => {
+      chatEndRef.current?.scrollIntoView({ behavior: 'auto' });
+      setShowNewMessageAlert(false);
+    });
+
+    return () => cancelAnimationFrame(frameId);
+  }, [lastMessageId]);
 
   // 스크롤 제일 아래로
   const handleScrollToBottom = () => {

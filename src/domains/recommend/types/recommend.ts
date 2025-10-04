@@ -60,11 +60,5 @@ export interface ChatListProps {
     stepData?: StepRecommendation | null
   ) => RecommendationItem[];
 
-  chatListRef: React.RefObject<HTMLDivElement | null>;
-  chatEndRef: React.RefObject<HTMLDivElement | null>;
-  showNewMessageAlert: boolean;
-  handleCheckBottom: (e: React.UIEvent<HTMLDivElement>) => void;
-  handleScrollToBottom: () => void;
-
   isBotTyping: boolean;
 }
