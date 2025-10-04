@@ -1,17 +1,35 @@
 'use client';
+
 import KeepIcon from '@/shared/assets/icons/keep_36.svg';
 import KeepIconActive from '@/shared/assets/icons/keep_active_36.svg';
 import { useState } from 'react';
+import { deleteKeep, postKeep } from '../../api/keep/keep';
 
 interface Props {
   className?: string;
+  cocktailId?: number;
 }
+// ID는 커뮤니티 공유할때 id 타입보고 옵셔널 체크 풀어주세요!
+// 만약 타입 안맞는다면 그냥 두셔도 됩니다.
 
-function Keep({ className }: Props) {
+function Keep({ className, cocktailId }: Props) {
   const [isClick, setIsClick] = useState(false);
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     e.stopPropagation();
+
     setIsClick(!isClick);
+
+    try {
+      if (!cocktailId) return;
+      if (!isClick) {
+        await postKeep(cocktailId);
+      } else {
+        await deleteKeep(cocktailId);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

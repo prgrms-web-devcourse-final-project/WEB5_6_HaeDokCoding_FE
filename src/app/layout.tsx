@@ -4,8 +4,11 @@ import { Toaster } from 'react-hot-toast';
 import Header from '@/shared/components/header/Header';
 import FooterWrapper from '@/shared/components/footer/FooterWrapper';
 import ScrollTopBtnWrapper from '@/shared/components/scroll-top/ScrollTopBtnWrapper';
+import KaKaoScript from './api/kakao/KaKaoScript';
+
 export const metadata: Metadata = {
-  title: 'SSOUL',
+  title: { default: 'SSOUL', template: 'SSOUL | %s' },
+  metadataBase: new URL('http://www.ssoul.life'),
   description: '칵테일을 좋아하는 사람들을 위한 서비스',
 };
 
@@ -35,6 +38,7 @@ export default function RootLayout({
 
         <ScrollTopBtnWrapper />
       </body>
+      <KaKaoScript />
     </html>
   );
 }
