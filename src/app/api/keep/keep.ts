@@ -4,6 +4,7 @@ import { getApi } from '../config/appConfig';
 export async function postKeep(CocktailId: ParamValue) {
   const res = await fetch(`${getApi}/me/bar/${CocktailId}/keep`, {
     method: 'POST',
+    credentials: 'include',
   });
 
   let payload = null;
@@ -18,6 +19,7 @@ export async function postKeep(CocktailId: ParamValue) {
 export async function deleteKeep(CocktailId: ParamValue) {
   const res = await fetch(`${getApi}/me/bar/${CocktailId}/keep`, {
     method: 'DELETE',
+    credentials: 'include',
   });
   let payload = null;
   try {
