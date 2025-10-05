@@ -1,6 +1,7 @@
+'use client';
 import { getApi } from '@/app/api/config/appConfig';
 import { Cocktail } from '../types/types';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 interface Props {
   setData: Dispatch<SetStateAction<Cocktail[]>>;
@@ -8,23 +9,50 @@ interface Props {
 }
 
 function CocktailSearch({ setData, setNoResults }: Props) {
-  const searchApi = async (v: string) => {
-    const keyword = v.trim();
-    if (!keyword) {
+  const [alcoholStrengths, setAlcoholStrengths] = useState<string[]>([]);
+  const [cocktailTypes, setCocktailTypes] = useState<string[]>([]);
+  const [alcoholBaseTypes, setAlcoholBaseTypes] = useState<string[]>([]);
+
+  const searchApi = async (v?: string) => {
+    const keyword = v?.trim() ?? '';
+    const body = {
+      keyword,
+      alcoholStrengths,
+      cocktailTypes,
+      alcoholBaseTypes,
+      page: 0,
+      size: 100,
+    };
+
+    if (!keyword && !alcoholStrengths.length && !cocktailTypes.length && !alcoholBaseTypes.length) {
       setData([]);
-      return;
+      setNoResults(false);
+      return null;
     }
 
     const res = await fetch(`${getApi}/cocktails/search`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ keyword }),
+      body: JSON.stringify(body),
     });
     const json = await res.json();
+
     setData(json.data);
     setNoResults(json.data.length === 0);
   };
 
-  return { searchApi };
+  useEffect(() => {
+    searchApi();
+  }, [alcoholStrengths, cocktailTypes, alcoholBaseTypes]);
+
+  return {
+    searchApi,
+    setAlcoholBaseTypes,
+    setAlcoholStrengths,
+    setCocktailTypes,
+    alcoholBaseTypes,
+    alcoholStrengths,
+    cocktailTypes,
+  };
 }
 export default CocktailSearch;

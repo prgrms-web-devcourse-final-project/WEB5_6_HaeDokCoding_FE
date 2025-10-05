@@ -28,7 +28,19 @@ function Cocktails() {
   const { inputValue, keyword, isSearching, onInputChange, noResults, setNoResults } =
     useSearchControl({ delay: 300, storageKey: 'cocktails_scoll_state' });
   const { fetchData } = RecipeFetch({ setData, lastId, setLastId, hasNextPage, setHasNextPage });
-  const { searchApi } = CocktailSearch({ setData, setNoResults });
+  const {
+    searchApi,
+    setAlcoholBaseTypes,
+    setAlcoholStrengths,
+    setCocktailTypes,
+    alcoholBaseTypes,
+    cocktailTypes,
+    alcoholStrengths,
+  } = CocktailSearch({
+    setData,
+    setNoResults,
+  });
+
   const countLabel = isSearching
     ? hasNextPage
       ? `검색결과 현재 ${data.length}+`
@@ -44,7 +56,7 @@ function Cocktails() {
     if (readyForFirstLoad) {
       fetchData();
     }
-  }, [hasNextPage]);
+  }, [hasNextPage, lastId]);
 
   // 검색어 변경 시
   useEffect(() => {
@@ -58,22 +70,27 @@ function Cocktails() {
       setLastId(null);
       setHasNextPage(true);
     }
-  }, [keyword, isSearching]);
+  }, [keyword, isSearching, alcoholBaseTypes, alcoholStrengths, cocktailTypes]);
 
   // 일반 fetch
   useEffect(() => {
-    if (!shouldFetch) return;
-    if (isSearching) return;
+    if (!shouldFetch || isSearching) return;
     fetchData();
   }, [shouldFetch, isSearching]);
 
   return (
     <section>
       <div className="flex flex-col-reverse items-start gap-6 md:flex-row md:justify-between md:items-center ">
-        <Accordion />
+        <Accordion
+          setAlcoholBaseTypes={setAlcoholBaseTypes}
+          setAlcoholStrengths={setAlcoholStrengths}
+          setCocktailTypes={setCocktailTypes}
+        />
         <CocktailSearchBar value={inputValue} onChange={onInputChange} />
       </div>
+
       <CocktailFilter cocktailsEA={countLabel} />
+
       <section className="mt-5">
         {isSearching && noResults ? (
           <div>검색결과가 없습니다.</div>
