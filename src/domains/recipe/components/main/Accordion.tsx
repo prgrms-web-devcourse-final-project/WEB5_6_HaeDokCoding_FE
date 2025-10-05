@@ -5,7 +5,7 @@ import SelectBox from '@/shared/components/select-box/SelectBox';
 const SELECT_OPTIONS = [
   {
     id: 'abv',
-    option: ['전체', '약한 도수', '가벼운 도수', '중간 도수', '센 도수', '매우 센 도수'],
+    option: ['전체', '논알콜', '약한 도수', '가벼운 도수', '중간 도수', '센 도수', '매우 센 도수'],
     title: '도수',
   },
   {

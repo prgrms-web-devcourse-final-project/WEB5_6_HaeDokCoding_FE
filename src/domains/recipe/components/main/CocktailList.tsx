@@ -3,12 +3,12 @@ import { useRef } from 'react';
 
 import Link from 'next/link';
 import { useIntersectionObserver } from '@/domains/shared/hook/useIntersectionObserver';
-import { Cocktail } from '../types/types';
+import { Cocktail } from '../../types/types';
 import CocktailCard from '@/domains/shared/components/cocktail-card/CocktailCard';
 
 interface Props {
   cocktails: Cocktail[];
-  RecipeFetch: (cursor?: string | undefined) => Promise<void>;
+  RecipeFetch?: (cursor?: string | undefined) => Promise<void>;
   hasNextPage: boolean;
   lastId: number | null;
   onItemClick: () => void;
@@ -17,8 +17,9 @@ interface Props {
 function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId, onItemClick }: Props) {
   const cocktailRef = useRef(null);
   const onIntersect: IntersectionObserverCallback = ([entry]) => {
+    if (!RecipeFetch) return;
     if (!lastId) return;
-    if (entry.isIntersecting && lastId > 1) {
+    if (entry.isIntersecting) {
       RecipeFetch();
     }
   };
