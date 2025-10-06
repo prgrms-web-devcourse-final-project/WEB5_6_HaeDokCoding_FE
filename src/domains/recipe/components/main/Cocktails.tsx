@@ -11,6 +11,7 @@ import CocktailSearchBar from './CocktailSearchBar';
 import useSearchControl from '../../hook/useSearchControl';
 import CocktailSearch from '../../api/CocktailSearch';
 
+
 function Cocktails() {
   const {
     data,

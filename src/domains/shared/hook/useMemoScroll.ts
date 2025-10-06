@@ -1,4 +1,3 @@
-// hooks/useScrollRestoration.ts (또는 useMemoScroll.ts)
 import { useEffect, useRef, useState, useCallback } from 'react';
 
 interface UseScrollRestorationProps {
@@ -14,10 +13,13 @@ interface ScrollState<T> {
   timestamp: number;
 }
 
+// 뒤로가기시 스크롤위치 기억 함수
+
 export function useMemoScroll<T>({
   storageKey,
   eventName = 'resetScroll',
 }: UseScrollRestorationProps) {
+  
   // 뒤로가기를 통해 목록 복원을 저장해주는 플래그
   const NAVIGATION_FLAG_KEY = `${storageKey}_nav_flag`;
 
@@ -25,7 +27,6 @@ export function useMemoScroll<T>({
   const [data, setData] = useState<T[]>([]);
   const [lastId, setLastId] = useState<number | null>(null);
   const [hasNextPage, setHasNextPage] = useState(true);
-  // fetch필요 여부
   const [shouldFetch, setShouldFetch] = useState(false);
 
   // 스크롤 복원중일 때 값이 바뀜
