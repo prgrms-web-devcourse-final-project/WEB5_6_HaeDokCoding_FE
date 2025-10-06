@@ -1,4 +1,4 @@
-import CocktailCard from '@/domains/shared/components/cocktail-card/CocktailCard';
+import MyBar from '@/domains/mypage/components/pages/my-bar/MyBar';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -7,19 +7,6 @@ export const metadata: Metadata = {
 };
 
 function Page() {
-  return (
-    <div
-      className="grid grid-cols-1 justify-items-center mt-10 gap-8  sm:[grid-template-columns:repeat(2,minmax(0,320px))]  sm:justify-evenly md:[grid-template-columns:repeat(3,minmax(0,250px))]  
-  "
-    >
-      <CocktailCard
-        src=""
-        textSize1="text-xl"
-        name="Old Pashioned"
-        nameKo="올드 패션드"
-        keep={false}
-      ></CocktailCard>
-    </div>
-  );
+  return <MyBar />;
 }
 export default Page;

@@ -4,19 +4,38 @@ import ToggleBtn from '@/domains/mypage/components/ToggleBtn';
 import WithdrawModal from '@/domains/mypage/components/WithdrawModal';
 import Button from '@/shared/components/button/Button';
 import TextButton from '@/shared/components/button/TextButton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import useFetchProfile from '../api/fetchProfile';
 
 function MySetting() {
+  const { profile } = useFetchProfile();
   const [isOpen, setIsOpen] = useState(false);
   const [isQuit, setIsQuit] = useState(false);
+  const [nickname, setNickName] = useState('');
+
+  const handleEditNickName = async () => {
+    setIsOpen(!isOpen);
+  };
+
+  useEffect(() => {
+    if (profile) setNickName(profile?.nickname);
+  }, [nickname]);
+
   return (
     <section className="flex flex-col h-80 md:h-100 lg:h-125 justify-between">
-      {isOpen && <EditNickName open={isOpen} onClose={() => setIsOpen(!isOpen)} />}
+      {isOpen && (
+        <EditNickName
+          open={isOpen}
+          onClose={() => setIsOpen(!isOpen)}
+          setNickName={setNickName}
+          nickname={nickname ?? ''}
+        />
+      )}
       {isQuit && <WithdrawModal open={isQuit} onClose={() => setIsQuit(!isQuit)} />}
       <div>
         <div className="flex justify-between py-5 border-b-1 border-gray-light">
-          <div className="text-lg">닉네임 : UserName</div>
-          <TextButton onClick={() => setIsOpen(!isOpen)}>수정하기</TextButton>
+          <div className="text-lg">닉네임 : {nickname}</div>
+          <TextButton onClick={handleEditNickName}>수정하기</TextButton>
         </div>
         <div className="flex justify-between py-5">
           <h2>알람설정</h2>
