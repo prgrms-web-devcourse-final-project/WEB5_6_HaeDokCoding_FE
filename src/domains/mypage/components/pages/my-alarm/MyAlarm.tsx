@@ -34,7 +34,9 @@ function MyAlarm() {
           <Alarm key={notificationId} title={title} content={content} />
         ))
       ) : (
-        <div className="flex items-center">알림이 없습니다</div>
+        <div className="flex justify-center">
+          <p>알림이 없습니다.</p>
+        </div>
       )}
     </section>
   );

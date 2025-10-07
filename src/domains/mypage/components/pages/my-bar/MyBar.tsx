@@ -26,23 +26,27 @@ function MyBar() {
   }, []);
 
   return (
-    <div
-      className="grid grid-cols-1 justify-items-center mt-10 gap-8  sm:[grid-template-columns:repeat(2,minmax(0,320px))]  sm:justify-evenly md:[grid-template-columns:repeat(3,minmax(0,250px))]  
+    <div>
+      {myCocktail.length !== 0 ? (
+        <div
+          className="grid grid-cols-1 justify-items-center mt-10 gap-8  sm:[grid-template-columns:repeat(2,minmax(0,320px))]  sm:justify-evenly md:[grid-template-columns:repeat(3,minmax(0,250px))]  
   "
-    >
-      {myCocktail ? (
-        myCocktail.map(({ cocktailId, cocktailName, imageUrl }) => (
-          <CocktailCard
-            key={cocktailId}
-            src={imageUrl}
-            textSize1="text-xl"
-            name={cocktailName}
-            nameKo="올드 패션드"
-            keep={false}
-          ></CocktailCard>
-        ))
+        >
+          {myCocktail.map(({ cocktailId, cocktailName, imageUrl }) => (
+            <CocktailCard
+              key={cocktailId}
+              src={imageUrl}
+              textSize1="text-xl"
+              name={cocktailName}
+              nameKo="올드 패션드"
+              keep={false}
+            ></CocktailCard>
+          ))}
+        </div>
       ) : (
-        <div>칵테일을 담아보세요</div>
+        <div className="flex justify-center">
+          <p>아직 저장하신 칵테일이 없습니다.</p>
+        </div>
       )}
     </div>
   );

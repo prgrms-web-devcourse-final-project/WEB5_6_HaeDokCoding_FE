@@ -26,7 +26,9 @@ function MyComment() {
       {CommentList.length !== 0 ? (
         <CommentList comments={myComment} isLoading={isLoading} />
       ) : (
-        <div>작성한 댓글이 없습니다.</div>
+        <div className="flex justify-center">
+          <p>작성한 댓글이 없습니다.</p>
+        </div>
       )}
     </section>
   );

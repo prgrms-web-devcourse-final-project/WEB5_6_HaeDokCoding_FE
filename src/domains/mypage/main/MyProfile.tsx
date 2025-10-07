@@ -53,7 +53,7 @@ function MyProfile() {
             </div>
             <aside className="flex flex-col gap-2 md:pt-3">
               <MyAbv abv={abvDegree} />
-              <AbvGraph max={100} abv={abvDegree} />
+              <AbvGraph max={100} abv={abvDegree} type="myAbv" />
             </aside>
           </>
         )}
