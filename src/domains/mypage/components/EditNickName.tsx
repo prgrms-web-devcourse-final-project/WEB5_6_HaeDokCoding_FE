@@ -3,30 +3,50 @@ import Button from '@/shared/components/button/Button';
 import TextButton from '@/shared/components/button/TextButton';
 import Input from '@/shared/components/Input-box/Input';
 import ModalLayout from '@/shared/components/modal-pop/ModalLayout';
+import { useToast } from '@/shared/hook/useToast';
+import { Dispatch, SetStateAction } from 'react';
 
 interface Props {
   open: boolean;
   onClose: () => void;
-  nickname: string;
   setNickName: (v: string) => void;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  editNickName: string;
+  setEditNickName: Dispatch<SetStateAction<string>>;
 }
 
-function EditNickName({ open, onClose, setNickName, nickname }: Props) {
+function EditNickName({
+  open,
+  onClose,
+  setNickName,
+  setIsOpen,
+  editNickName,
+  setEditNickName,
+}: Props) {
+  const { toastError } = useToast();
   const handlesave = async () => {
-    const res = await fetch(`${getApi}/me/profile`, {
+    if (editNickName.length <= 1) {
+      toastError('닉네임은 2글자 이상 입력해야합니다');
+      return;
+    }
+
+    await setNickName(editNickName);
+
+    await fetch(`${getApi}/me/profile`, {
       method: 'PATCH',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        nickname: nickname,
+        nickname: editNickName,
       }),
     });
+    await setIsOpen(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNickName(e.target.value);
+    setEditNickName(e.target.value);
   };
 
   return (
@@ -36,7 +56,7 @@ function EditNickName({ open, onClose, setNickName, nickname }: Props) {
       open={open}
       onClose={onClose}
       buttons={
-        <Button type="submit" onClick={(e) => handlesave(e)}>
+        <Button type="submit" onClick={handlesave}>
           저장
         </Button>
       }
@@ -46,7 +66,7 @@ function EditNickName({ open, onClose, setNickName, nickname }: Props) {
           닉네임변경
         </label>
         <Input
-          onChange={handleChange}
+          onChange={(e) => handleChange(e)}
           placeholder="8글자 이내로 입력해주세요"
           id="editNickName"
           className="w-full"

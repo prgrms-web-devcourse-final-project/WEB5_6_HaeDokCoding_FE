@@ -4,9 +4,13 @@ import AbvGraph from '@/domains/shared/components/abv-graph/AbvGraph';
 import MyAbv from './MyAbv';
 import SsuryImage from './SsuryImage';
 import useFetchProfile from '../api/fetchProfile';
+import { useEffect } from 'react';
 
 function MyProfile() {
-  const { profile } = useFetchProfile();
+  const { profile, fetchProfile } = useFetchProfile();
+  useEffect(() => {
+    fetchProfile();
+  }, [profile?.nickname]);
 
   if (!profile) return;
   const {

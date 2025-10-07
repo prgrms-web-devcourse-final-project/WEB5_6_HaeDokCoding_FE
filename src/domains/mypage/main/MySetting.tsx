@@ -11,7 +11,8 @@ function MySetting() {
   const { profile } = useFetchProfile();
   const [isOpen, setIsOpen] = useState(false);
   const [isQuit, setIsQuit] = useState(false);
-  const [nickname, setNickName] = useState('');
+  const [nickname, setNickName] = useState(profile?.nickname);
+  const [editNickName, setEditNickName] = useState('');
 
   const handleEditNickName = async () => {
     setIsOpen(!isOpen);
@@ -19,16 +20,18 @@ function MySetting() {
 
   useEffect(() => {
     if (profile) setNickName(profile?.nickname);
-  }, [nickname]);
+  }, [profile]);
 
   return (
     <section className="flex flex-col h-80 md:h-100 lg:h-125 justify-between">
       {isOpen && (
         <EditNickName
+          setIsOpen={setIsOpen}
+          editNickName={editNickName}
+          setEditNickName={setEditNickName}
           open={isOpen}
           onClose={() => setIsOpen(!isOpen)}
           setNickName={setNickName}
-          nickname={nickname ?? ''}
         />
       )}
       {isQuit && <WithdrawModal open={isQuit} onClose={() => setIsQuit(!isQuit)} />}

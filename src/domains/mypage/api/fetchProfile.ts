@@ -26,10 +26,11 @@ function useFetchProfile() {
     const json = await res.json();
     setProfile(json.data);
   };
+
   useEffect(() => {
     fetchProfile();
   }, []);
 
-  return { profile };
+  return { profile, fetchProfile };
 }
 export default useFetchProfile;
