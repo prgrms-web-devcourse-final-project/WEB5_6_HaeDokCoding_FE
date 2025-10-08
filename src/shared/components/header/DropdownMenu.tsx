@@ -4,6 +4,7 @@ import { navItem } from '@/shared/utills/navigation';
 import Image from 'next/image';
 import Close from '@/shared/assets/icons/close_32.svg';
 import User from '@/shared/assets/icons/user_24.svg';
+import Bell from '@/shared/assets/icons/bell_24.svg';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -13,6 +14,7 @@ import { createPortal } from 'react-dom';
 import { useAuthStore } from '@/domains/shared/store/auth';
 import { setPreLoginPath } from '@/domains/shared/auth/utils/setPreLoginPath';
 import LogoutConfirm from '@/domains/login/components/LogoutConfirm';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   isClicked: boolean;
@@ -28,8 +30,9 @@ function DropdownMenu({ isClicked, setIsClicked, visible, setVisible }: Props) {
   const tlRef = useRef<GSAPTimeline | null>(null);
   const [mounted, setMounted] = useState(false);
 
-  const { isLoggedIn, logout } = useAuthStore();
+  const { isLoggedIn } = useAuthStore();
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setMounted(true);
@@ -87,7 +90,7 @@ function DropdownMenu({ isClicked, setIsClicked, visible, setVisible }: Props) {
             className="w-[62px] md:w-[82px] h-auto"
           />
         </div>
-        <ul className="flex flex-col gap-[12px] text-black px-2 my-5">
+        <ul className="flex flex-col gap-[12px] text-black my-5">
           {navItem
             .filter((item) => {
               // 비로그인 유저 마이페이지 숨기기
@@ -121,17 +124,32 @@ function DropdownMenu({ isClicked, setIsClicked, visible, setVisible }: Props) {
 
         <div className="border border-t-[1px] border-t-gray flex items-center py-[32px] gap-2">
           {isLoggedIn ? (
-            <button
-              type="button"
-              onClick={() => {
-                setLogoutModalOpen(true);
-                setIsClicked(false);
-              }}
-              className="flex items-center gap-2 text-black font-light text-xl hover:text-black/70"
-            >
-              <User color="var(--color-primary)" aria-hidden />
-              <span>로그아웃</span>
-            </button>
+            <div className="flex flex-col gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setLogoutModalOpen(true);
+                  setIsClicked(false);
+                }}
+                className="flex items-center gap-2 text-black font-light text-xl hover:text-black/70"
+              >
+                <User color="var(--color-primary)" aria-hidden />
+                <span>로그아웃</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setIsClicked(false);
+
+                  router.push('/mypage/my-alarm');
+                }}
+                className="flex items-center gap-2 text-black font-light text-xl hover:text-black/70"
+              >
+                <Bell color="var(--color-primary)" aria-hidden />
+                <span>알림</span>
+              </button>
+            </div>
           ) : (
             <Link
               href="/login"
