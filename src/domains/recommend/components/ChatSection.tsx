@@ -3,11 +3,11 @@
 import { useState } from 'react';
 import MessageInput from './user/MessageInput';
 import { fetchSendStepMessage, fetchSendTextMessage } from '../api/chat';
-import { useAuthStore } from '@/domains/shared/store/auth';
 import { ChatMessage, stepPayload } from '../types/recommend';
 import ChatList from './ChatList';
 import { useChatInit } from '../hook/useChatInit';
 import { useSelectedOptions } from '../hook/useSelectedOptions';
+import { useAuthStore } from '@/domains/shared/store/auth';
 
 function ChatSection() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);

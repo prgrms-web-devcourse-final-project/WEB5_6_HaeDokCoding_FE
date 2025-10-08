@@ -34,16 +34,17 @@ function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId, onItemClick
 
   return (
     <ul
-      className="place-content-between 
-    grid gap-8 justify-items-center
-    grid-cols-1 sm:justify-items-stretch
-    sm:[grid-template-columns:repeat(2,minmax(0,1fr))]  sm:gap-8 md:[grid-template-columns:repeat(3,minmax(0,1fr))]  
-     lg:[grid-template-columns:repeat(4,minmax(0,1fr))]
+      className="
+    grid gap-8 lg:justify-between justify-center
+    [grid-template-columns:repeat(1,minmax(0,250px))]
+    sm:[grid-template-columns:repeat(2,minmax(0,250px))]
+    md:[grid-template-columns:repeat(3,minmax(0,250px))]
+    lg:[grid-template-columns:repeat(4,minmax(0,250px))]
   "
     >
       {cocktails.map(
         ({ cocktailImgUrl, cocktailId, cocktailName, cocktailNameKo, alcoholStrength }) => (
-          <li key={cocktailId} onClick={onItemClick}>
+          <li key={cocktailId} onClick={onItemClick} className="w-full">
             <Link
               href={`/recipe/${cocktailId}`}
               onClick={handleClick}

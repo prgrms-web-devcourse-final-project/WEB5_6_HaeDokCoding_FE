@@ -1,7 +1,10 @@
+'use client';
+
 import CrySsury from '@/shared/assets/ssury/ssury_cry.webp';
 import Image from 'next/image';
 import ModalLayout from '@/shared/components/modal-pop/ModalLayout';
 import Button from '@/shared/components/button/Button';
+
 interface Props {
   open: boolean;
   onClose: () => void;

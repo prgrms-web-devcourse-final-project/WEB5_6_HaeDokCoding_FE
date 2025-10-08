@@ -1,4 +1,4 @@
-import Alarm from '@/domains/mypage/components/Alarm';
+import MyAlarm from '@/domains/mypage/components/pages/my-alarm/MyAlarm';
 
 import { Metadata } from 'next';
 
@@ -10,10 +10,7 @@ export const metadata: Metadata = {
 function Page() {
   return (
     <div className="flex flex-col gap-3">
-      <Alarm></Alarm>
-      <Alarm></Alarm>
-      <Alarm></Alarm>
-      <Alarm></Alarm>
+      <MyAlarm />
     </div>
   );
 }

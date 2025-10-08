@@ -19,4 +19,5 @@
   --inset-shadow-black: inset 0 0px 6px rgba(0, 0, 0, 0.6);
 
   --shadow-header: 0 6px 17px 0 rgba(255, 210, 187, 0.3);
+  --shadow-footer: 0 -1px 6px 0 rgba(255, 210, 187, 0.2);
 }
