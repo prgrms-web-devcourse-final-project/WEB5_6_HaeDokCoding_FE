@@ -13,7 +13,7 @@ import Button from '../button/Button';
 
 interface Props {
   placeholder: string;
-  value?: string
+  value?: string;
 
   type?: HTMLInputTypeAttribute;
   ref?: Ref<HTMLInputElement | null>;
@@ -44,7 +44,7 @@ function Input({
   type,
   ref,
   value,
- 
+
   size,
   variant = 'default',
   className,
@@ -62,7 +62,6 @@ function Input({
           className={`outline-none w-full flex-1 leading-${size}`}
           ref={ref}
           value={value}
-  
           onChange={onChange}
           {...rest}
         />

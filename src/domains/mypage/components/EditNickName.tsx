@@ -9,7 +9,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 interface Props {
   open: boolean;
   onClose: () => void;
-  nickname:string
+  nickname: string;
   setNickName: (v: string) => void;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   editNickName: string;
@@ -25,14 +25,14 @@ function EditNickName({
   editNickName,
   setEditNickName,
 }: Props) {
-  const [defaultNickname,setDefaultNickname] = useState(nickname)
-  const { toastSuccess,toastError } = useToast();
+  const [defaultNickname, setDefaultNickname] = useState(nickname);
+  const { toastSuccess, toastError } = useToast();
 
   useEffect(() => {
-    setEditNickName(nickname)
-    setDefaultNickname(nickname)
-  }, [nickname,setEditNickName])
-  
+    setEditNickName(nickname);
+    setDefaultNickname(nickname);
+  }, [nickname, setEditNickName]);
+
   const handlesave = async () => {
     if (editNickName.length <= 1 || editNickName.length >= 8) {
       toastError('닉네임은 2글자 이상 입력해야합니다');
@@ -57,12 +57,11 @@ function EditNickName({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEditNickName(e.target.value);
-
   };
 
   const handleDefaultNickname = () => {
-   setEditNickName(defaultNickname)
-  }
+    setEditNickName(defaultNickname);
+  };
 
   return (
     <ModalLayout

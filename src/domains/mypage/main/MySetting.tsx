@@ -5,6 +5,7 @@ import WithdrawModal from '@/domains/mypage/components/WithdrawModal';
 import TextButton from '@/shared/components/button/TextButton';
 import { useEffect, useState } from 'react';
 import useFetchProfile from '../api/fetchProfile';
+import AlarmConfirm from '../components/pages/my-alarm/AlarmConfirm';
 
 function MySetting() {
   const { profile } = useFetchProfile();
@@ -42,6 +43,7 @@ function MySetting() {
         </div>
         <div className="flex justify-between py-5">
           <h2>알람설정</h2>
+
           <ToggleBtn />
         </div>
       </div>
