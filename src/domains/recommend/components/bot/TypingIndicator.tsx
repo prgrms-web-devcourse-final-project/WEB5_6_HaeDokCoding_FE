@@ -3,7 +3,7 @@ import shaker from '@/shared/assets/images/shaker.png';
 
 function TypingIndicator() {
   return (
-    <div className="relative flex items-center w-fit ml-3 p-3 rounded-2xl rounded-tl-none bg-white text-black overflow-hidden">
+    <div className="relative flex items-center w-fittext-black">
       <p className="inline-block animate-fade-in">준비 중…</p>
       <div className="relative w-10 h-10 animate-shake">
         <Image
