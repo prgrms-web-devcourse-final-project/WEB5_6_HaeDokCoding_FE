@@ -2,7 +2,12 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ['www.thecocktaildb.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname:'www.thecocktaildb.com'
+      }
+    ]
   },
   env: {
     NPUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,

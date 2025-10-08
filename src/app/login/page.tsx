@@ -4,7 +4,7 @@ import loginBg from '@/shared/assets/images/login_bg.webp';
 import SocialLogin from '@/domains/login/main/SocialLogin';
 
 export const metadata: Metadata = {
-  title: 'SSOUL | 로그인',
+  title: '로그인',
   description: '칵테일을 좋아하는 사람들을 위한 서비스 로그인 페이지',
 };
 

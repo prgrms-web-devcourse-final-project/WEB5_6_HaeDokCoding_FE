@@ -1,4 +1,4 @@
-import { ozToMl } from './hook/ozToMl';
+import { ozToMl } from '../hook/ozToMl';
 
 type Recipe = {
   ingredientName: string;

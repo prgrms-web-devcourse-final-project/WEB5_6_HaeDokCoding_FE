@@ -14,6 +14,7 @@ interface Props {
 
 function Keep({ className, cocktailId }: Props) {
   const [isClick, setIsClick] = useState(false);
+
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
