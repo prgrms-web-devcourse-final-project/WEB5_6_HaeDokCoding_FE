@@ -18,7 +18,7 @@ interface Props {
   size?: 'default' | 'lg';
   variant?: 'default' | 'search' | 'comment';
   className?: string;
-  onChange?: () => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   id: string;
 }
 

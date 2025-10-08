@@ -3,10 +3,11 @@ import Help from '@/shared/assets/icons/help_24.svg';
 import ToolTip from '@/shared/components/tool-tip/ToolTip';
 import useMedia from '../hook/useMedia';
 
-function MyAbv() {
+function MyAbv({ abv }: { abv: number }) {
   const isMd = useMedia('(min-width:768px)');
   const position = isMd ? 'leftTop' : 'top';
   const viewPoint = isMd ? 'web' : 'mobileLongText';
+  const fixedAbv = abv.toFixed(1);
 
   return (
     <dl className="flex justify-between items-center text-gray-dark gap-2">
@@ -22,7 +23,7 @@ function MyAbv() {
         </ToolTip>
       </dt>
       <dd className="text-base">
-        <span className="text-2xl md:text-4xl font-bold">83</span>%
+        <span className="text-2xl md:text-4xl font-bold">{fixedAbv}</span>%
       </dd>
     </dl>
   );
