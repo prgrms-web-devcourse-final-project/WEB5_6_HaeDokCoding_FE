@@ -13,6 +13,8 @@ import Button from '../button/Button';
 
 interface Props {
   placeholder: string;
+  value?: string
+
   type?: HTMLInputTypeAttribute;
   ref?: Ref<HTMLInputElement | null>;
   size?: 'default' | 'lg';
@@ -41,6 +43,8 @@ function Input({
   placeholder,
   type,
   ref,
+  value,
+ 
   size,
   variant = 'default',
   className,
@@ -57,6 +61,8 @@ function Input({
           placeholder={placeholder}
           className={`outline-none w-full flex-1 leading-${size}`}
           ref={ref}
+          value={value}
+  
           onChange={onChange}
           {...rest}
         />
