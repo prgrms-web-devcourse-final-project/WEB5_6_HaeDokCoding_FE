@@ -28,6 +28,7 @@ export interface ChatMessage {
   type?: string;
   stepData?: StepRecommendation | null;
   createdAt: string;
+  tempTyping?: boolean;
 }
 
 export interface ChatHistoryItem {
@@ -55,10 +56,5 @@ export interface ChatListProps {
   messages: ChatMessage[];
   userCurrentStep: number;
   onSelectedOption: (value: string) => void;
-  getRecommendations: (
-    type: string | undefined,
-    stepData?: StepRecommendation | null
-  ) => RecommendationItem[];
-
-  isBotTyping: boolean;
+  isBotTyping?: boolean;
 }
