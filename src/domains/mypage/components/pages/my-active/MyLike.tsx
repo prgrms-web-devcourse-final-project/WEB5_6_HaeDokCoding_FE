@@ -20,13 +20,13 @@ function MyLike() {
       credentials: 'include',
     });
     const json = await res.json();
-    setMyLike(json.data.items);
+    // setMyLike(json.data.items);
   };
 
   useEffect(() => {
     fetchLike();
   }, []);
 
-  return <PostCard posts={myLike} isLoading={isLoading} />;
+  // return <PostCard posts={myLike} isLoading={isLoading} />;
 }
 export default MyLike;
