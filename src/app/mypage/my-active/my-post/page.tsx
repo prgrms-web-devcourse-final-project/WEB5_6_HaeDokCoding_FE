@@ -1,4 +1,4 @@
-// import PostCard from '@/domains/community/main/PostCard';
+import MyPost from '@/domains/mypage/components/pages/my-active/MyPost';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -7,6 +7,6 @@ export const metadata: Metadata = {
 };
 
 function Page() {
-  return <div>{/* <PostCard posts={posts} isLoading={isLoading} /> */}</div>;
+  return <MyPost />;
 }
 export default Page;

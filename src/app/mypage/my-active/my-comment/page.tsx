@@ -1,4 +1,4 @@
-// import CommentList from '@/domains/shared/components/comment/CommentList';
+import MyComment from '@/domains/mypage/components/pages/my-active/MyComment';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -7,6 +7,6 @@ export const metadata: Metadata = {
 };
 
 function Page() {
-  return <>{/* <CommentList /> */}</>;
+  return <MyComment />;
 }
 export default Page;
