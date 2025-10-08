@@ -1,27 +1,18 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import MessageInput from './user/MessageInput';
-import {
-  fetchChatHistory,
-  fetchGreeting,
-  fetchSendStepMessage,
-  fetchSendTextMessage,
-} from '../api/chat';
+import { fetchSendStepMessage, fetchSendTextMessage } from '../api/chat';
 import { useAuthStore } from '@/domains/shared/store/auth';
 import { ChatMessage, stepPayload } from '../types/recommend';
 import ChatList from './ChatList';
 import { useChatInit } from '../hook/useChatInit';
+import { useSelectedOptions } from '../hook/useSelectedOptions';
 
 function ChatSection() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [userCurrentStep, setUserCurrentStep] = useState(0);
-  const selectedOptions = useRef<{
-    selectedSearchType?: string;
-    selectedAlcoholStrength?: string;
-    selectedAlcoholBaseType?: string;
-    selectedCocktailType?: string;
-  }>({});
+  const { selectedOptions, setOption, setStepOption } = useSelectedOptions();
 
   const isInputDisabled =
     selectedOptions.current.selectedSearchType !== 'QA' && userCurrentStep < 3;
@@ -72,12 +63,10 @@ function ChatSection() {
 
     const nextStep = userCurrentStep === 3 ? userCurrentStep + 1 : userCurrentStep;
 
-    const payload: stepPayload = {
-      currentStep: nextStep,
-      message,
-      userId,
-      ...selectedOptions.current,
-    };
+    const payload: stepPayload =
+      nextStep === 0
+        ? { message, userId, currentStep: nextStep }
+        : { message, userId, currentStep: nextStep, ...selectedOptions.current };
 
     await handleSendMessage(payload);
   };
@@ -112,29 +101,21 @@ function ChatSection() {
       },
     ]);
 
+    // QA (질문형) 일 시 0 나머지는 +1
     const nextStep = value === 'QA' ? 0 : (stepData?.currentStep ?? 0) + 1;
     setUserCurrentStep(nextStep);
 
     // 0단계에서 QA 선택 시
     if (stepData.currentStep === 0 && value === 'QA') {
-      selectedOptions.current.selectedSearchType = 'QA';
+      setOption('selectedSearchType', 'QA');
     }
 
-    switch (stepData.currentStep + 1) {
-      case 2:
-        selectedOptions.current.selectedAlcoholStrength = value;
-        break;
-      case 3:
-        selectedOptions.current.selectedAlcoholBaseType = value;
-        break;
-    }
+    setStepOption(stepData.currentStep + 1, value);
 
-    const payload: stepPayload = {
-      message: selectedLabel,
-      userId,
-      currentStep: nextStep,
-      ...selectedOptions.current,
-    };
+    const payload: stepPayload =
+      nextStep === 0
+        ? { message: selectedLabel, userId, currentStep: nextStep }
+        : { message: selectedLabel, userId, currentStep: nextStep, ...selectedOptions.current };
 
     await handleSendMessage(payload);
   };
