@@ -2,8 +2,9 @@
 
 import KeepIcon from '@/shared/assets/icons/keep_36.svg';
 import KeepIconActive from '@/shared/assets/icons/keep_active_36.svg';
-import { useState } from 'react';
-import { deleteKeep, postKeep } from '../../api/keep/keep';
+import { useEffect, useState } from 'react';
+import { deleteKeep,  postKeep } from '../../api/keep/keep';
+import { getApi } from '@/app/api/config/appConfig';
 
 interface Props {
   className?: string;
@@ -14,6 +15,18 @@ interface Props {
 
 function Keep({ className, cocktailId }: Props) {
   const [isClick, setIsClick] = useState(false);
+
+  useEffect(() => {
+    const getKeep = async () => {
+      const res = await fetch(`${getApi}/me/bar`, {
+        credentials:'include'
+      })
+      const json = await res.json()
+      json.data.items.keptAt ? setIsClick(true) :  setIsClick(false)
+    }
+    getKeep()
+  },[])
+
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();

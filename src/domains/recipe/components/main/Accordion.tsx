@@ -133,8 +133,10 @@ function Accordion({ setAlcoholBaseTypes, setCocktailTypes, setAlcoholStrengths 
     const queryString = params.toString();
     const newUrl = `${pathname}${queryString ? `?${queryString}` : ''}`;
 
+
+    router.push(newUrl)
     // shallow routing으로 URL만 변경
-    window.history.pushState({ ...window.history.state, as: newUrl, url: newUrl }, '', newUrl);
+    // window.history.pushState({ ...window.history.state, as: newUrl, url: newUrl }, '', newUrl);
   };
 
   return (
