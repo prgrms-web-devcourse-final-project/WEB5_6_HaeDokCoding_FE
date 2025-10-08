@@ -22,7 +22,7 @@ export function useMemoScroll<T>({
   
   // 뒤로가기를 통해 목록 복원을 저장해주는 플래그
   const NAVIGATION_FLAG_KEY = `${storageKey}_nav_flag`;
-
+ 
   // 실제 렌더링 되는 데이터
   const [data, setData] = useState<T[]>([]);
   const [lastId, setLastId] = useState<number | null>(null);

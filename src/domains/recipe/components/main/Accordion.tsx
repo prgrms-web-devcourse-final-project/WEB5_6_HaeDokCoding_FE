@@ -2,7 +2,7 @@
 
 import SelectBox from '@/shared/components/select-box/SelectBox';
 import { Dispatch, SetStateAction, useEffect, useMemo } from 'react';
-import { useRouter, useSearchParams, usePathname } from 'next/navigation';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
 interface Props {
   setAlcoholBaseTypes: Dispatch<SetStateAction<string[]>>;
@@ -65,11 +65,22 @@ const SELECT_OPTIONS = [
 ];
 
 function Accordion({ setAlcoholBaseTypes, setCocktailTypes, setAlcoholStrengths }: Props) {
-  const router = useRouter();
+  const router = useRouter()
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // 코드를 한글 라벨로 역변환하는 함수
+  // url 파라미터에서 값을 가져와 POST를 도와줌
+  useEffect(() => {
+    const abv = searchParams.get('abv');
+    const base = searchParams.get('base');
+    const glass = searchParams.get('glass');
+
+    setAlcoholStrengths(abv ? [abv] : []);
+    setAlcoholBaseTypes(base ? [base] : []);
+    setCocktailTypes(glass ? [glass] : []);
+  }, [searchParams, setAlcoholStrengths, setAlcoholBaseTypes, setCocktailTypes]);
+
+  // 파라미터 값을 한글로 역 변환해주는 함수
   const getDisplayValue = (id: string, code: string | null): string => {
     if (!code) return '전체';
 
@@ -81,7 +92,8 @@ function Accordion({ setAlcoholBaseTypes, setCocktailTypes, setAlcoholStrengths 
     return entry ? entry[0] : '전체';
   };
 
-  // URL 파라미터에서 현재 선택된 값 가져오기
+
+  // URL 파라미터에서 현재 선택된 값 가져오기 아코디언 UI에 적용
   const currentValues = useMemo(() => {
     return {
       abv: getDisplayValue('abv', searchParams.get('abv')),
@@ -90,21 +102,11 @@ function Accordion({ setAlcoholBaseTypes, setCocktailTypes, setAlcoholStrengths 
     };
   }, [searchParams]);
 
-  // URL에서 상태 동기화
-  useEffect(() => {
-    const abv = searchParams.get('abv');
-    const base = searchParams.get('base');
-    const glass = searchParams.get('glass');
-
-    setAlcoholStrengths(abv ? [abv] : []);
-    setAlcoholBaseTypes(base ? [base] : []);
-    setCocktailTypes(glass ? [glass] : []);
-  }, [searchParams, setAlcoholStrengths, setAlcoholBaseTypes, setCocktailTypes]);
-
   const handleSelect = (id: string, value: string) => {
     const optionGroup = SELECT_OPTIONS.find((opt) => opt.id === id);
     if (!optionGroup) return;
 
+    // 선택한 옵션의 밸류를 전달
     const code = optionGroup.map[value as keyof typeof optionGroup.map] ?? null;
     const arr = code ? [code] : [];
 
@@ -131,7 +133,7 @@ function Accordion({ setAlcoholBaseTypes, setCocktailTypes, setAlcoholStrengths 
     }
 
     const queryString = params.toString();
-    const newUrl = `${pathname}${queryString ? `?${queryString}` : ''}`;
+    const newUrl = `${pathname}?${queryString}`;
 
 
     router.push(newUrl)

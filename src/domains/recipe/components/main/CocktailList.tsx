@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useIntersectionObserver } from '@/domains/shared/hook/useIntersectionObserver';
 import { Cocktail } from '../../types/types';
 import CocktailCard from '@/domains/shared/components/cocktail-card/CocktailCard';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 interface Props {
   cocktails: Cocktail[];
@@ -15,6 +16,9 @@ interface Props {
 }
 
 function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId, onItemClick }: Props) {
+    const router = useRouter()
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
   const cocktailRef = useRef(null);
   const onIntersect: IntersectionObserverCallback = ([entry]) => {
     if (!RecipeFetch) return;
