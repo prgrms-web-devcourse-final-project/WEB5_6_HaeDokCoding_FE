@@ -9,13 +9,9 @@ import {
   fetchSendTextMessage,
 } from '../api/chat';
 import { useAuthStore } from '@/domains/shared/store/auth';
-import {
-  ChatMessage,
-  stepPayload,
-  StepRecommendation,
-  RecommendationItem,
-} from '../types/recommend';
+import { ChatMessage, stepPayload } from '../types/recommend';
 import ChatList from './ChatList';
+import { useChatInit } from '../hook/useChatInit';
 
 function ChatSection() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -143,27 +139,7 @@ function ChatSection() {
     await handleSendMessage(payload);
   };
 
-  // 채팅 기록 불러오기 없으면 greeting 호출
-  useEffect(() => {
-    const loadChatHistory = async () => {
-      const history = await fetchChatHistory();
-      if (history && history.length > 0) {
-        setMessages(history.sort((a, b) => Number(a.id) - Number(b.id)));
-      } else {
-        const greeting = await fetchGreeting('');
-        if (greeting) setMessages([greeting]);
-      }
-    };
-    loadChatHistory();
-  }, []);
-
-  const getRecommendations = (
-    type: string | undefined,
-    stepData?: StepRecommendation | null
-  ): RecommendationItem[] => {
-    if (type !== 'CARD_LIST' || !stepData?.recommendations) return [];
-    return stepData.recommendations;
-  };
+  useChatInit(setMessages);
 
   return (
     <section className="relative flex-1 flex flex-col items-center w-full">
@@ -172,7 +148,6 @@ function ChatSection() {
         messages={messages}
         userCurrentStep={userCurrentStep}
         onSelectedOption={handleSelectedOption}
-        getRecommendations={getRecommendations}
       />
       <MessageInput onSubmit={handleSubmitText} disabled={isInputDisabled} />
     </section>

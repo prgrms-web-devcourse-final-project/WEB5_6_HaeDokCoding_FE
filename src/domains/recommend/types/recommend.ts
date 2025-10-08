@@ -56,9 +56,5 @@ export interface ChatListProps {
   messages: ChatMessage[];
   userCurrentStep: number;
   onSelectedOption: (value: string) => void;
-  getRecommendations: (
-    type: string | undefined,
-    stepData?: StepRecommendation | null
-  ) => RecommendationItem[];
   isBotTyping?: boolean;
 }
