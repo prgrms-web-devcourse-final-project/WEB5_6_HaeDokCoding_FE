@@ -9,21 +9,16 @@ export const useChatScroll = (lastMessageId: string) => {
   // 스크롤 제일 아래인지 체크
   const handleCheckBottom = (e: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
-
     isScrollBottom.current = scrollTop + clientHeight >= scrollHeight - 10;
 
     if (isScrollBottom.current) setShowNewMessageAlert(false);
   };
 
-  // 새 메시지가 들어오면 자동 스크롤
+  // 새 메시지또는 로딩중 변화 시 자동 스크롤
   useEffect(() => {
-    if (!isScrollBottom.current) {
-      setShowNewMessageAlert(true);
-      return;
-    }
-
     const frameId = requestAnimationFrame(() => {
-      chatEndRef.current?.scrollIntoView({ behavior: 'auto' });
+      chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      isScrollBottom.current = true;
       setShowNewMessageAlert(false);
     });
 
