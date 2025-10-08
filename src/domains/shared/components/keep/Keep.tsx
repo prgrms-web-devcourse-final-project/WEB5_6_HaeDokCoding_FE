@@ -5,7 +5,6 @@ import KeepIconActive from '@/shared/assets/icons/keep_active_36.svg';
 import { useState } from 'react';
 import { deleteKeep, postKeep } from '../../api/keep/keep';
 
-
 interface Props {
   className?: string;
   cocktailId?: number;
