@@ -29,7 +29,7 @@ function BotCocktailCard({
           <span className="text-gray-500 text-sm">+ 상세보기</span>
         </div>
       </Link>
-      <Keep className="absolute top-2 right-2" />
+      <Keep cocktailId={cocktailId} className="absolute top-2 right-2" />
     </div>
   );
 }
