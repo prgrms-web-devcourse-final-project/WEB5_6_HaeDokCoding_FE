@@ -29,7 +29,11 @@ function MyBar() {
     <div>
       {myCocktail.length !== 0 ? (
         <div
-          className="grid grid-cols-1 justify-items-center mt-10 gap-8  sm:[grid-template-columns:repeat(2,minmax(0,320px))]  sm:justify-evenly md:[grid-template-columns:repeat(3,minmax(0,250px))]  
+          className="
+    grid gap-8 md:justify-between justify-center
+    [grid-template-columns:repeat(1,minmax(0,250px))]
+    sm:[grid-template-columns:repeat(2,minmax(0,250px))]
+    md:[grid-template-columns:repeat(3,minmax(0,250px))]
   "
         >
           {myCocktail.map(({ cocktailId, cocktailName, imageUrl }) => (
