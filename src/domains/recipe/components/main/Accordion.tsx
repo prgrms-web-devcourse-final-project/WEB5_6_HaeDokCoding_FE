@@ -65,7 +65,7 @@ const SELECT_OPTIONS = [
 ];
 
 function Accordion({ setAlcoholBaseTypes, setCocktailTypes, setAlcoholStrengths }: Props) {
-  const router = useRouter()
+  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -91,7 +91,6 @@ function Accordion({ setAlcoholBaseTypes, setCocktailTypes, setAlcoholStrengths 
     const entry = Object.entries(optionGroup.map).find(([_, value]) => value === code);
     return entry ? entry[0] : '전체';
   };
-
 
   // URL 파라미터에서 현재 선택된 값 가져오기 아코디언 UI에 적용
   const currentValues = useMemo(() => {
@@ -135,8 +134,7 @@ function Accordion({ setAlcoholBaseTypes, setCocktailTypes, setAlcoholStrengths 
     const queryString = params.toString();
     const newUrl = `${pathname}?${queryString}`;
 
-
-    router.push(newUrl)
+    router.push(newUrl);
     // shallow routing으로 URL만 변경
     // window.history.pushState({ ...window.history.state, as: newUrl, url: newUrl }, '', newUrl);
   };

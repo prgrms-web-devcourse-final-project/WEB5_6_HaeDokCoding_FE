@@ -15,7 +15,6 @@ interface Props {
 }
 
 function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId, onItemClick }: Props) {
-
   const cocktailRef = useRef(null);
   const onIntersect: IntersectionObserverCallback = ([entry]) => {
     if (!RecipeFetch) return;
@@ -29,8 +28,8 @@ function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId, onItemClick
 
   const handleClick = () => {
     sessionStorage.setItem('listScrollY', String(window.scrollY));
-    sessionStorage.setItem('saveUrl', String(location.href))
-}
+    sessionStorage.setItem('saveUrl', String(location.href));
+  };
 
   return (
     <ul
@@ -45,10 +44,7 @@ function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId, onItemClick
       {cocktails.map(
         ({ cocktailImgUrl, cocktailId, cocktailName, cocktailNameKo, alcoholStrength }) => (
           <li key={cocktailId} onClick={onItemClick} className="w-full">
-            <Link
-              href={`/recipe/${cocktailId}`}
-              onClick={handleClick}
-            >
+            <Link href={`/recipe/${cocktailId}`} onClick={handleClick}>
               <CocktailCard
                 id={cocktailId}
                 src={cocktailImgUrl}

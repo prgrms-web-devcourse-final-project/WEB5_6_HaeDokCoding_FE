@@ -4,7 +4,6 @@ import { getApi } from '@/app/api/config/appConfig';
 import { Cocktail } from '../types/types';
 import { Dispatch, SetStateAction, useCallback } from 'react';
 
-
 interface Props {
   setData: React.Dispatch<React.SetStateAction<Cocktail[]>>;
   lastId: number | null;
@@ -13,7 +12,7 @@ interface Props {
   setHasNextPage: Dispatch<SetStateAction<boolean>>;
   SIZE?: number;
 }
-// api/cocktais fetch용 
+// api/cocktais fetch용
 export const RecipeFetch = ({
   setData,
   lastId,
@@ -22,10 +21,7 @@ export const RecipeFetch = ({
   setHasNextPage,
   SIZE = 20,
 }: Props) => {
-
-  
   const fetchData = useCallback(async () => {
-   
     // 쿼리파라미터에 값 넣기
     if (!hasNextPage) return;
     const url = new URL(`${getApi}/cocktails`);
@@ -33,8 +29,8 @@ export const RecipeFetch = ({
     if (typeof lastId === 'number') {
       url.searchParams.set('lastId', String(lastId));
     }
-   
-    const res = await fetch(url.toString(),{method:'GET'});
+
+    const res = await fetch(url.toString(), { method: 'GET' });
     if (!res.ok) throw new Error('레시피 데이터 요청실패');
 
     const json = await res.json();
@@ -44,7 +40,6 @@ export const RecipeFetch = ({
     setData((prev) =>
       Array.from(new Map([...prev, ...list].map((i) => [i.cocktailId, i])).values())
     );
- 
 
     if (list.length > 0) {
       setLastId(list[list.length - 1].cocktailId);
