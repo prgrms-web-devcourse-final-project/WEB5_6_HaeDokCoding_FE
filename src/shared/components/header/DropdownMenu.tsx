@@ -128,6 +128,18 @@ function DropdownMenu({ isClicked, setIsClicked, visible, setVisible }: Props) {
               <button
                 type="button"
                 onClick={() => {
+                  setIsClicked(false);
+                  router.push('/mypage/my-alarm');
+                }}
+                className="flex items-center gap-2 text-black font-light text-xl hover:text-black/70"
+              >
+                <Bell color="var(--color-primary)" aria-hidden />
+                <span>알림</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
                   setLogoutModalOpen(true);
                   setIsClicked(false);
                 }}
@@ -135,19 +147,6 @@ function DropdownMenu({ isClicked, setIsClicked, visible, setVisible }: Props) {
               >
                 <User color="var(--color-primary)" aria-hidden />
                 <span>로그아웃</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setIsClicked(false);
-
-                  router.push('/mypage/my-alarm');
-                }}
-                className="flex items-center gap-2 text-black font-light text-xl hover:text-black/70"
-              >
-                <Bell color="var(--color-primary)" aria-hidden />
-                <span>알림</span>
               </button>
             </div>
           ) : (
