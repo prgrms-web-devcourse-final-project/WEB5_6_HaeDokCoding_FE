@@ -23,13 +23,13 @@ function MyComment() {
 
   return (
     <section>
-      {CommentList.length !== 0 ? (
+      {/* {CommentList.length !== 0 ? (
         <CommentList comments={myComment} isLoading={isLoading} />
       ) : (
         <div className="flex justify-center">
           <p>작성한 댓글이 없습니다.</p>
         </div>
-      )}
+      )} */}
     </section>
   );
 }
