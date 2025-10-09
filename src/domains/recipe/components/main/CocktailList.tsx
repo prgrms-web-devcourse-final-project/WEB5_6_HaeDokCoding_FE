@@ -1,6 +1,5 @@
 'use client';
 import { useRef } from 'react';
-
 import Link from 'next/link';
 import { useIntersectionObserver } from '@/domains/shared/hook/useIntersectionObserver';
 import { Cocktail } from '../../types/types';
@@ -27,7 +26,6 @@ function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId, onItemClick
   useIntersectionObserver(cocktailRef, onIntersect, hasNextPage);
 
   const handleClick = () => {
-    sessionStorage.setItem('listScrollY', String(window.scrollY));
     sessionStorage.setItem('saveUrl', String(location.href));
   };
 

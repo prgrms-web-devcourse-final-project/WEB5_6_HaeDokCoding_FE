@@ -42,6 +42,7 @@ function DetailMain({ id }: { id: number }) {
 
   if (!cocktail) return;
   const {
+    cocktailId,
     cocktailImgUrl,
     cocktailName,
     cocktailNameKo,
@@ -91,7 +92,7 @@ function DetailMain({ id }: { id: number }) {
         </section>
 
         <section className="mt-20">
-          <RecipeComment />
+          <RecipeComment cocktailId={cocktailId} />
         </section>
       </div>
     </Suspense>

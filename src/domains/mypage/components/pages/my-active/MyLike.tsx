@@ -3,15 +3,10 @@ import { getApi } from '@/app/api/config/appConfig';
 import PostCard from '@/domains/community/main/PostCard';
 import { useEffect, useState } from 'react';
 
-interface MyLike {
-  postId: number;
-  title: string;
-  likedAt: Date;
-  posetCreatedAt: Date;
-}
+
 
 function MyLike() {
-  const [myLike, setMyLike] = useState<MyLike[]>([]);
+  const [myLike, setMyLike] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchLike = async () => {
@@ -20,13 +15,13 @@ function MyLike() {
       credentials: 'include',
     });
     const json = await res.json();
-    // setMyLike(json.data.items);
+    setMyLike(json.data.items);
   };
 
   useEffect(() => {
     fetchLike();
   }, []);
 
-  // return <PostCard posts={myLike} isLoading={isLoading} />;
+  return <PostCard posts={myLike} isLoading={isLoading} />;
 }
 export default MyLike;

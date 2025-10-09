@@ -8,6 +8,9 @@ export const useIntersectionObserver = <T extends HTMLElement>(
   const observer = useRef<IntersectionObserver>(null);
 
   useEffect(() => {
+
+    observer.current?.disconnect()
+    
     if (targetRef && targetRef.current) {
       observer.current = new IntersectionObserver(onIntersect, {
         root: null,

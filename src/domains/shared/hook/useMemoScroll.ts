@@ -95,7 +95,7 @@ export function useMemoScroll<T>({
           // 스크롤 복원 시도 로직
           window.scrollTo({
             top: scrollY,
-            behavior: 'instant',
+            behavior: 'auto',
           });
 
           setTimeout(() => {
@@ -107,7 +107,7 @@ export function useMemoScroll<T>({
               // 스크롤 재 조정이 필요한 경우 실행
               window.scrollTo({
                 top: scrollY,
-                behavior: 'instant',
+                behavior: 'auto',
               });
             }
 
@@ -226,5 +226,6 @@ export function useMemoScroll<T>({
     handleItemClick,
     saveScrollState,
     shouldFetch,
+    isRestoring:isRestoringRef.current
   };
 }
