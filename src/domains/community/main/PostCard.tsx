@@ -13,10 +13,10 @@ import { useRef } from 'react';
 
 type Props = {
   posts: Post[] | null;
-  setPost: (value: Post[] | null) => void;
+  setPost?: (value: Post[] | null) => void;
   isLoading: boolean;
-  setIsLoading: (value: boolean) => void;
-  isEnd: boolean;
+  setIsLoading?: (value: boolean) => void;
+  isEnd?: boolean;
   onLoadMore?: (lastCommentId: number) => void;
 };
 
