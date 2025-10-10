@@ -2,7 +2,6 @@
 import EditNickName from '@/domains/mypage/components/EditNickName';
 import ToggleBtn from '@/domains/mypage/components/ToggleBtn';
 import WithdrawModal from '@/domains/mypage/components/WithdrawModal';
-import Button from '@/shared/components/button/Button';
 import TextButton from '@/shared/components/button/TextButton';
 import { useEffect, useState } from 'react';
 import useFetchProfile from '../api/fetchProfile';
@@ -26,6 +25,7 @@ function MySetting() {
     <section className="flex flex-col h-80 md:h-100 lg:h-125 justify-between">
       {isOpen && (
         <EditNickName
+          nickname={nickname ?? ''}
           setIsOpen={setIsOpen}
           editNickName={editNickName}
           setEditNickName={setEditNickName}
@@ -42,16 +42,12 @@ function MySetting() {
         </div>
         <div className="flex justify-between py-5">
           <h2>알람설정</h2>
+
           <ToggleBtn />
         </div>
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-end items-center">
         <TextButton onClick={() => setIsQuit(!isQuit)}>회원탈퇴</TextButton>
-
-        <div className="flex gap-2 ">
-          <Button color="purple">취소</Button>
-          <Button>변경상태 저장</Button>
-        </div>
       </div>
     </section>
   );

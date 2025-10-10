@@ -28,7 +28,7 @@ function AbvGraph({ max, abv, type = 'cocktail' }: Props) {
 
   const bandClass = clsx(
     'h-full rounded-full transition-[width] duration-500',
-    'bg-gradient-to-r from-amber-300 to-red-500', // 기본 그라데이션
+    'bg-gradient-to-r from-[#FFCA8D] to-[#FA2424]', // 기본 그라데이션
     pct >= 80 && 'shadow-[0_0_12px_rgba(250,36,36,0.45)]'
   );
 
