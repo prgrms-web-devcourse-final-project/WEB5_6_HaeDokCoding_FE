@@ -28,6 +28,7 @@ export interface ChatMessage {
   type?: string;
   stepData?: StepRecommendation | null;
   createdAt: string;
+  tempTyping?: boolean;
 }
 
 export interface ChatHistoryItem {
@@ -55,16 +56,5 @@ export interface ChatListProps {
   messages: ChatMessage[];
   userCurrentStep: number;
   onSelectedOption: (value: string) => void;
-  getRecommendations: (
-    type: string | undefined,
-    stepData?: StepRecommendation | null
-  ) => RecommendationItem[];
-
-  chatListRef: React.RefObject<HTMLDivElement | null>;
-  chatEndRef: React.RefObject<HTMLDivElement | null>;
-  showNewMessageAlert: boolean;
-  handleCheckBottom: (e: React.UIEvent<HTMLDivElement>) => void;
-  handleScrollToBottom: () => void;
-
-  isBotTyping: boolean;
+  isBotTyping?: boolean;
 }

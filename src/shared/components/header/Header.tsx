@@ -44,7 +44,10 @@ function Header() {
     >
       <HamburgerMenu />
       <HeaderLogo />
-      <NavItem pathname={pathname} className="sm:block hidden" />
+      <NavItem
+        pathname={pathname}
+        className="hidden sm:block sm:absolute sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2"
+      />
       <HeaderBtn pathname={pathname} />
     </header>
   );

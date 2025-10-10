@@ -18,7 +18,9 @@ function HeaderBtn({ pathname }: { pathname: string }) {
     {
       icon: Bell,
       label: '알림',
-      onClick: () => setLogoutModalOpen(true),
+      className: pathname === '/mypage/my-alarm' ? 'text-tertiary' : 'text-current',
+      hiddenMobile: true,
+      onClick: () => router.push('/mypage/my-alarm'),
     },
     {
       icon: User,
