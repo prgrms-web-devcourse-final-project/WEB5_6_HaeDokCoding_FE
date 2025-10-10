@@ -31,17 +31,21 @@ function WriteSection({ setIsOpen }: Props) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const payload = new FormData();
+    const postJson = {
+      title: formData.title,
+      content: formData.content,
+      categoryId: 1,
+    };
+
+    const postBlob = new Blob([JSON.stringify(postJson)], { type: 'application/json' });
+    payload.append('post', postBlob);
+
     try {
       const res = await fetch(`${getApi}/posts`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: JSON.stringify({
-          title: formData.title,
-          content: formData.content,
-          categoryName: formData.categoryName,
-        }),
+        credentials: 'include',
+        body: payload,
       });
 
       console.log('▶ 요청 보낸 후 status:', res.status);
