@@ -34,7 +34,7 @@ function MyAbv({ abv }: { abv: number }) {
           <Help />
         </ToolTip>
       </dt>
-      <dd className="text-base">
+      <dd className="text-base flex gap-[2px] items-end">
         <span className="text-2xl md:text-4xl font-bold" style={{ color }}>
           {fixedAbv}
         </span>
