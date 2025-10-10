@@ -7,6 +7,7 @@ import ImageSection from './image-upload/ImageSection';
 import Tag from '../components/tag/Tag';
 import { getApi } from '@/app/api/config/appConfig';
 import { tabItem } from '../main/CommunityTab';
+import { useToast } from '@/shared/hook/useToast';
 
 export type FormType = {
   categoryName: string;
@@ -29,8 +30,14 @@ function WriteSection({ setIsOpen }: Props) {
     tags: [],
   });
 
+  const toastError = useToast();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!formData.categoryName) {
+      toastError('카테고리를 선택해주세요');
+    }
 
     const payload = new FormData();
     const postJson = {
