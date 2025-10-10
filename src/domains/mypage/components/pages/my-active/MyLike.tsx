@@ -3,8 +3,6 @@ import { getApi } from '@/app/api/config/appConfig';
 import PostCard from '@/domains/community/main/PostCard';
 import { useEffect, useState } from 'react';
 
-
-
 function MyLike() {
   const [myLike, setMyLike] = useState([]);
   const [isLoading, setIsLoading] = useState(false);

@@ -3,7 +3,7 @@ import { CommentType } from '../types/post';
 import gsap from 'gsap';
 
 export function useCommentEnterAnimation(
-  comments: CommentType[] | null,
+  comments: CommentType[] |  null,
   parentRef: React.RefObject<HTMLDivElement | null>
 ) {
   const [prevFirstCommentId, setPrevFirstCommentId] = useState<number | null>(null);

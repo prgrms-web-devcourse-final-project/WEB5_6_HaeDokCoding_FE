@@ -40,11 +40,12 @@ export const getRecipeComment = async (cocktailId: number): Promise<CommentType[
 
 export async function updateComment(
   accessToken: string | null,
-  postId: number,
-  commentId:number,
+  cocktailId: number,
+  commentId: number,
   content: string
 ): Promise<void> {
-  const response = await fetch(`${getApi}/cocktails/${postId}/comments/${commentId}`, {
+
+  const response = await fetch(`${getApi}/cocktails/${cocktailId}/comments/${commentId}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',

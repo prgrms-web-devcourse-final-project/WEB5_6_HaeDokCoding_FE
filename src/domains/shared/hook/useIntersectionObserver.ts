@@ -8,7 +8,6 @@ export const useIntersectionObserver = <T extends HTMLElement>(
   const observer = useRef<IntersectionObserver>(null);
 
   useEffect(() => {
-
     if (targetRef && targetRef.current) {
       observer.current = new IntersectionObserver(onIntersect, {
         root: null,
@@ -22,5 +21,5 @@ export const useIntersectionObserver = <T extends HTMLElement>(
       observer.current.observe(targetRef.current);
     }
     return () => observer && observer.current?.disconnect();
-  }, [targetRef, onIntersect,hasNextPage]);
+  }, [targetRef, onIntersect, hasNextPage]);
 };
