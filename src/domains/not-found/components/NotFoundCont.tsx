@@ -21,9 +21,9 @@ function NotFoundCont() {
       <h1 className="text-center">페이지를 찾을 수 없어요🥲</h1>
       <Button
         type="button"
-        color="purple"
+        color="default"
         onClick={() => {
-          router.push('/recipe');
+          router.push('/');
         }}
       >
         메인으로 이동
