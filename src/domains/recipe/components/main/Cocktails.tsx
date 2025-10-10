@@ -76,8 +76,7 @@ function Cocktails() {
   useEffect(() => {
     if (!shouldFetch || isSearching) return;
     fetchData();
-
-  }, [shouldFetch, isSearching,alcoholBaseTypes,alcoholStrengths,cocktailTypes ]);
+  }, [shouldFetch, isSearching, alcoholBaseTypes, alcoholStrengths, cocktailTypes]);
 
   return (
     <section>
