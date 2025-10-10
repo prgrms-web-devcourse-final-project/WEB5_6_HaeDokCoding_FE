@@ -41,19 +41,17 @@ export const RecipeFetch = ({
     if (!recipeRes.ok || !keepRes.ok) throw new Error('레시피 데이터 요청실패');
 
     const [recipeJson, barJson] = await Promise.all([recipeRes.json(), keepRes.json()]);
-    const favoriteIds = new Set(barJson.data.items.map((m:{cocktailId:number}) => m.cocktailId))
+    const bars = Array.isArray(barJson?.data) ? barJson.data : [];
 
+    const favoriteIds = new Set(bars.map((m:{cocktailId:number}) => m.cocktailId))
+    const list: Cocktail[] = recipeJson.data ?? [];
+  
     const merged = recipeJson.data.map((cocktail:Cocktail) => ({
       ...cocktail,
       isFavorited:favoriteIds.has(cocktail.cocktailId)
     }))
     setData(merged)
      
-    const list: Cocktail[] = recipeJson.data ?? [];
-
-    // 중복 아이디 에러있어서 Map으로 Merge
-   
-
     if (list.length > 0) {
       setLastId(list[list.length - 1].cocktailId);
     }

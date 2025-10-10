@@ -1,5 +1,6 @@
 'use client';
 import { getApi } from '@/app/api/config/appConfig';
+import { abvMap } from '@/domains/mypage/utills/abvMap';
 import CocktailCard from '@/domains/shared/components/cocktail-card/CocktailCard';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -7,14 +8,16 @@ import { useEffect, useState } from 'react';
 interface MyCocktail {
   cocktailId: number;
   cocktailName: string;
+  cocktailNameKo: string;
   id: number;
   imageUrl: string;
+  alcoholStrength: string;
 }
 
 function MyBar() {
   const [myCocktail, setMyCocktail] = useState<MyCocktail[]>([]);
   const fetchData = async () => {
-    const res = await fetch(`${getApi}/me/bar`, {
+    const res = await fetch(`${getApi}/me/bar/detail`, {
       method: 'GET',
       credentials: 'include',
     });
@@ -37,17 +40,20 @@ function MyBar() {
     md:[grid-template-columns:repeat(3,minmax(0,250px))]
   "
         >
-          {myCocktail.map(({ cocktailId, cocktailName, imageUrl }) => (
-            <Link href={`/recipe/${cocktailId}`} key={cocktailId}>
+          {myCocktail.map(({ cocktailId, cocktailName, imageUrl, cocktailNameKo, alcoholStrength }) => { 
+            const alcohol = abvMap(alcoholStrength)
+            return (
+              <Link href={`/recipe/${cocktailId}`} key={cocktailId}>
               <CocktailCard
+                alcohol={alcohol}
                 src={imageUrl}
                 textSize1="text-xl"
                 name={cocktailName}
-                nameKo="올드 패션드"
-                keep={false}
+                nameKo={cocktailNameKo}
+                keep={true}
               ></CocktailCard>
-            </Link>
-          ))}
+            </Link>)
+          })}
         </div>
       ) : (
         <div className="flex justify-center">
