@@ -23,8 +23,7 @@ export function useRecipeComments(postId: number, user: User | null, accessToken
     fetchData();
   }, [fetchData]);
 
-  const handleUpdateComment = async (postId:number,commentId: number,content: string) => {
-    
+  const handleUpdateComment = async (commentId: number, content: string) => {
     if (!user) {
       alert('로그인이 필요합니다');
       return;
@@ -44,7 +43,7 @@ export function useRecipeComments(postId: number, user: User | null, accessToken
     }
   };
 
-  const handleAskDeleteComment = (commentId: number, postId: number) => {
+  const handleAskDeleteComment = (commentId: number) => {
     setDeleteTarget({ commentId, postId });
   };
 

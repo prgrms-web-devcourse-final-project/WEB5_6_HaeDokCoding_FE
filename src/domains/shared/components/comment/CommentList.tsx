@@ -10,8 +10,8 @@ import { usePrevious } from 'react-use';
 type Props = {
   comments: CommentType[] | null;
   currentUserNickname?: string;
-  onUpdateComment: (commentId: number, postId: number, content: string) => Promise<void>;
-  onDeleteComment: (commentId: number, postId: number) => void;
+  onUpdateComment: (commentId: number, content: string) => Promise<void>;
+  onDeleteComment: (commentId: number) => void;
   onLoadMore?: (lastCommentId: number) => void; // ← 무한스크롤 콜백
   isEnd?: boolean;
   isLoading: boolean;
@@ -70,7 +70,7 @@ function CommentList({
       >
         <ul style={{ height: rowVirtualizer.getTotalSize(), position: 'relative' }}>
           {rowVirtualizer.getVirtualItems().map(({ index, key, start }) => {
-            const { commentId, content, userNickName, createdAt, postId } = comments[index];
+            const { commentId, content, userNickName, createdAt } = comments[index];
             const isEditing = editCommentId === commentId;
             const isMyComment = comments && currentUserNickname === userNickName;
 
@@ -113,7 +113,7 @@ function CommentList({
                     onSubmitEdit={() => {
                       const updatedContent = editedContentMap[commentId];
                       if (!updatedContent) return;
-                      onUpdateComment(commentId, postId, updatedContent).then(() => {
+                      onUpdateComment(commentId, updatedContent).then(() => {
                         setEditCommentId(null);
                         setEditedContentMap((prev) => {
                           const next = { ...prev };
@@ -122,7 +122,7 @@ function CommentList({
                         });
                       });
                     }}
-                    onDelete={() => onDeleteComment(commentId, postId)}
+                    onDelete={() => onDeleteComment(commentId)}
                     onEdit={() => {
                       setEditCommentId(commentId);
                       setEditedContentMap((prev) => ({
