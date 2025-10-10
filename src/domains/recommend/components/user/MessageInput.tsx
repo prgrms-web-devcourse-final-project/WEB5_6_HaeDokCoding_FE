@@ -36,7 +36,7 @@ function MessageInput({ onSubmit, disabled }: Props) {
             id="chatInput"
             name="chatInput"
             onInput={(e) => resizeTextarea(e.currentTarget)}
-            placeholder={disabled ? '옵션을 선택해주세요.' : '칵테일 추천 질문을 입력해주세요.'}
+            placeholder={disabled ? '옵션 선택' : '칵테일 추천 질문 입력'}
             disabled={disabled}
             className={`
     w-[calc(100%-3rem)] md:w-[calc(100%-3.75rem)] px-4 py-2 md:py-3.5
