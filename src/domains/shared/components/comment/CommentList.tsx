@@ -15,6 +15,7 @@ type Props = {
   onLoadMore?: (lastCommentId: number) => void; // ← 무한스크롤 콜백
   isEnd?: boolean;
   isLoading: boolean;
+  myPage: boolean;
 };
 
 function CommentList({
@@ -24,6 +25,7 @@ function CommentList({
   onDeleteComment,
   onLoadMore,
   isEnd,
+  myPage = false,
 }: Props) {
   const parentRef = useRef<HTMLDivElement | null>(null);
   const [editCommentId, setEditCommentId] = useState<number | null>(null);
@@ -107,6 +109,7 @@ function CommentList({
                     commentTime={createdAt}
                     isMyComment={isMyComment}
                     isEditing={isEditing}
+                    myPage={myPage}
                     onSubmitEdit={() => {
                       const updatedContent = editedContentMap[commentId];
                       if (!updatedContent) return;
