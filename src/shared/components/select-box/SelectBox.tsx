@@ -88,7 +88,7 @@ function SelectBox({ id, groupKey, ref, option, title, value, onChange, use }: P
       </button>
 
       <ul
-        className={`w-30 text-gray-dark p-2 rounded-xl z-99 duration-200  absolute transition-all 
+        className={`w-fit min-w-30 text-gray-dark p-2 rounded-xl z-99 duration-200  absolute transition-all 
          ${
            groupKey
              ? localOpen
@@ -104,7 +104,7 @@ function SelectBox({ id, groupKey, ref, option, title, value, onChange, use }: P
           <li
             key={v + i}
             role="option"
-            className="cursor-pointer p-1 hover:bg-secondary aria-selected:bg-secondary"
+            className="cursor-pointer whitespace-nowrap p-1 hover:bg-secondary aria-selected:bg-secondary"
             onClick={() => handleChoose(v)}
             aria-selected={v === select}
           >

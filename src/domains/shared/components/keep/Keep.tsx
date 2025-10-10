@@ -4,6 +4,7 @@ import KeepIcon from '@/shared/assets/icons/keep_36.svg';
 import KeepIconActive from '@/shared/assets/icons/keep_active_36.svg';
 import { useState } from 'react';
 import { deleteKeep, postKeep } from '../../api/keep/keep';
+import { useToast } from '@/shared/hook/useToast';
 
 interface Props {
   className?: string;
@@ -13,6 +14,7 @@ interface Props {
 // 만약 타입 안맞는다면 그냥 두셔도 됩니다.
 
 function Keep({ className, cocktailId }: Props) {
+  const { toastSuccess } = useToast();
   const [isClick, setIsClick] = useState(false);
 
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -25,8 +27,10 @@ function Keep({ className, cocktailId }: Props) {
       if (!cocktailId) return;
       if (!isClick) {
         await postKeep(cocktailId);
+        toastSuccess('저장에 성공하셨습니다.');
       } else {
         await deleteKeep(cocktailId);
+        toastSuccess('저장을 취소하셨습니다.');
       }
     } catch (err) {
       console.error(err);
