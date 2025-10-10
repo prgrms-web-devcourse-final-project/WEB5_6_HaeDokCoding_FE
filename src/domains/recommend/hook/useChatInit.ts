@@ -15,17 +15,5 @@ export function useChatInit(setMessages: React.Dispatch<React.SetStateAction<Cha
       }
     };
     loadGreeting();
-
-    // 새로고침/브라우저 닫기 confirm
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-      e.returnValue = '';
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
   }, [setMessages]);
 }
