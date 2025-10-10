@@ -6,10 +6,10 @@ export interface StepOption {
 
 export interface RecommendationItem {
   cocktailId: number;
-  cocktailName: string;
+  cocktailName?: string;
   cocktailNameKo: string;
   cocktailImgUrl: string;
-  alcoholStrength: string;
+  alcoholStrength?: string;
 }
 
 export interface StepRecommendation {
