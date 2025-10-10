@@ -6,19 +6,29 @@ import { useShallow } from 'zustand/shallow';
 import ConfirmModal from '@/shared/components/modal-pop/ConfirmModal';
 import { useRecipeComments } from '../../api/useRecipeComment';
 
-interface Props { 
-  cocktailId:number
+interface Props {
+  cocktailId: number;
 }
 
-function RecipeComment({cocktailId}:Props) {
+function RecipeComment({ cocktailId }: Props) {
   const { user, accessToken } = useAuthStore(
     useShallow((state) => ({
       user: state.user,
       accessToken: state.accessToken,
     }))
   );
-  const { comments, fetchData, handleAskDeleteComment, handleUpdateComment, loadMoreComments, isEnd, isLoading, deleteTarget, handleConfirmDelete, setDeleteTarget } = useRecipeComments(cocktailId, user, accessToken)
-
+  const {
+    comments,
+    fetchData,
+    handleAskDeleteComment,
+    handleUpdateComment,
+    loadMoreComments,
+    isEnd,
+    isLoading,
+    deleteTarget,
+    handleConfirmDelete,
+    setDeleteTarget,
+  } = useRecipeComments(cocktailId, user, accessToken);
 
   return (
     <div className="mb-10 border-t-1 border-gray">

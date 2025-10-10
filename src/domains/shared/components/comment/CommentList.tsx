@@ -10,7 +10,7 @@ import { usePrevious } from 'react-use';
 type Props = {
   comments: CommentType[] | null;
   currentUserNickname?: string;
-  onUpdateComment: (commentId: number,  content: string) => Promise<void>;
+  onUpdateComment: (commentId: number, content: string) => Promise<void>;
   onDeleteComment: (commentId: number) => void;
   onLoadMore?: (lastCommentId: number) => void; // ← 무한스크롤 콜백
   isEnd?: boolean;
@@ -70,7 +70,7 @@ function CommentList({
       >
         <ul style={{ height: rowVirtualizer.getTotalSize(), position: 'relative' }}>
           {rowVirtualizer.getVirtualItems().map(({ index, key, start }) => {
-            const { commentId, content, userNickName, createdAt, postId } = comments[index];
+            const { commentId, content, userNickName, createdAt } = comments[index];
             const isEditing = editCommentId === commentId;
             const isMyComment = comments && currentUserNickname === userNickName;
 
@@ -113,7 +113,7 @@ function CommentList({
                     onSubmitEdit={() => {
                       const updatedContent = editedContentMap[commentId];
                       if (!updatedContent) return;
-                      onUpdateComment(commentId,updatedContent,).then(() => {
+                      onUpdateComment(commentId, updatedContent).then(() => {
                         setEditCommentId(null);
                         setEditedContentMap((prev) => {
                           const next = { ...prev };
