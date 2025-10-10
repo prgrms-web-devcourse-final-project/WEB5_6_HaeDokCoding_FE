@@ -17,6 +17,7 @@ interface Props {
   className?: string;
   textSize1?: string;
   textSize2?: string;
+  favor?:boolean
 }
 
 function CocktailCard({
@@ -29,6 +30,7 @@ function CocktailCard({
   textSize2,
   alcohol,
   id,
+  favor
 }: Props) {
   const alcoholTitle = labelTitle(alcohol);
 
@@ -44,7 +46,7 @@ function CocktailCard({
         {keep && (
           <div className="flex w-full pl-4 px-3 py-2 items-center justify-between absolute left-0 top-0">
             <div>{alcoholTitle && <Label title={alcoholTitle} />}</div>
-            {id && <Keep cocktailId={id} />}
+            {id && <Keep cocktailId={id} favor={favor} />}
           </div>
         )}
       </div>

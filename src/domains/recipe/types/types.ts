@@ -4,6 +4,7 @@ export interface Cocktail {
   cocktailName: string;
   cocktailImgUrl: string;
   cocktailNameKo: string;
+  isFavorited: boolean;
 }
 
 export interface RecommendCocktail {
