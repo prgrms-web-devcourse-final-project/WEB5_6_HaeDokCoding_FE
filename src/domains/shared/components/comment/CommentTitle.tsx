@@ -11,6 +11,7 @@ type Props = {
   onSubmitEdit: () => void;
   onDelete: () => void;
   isMyComment: boolean | null;
+  myPage: boolean;
 };
 
 function CommentTitle({
@@ -22,6 +23,7 @@ function CommentTitle({
   onSubmitEdit,
   onDelete,
   isMyComment,
+  myPage,
 }: Props) {
   return (
     <div className="flex items-center justify-between">
@@ -30,7 +32,7 @@ function CommentTitle({
         <span className="md:text-sm text-[11px]">|</span>
         <p className="md:text-sm text-[11px] text-gray">{elapsedTime(commentTime)}</p>
       </div>
-      {isMyComment && (
+      {isMyComment && !myPage && (
         <EditDelete
           use="comment"
           onSubmitEdit={onSubmitEdit}
