@@ -43,8 +43,8 @@ export const fetchPostByTab = async ({
   category?: string;
   filter?: 'LATEST' | 'POPULAR' | 'COMMENTS';
   lastId?: number;
-  lastLikeCount?: number;
-  lastCommentCount?: number;
+  lastLikeCount?: number | null;
+  lastCommentCount?: number | null;
 }): Promise<Post[] | null> => {
   try {
     const params = new URLSearchParams();

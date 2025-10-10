@@ -22,8 +22,6 @@ function CommunityFilter({ posts, setPosts }: Props) {
   const query = searchParams.get('category');
   const router = useRouter();
 
-  const currentCategory = searchParams.get(query as string) || 'all';
-
   useEffect(() => {
     console.log(query);
   }, [query]);

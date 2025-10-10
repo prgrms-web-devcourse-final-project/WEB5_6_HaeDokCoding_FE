@@ -39,14 +39,18 @@ function Community() {
     setIsLoading(true);
     setIsEnd(false);
 
-    // const latestPost = posts?.sort((a, b) => Number(b.createdAt) - Number(a.createdAt))
-    // const latestLike = latestPost?.sort((a,b) => b.likeCount - a.likeCount );
-    // const latestComment = latestPost?.sort((a,b) => b.commentCount - a.commentCount );
+    const lastLikeCount =
+      posts && posts.length > 0 ? Math.min(...posts.map((post) => post.likeCount)) : null;
+
+    const lastCommentCount =
+      posts && posts.length > 0 ? Math.min(...posts.map((post) => post.commentCount)) : null;
 
     try {
       const newPosts = await fetchPostByTab({
         category,
         filter,
+        lastLikeCount,
+        lastCommentCount,
       });
 
       if (!newPosts || newPosts.length === 0) {
