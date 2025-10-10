@@ -44,7 +44,7 @@ export function useRecipeComments(cocktailId: number, user: User | null, accessT
   };
 
   const handleAskDeleteComment = (commentId: number) => {
-    setDeleteTarget({ commentId, postId });
+    setDeleteTarget({ commentId, cocktailId });
   };
 
   const handleConfirmDelete = async () => {
