@@ -4,7 +4,7 @@ import { useCallback, useRef } from 'react';
 type UseInfiniteScrollObserverParams = {
   items: CommentType[] | Post[] | null;
   isEnd: boolean | undefined;
-  onLoadMore: (lastItemId: number) => void | undefined;
+  onLoadMore: ((lastItemId: number) => void) | undefined | ((lastItemId: number) => Promise<void>);
 };
 
 export function useInfiniteScrollObserver<T extends HTMLElement>({

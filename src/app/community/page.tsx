@@ -12,7 +12,7 @@ function Page() {
     <div className="w-full">
       <PageHeader title="Community" description="칵테일에 관한 모든 이야기" />
       <div className="page-layout max-w-1024">
-        <div className="mt-3 mb-10 flex flex-col gap-8 ">
+        <div className="mt-3 mb-40 flex flex-col gap-8 ">
           <section aria-labelledby="community-heading">
             <h1 id="community-heading" className="sr-only">
               커뮤니티 페이지

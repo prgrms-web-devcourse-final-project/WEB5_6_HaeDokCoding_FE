@@ -17,7 +17,7 @@ type Props = {
   isLoading: boolean;
   setIsLoading?: (value: boolean) => void;
   isEnd?: boolean;
-  onLoadMore?: (lastCommentId: number) => void;
+  onLoadMore?: (lastPostId: number) => Promise<void>;
 };
 
 function PostCard({ posts, isLoading, isEnd, onLoadMore }: Props) {
@@ -65,7 +65,10 @@ function PostCard({ posts, isLoading, isEnd, onLoadMore }: Props) {
                 key={postId}
                 ref={(el) => {
                   if (index === 0) firstItemRef.current = el;
-                  if (isLast) observeLastItem(el);
+                  if (isLast) {
+                    console.log('✅ 관찰 대상 등록', postId);
+                    observeLastItem(el);
+                  }
                 }}
               >
                 <Label title={categoryName} />

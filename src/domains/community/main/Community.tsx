@@ -22,6 +22,12 @@ function Community() {
     [searchParams]
   );
 
+  const lastLikeCount =
+    posts && posts.length > 0 ? Math.min(...posts.map((post) => post.likeCount)) : null;
+
+  const lastCommentCount =
+    posts && posts.length > 0 ? Math.min(...posts.map((post) => post.commentCount)) : null;
+
   const [isEnd, setIsEnd] = useState(false);
 
   useEffect(() => {
@@ -32,18 +38,8 @@ function Community() {
   }, [category, filter]);
 
   const loadInitialPosts = async () => {
-    const category = searchParams.get('category') || 'all';
-    const filter =
-      (searchParams.get('postSortStatus') as 'LATEST' | 'POPULAR' | 'COMMENTS') || 'LATEST';
-
     setIsLoading(true);
     setIsEnd(false);
-
-    const lastLikeCount =
-      posts && posts.length > 0 ? Math.min(...posts.map((post) => post.likeCount)) : null;
-
-    const lastCommentCount =
-      posts && posts.length > 0 ? Math.min(...posts.map((post) => post.commentCount)) : null;
 
     try {
       const newPosts = await fetchPostByTab({
@@ -69,19 +65,16 @@ function Community() {
     if (!posts || posts.length === 0) return;
     console.log('시작', lastPostId);
 
-    const lastPost = posts[posts.length - 1];
-    if (lastPostId === lastPost.postId) return;
-    setLastLoadedId(lastPost.postId);
+    if (lastLoadedId === lastPostId) return;
+    setLastLoadedId(lastPostId);
 
     setIsLoading(true);
     try {
-      const category = searchParams.get('category') || 'all';
-      const filter =
-        (searchParams.get('postSortStatus') as 'LATEST' | 'POPULAR' | 'COMMENTS') || 'LATEST';
-
       const newPosts = await fetchPostByTab({
         category,
         filter,
+        lastLikeCount,
+        lastCommentCount,
         lastId: lastPostId,
       });
 

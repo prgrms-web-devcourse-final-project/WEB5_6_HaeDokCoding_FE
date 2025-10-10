@@ -1,11 +1,11 @@
-import { Dispatch, SetStateAction } from 'react';
+import { RefObject } from 'react';
 import { FormType } from './WriteSection';
 
 type Props = {
-  setFormData: Dispatch<SetStateAction<FormType>>;
+  formData: RefObject<FormType>;
 };
 
-function WriteForm({ setFormData }: Props) {
+function WriteForm({ formData }: Props) {
   return (
     <div className="mt-5">
       <label htmlFor="content" className="sr-only">
@@ -19,10 +19,7 @@ function WriteForm({ setFormData }: Props) {
         tabIndex={0}
         className="w-full min-h-80 max-h-120 overflow-y-auto no-scrollbar bg-white rounded-3xl focus:outline-none py-7 px-5 text-primary"
         onInput={(e) => {
-          setFormData((prev) => ({
-            ...prev,
-            content: (e.target as HTMLDivElement).innerText,
-          }));
+          formData.current.content = e.currentTarget.innerText;
         }}
       ></div>
     </div>

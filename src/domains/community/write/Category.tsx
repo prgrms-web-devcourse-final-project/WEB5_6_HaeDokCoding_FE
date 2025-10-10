@@ -1,24 +1,22 @@
 import SelectBox from '@/shared/components/select-box/SelectBox';
-import { Dispatch, SetStateAction } from 'react';
+import { RefObject } from 'react';
 import { FormType } from './WriteSection';
 
 type Props = {
-  setFormData: Dispatch<SetStateAction<FormType>>;
+  formData: RefObject<FormType>;
 };
 
-function Category({ setFormData }: Props) {
+function Category({ formData }: Props) {
   return (
     <div className="w-full h-[38px] flex items-center justify-end mt-10">
       <SelectBox
         option={['레시피', '팁', '질문', '자유']}
         title="카테고리"
         use="write"
-        onChange={(categoryRef) =>
-          setFormData((prev) => ({
-            ...prev,
-            categoryName: categoryRef,
-          }))
-        }
+        onChange={(categoryRef) => {
+          console.log(categoryRef);
+          formData.current.categoryName = categoryRef;
+        }}
       />
     </div>
   );
