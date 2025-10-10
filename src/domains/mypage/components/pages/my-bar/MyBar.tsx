@@ -1,6 +1,7 @@
 'use client';
 import { getApi } from '@/app/api/config/appConfig';
 import CocktailCard from '@/domains/shared/components/cocktail-card/CocktailCard';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 interface MyCocktail {
@@ -37,14 +38,15 @@ function MyBar() {
   "
         >
           {myCocktail.map(({ cocktailId, cocktailName, imageUrl }) => (
-            <CocktailCard
-              key={cocktailId}
-              src={imageUrl}
-              textSize1="text-xl"
-              name={cocktailName}
-              nameKo="올드 패션드"
-              keep={false}
-            ></CocktailCard>
+            <Link href={`/recipe/${cocktailId}`} key={cocktailId}>
+              <CocktailCard
+                src={imageUrl}
+                textSize1="text-xl"
+                name={cocktailName}
+                nameKo="올드 패션드"
+                keep={false}
+              ></CocktailCard>
+            </Link>
           ))}
         </div>
       ) : (

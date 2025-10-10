@@ -1,12 +1,12 @@
 'use client';
 import { getApi } from '@/app/api/config/appConfig';
-import { useToast } from '@/shared/hook/useToast';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
+import AlarmConfirm from './pages/my-alarm/AlarmConfirm';
 
 function ToggleBtn() {
-  const [isClick, setIsClick] = useState<boolean | null>(null);
-  const { toastSuccess } = useToast();
+  const [isAlarm, setIsAlarm] = useState<boolean | null>(null);
+  const [isClick, setIsClick] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchToggle = async () => {
@@ -16,7 +16,8 @@ function ToggleBtn() {
           credentials: 'include',
         });
         const json = await res.json();
-        setIsClick(json.data.enabled);
+        console.log(json);
+        setIsAlarm(json.data.enabled);
       } catch {
         console.error();
       }
@@ -25,36 +26,36 @@ function ToggleBtn() {
   }, []);
 
   const handleClick = async () => {
-    if (isClick === null) return;
-    const next = !isClick;
-    setIsClick(next);
-
-    await fetch(`${getApi}/me/notification-setting`, {
-      method: 'PATCH',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        enabled: next,
-      }),
-    });
-    next ? toastSuccess('알림이 설정되었습니다.') : toastSuccess('알림이 해제되었습니다');
+    setIsClick(true);
   };
 
   return (
-    <button
-      className={clsx(
-        'rounded-full flex py-0.5 pl-[2px] w-17 h-7 duration-300',
-        isClick ? 'bg-tertiary' : 'bg-white'
+    <div>
+      {isClick && (
+        <AlarmConfirm
+          open={isClick}
+          onClose={() => setIsClick(false)}
+          state={isAlarm}
+          cancle={() => setIsClick(isClick)}
+          setIsAlarm={setIsAlarm}
+          setIsClick={setIsClick}
+        />
       )}
-      onClick={handleClick}
-    >
-      <div
+      <button
         className={clsx(
-          'rounded-full w-6 h-6 duration-300',
-          isClick ? 'bg-secondary translate-x-10' : 'bg-gray-dark'
+          'rounded-full flex py-0.5 pl-[2px] w-17 h-7 duration-300',
+          isAlarm ? 'bg-tertiary' : 'bg-white'
         )}
-      ></div>
-    </button>
+        onClick={handleClick}
+      >
+        <div
+          className={clsx(
+            'rounded-full w-6 h-6 duration-300',
+            isAlarm ? 'bg-secondary translate-x-10' : 'bg-gray-dark'
+          )}
+        ></div>
+      </button>
+    </div>
   );
 }
 export default ToggleBtn;
