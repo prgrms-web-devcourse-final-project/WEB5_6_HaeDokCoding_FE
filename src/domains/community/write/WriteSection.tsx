@@ -6,6 +6,7 @@ import CompleteBtn from './CompleteBtn';
 import ImageSection from './image-upload/ImageSection';
 import Tag from '../components/tag/Tag';
 import { getApi } from '@/app/api/config/appConfig';
+import { tabItem } from '../main/CommunityTab';
 
 export type FormType = {
   categoryName: string;
@@ -35,7 +36,7 @@ function WriteSection({ setIsOpen }: Props) {
     const postJson = {
       title: formData.title,
       content: formData.content,
-      categoryId: 1,
+      categoryId: tabItem.findIndex((tab) => (tab.key = formData.categoryName)) | 4,
     };
 
     const postBlob = new Blob([JSON.stringify(postJson)], { type: 'application/json' });
