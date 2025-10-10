@@ -4,15 +4,10 @@ import { cva } from 'class-variance-authority';
 import { ChangeEvent, HTMLInputTypeAttribute, Ref } from 'react';
 import Search from '@/shared/assets/icons/search_32.svg';
 import Button from '../button/Button';
-// select나올떄 자연스러운 처리 화살표 로테이트 [x]
-// 인풋 타입받을 수 있게 수정 [x]
-// 인풋접근성 라벨이 중요함 라벨 을 div에 묶어서 하거나 label로 인풋감싸거나 div로 묶고 같은 선상에두게 [x]
-// div안에 라벨이랑감싸기 [x]
-// 텍스트 에어리어 버전도 만들기
-// 인풋 잘림 = 라인height 인풋 높이랑 맞춰두기 [x]
 
 interface Props {
   placeholder: string;
+  value?: string;
   type?: HTMLInputTypeAttribute;
   ref?: Ref<HTMLInputElement | null>;
   size?: 'default' | 'lg';
@@ -44,6 +39,7 @@ function Input({
   size,
   variant = 'default',
   className,
+  value,
   id,
   onChange,
   ...rest
@@ -54,6 +50,7 @@ function Input({
         <input
           id={id}
           type={type}
+          value={value}
           placeholder={placeholder}
           className={`outline-none w-full flex-1 leading-${size}`}
           ref={ref}

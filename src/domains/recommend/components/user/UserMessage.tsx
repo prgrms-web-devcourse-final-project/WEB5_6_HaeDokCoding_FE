@@ -1,5 +1,6 @@
 interface Props {
   message: string;
+  showProfile: boolean;
 }
 
 // 메시지 (연속 메시지) 예시..
@@ -12,12 +13,14 @@ interface Props {
 //   { id: '2', sender: 'user', text: '배고파요' },
 // ];
 
-function UserMessage({ message }: Props) {
+function UserMessage({ message, showProfile }: Props) {
   return (
     <article aria-label="내 메시지" className="flex flex-col items-end">
-      <header className="w-fit">
-        <strong>나</strong>
-      </header>
+      {showProfile && (
+        <header className="w-fit">
+          <strong>나</strong>
+        </header>
+      )}
 
       {/* 메시지 그룹 */}
       <div className="flex flex-col items-end gap-3 mt-3 pr-3 max-w-[80%]">

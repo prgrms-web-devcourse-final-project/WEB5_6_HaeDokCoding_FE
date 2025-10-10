@@ -9,7 +9,7 @@ import { usePathname } from 'next/navigation';
 const MAIN_TABMENU = [
   {
     title: '나만의 BAR',
-    href: '/mypage/mybar',
+    href: '/mypage/my-bar',
   },
   {
     title: '내 활동',

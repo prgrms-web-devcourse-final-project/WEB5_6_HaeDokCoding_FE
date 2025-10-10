@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Label from '@/domains/shared/components/label/Label';
 import AbvGraph from '@/domains/shared/components/abv-graph/AbvGraph';
 import { labelTitle } from '../utills/labelTitle';
-import useGlass from './hook/useGlass';
+import useGlass from '../hook/useGlass';
 
 interface Props {
   name: string;
@@ -34,15 +34,17 @@ function DetailItem({ name, nameKo, story, src, abv, glassType }: Props) {
       <div className="flex flex-col w-full gap-3 relative md:flex-row md:justify-between md:w-150 md:gap-20  lg:w-187.5 h-50">
         <div className="flex flex-col gap-1 items-center md:items-end md:w-1/2">
           <span>{alcoholTitle && <Label title={alcoholTitle} />}</span>
-          <h2 className="w-fit font-serif font-bold  text-right text-3xl lg:text-4xl text-secondary ">
-            {name}
-          </h2>
-          <h2 className="font-serif font-bold text-right text-xl lg:text-4xl text-secondary">
-            {nameKo}
+          <h2 className="flex flex-col gap-2">
+            <span className="w-fit font-serif font-bold  text-center md:text-right text-3xl lg:text-4xl text-secondary ">
+              {name}
+            </span>
+            <span className="font-serif font-bold text-center md:text-right text-xl lg:whitespace-nowrap lg:text-4xl text-secondary">
+              {nameKo}
+            </span>
           </h2>
         </div>
 
-        <p className=" text-base self-center w-3/4 md:text-sm md:self-end text-secondary md:w-70 lg:text-base lg:w-100">
+        <p className=" text-base self-center md:w-1/2 md:text-sm md:self-end text-secondary  lg:text-base lg:w-100">
           {story}
         </p>
 

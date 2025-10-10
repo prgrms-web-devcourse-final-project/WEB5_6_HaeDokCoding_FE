@@ -1,14 +1,22 @@
 'use client';
-import Back from '@/shared/assets/icons/back_36.svg';
-import Link from 'next/link';
 
-function BackBtn() {
+import { useRouter } from 'next/navigation';
+import Back from '@/shared/assets/icons/back_36.svg';
+
+function BackButton() {
+  const router = useRouter();
+
+  const handleClick = () => {
+    const url = sessionStorage.getItem('saveUrl');
+    if (!url) return;
+    router.push(url);
+  };
+
   return (
-    <button type="button" className="z-1" aria-label="뒤로가기">
-      <Link href="/recipe">
-        <Back />
-      </Link>
+    <button type="button" className="z-1" aria-label="뒤로가기" onClick={handleClick}>
+      <Back />
     </button>
   );
 }
-export default BackBtn;
+
+export default BackButton;
