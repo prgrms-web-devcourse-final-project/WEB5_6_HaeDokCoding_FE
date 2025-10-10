@@ -40,11 +40,11 @@ export const getRecipeComment = async (cocktailId: number): Promise<CommentType[
 
 export async function updateComment(
   accessToken: string | null,
-  cocktailId: number,
+  postId: number,
   commentId:number,
   content: string
 ): Promise<void> {
-  const response = await fetch(`${getApi}/cocktails/${cocktailId}/comments/${commentId}`, {
+  const response = await fetch(`${getApi}/cocktails/${postId}/comments/${commentId}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -55,6 +55,25 @@ export async function updateComment(
 
   if (!response.ok) {
     const errorText = await response.text();
+    console.error('서버 응답 에러:', errorText);
+    throw new Error(`댓글 수정 실패: ${response.status}`);
+  }
+}
+
+export async function deleteRecipeComment(
+  accessToken: string | null,
+  cocktailId: number,
+  commentId: number
+): Promise<void> {
+  const response = await fetch(`${getApi}/cocktails/${cocktailId}/comments/${commentId}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text(); // 👈 응답 본문을 텍스트로 읽기
     console.error('서버 응답 에러:', errorText);
     throw new Error(`댓글 수정 실패: ${response.status}`);
   }

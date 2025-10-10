@@ -2,36 +2,35 @@ import { useState, useEffect, useCallback } from 'react';
 import { getApi } from '@/app/api/config/appConfig';
 import { User } from '@/domains/shared/store/auth';
 import { CommentType } from '@/domains/community/types/post';
-import { deleteComment} from '@/domains/community/api/fetchComment';
-import { getRecipeComment, updateComment } from './fetchRecipeComment';
+import { deleteRecipeComment, getRecipeComment, updateComment } from './fetchRecipeComment';
 
-export function useRecipeComments(cocktailId: number, user: User | null, accessToken: string | null) {
+export function useRecipeComments(postId: number, user: User | null, accessToken: string | null) {
   const [comments, setComments] = useState<CommentType[] | null>(null);
   const [isEnd, setIsEnd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [deleteTarget, setDeleteTarget] = useState<{ commentId: number; cocktailId: number } | null>(
+  const [deleteTarget, setDeleteTarget] = useState<{ commentId: number; postId: number } | null>(
     null
   );
 
   const fetchData = useCallback(async () => {
-    const data = await getRecipeComment(cocktailId);
+    const data = await getRecipeComment(postId);
     if (!data) return;
     setComments(data);
     setIsEnd(false);
-  }, [cocktailId]);
+  }, [postId]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
-  const handleUpdateComment = async (commentId: number,cocktailId:number,content: string) => {
+  const handleUpdateComment = async (postId:number,commentId: number,content: string) => {
     
     if (!user) {
       alert('로그인이 필요합니다');
       return;
     }
     try {
-      await updateComment(accessToken!, cocktailId, commentId, content);
+      await updateComment(accessToken!, postId, commentId, content);
       setComments((prev) =>
         prev
           ? prev.map((comment) =>
@@ -45,8 +44,8 @@ export function useRecipeComments(cocktailId: number, user: User | null, accessT
     }
   };
 
-  const handleAskDeleteComment = (commentId: number, cocktailId: number) => {
-    setDeleteTarget({ commentId, cocktailId });
+  const handleAskDeleteComment = (commentId: number, postId: number) => {
+    setDeleteTarget({ commentId, postId });
   };
 
   const handleConfirmDelete = async () => {
@@ -57,7 +56,7 @@ export function useRecipeComments(cocktailId: number, user: User | null, accessT
     if (!deleteTarget) return;
 
     try {
-      await deleteComment(accessToken!, deleteTarget.cocktailId, deleteTarget.commentId);
+      await deleteRecipeComment(accessToken!, deleteTarget.postId, deleteTarget.commentId);
       setComments((prev) =>
         prev ? prev.filter((c) => c.commentId !== deleteTarget.commentId) : prev
       );
@@ -74,7 +73,7 @@ export function useRecipeComments(cocktailId: number, user: User | null, accessT
 
     setIsLoading(true);
     try {
-      const res = await fetch(`${getApi}/cocktails/${cocktailId}/comments?lastId=${lastCommentId}`);
+      const res = await fetch(`${getApi}/cocktails/${postId}/comments?lastId=${lastCommentId}`);
       const newComments = await res.json();
 
       if (newComments.data.length === 0) {
