@@ -1,18 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
 import DeleteIcon from '@/shared/assets/icons/close_20.svg';
 
 function UploadedImage() {
-  const [hovered, setHovered] = useState(false);
-
   return (
-    <figure
-      className="border-3 border-gray-light w-[80px] h-[80px]  rounded-xl relative shrink-0"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
+    <figure className="border-3 border-gray-light w-[80px] h-[80px]  rounded-xl relative shrink-0">
       <Image
         src={''}
         alt="칵테일 이미지 예시"

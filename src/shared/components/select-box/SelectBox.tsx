@@ -54,7 +54,7 @@ function SelectBox({ id, groupKey, ref, option, title, onChange, use }: Props) {
     else
       setIsOpen((prev) => {
         const next = !prev;
-        console.log('TOGGLE BTN CLICK:', { prev, next });
+        // console.log('TOGGLE BTN CLICK:', { prev, next });
         return next;
       });
   };

@@ -1,7 +1,7 @@
 'use client';
 import tw from '@/shared/utills/tw';
 import { cva } from 'class-variance-authority';
-import { HTMLInputTypeAttribute, Ref } from 'react';
+import { ChangeEvent, HTMLInputTypeAttribute, Ref } from 'react';
 import Search from '@/shared/assets/icons/search_32.svg';
 import Button from '../button/Button';
 // select나올떄 자연스러운 처리 화살표 로테이트 [x]
@@ -18,7 +18,7 @@ interface Props {
   size?: 'default' | 'lg';
   variant?: 'default' | 'search' | 'comment';
   className?: string;
-  onChange?: () => void;
+  onChange?: (() => void) | ((e: ChangeEvent<HTMLInputElement>) => void);
   id: string;
 }
 

@@ -1,4 +1,11 @@
-function FormTitle() {
+import { Dispatch, SetStateAction } from 'react';
+import { FormType } from './WriteSection';
+
+type Props = {
+  setFormData: Dispatch<SetStateAction<FormType>>;
+};
+
+function FormTitle({ setFormData }: Props) {
   return (
     <div className="w-full h-[69px] relative border-b-1 border-gray mt-5 flex items-end pb-2">
       <label id="title-label" htmlFor="writingTitle" className="sr-only">
@@ -11,6 +18,12 @@ function FormTitle() {
         id="writingTitle"
         maxLength={20}
         aria-describedby="title-count"
+        onChange={(e) => {
+          setFormData((prev) => ({
+            ...prev,
+            title: e.target.value,
+          }));
+        }}
       />
       <span id="title-count" aria-live="polite" className="text-gray ">
         0/20
