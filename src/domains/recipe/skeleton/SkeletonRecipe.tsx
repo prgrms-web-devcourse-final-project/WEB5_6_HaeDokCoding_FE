@@ -17,15 +17,12 @@ function SkeletonRecipe() {
       {/* 리스트 자리 */}
 
       <ul
-        className=" 
-        mt-5 
-        place-content-between
-    grid gap-8
-    grid-cols-1 
-    sm:justify-items-stretch
-    sm:[grid-template-columns:repeat(2,minmax(0,320px))]  
-    md:[grid-template-columns:repeat(3,minmax(0,250px))]  
-     lg:[grid-template-columns:repeat(4,minmax(0,250px))]
+        className=" mt-8
+   grid gap-8 lg:justify-between justify-center
+    [grid-template-columns:repeat(1,minmax(0,250px))]
+    sm:[grid-template-columns:repeat(2,minmax(0,250px))]
+    md:[grid-template-columns:repeat(3,minmax(0,250px))]
+    lg:[grid-template-columns:repeat(4,minmax(0,250px))]
     "
       >
         {Array.from({ length: 8 }).map((_, i) => (

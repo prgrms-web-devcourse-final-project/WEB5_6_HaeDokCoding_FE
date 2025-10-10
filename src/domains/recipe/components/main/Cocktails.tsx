@@ -21,7 +21,6 @@ function Cocktails() {
     setHasNextPage,
     handleItemClick,
     shouldFetch,
-    isRestoring
   } = useMemoScroll<Cocktail>({
     storageKey: 'cocktails_scroll_state',
     eventName: 'resetCocktailsScroll',
@@ -61,7 +60,6 @@ function Cocktails() {
 
   // 검색어 변경 시
   useEffect(() => {
-    if(isRestoring) return
     if (isSearching && keyword.trim()) {
       setLastId(null);
       setHasNextPage(false);
@@ -76,10 +74,10 @@ function Cocktails() {
 
   // 일반 fetch
   useEffect(() => {
-    if(isRestoring) return
     if (!shouldFetch || isSearching) return;
     fetchData();
-  }, [shouldFetch, isSearching]);
+
+  }, [shouldFetch, isSearching,alcoholBaseTypes,alcoholStrengths,cocktailTypes ]);
 
   return (
     <section>

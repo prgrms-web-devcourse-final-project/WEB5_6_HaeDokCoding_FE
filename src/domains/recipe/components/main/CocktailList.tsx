@@ -1,5 +1,5 @@
 'use client';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useIntersectionObserver } from '@/domains/shared/hook/useIntersectionObserver';
 import { Cocktail } from '../../types/types';
@@ -18,16 +18,13 @@ function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId, onItemClick
   const onIntersect: IntersectionObserverCallback = ([entry]) => {
     if (!RecipeFetch) return;
     if (!lastId) return;
-    if (entry.isIntersecting) {
+    if (entry.isIntersecting && lastId > 1) {
       RecipeFetch();
     }
   };
 
   useIntersectionObserver(cocktailRef, onIntersect, hasNextPage);
-
-  const handleClick = () => {
-    sessionStorage.setItem('saveUrl', String(location.href));
-  };
+  // ⬇️ 파일 최상단 근처: 공통 디버그 토글
 
   return (
     <ul
@@ -42,7 +39,7 @@ function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId, onItemClick
       {cocktails.map(
         ({ cocktailImgUrl, cocktailId, cocktailName, cocktailNameKo, alcoholStrength }) => (
           <li key={cocktailId} onClick={onItemClick} className="w-full">
-            <Link href={`/recipe/${cocktailId}`} onClick={handleClick}>
+            <Link href={`/recipe/${cocktailId}`}>
               <CocktailCard
                 id={cocktailId}
                 src={cocktailImgUrl}
@@ -54,7 +51,7 @@ function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId, onItemClick
           </li>
         )
       )}
-      <div ref={cocktailRef} className="h-2.5"></div>
+      <div ref={cocktailRef} className="h-2"></div>
     </ul>
   );
 }
