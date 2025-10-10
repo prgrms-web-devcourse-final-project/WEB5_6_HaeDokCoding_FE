@@ -15,7 +15,7 @@ type Props = {
   onLoadMore?: (lastCommentId: number) => void; // ← 무한스크롤 콜백
   isEnd?: boolean;
   isLoading: boolean;
-  myPage: boolean;
+  myPage?: boolean;
 };
 
 function CommentList({
