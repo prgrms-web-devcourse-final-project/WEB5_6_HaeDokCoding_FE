@@ -30,17 +30,17 @@ function DetailMain({ id }: { id: number }) {
     if (!res.ok) throw new Error('데이터 요청 실패');
     setCocktail(json.data);
 
-    if (user) {
+    if (!user) {
+      setIsKept(false);
+      return
+    } else {
       const keepRes = await fetch(`${getApi}/me/bar`, {
         method: 'GET',
         credentials: 'include',
       });
       const keepjson = await keepRes.json();
-      if (!keepRes.ok) throw new Error('킵 한 아이템 호출 에러');
       const keepIds = keepjson.data.map((a: Kept) => String(a.cocktailId));
       setIsKept(keepIds.includes(String(id)));
-    } else {
-      setIsKept(false);
     }
   };
 

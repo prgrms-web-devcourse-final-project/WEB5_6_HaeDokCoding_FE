@@ -18,9 +18,16 @@ function RecipeComment({ cocktailId }: Props) {
       accessToken: state.accessToken,
     }))
   );
+
   const { toastInfo } = useToast();
 
   const postRecipeComment = async (cocktailId: number, content: string) => {
+
+    if (!user?.id) {
+     toastInfo('로그인 후 이용 가능합니다');
+      return
+    }
+        
     try {
       const res = await fetch(`${getApi}/cocktails/${cocktailId}/comments`, {
         method: 'POST',
@@ -29,10 +36,12 @@ function RecipeComment({ cocktailId }: Props) {
         body: JSON.stringify({ content }),
       });
       const text = await res.text();
-      if (!res.ok) {
+      
+      if (!res.ok) { 
         toastInfo('댓글은 한 개만 작성가능합니다');
-        return;
+        return   
       }
+
       const data = JSON.parse(text);
       return data;
     } catch (err) {

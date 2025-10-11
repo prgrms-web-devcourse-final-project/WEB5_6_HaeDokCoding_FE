@@ -16,7 +16,7 @@ interface Props {
 // 만약 타입 안맞는다면 그냥 두셔도 됩니다.
 
 function Keep({ className, cocktailId, favor }: Props) {
-  const user = useAuthStore();
+  const { user } = useAuthStore();
   const { toastInfo, toastSuccess } = useToast();
   const [isClick, setIsClick] = useState(favor);
 
@@ -27,6 +27,7 @@ function Keep({ className, cocktailId, favor }: Props) {
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
+
     if (!user) {
       toastInfo('로그인 후 이용 가능합니다.');
       return;
