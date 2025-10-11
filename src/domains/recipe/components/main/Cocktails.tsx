@@ -80,7 +80,7 @@ function Cocktails() {
         <CocktailSearchBar value={inputValue} onChange={onInputChange} />
       </div>
 
-      <CocktailFilter cocktailsEA={countLabel} />
+      <CocktailFilter cocktailsEA={countLabel} setData={setData} />
 
       <section className="mt-5">
         {isSearching && noResults ? (
