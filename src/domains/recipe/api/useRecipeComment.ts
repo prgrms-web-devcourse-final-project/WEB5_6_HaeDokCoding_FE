@@ -3,6 +3,7 @@ import { getApi } from '@/app/api/config/appConfig';
 import { User } from '@/domains/shared/store/auth';
 import { CommentType } from '@/domains/community/types/post';
 import { deleteRecipeComment, getRecipeComment, updateComment } from './fetchRecipeComment';
+import { useToast } from '@/shared/hook/useToast';
 
 export function useRecipeComments(
   cocktailId: number,
@@ -16,6 +17,7 @@ export function useRecipeComments(
     commentId: number;
     cocktailId: number;
   } | null>(null);
+  const { toastError } = useToast();
 
   const fetchData = useCallback(async () => {
     const data = await getRecipeComment(cocktailId);
@@ -30,7 +32,7 @@ export function useRecipeComments(
 
   const handleUpdateComment = async (commentId: number, content: string) => {
     if (!user) {
-      alert('로그인이 필요합니다');
+      toastError('로그인이 필요합니다');
       return;
     }
     try {
@@ -44,7 +46,7 @@ export function useRecipeComments(
       );
     } catch (err) {
       console.error(err);
-      alert('댓글 수정 중 오류가 발생했습니다.');
+      toastError('댓글 수정 중 오류가 발생했습니다.');
     }
   };
 
@@ -54,7 +56,7 @@ export function useRecipeComments(
 
   const handleConfirmDelete = async () => {
     if (!user) {
-      alert('로그인이 필요합니다');
+      toastError('로그인이 필요합니다');
       return;
     }
     if (!deleteTarget) return;
@@ -66,7 +68,6 @@ export function useRecipeComments(
       );
     } catch (err) {
       console.error(err);
-      alert('댓글 삭제 중 오류가 발생했습니다.');
     } finally {
       setDeleteTarget(null);
     }

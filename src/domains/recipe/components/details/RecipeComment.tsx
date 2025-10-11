@@ -1,10 +1,11 @@
 import CommentHeader from '@/domains/shared/components/comment/CommentHeader';
 import CommentList from '@/domains/shared/components/comment/CommentList';
-import { postRecipeComment } from '../../api/fetchRecipeComment';
 import { useAuthStore } from '@/domains/shared/store/auth';
 import { useShallow } from 'zustand/shallow';
 import ConfirmModal from '@/shared/components/modal-pop/ConfirmModal';
 import { useRecipeComments } from '../../api/useRecipeComment';
+import { getApi } from '@/app/api/config/appConfig';
+import { useToast } from '@/shared/hook/useToast';
 
 interface Props {
   cocktailId: number;
@@ -17,6 +18,28 @@ function RecipeComment({ cocktailId }: Props) {
       accessToken: state.accessToken,
     }))
   );
+  const { toastInfo } = useToast();
+
+  const postRecipeComment = async (cocktailId: number, content: string) => {
+    try {
+      const res = await fetch(`${getApi}/cocktails/${cocktailId}/comments`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ content }),
+      });
+      const text = await res.text();
+      if (!res.ok) {
+        toastInfo('댓글은 한 개만 작성가능합니다');
+        return;
+      }
+      const data = JSON.parse(text);
+      return data;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const {
     comments,
     fetchData,
