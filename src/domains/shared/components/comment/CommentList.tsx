@@ -10,8 +10,8 @@ import { usePrevious } from 'react-use';
 type Props = {
   comments: CommentType[] | null;
   currentUserNickname?: string;
-  onUpdateComment: (commentId: number, content: string) => Promise<void>;
-  onDeleteComment: (commentId: number) => void;
+  onUpdateComment?: (commentId: number, content: string) => Promise<void>;
+  onDeleteComment?: (commentId: number) => void;
   onLoadMore?: (lastCommentId: number) => void; // ← 무한스크롤 콜백
   isEnd?: boolean;
   isLoading: boolean;
@@ -27,6 +27,7 @@ function CommentList({
   isEnd,
   myPage = false,
 }: Props) {
+
   const parentRef = useRef<HTMLDivElement | null>(null);
   const [editCommentId, setEditCommentId] = useState<number | null>(null);
   const [editedContentMap, setEditedContentMap] = useState<Record<number, string>>({});
@@ -73,7 +74,6 @@ function CommentList({
             const { commentId, content, userNickName, createdAt } = comments[index];
             const isEditing = editCommentId === commentId;
             const isMyComment = comments && currentUserNickname === userNickName;
-
             const isLast = index === comments.length - 1;
 
             return (
@@ -105,7 +105,7 @@ function CommentList({
               >
                 <article>
                   <CommentTitle
-                    userNickname={userNickName}
+                    userNickname={ myPage ? currentUserNickname! : userNickName}
                     commentTime={createdAt}
                     isMyComment={isMyComment}
                     isEditing={isEditing}
@@ -113,6 +113,7 @@ function CommentList({
                     onSubmitEdit={() => {
                       const updatedContent = editedContentMap[commentId];
                       if (!updatedContent) return;
+                      if (!onUpdateComment) return
                       onUpdateComment(commentId, updatedContent).then(() => {
                         setEditCommentId(null);
                         setEditedContentMap((prev) => {
@@ -122,7 +123,11 @@ function CommentList({
                         });
                       });
                     }}
-                    onDelete={() => onDeleteComment(commentId)}
+                   
+                    onDelete={() => {
+                      if (!onDeleteComment) return
+                      onDeleteComment(commentId)
+                    }}
                     onEdit={() => {
                       setEditCommentId(commentId);
                       setEditedContentMap((prev) => ({

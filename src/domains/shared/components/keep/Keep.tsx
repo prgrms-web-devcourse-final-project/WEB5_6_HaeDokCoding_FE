@@ -2,7 +2,7 @@
 
 import KeepIcon from '@/shared/assets/icons/keep_36.svg';
 import KeepIconActive from '@/shared/assets/icons/keep_active_36.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { deleteKeep, postKeep } from '../../api/keep/keep';
 import { useToast } from '@/shared/hook/useToast';
 import { useAuthStore } from '../../store/auth';
@@ -10,7 +10,7 @@ import { useAuthStore } from '../../store/auth';
 interface Props {
   className?: string;
   cocktailId?: number;
-  favor?: boolean;
+  favor?: boolean | null
 }
 // ID는 커뮤니티 공유할때 id 타입보고 옵셔널 체크 풀어주세요!
 // 만약 타입 안맞는다면 그냥 두셔도 됩니다.
@@ -20,6 +20,10 @@ function Keep({ className, cocktailId, favor }: Props) {
   const {toastInfo, toastSuccess } = useToast();
   const [isClick, setIsClick] = useState(favor);
 
+  useEffect(() => {
+    setIsClick(favor)
+  },[favor])
+ 
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
