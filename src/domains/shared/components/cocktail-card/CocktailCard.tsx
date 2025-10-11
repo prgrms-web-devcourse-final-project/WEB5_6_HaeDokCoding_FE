@@ -17,7 +17,7 @@ interface Props {
   className?: string;
   textSize1?: string;
   textSize2?: string;
-  favor?:boolean
+  favor?: boolean;
 }
 
 function CocktailCard({
@@ -30,7 +30,7 @@ function CocktailCard({
   textSize2,
   alcohol,
   id,
-  favor
+  favor,
 }: Props) {
   const alcoholTitle = labelTitle(alcohol);
 

@@ -3,6 +3,7 @@
 import { getApi } from '@/app/api/config/appConfig';
 import { Cocktail } from '../types/types';
 import { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import { useAuthStore } from '@/domains/shared/store/auth';
 
 interface Props {
   setData: React.Dispatch<React.SetStateAction<Cocktail[]>>;
@@ -12,6 +13,7 @@ interface Props {
   setHasNextPage: Dispatch<SetStateAction<boolean>>;
   SIZE?: number;
 }
+
 // api/cocktais fetch용
 export const RecipeFetch = ({
   setData,
@@ -22,6 +24,7 @@ export const RecipeFetch = ({
   SIZE = 20,
 }: Props) => {
 
+  const user = useAuthStore()
   const fetchData = useCallback(async () => {
     // 쿼리파라미터에 값 넣기
     if (!hasNextPage) return;
@@ -30,32 +33,34 @@ export const RecipeFetch = ({
     if (typeof lastId === 'number') {
       url.searchParams.set('lastId', String(lastId));
     }
+    url.searchParams.set('LastValue', String(lastId));
 
-    const [recipeRes,keepRes] = await Promise.all([
-      fetch(url.toString(), { method: 'GET' }),
-      fetch(`${getApi}/me/bar`, {
+
+    const recipeRes = await fetch(url.toString(), {
+      method:'GET'
+    })
+    if(!recipeRes.ok) throw new Error('데이터 요청 실패')
+    const recipeJson = await recipeRes.json()
+    const list: Cocktail[] = recipeJson.data ?? []
+
+    if (user) {
+      const keepRes = await fetch(`${getApi}/me/bar`, {
         method: 'GET',
         credentials:'include'
       })
-    ]) 
-    if (!recipeRes.ok || !keepRes.ok) throw new Error('레시피 데이터 요청실패');
+      const bars = keepRes.ok ? (await keepRes.json()).data ?? [] : []
+      const favoriteIds = new Set(bars.map((m: { cocktailId: number }) => m.cocktailId));
+      const merged = list.map(item => ({ ...item, isFavorited: favoriteIds.has(item.cocktailId) }))
+      setData(prev => Array.from(new Map<number,Cocktail>([...prev,...merged].map(i => [i.cocktailId,i])).values()))
+    } else {
+      setData(prev => Array.from(new Map<number,Cocktail>([...prev,...list].map(i=>[i.cocktailId,i])).values()))
+    }
 
-    const [recipeJson, barJson] = await Promise.all([recipeRes.json(), keepRes.json()]);
-    const bars = Array.isArray(barJson?.data) ? barJson.data : [];
-
-    const favoriteIds = new Set(bars.map((m:{cocktailId:number}) => m.cocktailId))
-    const list: Cocktail[] = recipeJson.data ?? [];
-  
-    const merged = recipeJson.data.map((cocktail:Cocktail) => ({
-      ...cocktail,
-      isFavorited:favoriteIds.has(cocktail.cocktailId)
-    }))
-    setData(merged)
-     
     if (list.length > 0) {
       setLastId(list[list.length - 1].cocktailId);
     }
     setHasNextPage(list.length === SIZE);
+
   }, [hasNextPage, lastId, setData, setLastId, setHasNextPage, SIZE]);
   return { fetchData };
 };

@@ -4,13 +4,18 @@ import { User } from '@/domains/shared/store/auth';
 import { CommentType } from '@/domains/community/types/post';
 import { deleteRecipeComment, getRecipeComment, updateComment } from './fetchRecipeComment';
 
-export function useRecipeComments(cocktailId: number, user: User | null, accessToken: string | null) {
+export function useRecipeComments(
+  cocktailId: number,
+  user: User | null,
+  accessToken: string | null
+) {
   const [comments, setComments] = useState<CommentType[] | null>(null);
   const [isEnd, setIsEnd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [deleteTarget, setDeleteTarget] = useState<{ commentId: number; cocktailId: number } | null>(
-    null
-  );
+  const [deleteTarget, setDeleteTarget] = useState<{
+    commentId: number;
+    cocktailId: number;
+  } | null>(null);
 
   const fetchData = useCallback(async () => {
     const data = await getRecipeComment(cocktailId);

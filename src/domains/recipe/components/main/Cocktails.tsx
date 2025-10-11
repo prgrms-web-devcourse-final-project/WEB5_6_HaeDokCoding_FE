@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import CocktailFilter from './CocktailFilter';
 import CocktailList from './CocktailList';
 import { Cocktail } from '../../types/types';
-import { useMemoScroll } from '../../../shared/hook/useMemoScroll';
 import Accordion from './Accordion';
 import { RecipeFetch } from '../../api/RecipeFetch';
 import CocktailSearchBar from './CocktailSearchBar';
@@ -12,22 +11,14 @@ import useSearchControl from '../../hook/useSearchControl';
 import CocktailSearch from '../../api/CocktailSearch';
 
 function Cocktails() {
-  const {
-    data,
-    setData,
-    lastId,
-    setLastId,
-    hasNextPage,
-    setHasNextPage,
-    handleItemClick,
-    shouldFetch,
-  } = useMemoScroll<Cocktail>({
-    storageKey: 'cocktails_scroll_state',
-    eventName: 'resetCocktailsScroll',
-  });
+  const [data, setData] = useState<Cocktail[]>([]);
+  const [lastId, setLastId] = useState<number | null>(null);
+  const [hasNextPage, setHasNextPage] = useState(true);
+
   const { inputValue, keyword, isSearching, onInputChange, noResults, setNoResults } =
     useSearchControl({ delay: 300, storageKey: 'cocktails_scoll_state' });
   const { fetchData } = RecipeFetch({ setData, lastId, setLastId, hasNextPage, setHasNextPage });
+
   const {
     searchApi,
     setAlcoholBaseTypes,
@@ -74,9 +65,9 @@ function Cocktails() {
 
   // 일반 fetch
   useEffect(() => {
-    if (!shouldFetch || isSearching) return;
+    if (isSearching) return;
     fetchData();
-  }, [shouldFetch, isSearching, alcoholBaseTypes, alcoholStrengths, cocktailTypes]);
+  }, [isSearching, alcoholBaseTypes, alcoholStrengths, cocktailTypes]);
 
   return (
     <section>
@@ -100,7 +91,6 @@ function Cocktails() {
             RecipeFetch={isSearching ? undefined : fetchData}
             hasNextPage={isSearching ? false : hasNextPage}
             lastId={lastId}
-            onItemClick={handleItemClick}
           />
         )}
       </section>

@@ -11,7 +11,7 @@ export const useIntersectionObserver = <T extends HTMLElement>(
     if (targetRef && targetRef.current) {
       observer.current = new IntersectionObserver(onIntersect, {
         root: null,
-        rootMargin: '0px',
+        rootMargin: '200px',
         threshold: 1.0,
       });
       if (!hasNextPage) {
@@ -21,5 +21,5 @@ export const useIntersectionObserver = <T extends HTMLElement>(
       observer.current.observe(targetRef.current);
     }
     return () => observer && observer.current?.disconnect();
-  }, [targetRef, onIntersect, hasNextPage]);
+  }, [targetRef, onIntersect]);
 };

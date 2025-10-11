@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import Alarm from '../../Alarm';
 import { getApi } from '@/app/api/config/appConfig';
+import TextButton from '@/shared/components/button/TextButton';
 
 interface MyAlarm {
   notificationId: number;
@@ -29,6 +30,9 @@ function MyAlarm() {
 
   return (
     <section>
+      <div className="flex justify-end">
+        <TextButton className="my-5">전체삭제</TextButton>
+      </div>
       {myAlarm.length !== 0 ? (
         myAlarm.map(({ notificationId, title, content }) => (
           <Alarm key={notificationId} title={title} content={content} />

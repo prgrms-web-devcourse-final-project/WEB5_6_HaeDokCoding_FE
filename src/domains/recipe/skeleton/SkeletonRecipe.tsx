@@ -25,7 +25,7 @@ function SkeletonRecipe() {
     lg:[grid-template-columns:repeat(4,minmax(0,250px))]
     "
       >
-        {Array.from({ length: 8 }).map((_, i) => (
+        {Array.from({ length: 20 }).map((_, i) => (
           <li key={i} className="w-full min-w-0 justify-self-center sm:justify-self-stretch">
             <div className="relative w-full max-w-[320px] mx-auto aspect-[3/4] overflow-hidden rounded-xl bg-gray animate-pulse md:w-62.5 h-75" />
             <div className="mt-4.5 space-y-2 max-w-[320px] mx-auto">
