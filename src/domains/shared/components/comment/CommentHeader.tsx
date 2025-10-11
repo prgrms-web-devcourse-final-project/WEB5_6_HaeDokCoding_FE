@@ -60,7 +60,7 @@ function CommentHeader({
       intervalCall1000(async () => {
         const success = await createComment(newComment);
         if (!success) {
-          console.log('칵테일 페이지에서 댓글은 한개만 입력 가능합니다')
+          console.log('칵테일 페이지에서 댓글은 한개만 입력 가능합니다');
         }
       });
     }
