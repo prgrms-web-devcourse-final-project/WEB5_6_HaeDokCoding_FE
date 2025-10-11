@@ -8,7 +8,6 @@ import KaKaoScript from './api/kakao/KaKaoScript';
 import IdleHandler from '@/domains/login/components/IdleHandler';
 import Provider from '@/shared/api/Provider';
 
-
 export const metadata: Metadata = {
   title: { default: 'SSOUL', template: 'SSOUL | %s' },
   metadataBase: new URL('http://www.ssoul.life'),

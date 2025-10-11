@@ -7,10 +7,9 @@ import { useEffect, useState } from 'react';
 import useFetchProfile from '../api/fetchProfile';
 import { useQuery } from '@tanstack/react-query';
 
-
 function MySetting() {
   const { fetchProfile } = useFetchProfile();
-  const { data:profile } = useQuery({ queryKey: ['myProfile'], queryFn: fetchProfile });
+  const { data: profile } = useQuery({ queryKey: ['myProfile'], queryFn: fetchProfile });
   const [isOpen, setIsOpen] = useState(false);
   const [isQuit, setIsQuit] = useState(false);
   const [nickname, setNickName] = useState(profile?.nickname);

@@ -8,7 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 
 function MyProfile() {
   const { fetchProfile } = useFetchProfile();
-  const {data} = useQuery({ queryKey: ['myProfile'], queryFn: fetchProfile });
+  const { data } = useQuery({ queryKey: ['myProfile'], queryFn: fetchProfile });
 
   if (!data) return;
   const {
@@ -19,7 +19,7 @@ function MyProfile() {
     myCommentCount,
     myKeepCount,
     abvDegree,
-  } = data
+  } = data;
 
   return (
     <section className="h-auto  p-6 bg-white rounded-2xl">

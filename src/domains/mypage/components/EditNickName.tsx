@@ -28,26 +28,26 @@ function EditNickName({
 }: Props) {
   const [defaultNickname, setDefaultNickname] = useState(nickname);
   const { toastSuccess, toastError } = useToast();
-  const { patchNickName } = useFetchProfile()
-  
+  const { patchNickName } = useFetchProfile();
+
   useEffect(() => {
     setEditNickName(nickname);
     setDefaultNickname(nickname);
   }, [nickname, setEditNickName]);
 
   const handlesave = async () => {
-      if (editNickName.length <= 1 || editNickName.length >= 8) {
-        toastError('닉네임은 2글자 이상 8글자 이내로 입력해야합니다');
-        return;
-      }
+    if (editNickName.length <= 1 || editNickName.length >= 8) {
+      toastError('닉네임은 2글자 이상 8글자 이내로 입력해야합니다');
+      return;
+    }
 
-      await setNickName(editNickName);
-      // CRUD중 CUD를 관리하는 메서드
-      await patchNickName.mutateAsync(editNickName)
+    await setNickName(editNickName);
+    // CRUD중 CUD를 관리하는 메서드
+    await patchNickName.mutateAsync(editNickName);
 
-      await setIsOpen(false);
-      toastSuccess('닉네임이 저장되었습니다.');
-  }
+    await setIsOpen(false);
+    toastSuccess('닉네임이 저장되었습니다.');
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEditNickName(e.target.value);

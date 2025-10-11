@@ -5,14 +5,13 @@ import { Suspense } from 'react';
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
-
-      <Suspense fallback={<SkeletonLayout />}>
-        <div className="max-w-1024 page-layout py-12">
-          <MyProfile />
-          <MyNav />
-          <div className="mt-5">{children}</div>
-        </div>
-      </Suspense>
+    <Suspense fallback={<SkeletonLayout />}>
+      <div className="max-w-1024 page-layout py-12">
+        <MyProfile />
+        <MyNav />
+        <div className="mt-5">{children}</div>
+      </div>
+    </Suspense>
   );
 }
 export default Layout;
