@@ -7,11 +7,11 @@ import { useEffect, useState } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 function MyComment() {
-const { user } = useAuthStore(
-  useShallow((state) => ({
-    user: state.user,
-  }))
-);
+  const { user } = useAuthStore(
+    useShallow((state) => ({
+      user: state.user,
+    }))
+  );
 
   const [myComment, setMyComment] = useState<CommentType[]>([]);
   const [isLoading] = useState<boolean>(false);
@@ -32,7 +32,12 @@ const { user } = useAuthStore(
   return (
     <section>
       {CommentList.length !== 0 ? (
-        <CommentList comments={myComment} isLoading={isLoading} myPage={true} currentUserNickname={user?.nickname} />
+        <CommentList
+          comments={myComment}
+          isLoading={isLoading}
+          myPage={true}
+          currentUserNickname={user?.nickname}
+        />
       ) : (
         <div className="flex justify-center">
           <p>작성한 댓글이 없습니다.</p>

@@ -9,28 +9,27 @@ interface Props {
   setData: Dispatch<SetStateAction<Cocktail[]>>;
 }
 
-function CocktailFilter({ cocktailsEA,setData }:Props) {
+function CocktailFilter({ cocktailsEA, setData }: Props) {
+  const sortMap = {
+    최신순: 'recent',
+    인기순: 'popular',
+    댓글순: 'comments',
+  };
+  const searchParams = useSearchParams();
+  const query = searchParams.get('sortBy');
+  const router = useRouter();
+  const handleChange = async (selectTitle: string) => {
+    if (!query) return;
+    try {
+      const res = await fetch(`${getApi}/cocktails`);
+      const json = await res.json();
+      setData(json.data);
+    } catch {
+      console.error();
+      console.log(selectTitle);
+    }
+  };
 
- const sortMap = {
-   최신순: 'recent',
-   인기순: 'popular',
-   댓글순: 'comments',
-  } 
-   const searchParams = useSearchParams();
-    const query = searchParams.get('sortBy');
-    const router = useRouter();
-    const handleChange = async (selectTitle: string) => {
-      if (!query) return;
-      try {
-        const res = await fetch(`${getApi}/cocktails`)
-        const json = await res.json()
-        setData(json.data)
-      } catch {
-        console.error()
-        console.log(selectTitle)
-      }
-    };
-  
   return (
     <div className="h-10 flex justify-between items-center mt-3 border-b-1 border-gray-light">
       <p>{cocktailsEA}개</p>

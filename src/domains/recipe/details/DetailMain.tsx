@@ -13,17 +13,17 @@ import RecipeComment from '../components/details/RecipeComment';
 import { getApi } from '@/app/api/config/appConfig';
 import { useAuthStore } from '@/domains/shared/store/auth';
 
-interface Kept{
-  cocktailId: number,
-  id: number,
-  keptAt:Date
+interface Kept {
+  cocktailId: number;
+  id: number;
+  keptAt: Date;
 }
 
 function DetailMain({ id }: { id: number }) {
-  const user = useAuthStore()
+  const user = useAuthStore();
   const [cocktail, setCocktail] = useState();
-  const [isKept, setIsKept] = useState<boolean|null>(null)
-  
+  const [isKept, setIsKept] = useState<boolean | null>(null);
+
   const fetchData = async () => {
     const res = await fetch(`${getApi}/cocktails/${id}`);
     const json = await res.json();
@@ -33,18 +33,16 @@ function DetailMain({ id }: { id: number }) {
     if (user) {
       const keepRes = await fetch(`${getApi}/me/bar`, {
         method: 'GET',
-        credentials:'include'
-      })
-      const keepjson = await keepRes.json()
-      if (!keepRes.ok) throw new Error('킵 한 아이템 호출 에러')
+        credentials: 'include',
+      });
+      const keepjson = await keepRes.json();
+      if (!keepRes.ok) throw new Error('킵 한 아이템 호출 에러');
       const keepIds = keepjson.data.map((a: Kept) => String(a.cocktailId));
       setIsKept(keepIds.includes(String(id)));
     } else {
-      setIsKept(false)
+      setIsKept(false);
     }
   };
-
-
 
   useEffect(() => {
     fetchData();

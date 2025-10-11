@@ -75,7 +75,7 @@ export function useScrollRestore({
         },
         { once: true }
       );
-      setTimeout(() => finish(), 1000); 
+      setTimeout(() => finish(), 1000);
     },
     [KEY]
   );

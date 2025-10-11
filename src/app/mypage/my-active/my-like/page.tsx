@@ -8,6 +8,6 @@ export const metadata: Metadata = {
 };
 
 function Page() {
-  // return <MyLike />;
+  return <MyLike />;
 }
 export default Page;

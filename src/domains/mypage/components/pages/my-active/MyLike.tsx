@@ -20,6 +20,14 @@ function MyLike() {
     fetchLike();
   }, []);
 
-  return <PostCard posts={myLike} isLoading={isLoading} />;
+  return (
+    <section className="flex justify-center">
+      {myLike.length > 0 ? (
+        <PostCard posts={myLike} isLoading={isLoading} />
+      ) : (
+        <div>아직 좋아요를 누른 글이 없습니다</div>
+      )}
+    </section>
+  );
 }
 export default MyLike;
