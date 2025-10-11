@@ -135,8 +135,6 @@ function Accordion({ setAlcoholBaseTypes, setCocktailTypes, setAlcoholStrengths 
     const newUrl = `${pathname}?${queryString}`;
 
     router.push(newUrl);
-    // shallow routing으로 URL만 변경
-    // window.history.pushState({ ...window.history.state, as: newUrl, url: newUrl }, '', newUrl);
   };
 
   return (

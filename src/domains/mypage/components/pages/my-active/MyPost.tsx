@@ -12,6 +12,7 @@ function MyPost() {
       credentials: 'include',
     });
     const json = await res.json();
+    console.log(json);
     setMyPost(json.data.items);
   };
 

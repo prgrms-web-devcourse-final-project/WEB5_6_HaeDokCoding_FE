@@ -2,7 +2,8 @@
 
 import { getApi } from '@/app/api/config/appConfig';
 import { Cocktail } from '../types/types';
-import { Dispatch, SetStateAction, useCallback } from 'react';
+import { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import { useAuthStore } from '@/domains/shared/store/auth';
 
 interface Props {
   setData: React.Dispatch<React.SetStateAction<Cocktail[]>>;
@@ -12,6 +13,7 @@ interface Props {
   setHasNextPage: Dispatch<SetStateAction<boolean>>;
   SIZE?: number;
 }
+
 // api/cocktais fetch용
 export const RecipeFetch = ({
   setData,
@@ -21,6 +23,7 @@ export const RecipeFetch = ({
   setHasNextPage,
   SIZE = 20,
 }: Props) => {
+  const user = useAuthStore();
   const fetchData = useCallback(async () => {
     // 쿼리파라미터에 값 넣기
     if (!hasNextPage) return;
@@ -29,17 +32,38 @@ export const RecipeFetch = ({
     if (typeof lastId === 'number') {
       url.searchParams.set('lastId', String(lastId));
     }
+    url.searchParams.set('LastValue', String(lastId));
 
-    const res = await fetch(url.toString(), { method: 'GET' });
-    if (!res.ok) throw new Error('레시피 데이터 요청실패');
+    const recipeRes = await fetch(url.toString(), {
+      method: 'GET',
+    });
+    if (!recipeRes.ok) throw new Error('데이터 요청 실패');
+    const recipeJson = await recipeRes.json();
+    const list: Cocktail[] = recipeJson.data ?? [];
 
-    const json = await res.json();
-    const list: Cocktail[] = json.data ?? [];
-
-    // 중복 아이디 에러있어서 Map으로 Merge
-    setData((prev) =>
-      Array.from(new Map([...prev, ...list].map((i) => [i.cocktailId, i])).values())
-    );
+    if (user) {
+      const keepRes = await fetch(`${getApi}/me/bar`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      const bars = keepRes.ok ? ((await keepRes.json()).data ?? []) : [];
+      const favoriteIds = new Set(bars.map((m: { cocktailId: number }) => m.cocktailId));
+      const merged = list.map((item) => ({
+        ...item,
+        isFavorited: favoriteIds.has(item.cocktailId),
+      }));
+      setData((prev) =>
+        Array.from(
+          new Map<number, Cocktail>([...prev, ...merged].map((i) => [i.cocktailId, i])).values()
+        )
+      );
+    } else {
+      setData((prev) =>
+        Array.from(
+          new Map<number, Cocktail>([...prev, ...list].map((i) => [i.cocktailId, i])).values()
+        )
+      );
+    }
 
     if (list.length > 0) {
       setLastId(list[list.length - 1].cocktailId);

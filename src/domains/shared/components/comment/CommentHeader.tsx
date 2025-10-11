@@ -60,7 +60,7 @@ function CommentHeader({
       intervalCall1000(async () => {
         const success = await createComment(newComment);
         if (!success) {
-          console.error('엔터키로 댓글 작성 실패');
+          console.log('칵테일 페이지에서 댓글은 한개만 입력 가능합니다');
         }
       });
     }

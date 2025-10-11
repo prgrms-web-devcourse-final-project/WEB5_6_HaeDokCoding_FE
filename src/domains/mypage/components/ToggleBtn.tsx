@@ -16,7 +16,6 @@ function ToggleBtn() {
           credentials: 'include',
         });
         const json = await res.json();
-        console.log(json);
         setIsAlarm(json.data.enabled);
       } catch {
         console.error();
