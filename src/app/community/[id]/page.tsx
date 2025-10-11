@@ -9,13 +9,15 @@ import { Post } from '@/domains/community/types/post';
 import Comment from '@/domains/community/detail/Comment';
 import StarBg from '@/domains/shared/components/star-bg/StarBg';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import DetailSkeleton from '@/domains/community/detail/DetailSkeleton';
 
 function Page() {
   const params = useParams();
   const [postDetail, setPostDetail] = useState<Post | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const commentRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const postId = params.id;
@@ -61,12 +63,16 @@ function Page() {
           likeCount={likeCount}
           commentCount={commentCount}
         />
-        <section className="mb-10">
+        <section ref={commentRef}>
           <Comment postId={postId} />
         </section>
       </article>
       <div className="hidden md:block">
-        <DetailTabDesktop likeCount={likeCount} commentCount={commentCount} />
+        <DetailTabDesktop
+          likeCount={likeCount}
+          commentCount={commentCount}
+          commentRef={commentRef}
+        />
       </div>
     </div>
   );
