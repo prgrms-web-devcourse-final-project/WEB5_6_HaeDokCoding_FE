@@ -5,9 +5,12 @@ import WithdrawModal from '@/domains/mypage/components/WithdrawModal';
 import TextButton from '@/shared/components/button/TextButton';
 import { useEffect, useState } from 'react';
 import useFetchProfile from '../api/fetchProfile';
+import { useQuery } from '@tanstack/react-query';
+
 
 function MySetting() {
-  const { profile } = useFetchProfile();
+  const { fetchProfile } = useFetchProfile();
+  const { data:profile } = useQuery({ queryKey: ['myProfile'], queryFn: fetchProfile });
   const [isOpen, setIsOpen] = useState(false);
   const [isQuit, setIsQuit] = useState(false);
   const [nickname, setNickName] = useState(profile?.nickname);

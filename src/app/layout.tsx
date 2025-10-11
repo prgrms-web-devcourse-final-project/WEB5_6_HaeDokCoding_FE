@@ -6,6 +6,8 @@ import FooterWrapper from '@/shared/components/footer/FooterWrapper';
 import ScrollTopBtnWrapper from '@/shared/components/scroll-top/ScrollTopBtnWrapper';
 import KaKaoScript from './api/kakao/KaKaoScript';
 import IdleHandler from '@/domains/login/components/IdleHandler';
+import Provider from '@/shared/api/Provider';
+
 
 export const metadata: Metadata = {
   title: { default: 'SSOUL', template: 'SSOUL | %s' },
@@ -21,24 +23,26 @@ export default function RootLayout({
   return (
     <html lang="ko-KR">
       <body className="relative flex flex-col min-h-screen">
-        <Header />
-        <IdleHandler />
-        <main className="flex flex-1 pt-[2.75rem] md:pt-[3.75rem]">{children}</main>
-        <FooterWrapper />
+        <Provider>
+          <Header />
+          <IdleHandler />
+          <main className="flex flex-1 pt-[2.75rem] md:pt-[3.75rem]">{children}</main>
+          <FooterWrapper />
 
-        <div id="modal-root"></div>
-        <Toaster
-          position="top-center"
-          toastOptions={{
-            duration: 2000,
-            style: {
-              minWidth: '340px',
-              background: 'transparent',
-            },
-          }}
-        />
+          <div id="modal-root"></div>
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              duration: 2000,
+              style: {
+                minWidth: '340px',
+                background: 'transparent',
+              },
+            }}
+          />
 
-        <ScrollTopBtnWrapper />
+          <ScrollTopBtnWrapper />
+        </Provider>
       </body>
       <KaKaoScript />
     </html>
