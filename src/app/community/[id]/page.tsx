@@ -77,7 +77,7 @@ function Page() {
     <div className="w-full relative mb-10">
       <StarBg className="w-full h-32 absolute"></StarBg>
       <article className="page-layout max-w-824 z-5">
-        <DetailHeader categoryName={categoryName} />
+        <DetailHeader categoryName={categoryName} postId={postId} />
         <DetailTitle title={title} userNickname={userNickName} />
         <DetailContent
           content={content}

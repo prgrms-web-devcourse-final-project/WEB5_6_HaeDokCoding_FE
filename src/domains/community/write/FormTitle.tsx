@@ -1,11 +1,12 @@
-import { RefObject } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { FormType } from './WriteSection';
 
 type Props = {
-  formData: RefObject<FormType>;
+  formData: FormType;
+  setFormData: Dispatch<SetStateAction<FormType>>;
 };
 
-function FormTitle({ formData }: Props) {
+function FormTitle({ formData, setFormData }: Props) {
   return (
     <div className="w-full h-[69px] relative border-b-1 border-gray mt-5 flex items-end pb-2">
       <label id="title-label" htmlFor="writingTitle" className="sr-only">
@@ -18,8 +19,9 @@ function FormTitle({ formData }: Props) {
         id="writingTitle"
         maxLength={20}
         aria-describedby="title-count"
+        value={formData.title}
         onChange={(e) => {
-          formData.current.title = e.currentTarget.value;
+          setFormData((prev) => ({ ...prev, title: e.target.value }));
         }}
       />
       <span id="title-count" aria-live="polite" className="text-gray ">

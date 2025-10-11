@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import DeleteIcon from '@/shared/assets/icons/close_20.svg';
-import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { UploadedItem } from '../WriteSection';
 import { getApi } from '@/app/api/config/appConfig';
@@ -17,6 +17,7 @@ function UploadedImage({ uploadedFile, setUploadedFile }: Props) {
   const prevLength = useRef(0);
 
   useEffect(() => {
+    console.log(uploadedFile);
     const isAdded = uploadedFile.length > prevLength.current;
     prevLength.current = uploadedFile.length;
 
@@ -35,14 +36,14 @@ function UploadedImage({ uploadedFile, setUploadedFile }: Props) {
     }
   }, [uploadedFile]);
 
-  const handleDelete = (lastModified: number) => {
+  const handleDelete = (url: string) => {
     setUploadedFile((prev) => {
-      const target = prev.find((p) => p.file.lastModified === lastModified);
+      const target = prev.find((p) => p.url === url);
 
       if (target) {
         deleteFileFromServer(target.url); // 서버에서 삭제 요청
       }
-      return prev.filter((p) => p.file.lastModified !== lastModified);
+      return prev.filter((p) => p.url !== url);
     });
   };
 
@@ -68,43 +69,42 @@ function UploadedImage({ uploadedFile, setUploadedFile }: Props) {
   return (
     <>
       {uploadedFile.length > 0 &&
-        uploadedFile.map(({ file }, index) => (
-          <figure
-            className="border-3 border-gray-light w-[100px] h-[100px] sm:w-[80px] sm:h-[80px] rounded-xl relative shrink-0"
-            key={file.lastModified}
-            ref={(el) => {
-              if (el) imageRefs.current[index] = el;
-            }}
-          >
-            {file.type.startsWith('image/') ? (
+        uploadedFile.map(({ file, url }, index) => {
+          const src = file ? URL.createObjectURL(file) : url;
+          console.log(file);
+
+          return (
+            <figure
+              key={url}
+              ref={(el) => {
+                if (el) imageRefs.current[index] = el;
+              }}
+              className="border-3 border-gray-light w-[100px] h-[100px] sm:w-[80px] sm:h-[80px] rounded-xl relative shrink-0"
+            >
               <Image
-                src={URL.createObjectURL(file)}
+                src={src}
                 alt="업로드된 이미지"
                 className="rounded-xl w-full h-full object-cover pointer-events-none"
                 width={100}
                 height={100}
+                unoptimized={true} // next/image가 외부 url 처리 못 하면 이 옵션도 추가 가능
               />
-            ) : file.type.startsWith('video/') ? (
-              <video
-                className="rounded-xl w-full h-full object-cover pointer-events-none"
-                src={URL.createObjectURL(file)}
-                controls
-                muted
-              />
-            ) : null}
-            <figcaption className="sr-only">업로드된 이미지입니다</figcaption>
-            <button
-              type="button"
-              className="bg-gray-light text-primary py-1 px-1 rounded-full absolute -top-2 -right-2 hover:bg-gray-light/90"
-              aria-label="이미지 삭제"
-              onClick={() => handleDelete(file.lastModified)}
-            >
-              <DeleteIcon />
-            </button>
-          </figure>
-        ))}
+              <figcaption className="sr-only">업로드된 이미지입니다</figcaption>
+              {url && (
+                <button
+                  type="button"
+                  className="bg-gray-light text-primary py-1 px-1 rounded-full absolute -top-2 -right-2 hover:bg-gray-light/90"
+                  aria-label="이미지 삭제"
+                  onClick={() => handleDelete(url)}
+                >
+                  <DeleteIcon />
+                </button>
+              )}
+            </figure>
+          );
+        })}
     </>
   );
 }
 
-export default UploadedImage;
+export default React.memo(UploadedImage);

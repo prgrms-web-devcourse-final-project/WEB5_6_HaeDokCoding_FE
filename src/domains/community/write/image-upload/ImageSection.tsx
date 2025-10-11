@@ -1,22 +1,23 @@
-import { Dispatch, RefObject, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import ImageInput from './ImageInput';
 import UploadedImage from './UploadedImage';
 import { FormType, UploadedItem } from '../WriteSection';
 
 type Props = {
-  formData: RefObject<FormType>;
+  formData: FormType;
+  setFormData: Dispatch<SetStateAction<FormType>>;
   uploadedFile: UploadedItem[];
   setUploadedFile: Dispatch<SetStateAction<UploadedItem[]>>;
 };
 
-function ImageSection({ formData, uploadedFile, setUploadedFile }: Props) {
+function ImageSection({ formData, setFormData, uploadedFile, setUploadedFile }: Props) {
   useEffect(() => {
     console.log(uploadedFile);
   }, [uploadedFile]);
 
   useEffect(() => {
-    formData.current.imageUrls = uploadedFile.map((file) => file.url);
-    console.log(formData.current.imageUrls);
+    setFormData((prev) => ({ ...prev, imageUrls: uploadedFile.map((file) => file.url) }));
+    console.log(formData.imageUrls);
   }, [uploadedFile]);
 
   return (
