@@ -5,6 +5,7 @@ import Header from '@/shared/components/header/Header';
 import FooterWrapper from '@/shared/components/footer/FooterWrapper';
 import ScrollTopBtnWrapper from '@/shared/components/scroll-top/ScrollTopBtnWrapper';
 import KaKaoScript from './api/kakao/KaKaoScript';
+import IdleHandler from '@/domains/login/components/IdleHandler';
 
 export const metadata: Metadata = {
   title: { default: 'SSOUL', template: 'SSOUL | %s' },
@@ -21,6 +22,7 @@ export default function RootLayout({
     <html lang="ko-KR">
       <body className="relative flex flex-col min-h-screen">
         <Header />
+        <IdleHandler />
         <main className="flex flex-1 pt-[2.75rem] md:pt-[3.75rem]">{children}</main>
         <FooterWrapper />
 
