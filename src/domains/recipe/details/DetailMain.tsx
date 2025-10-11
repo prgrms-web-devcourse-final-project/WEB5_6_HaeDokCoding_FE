@@ -32,7 +32,7 @@ function DetailMain({ id }: { id: number }) {
 
     if (!user) {
       setIsKept(false);
-      return
+      return;
     } else {
       const keepRes = await fetch(`${getApi}/me/bar`, {
         method: 'GET',

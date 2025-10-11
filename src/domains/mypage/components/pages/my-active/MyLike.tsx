@@ -8,7 +8,7 @@ function MyLike() {
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchLike = async () => {
-    const res = await fetch(`${getApi}/me/likes/posts`, {
+    const res = await fetch(`${getApi}/me/likes`, {
       method: 'GET',
       credentials: 'include',
     });
