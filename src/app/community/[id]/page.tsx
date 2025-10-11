@@ -47,7 +47,7 @@ function Page() {
   } = postDetail;
 
   return (
-    <div className="w-full relative">
+    <div className="w-full relative mb-20">
       <StarBg className="w-full h-32 absolute"></StarBg>
       <article className="page-layout max-w-824 z-5">
         <DetailHeader categoryName={categoryName} />

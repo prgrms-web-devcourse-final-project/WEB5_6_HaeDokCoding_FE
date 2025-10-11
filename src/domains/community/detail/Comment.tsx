@@ -32,7 +32,7 @@ function Comment({ postId }: Props) {
 
   return (
     <>
-      <section className="mb-20 border-t-1 border-gray ">
+      <section className=" border-t-1 border-gray ">
         <CommentHeader
           postId={postId}
           comments={comments}

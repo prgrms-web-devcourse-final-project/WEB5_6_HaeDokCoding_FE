@@ -173,6 +173,7 @@ function CommentList({
                 padding: '1rem',
                 color: '#999',
                 fontSize: '14px',
+                marginTop: '10rem',
               }}
             >
               더 이상 댓글이 없어요.
