@@ -4,12 +4,14 @@ import Share from '@/domains/shared/components/share/Share';
 import CommentBtn from '../../components/comment/CommentBtn';
 import LikeBtn from '../../components/like/LikeBtn';
 import ShareModal from '@/domains/shared/components/share/ShareModal';
-import { RefObject, useState } from 'react';
+import { RefObject } from 'react';
 
 type Props = {
   likeCount: number;
   commentCount: number;
   commentRef: RefObject<HTMLElement | null>;
+  like: boolean;
+  onLikeToggle: () => void;
 };
 
 // interface Meta {
@@ -18,7 +20,7 @@ type Props = {
 //   url: string;
 // }
 
-function DetailTabDesktop({ likeCount, commentCount, commentRef }: Props) {
+function DetailTabDesktop({ likeCount, commentCount, commentRef, like, onLikeToggle }: Props) {
   // const [isShare, setIsShare] = useState(false);
   // const [meta, setMeta] = useState<Meta | null>(null);
 
@@ -38,7 +40,7 @@ function DetailTabDesktop({ likeCount, commentCount, commentRef }: Props) {
         <div className="sticky top-[183px]">
           <div className="flex md:flex-col md:gap-10 w-full h-full">
             <div className="flex md:flex-col justify-center items-center gap-2 text-sm text-gray">
-              <LikeBtn size="md" />
+              <LikeBtn size="md" onClick={onLikeToggle} isClick={like} />
               <span>{likeCount}</span>
             </div>
             <div className="flex md:flex-col justify-center items-center gap-2 text-sm text-gray">

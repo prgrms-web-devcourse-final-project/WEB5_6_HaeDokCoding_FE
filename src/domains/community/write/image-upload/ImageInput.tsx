@@ -20,12 +20,12 @@ function ImageInput({ setUploadedFile }: Props) {
 
     try {
       // 서버 업로드
-      const urls = await uploadFiles(newFiles);
+      const urls: string[] = await uploadFiles(newFiles);
       console.log(urls);
 
       setUploadedFile((prev) => {
         const existingUrls = new Set(prev.map((item) => item.url)); // ✅ 중복 검사 기준
-        const newItems = urls.map((url, i) => ({
+        const newItems = urls.map((url: string, i: number) => ({
           file: newFiles[i],
           url,
         }));
@@ -43,7 +43,7 @@ function ImageInput({ setUploadedFile }: Props) {
     }
   };
 
-  const uploadFiles = async (files: File[]) => {
+  const uploadFiles = async (files: File[]): Promise<string[]> => {
     console.log('들어온파일', files);
     if (files.length === 0) return []; // 선택된 파일이 없으면 빈 배열 반환
 
@@ -57,12 +57,13 @@ function ImageInput({ setUploadedFile }: Props) {
 
     if (!res.ok) throw new Error('파일 업로드 실패');
 
-    const text = await res.text();
-    console.log('서버 응답 텍스트:', text);
+    const data = await res.json(); // ✅ JSON으로 받기
+    console.log('서버 응답:', data);
 
     // URL 추출 정규식 (http/https로 시작해서 공백까지)
     const urlRegex = /(https?:\/\/[^\s]+)/g;
-    const matched = text.match(urlRegex);
+    const matched = data.data.match(urlRegex);
+    console.log(matched);
 
     if (!matched) throw new Error('URL 파싱 실패');
 

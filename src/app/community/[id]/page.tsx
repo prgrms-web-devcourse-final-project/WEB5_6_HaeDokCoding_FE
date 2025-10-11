@@ -1,6 +1,6 @@
 'use client';
 
-import { fetchPostById } from '@/domains/community/api/fetchPost';
+import { fetchPostById, likePost } from '@/domains/community/api/fetchPost';
 import DetailContent from '@/domains/community/detail/DetailContent';
 import DetailHeader from '@/domains/community/detail/DetailHeader';
 import DetailTitle from '@/domains/community/detail/DetailTitle';
@@ -16,6 +16,8 @@ function Page() {
   const params = useParams();
   const [postDetail, setPostDetail] = useState<Post | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [like, setLike] = useState(false);
+  const [prevLikeCount, setPrevLikeCount] = useState<number | undefined>(0);
 
   const commentRef = useRef<HTMLElement | null>(null);
 
@@ -31,6 +33,14 @@ function Page() {
     };
     fetchData();
   }, [params.id, setPostDetail]);
+
+  useEffect(() => {
+    if (postDetail) {
+      setPrevLikeCount(postDetail.likeCount);
+      // 여기에 isLiked도 함께 받아오면 setLike(postDetail.isLiked);
+      console.log(prevLikeCount);
+    }
+  }, [postDetail]);
 
   if (isLoading) return <DetailSkeleton />;
   if (!postDetail) return null;
@@ -48,8 +58,23 @@ function Page() {
     commentCount,
   } = postDetail;
 
+  const handleLike = async () => {
+    setLike((prev) => !prev);
+    setPrevLikeCount((prev) => {
+      return like ? prev! - 1 : prev! + 1;
+    });
+
+    try {
+      await likePost(postId); // POST 요청 한 번으로 토글 처리
+    } catch (err) {
+      console.error('좋아요 토글 실패', err);
+      setLike((prev) => !prev);
+      setPrevLikeCount((prev) => (like ? prev! + 1 : prev! - 1));
+    }
+  };
+
   return (
-    <div className="w-full relative mb-20">
+    <div className="w-full relative mb-10">
       <StarBg className="w-full h-32 absolute"></StarBg>
       <article className="page-layout max-w-824 z-5">
         <DetailHeader categoryName={categoryName} />
@@ -60,8 +85,10 @@ function Page() {
           viewCount={viewCount}
           postId={postId}
           tags={tags}
-          likeCount={likeCount}
+          prevLikeCount={prevLikeCount ?? 0}
           commentCount={commentCount}
+          like={like}
+          onLikeToggle={handleLike}
         />
         <section ref={commentRef}>
           <Comment postId={postId} />
@@ -69,9 +96,11 @@ function Page() {
       </article>
       <div className="hidden md:block">
         <DetailTabDesktop
-          likeCount={likeCount}
+          likeCount={prevLikeCount ?? 0}
           commentCount={commentCount}
           commentRef={commentRef}
+          like={like}
+          onLikeToggle={handleLike}
         />
       </div>
     </div>

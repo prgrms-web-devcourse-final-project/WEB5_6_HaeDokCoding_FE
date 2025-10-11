@@ -87,3 +87,13 @@ export const fetchPostByTab = async ({
     return null;
   }
 };
+
+export async function likePost(postId: number) {
+  const res = await fetch(`${getApi}/posts/${postId}/like`, {
+    method: 'POST',
+    credentials: 'include',
+  });
+  const text = await res.text();
+  console.log('▶ 응답 텍스트:', text);
+  if (!res.ok) throw new Error('좋아요 실패');
+}

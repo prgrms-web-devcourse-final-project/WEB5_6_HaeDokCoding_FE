@@ -54,20 +54,23 @@ function WriteSection({ setIsOpen }: Props) {
 
     console.log(formData.current.categoryName);
     const categoryId = tabItem.findIndex((tab) => tab.label === formData.current.categoryName);
-    console.log(categoryId);
 
     if (categoryId === -1) {
       toastError('카테고리를 선택해주세요.');
       return;
     }
-
     const payload = new FormData();
     const postJson = {
       title: formData.current.title,
       content: formData.current.content,
       categoryId: categoryId,
-      imageUrls: uploadedFile.map((file) => file.url),
+      imageUrls: uploadedFile.map((file) => {
+        console.log(file.url);
+        return file.url;
+      }),
     };
+    console.log(postJson);
+    console.log(JSON.stringify(postJson, null, 2));
 
     const postBlob = new Blob([JSON.stringify(postJson)], { type: 'application/json' });
     payload.append('post', postBlob);
