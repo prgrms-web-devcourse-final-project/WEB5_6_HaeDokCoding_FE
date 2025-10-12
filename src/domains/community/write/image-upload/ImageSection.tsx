@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import ImageInput from './ImageInput';
 import UploadedImage from './UploadedImage';
-import { FormType, UploadedItem } from '../WriteSection';
+import { FormType, UploadedItem } from '@/domains/recipe/types/types';
 
 type Props = {
   formData: FormType;
