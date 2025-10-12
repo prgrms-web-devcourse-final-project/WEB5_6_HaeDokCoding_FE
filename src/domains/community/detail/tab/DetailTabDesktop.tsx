@@ -6,6 +6,7 @@ import LikeBtn from '../../components/like/LikeBtn';
 import ShareModal from '@/domains/shared/components/share/ShareModal';
 import { RefObject, useState } from 'react';
 import { useParams } from 'next/navigation';
+import { CommentType } from '../../types/post';
 
 type Props = {
   likeCount: number;
@@ -15,6 +16,7 @@ type Props = {
   onLikeToggle: () => void;
   title: string;
   imageUrls: string[];
+  comments: CommentType[] | null;
 };
 
 interface Meta {
@@ -31,6 +33,7 @@ function DetailTabDesktop({
   onLikeToggle,
   title,
   imageUrls,
+  comments,
 }: Props) {
   const [isShare, setIsShare] = useState(false);
   const [meta, setMeta] = useState<Meta | null>(null);
@@ -76,7 +79,7 @@ function DetailTabDesktop({
             </div>
             <div className="flex md:flex-col justify-center items-center gap-2 text-sm text-gray">
               <CommentBtn size="md" onClick={handleClick} />
-              <span>{commentCount}</span>
+              <span>{comments?.length}</span>
             </div>
             <div>
               <Share variants="community" size="md" onClick={handleShareClick} />

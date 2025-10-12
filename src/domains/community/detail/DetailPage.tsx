@@ -14,10 +14,13 @@ import { useParams } from 'next/navigation';
 import { useAuthStore } from '@/domains/shared/store/auth';
 import Button from '@/shared/components/button/Button';
 import { useRouter } from 'next/navigation';
+import { useComments } from '../hook/useComment';
 
 function DetailPage() {
   const params = useParams();
   const postId = params.id;
+
+  const user = useAuthStore((state) => state.user);
 
   const [postDetail, setPostDetail] = useState<Post | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,6 +29,8 @@ function DetailPage() {
 
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const router = useRouter();
+
+  const { comments } = useComments(postId, user);
 
   const commentRef = useRef<HTMLElement | null>(null);
 
@@ -128,6 +133,7 @@ function DetailPage() {
               onLikeToggle={handleLike}
               title={title}
               imageUrls={imageUrls}
+              comments={comments}
             />
           </div>
         )}
