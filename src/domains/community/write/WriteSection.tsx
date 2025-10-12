@@ -175,6 +175,7 @@ function WriteSection({ mode, postId }: Props) {
 
   // 실제 수정 처리만 담당 (이벤트 비의존)
   const handleEditLogic = async (): Promise<boolean> => {
+    console.log(postId);
     if (!postId) {
       toastError('게시글 ID가 없습니다.');
       return false; // 실패 시 false 반환
@@ -234,7 +235,6 @@ function WriteSection({ mode, postId }: Props) {
   // 폼 제출용 핸들러 (이벤트 객체 받아서 preventDefault 처리)
   const handleEditSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await handleEditLogic();
   };
 
   if (isLoading) <DetailSkeleton />;
@@ -281,6 +281,7 @@ function WriteSection({ mode, postId }: Props) {
           onCancel={() => setEditDone(false)}
           onConfirm={async () => {
             setEditDone(false);
+            await handleEditLogic();
             router.push(`/community/${postId}`);
           }}
           title="수정 완료"

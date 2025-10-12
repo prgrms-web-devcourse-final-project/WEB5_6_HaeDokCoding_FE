@@ -14,10 +14,7 @@ function CompleteBtn({ mode, setEditDone, handleEditLogic }: Props) {
         size="default"
         color="default"
         onClick={async () => {
-          const success = await handleEditLogic();
-          if (success) {
-            setEditDone(true);
-          }
+          setEditDone(true);
         }}
       >
         {mode === 'create' ? '올리기' : '수정하기'}
