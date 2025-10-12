@@ -10,7 +10,6 @@ import CocktailSearchBar from './CocktailSearchBar';
 import useSearchControl from '../../hook/useSearchControl';
 import CocktailSearch from '../../api/CocktailSearch';
 
-
 function Cocktails() {
   const [data, setData] = useState<Cocktail[]>([]);
   const [lastId, setLastId] = useState<number | null>(null);
