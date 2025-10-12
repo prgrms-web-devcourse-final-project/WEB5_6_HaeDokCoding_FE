@@ -33,7 +33,12 @@ function BotMessage({
   onSelectedOption,
   isTyping,
 }: BotMessages) {
-  const [selected, setSelected] = useState('');
+  const [selectedOptions, setSelectedOptions] = useState<Record<number, string>>({});
+
+  const handleOptionChange = (step: number, value: string) => {
+    setSelectedOptions((prev) => ({ ...prev, [step]: value }));
+    onSelectedOption?.(value); // 부모로 단일 값 전달
+  };
 
   return (
     <article aria-label="취향추천 챗봇 메시지" className="">
@@ -69,13 +74,10 @@ function BotMessage({
               {msg.type === 'RADIO_OPTIONS' && msg.options?.length && (
                 <BotOptions
                   options={msg.options}
-                  step={stepData?.currentStep ?? 0}
-                  currentStep={currentStep ?? 0}
-                  value={selected}
-                  onChange={(val) => {
-                    setSelected(val);
-                    onSelectedOption?.(val);
-                  }}
+                  step={stepData?.currentStep ?? 0} // step id용
+                  value={selectedOptions[stepData?.currentStep ?? 0] ?? ''} // step별 선택값
+                  onChange={(val) => handleOptionChange(stepData?.currentStep ?? 0, val)}
+                  disabled={currentStep ? currentStep > (stepData?.currentStep ?? 0) : false} // disabled 처리
                 />
               )}
               {/* {children} */}

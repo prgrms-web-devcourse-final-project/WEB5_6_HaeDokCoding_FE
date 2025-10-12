@@ -8,10 +8,18 @@ interface BotOptionsProps {
   value: string;
   onChange: (value: string) => void;
   step: number;
-  currentStep: number;
+  currentStep?: number;
+  disabled?: boolean;
 }
 
-function BotOptions({ options, value, onChange, step, currentStep }: BotOptionsProps) {
+function BotOptions({
+  options,
+  value,
+  onChange,
+  step,
+  currentStep,
+  disabled = false,
+}: BotOptionsProps) {
   return (
     <div role="radiogroup" className="flex flex-col gap-3 mt-5">
       {options.map((opt) => (
@@ -27,7 +35,7 @@ function BotOptions({ options, value, onChange, step, currentStep }: BotOptionsP
             value={opt.value}
             checked={value === opt.value}
             onChange={() => onChange(opt.value)}
-            disabled={currentStep > step && value !== opt.value}
+            disabled={disabled}
             className="sr-only"
           />
           <span
@@ -37,9 +45,9 @@ function BotOptions({ options, value, onChange, step, currentStep }: BotOptionsP
                   ? 'bg-secondary shadow-[inset_0_0_6px_rgba(255,196,1,1)]'
                   : 'bg-gray-light'
               } 
-              ${currentStep > step && value !== opt.value ? 'cursor-not-allowed bg-gray-light' : 'hover:bg-secondary'}`}
+              ${disabled ? 'cursor-not-allowed bg-gray-light' : 'hover:bg-secondary'}`}
           >
-            <span>{opt.label}</span>
+            {opt.label}
           </span>
         </label>
       ))}
