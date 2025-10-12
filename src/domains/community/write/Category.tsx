@@ -1,5 +1,6 @@
+import { FormType } from '@/domains/recipe/types/types';
 import SelectBox from '@/shared/components/select-box/SelectBox';
-import { FormType } from './WriteSection';
+
 import { Dispatch, SetStateAction } from 'react';
 
 type Props = {
