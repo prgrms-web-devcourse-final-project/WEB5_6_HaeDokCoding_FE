@@ -1,5 +1,5 @@
+import { FormType } from '@/domains/recipe/types/types';
 import { Dispatch, SetStateAction } from 'react';
-import { FormType } from './WriteSection';
 
 type Props = {
   formData: FormType;

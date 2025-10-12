@@ -11,31 +11,13 @@ import { useRouter } from 'next/navigation';
 import { ParamValue } from 'next/dist/server/request/params';
 import CocktailTag from '../components/tag/CocktailTag';
 import TagModal from './cocktail-tag/TagModal';
-
-export type FormType = {
-  categoryName: string;
-  title: string;
-  content: string;
-  imageUrls: string[];
-  tags: string[];
-};
+import { FormType, TagType, UploadedItem } from '@/domains/recipe/types/types';
+import { fetchCocktails } from '../api/fetchCocktails';
+import { fetchPostById } from '../api/fetchPost';
 
 type Props = {
   mode: 'create' | 'edit';
   postId?: ParamValue;
-};
-
-export type UploadedItem = {
-  file: File;
-  url: string;
-};
-
-export type TagType = {
-  alcoholStrength: string;
-  cocktailId: number;
-  cocktailImgUrl: string;
-  cocktailName: string;
-  cocktailNameKo: string;
 };
 
 function WriteSection({ mode, postId }: Props) {
@@ -58,12 +40,8 @@ function WriteSection({ mode, postId }: Props) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(`${getApi}/cocktails`, {
-        method: 'GET',
-      });
-      const data = await res.json();
-      console.log(data);
-      setTags(data.data);
+      const res = await fetchCocktails();
+      setTags(res);
     };
     fetchData();
   }, [setTags]);
@@ -72,33 +50,22 @@ function WriteSection({ mode, postId }: Props) {
     if (mode === 'edit' && postId) {
       (async () => {
         try {
-          const res = await fetch(`${getApi}/posts/${postId}`, {
-            method: 'GET',
-            credentials: 'include',
-          });
-          if (!res.ok) {
-            throw new Error('게시글 불러오기 실패');
-          }
-          const data = await res.json();
+          const data = await fetchPostById(postId);
 
-          // API에서 받아오는 데이터 구조에 맞게 매핑 필요
           setFormData({
-            categoryName: data.data.categoryName,
-            title: data.data.title,
-            content: data.data.content,
-            imageUrls: data.data.imageUrls || [],
-            tags: data.data.tags || [],
+            categoryName: data.categoryName,
+            title: data.title,
+            content: data.content,
+            imageUrls: data.imageUrls || [],
+            tags: data.tags || [],
           });
 
-          // imageUrls가 있을 경우 uploadedFile 상태도 세팅
           setUploadedFile(
-            (data.data.imageUrls || []).map((url: string) => ({
-              file: null, // 실제 File은 없지만 url만 세팅 (필요시 수정)
+            (data.imageUrls || []).map((url: string) => ({
+              file: null,
               url,
             }))
           );
-
-          // 필요하면 강제로 화면 갱신하기 위해 상태 하나 두고 set 하는 방법도 있음
         } catch (error) {
           console.error(error);
         }
