@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import prePost from '@/shared/assets/images/prepost_img.webp';
 
 import PostInfo from '../components/post-info/PostInfo';
 import Label from '@/domains/shared/components/label/Label';
@@ -17,7 +16,7 @@ type Props = {
   isLoading: boolean;
   setIsLoading?: (value: boolean) => void;
   isEnd?: boolean;
-  onLoadMore?: (lastCommentId: number) => void;
+  onLoadMore?: (lastPostId: number) => Promise<void>;
 };
 
 function PostCard({ posts, isLoading, isEnd, onLoadMore }: Props) {
@@ -54,7 +53,7 @@ function PostCard({ posts, isLoading, isEnd, onLoadMore }: Props) {
               viewCount,
               createdAt,
               commentCount,
-              imageUrl,
+              imageUrls,
             },
             index
           ) => {
@@ -65,7 +64,9 @@ function PostCard({ posts, isLoading, isEnd, onLoadMore }: Props) {
                 key={postId}
                 ref={(el) => {
                   if (index === 0) firstItemRef.current = el;
-                  if (isLast) observeLastItem(el);
+                  if (isLast) {
+                    observeLastItem(el);
+                  }
                 }}
               >
                 <Label title={categoryName} />
@@ -79,7 +80,7 @@ function PostCard({ posts, isLoading, isEnd, onLoadMore }: Props) {
                     <p className="font-bold sm:text-xl text-lg">{title}</p>
                     <div className="font-light sm:text-[15px] text-sm md:max-w-[820px] sm:max-w-[440px] max-w-[210px] h-full">
                       <p
-                        className="h-10"
+                        className="h-10 whitespace-pre-line"
                         style={{
                           display: '-webkit-box',
                           WebkitBoxOrient: 'vertical',
@@ -100,13 +101,13 @@ function PostCard({ posts, isLoading, isEnd, onLoadMore }: Props) {
                     />
                   </div>
                   <figure className="flex items-center flex-shrink-0 md:w-[115px] md:h-[115px] w-[85px] h-[85px]">
-                    {imageUrl && (
+                    {imageUrls.length > 0 && (
                       <Image
-                        src={prePost}
+                        src={imageUrls[0]}
                         alt="예비사진"
                         width={105}
                         height={105}
-                        className="w-full h-full object-cover self-center"
+                        className="w-full h-full object-cover self-center rounded-md"
                       />
                     )}
                   </figure>

@@ -3,7 +3,6 @@
 import tw from '@/shared/utills/tw';
 import { Post } from '../types/post';
 import { useState } from 'react';
-import { fetchPost, fetchPostByTab } from '../api/fetchPost';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 type Props = {

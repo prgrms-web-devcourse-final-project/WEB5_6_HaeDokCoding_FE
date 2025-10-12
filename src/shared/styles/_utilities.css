@@ -109,4 +109,22 @@
   .animate-fadeIn {
     animation: fadeIn 0.3s ease-out forwards;
   }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: var(--color-secondary) !important; /* 버튼 색상 */
+    width: 30px; /* 너비 */
+    height: 30px; /* 높이 */
+    border-radius: 9999px; /* 동그랗게 */
+    padding: 10px;
+  }
+
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    font-size: 14px; /* 아이콘 크기 줄이기 */
+  }
+
+  .swiper-pagination-bullet-active {
+    background: var(--color-secondary) !important;
+  }
 }

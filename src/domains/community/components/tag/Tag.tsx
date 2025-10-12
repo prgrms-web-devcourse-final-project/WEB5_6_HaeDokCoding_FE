@@ -10,7 +10,7 @@ function Tag({ use, onClick }: Props) {
     <button
       type="button"
       onClick={onClick}
-      className="flex gap-1 items-center justify-center text-sm text-secondary border-1 border-gray p-1 rounded-3xl cursor-pointer w-32 hover:bg-secondary/10 transition-colors duration-75"
+      className="flex gap-1 items-center justify-center text-sm text-secondary border-1 border-gray p-1 rounded-3xl cursor-pointer min-w-32 hover:bg-secondary/10 transition-colors duration-75"
       aria-label="칵테일 태그 선택"
     >
       <TagIcon />

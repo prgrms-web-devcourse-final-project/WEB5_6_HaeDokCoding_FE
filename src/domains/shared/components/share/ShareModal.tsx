@@ -14,7 +14,7 @@ import {
 interface Props {
   open: boolean;
   onClose: () => void;
-  src: string;
+  src: string | undefined;
   title: string;
   url: string;
 }
@@ -23,7 +23,7 @@ function ShareModal({ open, onClose, src, title, url }: Props) {
   const { toastSuccess } = useToast();
 
   const handleKakao = () => {
-    handleShareKakao(title, src, url);
+    handleShareKakao(title, src ?? '', url);
   };
 
   const onCopyLink = () => {

@@ -78,6 +78,7 @@ function SelectBox({ id, groupKey, ref, option, title, value, onChange, use }: P
         className="flex gap-2 cursor-pointer text-base"
         onClick={toggle}
         aria-expanded={isOpen}
+        type="button"
       >
         {select ? select : title}
         {localOpen ? (
