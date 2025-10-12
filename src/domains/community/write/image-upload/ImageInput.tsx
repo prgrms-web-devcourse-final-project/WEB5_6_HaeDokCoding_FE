@@ -5,10 +5,12 @@ import { useToast } from '@/shared/hook/useToast';
 import { Dispatch, SetStateAction } from 'react';
 
 type Props = {
+  uploadedFile: UploadedItem[];
   setUploadedFile: Dispatch<SetStateAction<UploadedItem[]>>;
+  onAddImage: (newFiles: UploadedItem[]) => void;
 };
 
-function ImageInput({ setUploadedFile }: Props) {
+function ImageInput({ uploadedFile, setUploadedFile, onAddImage }: Props) {
   const { toastError } = useToast();
 
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,36 +18,39 @@ function ImageInput({ setUploadedFile }: Props) {
     if (!newFileList) return;
 
     const newFiles = Array.from(newFileList);
-    console.log(newFiles);
 
     try {
-      // 서버 업로드
       const urls: string[] = await uploadFiles(newFiles);
-      console.log(urls);
 
-      setUploadedFile((prev) => {
-        const existingUrls = new Set(prev.map((item) => item.url)); // ✅ 중복 검사 기준
-        const newItems = urls.map((url: string, i: number) => ({
-          file: newFiles[i],
-          url,
-        }));
-        const filteredItems = newItems.filter((item) => !existingUrls.has(item.url)); // ✅ 필터링
+      const newItems: UploadedItem[] = urls.map((url, i) => ({
+        file: newFiles[i],
+        url,
+      }));
 
-        if (prev.length + urls.length > 10) {
-          toastError('최대 10개 파일까지 업로드할 수 있어요.');
-          return prev;
-        }
+      const totalLength = uploadedFile.length + newItems.length;
 
-        return [...prev, ...filteredItems];
-      });
+      if (totalLength > 10) {
+        toastError('최대 10개 파일까지 업로드할 수 있어요.');
+        return;
+      }
+
+      // 중복 제거
+      const existingUrls = new Set(uploadedFile.map((item) => item.url));
+      const filteredItems = newItems.filter((item) => !existingUrls.has(item.url));
+
+      if (filteredItems.length === 0) {
+        toastError('이미 업로드된 파일입니다.');
+        return;
+      }
+
+      onAddImage(filteredItems); // ✅ 상위에서 상태 업데이트
     } catch (error) {
       toastError('파일 업로드 실패');
     }
   };
 
   const uploadFiles = async (files: File[]): Promise<string[]> => {
-    console.log('들어온파일', files);
-    if (files.length === 0) return []; // 선택된 파일이 없으면 빈 배열 반환
+    if (files.length === 0) return [];
 
     const formData = new FormData();
     files.forEach((file) => formData.append('file', file));
@@ -57,17 +62,13 @@ function ImageInput({ setUploadedFile }: Props) {
 
     if (!res.ok) throw new Error('파일 업로드 실패');
 
-    const data = await res.json(); // ✅ JSON으로 받기
-    console.log('서버 응답:', data);
-
-    // URL 추출 정규식 (http/https로 시작해서 공백까지)
+    const data = await res.json();
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     const matched = data.data.match(urlRegex);
-    console.log(matched);
 
     if (!matched) throw new Error('URL 파싱 실패');
 
-    return matched; // 배열로 반환
+    return matched;
   };
 
   return (
@@ -78,7 +79,7 @@ function ImageInput({ setUploadedFile }: Props) {
       >
         <ImageBox />
         <div className="flex items-center md:text-md text-sm">
-          <span>0</span>
+          <span>{uploadedFile.length}</span>
           <span>/</span>
           <span>10</span>
         </div>
