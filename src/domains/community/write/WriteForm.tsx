@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
-import { FormType } from './WriteSection';
+import { FormType } from '@/domains/recipe/types/types';
+import { Dispatch, SetStateAction, useRef } from 'react';
 
 type Props = {
   formData: FormType;
@@ -9,14 +9,6 @@ type Props = {
 function WriteForm({ formData, setFormData }: Props) {
   const divRef = useRef<HTMLDivElement>(null);
 
-  // formData.content가 바뀔 때만 DOM 업데이트
-  // useEffect(() => {
-  //   console.log('useEffect 실행', divRef.current);
-  //   if (!divRef.current) return; // null 체크 추가
-  //   if (divRef.current.innerText !== formData.content) {
-  //     divRef.current.innerText = formData.content;
-  //   }
-  // }, [formData.content]);
   return (
     <div className="mt-5">
       <label htmlFor="content" className="sr-only">
