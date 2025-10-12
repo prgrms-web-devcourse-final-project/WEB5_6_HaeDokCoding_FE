@@ -66,7 +66,7 @@ function CommentList({
         aria-label="댓글 목록"
         className="flex flex-col mt-6 overflow-y-auto"
         ref={parentRef}
-        style={{ height: '600px', position: 'relative' }}
+        style={{ maxHeight: '600px', position: 'relative' }}
       >
         <ul style={{ height: rowVirtualizer.getTotalSize(), position: 'relative' }}>
           {rowVirtualizer.getVirtualItems().map(({ index, key, start }) => {
@@ -173,7 +173,7 @@ function CommentList({
                 padding: '1rem',
                 color: '#999',
                 fontSize: '14px',
-                marginTop: '10rem',
+                marginTop: '5rem',
               }}
             >
               더 이상 댓글이 없어요.
