@@ -2,7 +2,13 @@ import { Metadata } from 'next';
 import { getApi } from '@/app/api/config/appConfig';
 import DetailPage from '@/domains/community/detail/DetailPage';
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = params;
   const res = await fetch(`${getApi}/posts/${id}`, {
     cache: 'no-store',
@@ -10,10 +16,10 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   const post = await res.json();
   console.log(post);
   return {
-    title: `${post.title}`,
+    title: post.title,
     description: post.content?.slice(0, 80),
     openGraph: {
-      title: `${post.title}`,
+      title: post.title,
       description: post.content?.slice(0, 80),
       url: `https://your-domain.com/community/${id}`,
       images: [
