@@ -175,7 +175,6 @@ function WriteSection({ mode, postId }: Props) {
 
   // 실제 수정 처리만 담당 (이벤트 비의존)
   const handleEditLogic = async (): Promise<boolean> => {
-    console.log(postId);
     if (!postId) {
       toastError('게시글 ID가 없습니다.');
       return false; // 실패 시 false 반환
@@ -274,7 +273,7 @@ function WriteSection({ mode, postId }: Props) {
           debouncedFetch={debouncedFetch}
         />
       )}
-      {editDone && (
+      {mode === 'edit' && editDone && (
         <ConfirmModal
           open={editDone}
           onClose={() => setEditDone(false)}
