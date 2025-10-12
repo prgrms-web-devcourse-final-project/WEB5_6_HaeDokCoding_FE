@@ -10,10 +10,10 @@ function Profile({ userNickname }: Props) {
   const { profile, fetchProfile } = useFetchProfile();
   useEffect(() => {
     fetchProfile();
-  }, [profile?.abvLevel]);
+  }, [fetchProfile, profile?.data?.abvLevel]);
 
-  if (!profile) return;
-  const { abvLevel } = profile;
+  if (!profile?.data) return null;
+  const { abvLevel } = profile.data;
 
   return (
     <div className="flex gap-2 items-center justify-start">
