@@ -216,8 +216,7 @@ function WriteSection({ mode, postId }: Props) {
         return;
       }
 
-      // console.log('글수정 성공', formData);
-      router.push('/community');
+      router.push(`/community/${postId}`);
     } catch (err) {
       console.error('글수정 폼 작성 에러', err);
       toastError('서버 요청 중 오류가 발생했습니다.');

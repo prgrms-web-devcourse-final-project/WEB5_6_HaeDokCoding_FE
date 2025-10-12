@@ -11,6 +11,9 @@ import StarBg from '@/domains/shared/components/star-bg/StarBg';
 import { useEffect, useRef, useState } from 'react';
 import DetailSkeleton from '@/domains/community/detail/DetailSkeleton';
 import { useParams } from 'next/navigation';
+import { useAuthStore } from '@/domains/shared/store/auth';
+import Button from '@/shared/components/button/Button';
+import { useRouter } from 'next/navigation';
 
 function DetailPage() {
   const params = useParams();
@@ -20,6 +23,9 @@ function DetailPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [like, setLike] = useState(false);
   const [prevLikeCount, setPrevLikeCount] = useState<number | undefined>(0);
+
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const router = useRouter();
 
   const commentRef = useRef<HTMLElement | null>(null);
 
@@ -72,39 +78,61 @@ function DetailPage() {
   };
 
   return (
-    <div className="w-full relative mb-10">
-      <StarBg className="w-full h-32 absolute"></StarBg>
-      <article className="page-layout max-w-824 z-5">
-        <DetailHeader categoryName={categoryName} postId={postId} userNickName={userNickName} />
-        <DetailTitle title={title} userNickname={userNickName} />
-        <DetailContent
-          content={content}
-          createdAt={createdAt}
-          viewCount={viewCount}
-          postId={postId}
-          tags={tags}
-          imageUrls={imageUrls}
-          prevLikeCount={prevLikeCount ?? 0}
-          commentCount={commentCount}
-          like={like}
-          onLikeToggle={handleLike}
-        />
-        <section ref={commentRef}>
-          <Comment postId={postId} />
-        </section>
-      </article>
-      <div className="hidden md:block">
-        <DetailTabDesktop
-          likeCount={prevLikeCount ?? 0}
-          commentCount={commentCount}
-          commentRef={commentRef}
-          like={like}
-          onLikeToggle={handleLike}
-          title={title}
-          imageUrls={imageUrls}
-        />
+    <>
+      <div className="w-full relative mb-10">
+        <StarBg className="w-full h-32 absolute" />
+        <article className="page-layout max-w-824 z-5">
+          <DetailHeader categoryName={categoryName} postId={postId} userNickName={userNickName} />
+          <DetailTitle title={title} userNickname={userNickName} />
+
+          {isLoggedIn ? (
+            <>
+              <DetailContent
+                content={content}
+                createdAt={createdAt}
+                viewCount={viewCount}
+                postId={postId}
+                tags={tags}
+                imageUrls={imageUrls}
+                prevLikeCount={prevLikeCount ?? 0}
+                commentCount={commentCount}
+                like={like}
+                title={title}
+                onLikeToggle={handleLike}
+              />
+            </>
+          ) : (
+            <div className="relative mt-10 flex justify-center items-center">
+              <div className="absolute inset-0 bg-white/60 backdrop-blur-2xl z-10 rounded-md mb-4" />
+              <div className="relative z-20 text-center flex flex-col justify-center items-center p-8">
+                <p className="text-gray-600 text-sm mb-4">
+                  이 게시글을 보시려면 로그인이 필요합니다.
+                </p>
+                <Button onClick={() => router.push('/login')} className="w-[80%]">
+                  로그인 하러 가기
+                </Button>
+              </div>
+            </div>
+          )}
+          <section ref={commentRef}>
+            <Comment postId={postId} />
+          </section>
+        </article>
+        {isLoggedIn && (
+          <div className="hidden md:block">
+            <DetailTabDesktop
+              likeCount={prevLikeCount ?? 0}
+              commentCount={commentCount}
+              commentRef={commentRef}
+              like={like}
+              onLikeToggle={handleLike}
+              title={title}
+              imageUrls={imageUrls}
+            />
+          </div>
+        )}
       </div>
-    </div>
+    </>
   );
 }
 

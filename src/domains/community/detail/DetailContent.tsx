@@ -15,6 +15,7 @@ type Props = {
   like: boolean;
   onLikeToggle: () => void;
   imageUrls: string[];
+  title: string;
 };
 
 function DetailContent({
@@ -24,6 +25,7 @@ function DetailContent({
   content,
   prevLikeCount,
   commentCount,
+  title,
   like,
   imageUrls,
   onLikeToggle,
@@ -38,7 +40,13 @@ function DetailContent({
       <PostInfo createdAt={createdAt} viewCount={viewCount} commentCount={commentCount} />
 
       <div className="block md:hidden mt-2">
-        <DetailTabMobile likeCount={prevLikeCount ?? 0} like={like} onLikeToggle={onLikeToggle} />
+        <DetailTabMobile
+          likeCount={prevLikeCount ?? 0}
+          like={like}
+          onLikeToggle={onLikeToggle}
+          title={title}
+          imageUrls={imageUrls}
+        />
       </div>
     </section>
   );
