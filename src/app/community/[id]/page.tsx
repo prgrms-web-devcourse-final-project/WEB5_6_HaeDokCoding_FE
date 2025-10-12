@@ -2,14 +2,14 @@ import { Metadata } from 'next';
 import { getApi } from '@/app/api/config/appConfig';
 import DetailPage from '@/domains/community/detail/DetailPage';
 
-type Props = {
-  params: {
-    id: string;
-  };
-};
+type RouteParams = { id: number };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = params;
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<RouteParams>;
+}): Promise<Metadata> {
+  const { id } = await params;
   const res = await fetch(`${getApi}/posts/${id}`, {
     cache: 'no-store',
   });
