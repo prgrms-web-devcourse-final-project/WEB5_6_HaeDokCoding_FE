@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { getApi } from '@/app/api/config/appConfig';
 import DetailPage from '@/domains/community/detail/DetailPage';
 
-export async function generateMetadata({ params }: { params: { id: number } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const { id } = params;
   const res = await fetch(`${getApi}/posts/${id}`, {
     cache: 'no-store',
