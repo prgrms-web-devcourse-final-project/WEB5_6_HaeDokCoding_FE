@@ -16,8 +16,13 @@ export function useSelectedOptions() {
 
   const setStepOption = (step: number, value: string) => {
     if (step === 2) selectedOptions.current.selectedAlcoholStrength = value;
-    if (step === 3) selectedOptions.current.selectedAlcoholBaseType = value;
-    // if (step === 4) selectedOptions.current.selectedCocktailType = value;
+    if (step === 3) {
+      if (selectedOptions.current.selectedAlcoholStrength === 'NON_ALCOHOLIC') {
+        selectedOptions.current.selectedCocktailType = value;
+      } else {
+        selectedOptions.current.selectedAlcoholBaseType = value;
+      }
+    }
   };
 
   const reset = () => {

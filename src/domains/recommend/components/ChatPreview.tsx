@@ -27,7 +27,7 @@ function ChatPreview() {
             <div>
               <div className="flex flex-col w-fit max-w-[80%] min-w-[120px] p-3 rounded-2xl rounded-tl-none bg-white text-black opacity-0 animate-fadeIn">
                 <div>
-                  <p className="whitespace-pre-line">취향에 맞는 칵테일, 저와 함께 찾아볼까요?</p>
+                  <p className="whitespace-pre-line">취향에 맞는 칵테일🤩 저와 함께 찾아볼까요?</p>
                   <Link
                     href="/login"
                     onNavigate={async () => {
