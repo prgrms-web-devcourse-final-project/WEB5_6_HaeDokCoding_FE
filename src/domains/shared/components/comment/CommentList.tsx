@@ -64,7 +64,7 @@ function CommentList({
     <>
       <div
         aria-label="댓글 목록"
-        className="flex flex-col mt-6 overflow-y-auto"
+        className="flex flex-col mt-6 overflow-y-auto no-scrollbar"
         ref={parentRef}
         style={{ maxHeight: '600px', position: 'relative' }}
       >

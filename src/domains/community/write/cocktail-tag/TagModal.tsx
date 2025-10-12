@@ -6,21 +6,28 @@ import ModalLayout from '@/shared/components/modal-pop/ModalLayout';
 import Button from '@/shared/components/button/Button';
 import TagList from '../../components/tag/TagList';
 import CocktailCard from '@/domains/shared/components/cocktail-card/CocktailCard';
-import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { TagType } from '@/domains/recipe/types/types';
-import { getApi } from '@/app/api/config/appConfig';
-import { debounce } from '@/shared/utills/debounce';
 
 type Props = {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
   tags: TagType[] | null;
   setTags: Dispatch<SetStateAction<TagType[] | null>>;
-  selectedTags: TagType[];
-  setSelectedTags: Dispatch<SetStateAction<TagType[]>>;
+  selectedTags: string[];
+  setSelectedTags: Dispatch<SetStateAction<string[]>>;
+  debouncedFetch: (keyword: string) => void;
 };
 
-function TagModal({ isOpen, setIsOpen, tags, setTags, selectedTags, setSelectedTags }: Props) {
+function TagModal({
+  isOpen,
+  setIsOpen,
+  tags,
+  setTags,
+  selectedTags,
+  setSelectedTags,
+  debouncedFetch,
+}: Props) {
   const [searchKeyword, setSearchKeyword] = useState('');
 
   useEffect(() => {
@@ -31,38 +38,9 @@ function TagModal({ isOpen, setIsOpen, tags, setTags, selectedTags, setSelectedT
   }, [isOpen, setTags]);
 
   const handleAddTags = (tag: TagType) => {
-    console.log(tag);
-    const alreadySelected = selectedTags.some((t) => t.cocktailId === tag.cocktailId);
-    if (alreadySelected) return;
-    setSelectedTags((prev) => [...(prev || []), tag]);
+    if (selectedTags.includes(tag.cocktailNameKo)) return;
+    setSelectedTags((prev) => [...prev, tag.cocktailNameKo]);
   };
-
-  const fetchTags = useCallback(
-    async (v?: string) => {
-      const keyword = v?.trim() ?? '';
-      const body = {
-        keyword,
-        page: 0,
-        size: 100,
-      };
-      try {
-        const res = await fetch(`${getApi}/cocktails/search`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-        });
-        const data = await res.json();
-        console.log(data);
-        setTags(data.data); // 서버에서 받은 필터링된 태그 목록 저장
-      } catch (error) {
-        console.error(error);
-      } finally {
-      }
-    },
-    [setTags]
-  );
-
-  const debouncedFetch = useMemo(() => debounce(fetchTags, 300), [fetchTags]);
 
   return (
     <ModalLayout
@@ -94,13 +72,11 @@ function TagModal({ isOpen, setIsOpen, tags, setTags, selectedTags, setSelectedT
       <div className="mt-5">
         <TagList
           hasDelete={true}
-          tags={selectedTags.map((t) => t.cocktailNameKo)}
+          tags={selectedTags}
           setTags={(namesOrUpdater) => {
             const names =
-              typeof namesOrUpdater === 'function'
-                ? namesOrUpdater(selectedTags.map((t) => t.cocktailNameKo))
-                : namesOrUpdater;
-            setSelectedTags(tags ? tags.filter((tag) => names.includes(tag.cocktailNameKo)) : []);
+              typeof namesOrUpdater === 'function' ? namesOrUpdater(selectedTags) : namesOrUpdater;
+            setSelectedTags(names);
           }}
         />
       </div>

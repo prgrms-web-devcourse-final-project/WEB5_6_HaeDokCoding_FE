@@ -4,7 +4,7 @@ import Share from '@/domains/shared/components/share/Share';
 import CommentBtn from '../../components/comment/CommentBtn';
 import LikeBtn from '../../components/like/LikeBtn';
 import ShareModal from '@/domains/shared/components/share/ShareModal';
-import { RefObject } from 'react';
+import { RefObject, useState } from 'react';
 
 type Props = {
   likeCount: number;
@@ -12,23 +12,52 @@ type Props = {
   commentRef: RefObject<HTMLElement | null>;
   like: boolean;
   onLikeToggle: () => void;
+  title: string;
+  imageUrls: string[];
 };
 
-// interface Meta {
-//   title: string;
-//   imageUrl: string;
-//   url: string;
-// }
+interface Meta {
+  title: string;
+  imageUrl: string | undefined;
+  url: string;
+}
 
-function DetailTabDesktop({ likeCount, commentCount, commentRef, like, onLikeToggle }: Props) {
-  // const [isShare, setIsShare] = useState(false);
-  // const [meta, setMeta] = useState<Meta | null>(null);
+function DetailTabDesktop({
+  likeCount,
+  commentCount,
+  commentRef,
+  like,
+  onLikeToggle,
+  title,
+  imageUrls,
+}: Props) {
+  const [isShare, setIsShare] = useState(false);
+  const [meta, setMeta] = useState<Meta | null>(null);
 
   const handleClick = () => {
     if (commentRef.current) {
       const top = commentRef.current.getBoundingClientRect().top + window.scrollY - 100; // 100px 위로 offset
       window.scrollTo({ top, behavior: 'smooth' });
     }
+  };
+
+  // ✅ 공유 버튼 클릭 시 meta 생성
+  const handleShareClick = () => {
+    if (typeof window !== 'undefined') {
+      const currentUrl = window.location.href;
+      setMeta({
+        title,
+        url: currentUrl,
+        imageUrl: imageUrls[0] || getOgImage(),
+      });
+      setIsShare(true);
+    }
+  };
+
+  // ✅ og:image 메타태그에서 이미지 가져오기 (fallback용)
+  const getOgImage = (): string | undefined => {
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    return ogImage?.getAttribute('content') || undefined;
   };
 
   return (
@@ -48,20 +77,20 @@ function DetailTabDesktop({ likeCount, commentCount, commentRef, like, onLikeTog
               <span>{commentCount}</span>
             </div>
             <div>
-              <Share variants="community" size="md" />
+              <Share variants="community" size="md" onClick={handleShareClick} />
             </div>
           </div>
         </div>
       </section>
-      {/* {isShare && meta && (
-            <ShareModal
-              open={isShare}
-              onClose={() => setIsShare(!isShare)}
-              src={meta.imageUrl}
-              title={meta.title}
-              url={meta.url}
-            />
-          )} */}
+      {isShare && meta && (
+        <ShareModal
+          open={isShare}
+          onClose={() => setIsShare(!isShare)}
+          src={meta.imageUrl}
+          title={meta.title}
+          url={meta.url}
+        />
+      )}
     </>
   );
 }

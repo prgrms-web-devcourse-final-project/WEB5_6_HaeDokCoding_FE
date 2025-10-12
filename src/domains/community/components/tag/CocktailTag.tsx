@@ -1,12 +1,12 @@
 import React, { Dispatch, SetStateAction, useCallback } from 'react';
 import Tag from './Tag';
 import TagList from './TagList';
-import { TagType } from '../../write/WriteSection';
+import { TagType } from '@/domains/recipe/types/types';
 
 type Props = {
   use: 'write' | 'detail';
-  selectedTags: TagType[] | string[];
-  setSelectedTags?: Dispatch<SetStateAction<TagType[]>>;
+  selectedTags: string[];
+  setSelectedTags?: Dispatch<SetStateAction<string[]>>;
   onClick?: () => void;
 };
 
@@ -15,18 +15,9 @@ function CocktailTag({ use, selectedTags, setSelectedTags, onClick }: Props) {
   const isWrite = use === 'write';
 
   const handleTagUpdate = useCallback(
-    (value: string[] | ((prev: string[]) => string[])) => {
+    (newTags: string[] | ((prev: string[]) => string[])) => {
       if (!setSelectedTags) return;
-
-      if (Array.isArray(value)) {
-        setSelectedTags((prev) => prev.filter((tag) => value.includes(tag.cocktailNameKo)));
-      } else {
-        setSelectedTags((prev) => {
-          const cocktailNames = prev.map((tag) => tag.cocktailNameKo);
-          const updatedNames = value(cocktailNames);
-          return prev.filter((tag) => updatedNames.includes(tag.cocktailNameKo));
-        });
-      }
+      setSelectedTags(newTags);
     },
     [setSelectedTags]
   );
@@ -38,13 +29,9 @@ function CocktailTag({ use, selectedTags, setSelectedTags, onClick }: Props) {
     >
       <Tag use={use} onClick={onClick} />
       <TagList
-        tags={
-          isWrite
-            ? (selectedTags as TagType[]).map((tag) => tag.cocktailNameKo)
-            : (selectedTags as string[])
-        }
-        setTags={isWrite && setSelectedTags ? handleTagUpdate : undefined}
-        hasDelete={isWrite}
+        tags={selectedTags}
+        setTags={setSelectedTags ? handleTagUpdate : undefined}
+        hasDelete={use === 'write'}
       />
     </div>
   );

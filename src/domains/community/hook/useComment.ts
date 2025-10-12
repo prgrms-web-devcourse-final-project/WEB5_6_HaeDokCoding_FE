@@ -3,8 +3,9 @@ import { deleteComment, fetchComment, updateComment } from '../api/fetchComment'
 import { getApi } from '@/app/api/config/appConfig';
 import { CommentType } from '../types/post';
 import { User } from '@/domains/shared/store/auth';
+import { ParamValue } from 'next/dist/server/request/params';
 
-export function useComments(postId: number, user: User | null, accessToken: string | null) {
+export function useComments(postId: ParamValue, user: User | null, accessToken: string | null) {
   const [comments, setComments] = useState<CommentType[] | null>(null);
   const [isEnd, setIsEnd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

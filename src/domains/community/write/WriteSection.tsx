@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Category from './Category';
 import FormTitle from './FormTitle';
 import WriteForm from './WriteForm';
@@ -12,8 +12,8 @@ import { ParamValue } from 'next/dist/server/request/params';
 import CocktailTag from '../components/tag/CocktailTag';
 import TagModal from './cocktail-tag/TagModal';
 import { FormType, TagType, UploadedItem } from '@/domains/recipe/types/types';
-import { fetchCocktails } from '../api/fetchCocktails';
 import { fetchPostById } from '../api/fetchPost';
+import { debounce } from '@/shared/utills/debounce';
 
 type Props = {
   mode: 'create' | 'edit';
@@ -33,24 +33,18 @@ function WriteSection({ mode, postId }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
   const [tags, setTags] = useState<TagType[] | null>(null);
-  const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const { toastError } = useToast();
   const router = useRouter();
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const res = await fetchCocktails();
-  //     setTags(res);
-  //   };
-  //   fetchData();
-  // }, [setTags]);
 
   useEffect(() => {
     if (mode === 'edit' && postId) {
       (async () => {
         try {
           const data = await fetchPostById(postId);
+
+          fetchTags();
 
           setFormData({
             categoryName: data.categoryName,
@@ -66,6 +60,7 @@ function WriteSection({ mode, postId }: Props) {
               url,
             }))
           );
+          setSelectedTags(data.tags || []);
         } catch (error) {
           console.error(error);
         }
@@ -75,21 +70,19 @@ function WriteSection({ mode, postId }: Props) {
 
   useEffect(() => {
     // 변경사항이 있는 경우에만 setFormData 호출
-    const newTags = selectedTags.map((tag) => tag.cocktailNameKo);
-    if (JSON.stringify(formData.tags) !== JSON.stringify(newTags)) {
+    if (JSON.stringify(formData.tags) !== JSON.stringify(selectedTags)) {
       setFormData((prev) => ({
         ...prev,
-        tags: newTags,
+        tags: selectedTags,
       }));
     }
   }, [selectedTags]);
 
   useEffect(() => {
-    if (mode === 'edit' && formData.tags.length > 0 && tags) {
-      const matched = tags.filter((tag) => formData.tags.includes(tag.cocktailNameKo));
-      setSelectedTags(matched);
+    if (JSON.stringify(selectedTags) !== JSON.stringify(formData.tags)) {
+      setSelectedTags(formData.tags);
     }
-  }, [mode, formData.tags, tags]);
+  }, [formData.tags]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -150,6 +143,32 @@ function WriteSection({ mode, postId }: Props) {
     }
   };
 
+  const fetchTags = useCallback(
+    async (v?: string) => {
+      const keyword = v?.trim() ?? '';
+      const body = {
+        keyword,
+        page: 0,
+        size: 100,
+      };
+      try {
+        const res = await fetch(`${getApi}/cocktails/search`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        setTags(data.data); // 서버에서 받은 필터링된 태그 목록 저장
+      } catch (error) {
+        console.error(error);
+      } finally {
+      }
+    },
+    [setTags]
+  );
+
+  const debouncedFetch = useMemo(() => debounce(fetchTags, 300), [fetchTags]);
+
   const handleEdit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -192,15 +211,12 @@ function WriteSection({ mode, postId }: Props) {
         body: payload,
       });
 
-      const text = await res.text();
-      console.log('▶ 응답 텍스트:', text);
-
       if (!res.ok) {
         toastError('글 수정에 실패했습니다.');
         return;
       }
 
-      console.log('글수정 성공', formData);
+      // console.log('글수정 성공', formData);
       router.push('/community');
     } catch (err) {
       console.error('글수정 폼 작성 에러', err);
@@ -240,6 +256,7 @@ function WriteSection({ mode, postId }: Props) {
           setTags={setTags}
           selectedTags={selectedTags}
           setSelectedTags={setSelectedTags}
+          debouncedFetch={debouncedFetch}
         />
       )}
     </>

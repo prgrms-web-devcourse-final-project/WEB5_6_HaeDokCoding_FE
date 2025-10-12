@@ -20,7 +20,7 @@ export const fetchPost = async (lastId?: number | null): Promise<Post[] | null> 
   }
 };
 
-export const fetchPostById = async (postId: ParamValue) => {
+export const fetchPostById = async (postId: ParamValue | number) => {
   try {
     const res = await fetch(`${getApi}/posts/${postId}`, {
       method: 'GET',
@@ -88,7 +88,7 @@ export const fetchPostByTab = async ({
   }
 };
 
-export async function likePost(postId: number) {
+export async function likePost(postId: number | ParamValue) {
   const res = await fetch(`${getApi}/posts/${postId}/like`, {
     method: 'POST',
     credentials: 'include',

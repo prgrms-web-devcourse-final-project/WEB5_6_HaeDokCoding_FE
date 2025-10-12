@@ -1,7 +1,8 @@
 import { getApi } from '@/app/api/config/appConfig';
 import { CommentType } from '../types/post';
+import { ParamValue } from 'next/dist/server/request/params';
 
-export const fetchComment = async (postId: number): Promise<CommentType[] | null> => {
+export const fetchComment = async (postId: ParamValue | number): Promise<CommentType[] | null> => {
   try {
     const res = await fetch(`${getApi}/posts/${postId}/comments`, {
       method: 'GET',
@@ -21,7 +22,7 @@ export const fetchComment = async (postId: number): Promise<CommentType[] | null
   }
 };
 
-export const postComments = async (postId: number, content: string) => {
+export const postComments = async (postId: number | ParamValue, content: string) => {
   try {
     const res = await fetch(`${getApi}/posts/${postId}/comments`, {
       method: 'POST',

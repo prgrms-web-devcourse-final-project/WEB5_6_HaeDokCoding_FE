@@ -2,11 +2,12 @@ import PostInfo from '../components/post-info/PostInfo';
 import CocktailTag from '../components/tag/CocktailTag';
 import DetailTabMobile from './tab/DetailTabMobile';
 import ImageSlide from './ImageSlide';
+import { ParamValue } from 'next/dist/server/request/params';
 
 type Props = {
   createdAt: string;
   viewCount: number;
-  postId: number;
+  postId: ParamValue;
   tags: string[];
   content: string;
   prevLikeCount: number;

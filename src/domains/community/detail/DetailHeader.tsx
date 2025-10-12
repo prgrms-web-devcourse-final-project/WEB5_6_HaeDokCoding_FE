@@ -6,10 +6,11 @@ import { useToast } from '@/shared/hook/useToast';
 import ConfirmModal from '@/shared/components/modal-pop/ConfirmModal';
 import { useState } from 'react';
 import { getApi } from '@/app/api/config/appConfig';
+import { ParamValue } from 'next/dist/server/request/params';
 
 type Props = {
   categoryName: string;
-  postId: number;
+  postId: number | ParamValue;
   userNickName: string;
 };
 
@@ -19,7 +20,7 @@ function DetailHeader({ categoryName, postId, userNickName }: Props) {
   const user = useAuthStore((state) => state.user);
   const { toastError } = useToast();
 
-  const handleConfirmDelete = async (postId: number) => {
+  const handleConfirmDelete = async (postId: number | ParamValue) => {
     if (!user) {
       alert('로그인이 필요합니다');
       return;
