@@ -7,7 +7,6 @@ import { useItemVirtualizer } from '@/domains/community/hook/useItemVirtualizer'
 import { useCommentEnterAnimation } from '@/domains/community/hook/useCommentAnimation';
 import { usePrevious } from 'react-use';
 import Link from 'next/link';
-import { getApi } from '@/app/api/config/appConfig';
 
 type Props = {
   comments: CommentType[] | null;

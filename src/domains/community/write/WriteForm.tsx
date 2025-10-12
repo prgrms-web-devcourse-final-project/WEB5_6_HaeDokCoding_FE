@@ -16,6 +16,7 @@ function WriteForm({ formData, setFormData }: Props) {
       </label>
       <textarea
         id="content"
+        placeholder="내용을 입력해주세요."
         role="textbox"
         aria-multiline="true"
         tabIndex={0}

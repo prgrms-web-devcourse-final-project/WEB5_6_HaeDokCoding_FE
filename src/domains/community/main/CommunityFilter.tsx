@@ -22,10 +22,6 @@ function CommunityFilter({ posts, setPosts }: Props) {
   const query = searchParams.get('category');
   const router = useRouter();
 
-  useEffect(() => {
-    console.log(query);
-  }, [query]);
-
   const handleChange = async (selectTitle: string) => {
     if (!query) return;
 
