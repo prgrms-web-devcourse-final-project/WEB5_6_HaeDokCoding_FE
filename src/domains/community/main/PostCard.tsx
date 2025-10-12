@@ -61,7 +61,7 @@ function PostCard({ posts, isLoading, isEnd, onLoadMore }: Props) {
             return (
               <article
                 className="py-4 sm:py-5 border-b-1 border-gray-light"
-                key={postId}
+                key={postId + createdAt}
                 ref={(el) => {
                   if (index === 0) firstItemRef.current = el;
                   if (isLast) {

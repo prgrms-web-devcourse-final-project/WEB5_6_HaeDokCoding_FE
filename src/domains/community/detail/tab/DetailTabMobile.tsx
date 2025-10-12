@@ -4,6 +4,7 @@ import Share from '@/domains/shared/components/share/Share';
 import LikeBtn from '../../components/like/LikeBtn';
 import { useState } from 'react';
 import ShareModal from '@/domains/shared/components/share/ShareModal';
+import { useParams } from 'next/navigation';
 
 type Props = {
   likeCount: number;
@@ -23,16 +24,17 @@ function DetailTabMobile({ likeCount, onLikeToggle, like, title, imageUrls }: Pr
   const [isShare, setIsShare] = useState(false);
   const [meta, setMeta] = useState<Meta | null>(null);
 
+  const params = useParams();
+  const postId = params?.id;
+
   const handleShareClick = () => {
-    if (typeof window !== 'undefined') {
-      const currentUrl = window.location.href;
-      setMeta({
-        title,
-        url: currentUrl,
-        imageUrl: imageUrls[0] || getOgImage(),
-      });
-      setIsShare(true);
-    }
+    const currentUrl = `http://www.ssoul.life/community/${postId}`;
+    setMeta({
+      title,
+      url: currentUrl,
+      imageUrl: imageUrls[0] || getOgImage(),
+    });
+    setIsShare(true);
   };
 
   // ✅ og:image 메타태그에서 이미지 가져오기 (fallback용)
