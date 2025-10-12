@@ -4,7 +4,7 @@ import Ssury3 from '@/shared/assets/ssury/ssury_level3.webp';
 import Ssury4 from '@/shared/assets/ssury/ssury_level4.webp';
 import Ssury5 from '@/shared/assets/ssury/ssury_level5.webp';
 import Ssury6 from '@/shared/assets/ssury/ssury_level6.webp';
-import Image, { StaticImageData } from 'next/image';
+import  { StaticImageData } from 'next/image';
 
 const SSURY_MAP: Record<number, StaticImageData> = {
   1: Ssury1,
