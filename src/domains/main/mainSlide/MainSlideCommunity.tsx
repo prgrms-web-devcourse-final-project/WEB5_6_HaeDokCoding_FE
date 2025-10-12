@@ -1,6 +1,6 @@
 function MainSlideCommunity() {
   return (
-    <div className="w-3/5 h-178 py-8 pl-11 bg-[#77688d] rounded-tl-[30px] rounded-bl-[30px] flex flex-col ">
+    <div className="slide-content w-3/5 h-full py-20 pl-11 bg-[#77688d] rounded-tl-[30px] rounded-bl-[30px] flex flex-col ">
       <span className="text-5xl font-black">2</span>
       <div className="flex flex-col gap-2 mt-20">
         <h2 className="text-5xl font-black text-shadow-[0_4px_6px_rgb(255_255_255_/0.25)]">

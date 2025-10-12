@@ -42,7 +42,7 @@ function MainSlideAbv() {
   ];
 
   return (
-    <div className="w-1/2 h-178 bg-[#84739e] rounded-tl-[30px] rounded-bl-[30px] py-8 px-11 flex flex-col justify-between">
+    <div className="slide-content w-1/2 h-full bg-[#84739e] rounded-tl-[30px] rounded-bl-[30px] py-20 px-11 flex flex-col justify-between">
       <span className="font-black text-5xl">3</span>
       <div className="flex flex-col gap-2">
         <h2 className="text-5xl font-black text-shadow-[0_4px_6px_rgb(255_255_255_/0.25)]">
