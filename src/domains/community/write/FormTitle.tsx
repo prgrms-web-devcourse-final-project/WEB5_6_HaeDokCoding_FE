@@ -1,4 +1,12 @@
-function FormTitle() {
+import { FormType } from '@/domains/recipe/types/types';
+import { Dispatch, SetStateAction } from 'react';
+
+type Props = {
+  formData: FormType;
+  setFormData: Dispatch<SetStateAction<FormType>>;
+};
+
+function FormTitle({ formData, setFormData }: Props) {
   return (
     <div className="w-full h-[69px] relative border-b-1 border-gray mt-5 flex items-end pb-2">
       <label id="title-label" htmlFor="writingTitle" className="sr-only">
@@ -11,6 +19,10 @@ function FormTitle() {
         id="writingTitle"
         maxLength={20}
         aria-describedby="title-count"
+        value={formData.title}
+        onChange={(e) => {
+          setFormData((prev) => ({ ...prev, title: e.target.value }));
+        }}
       />
       <span id="title-count" aria-live="polite" className="text-gray ">
         0/20

@@ -6,6 +6,7 @@ import ConfirmModal from '@/shared/components/modal-pop/ConfirmModal';
 import { useRecipeComments } from '../../api/useRecipeComment';
 import { getApi } from '@/app/api/config/appConfig';
 import { useToast } from '@/shared/hook/useToast';
+import { ParamValue } from 'next/dist/server/request/params';
 
 interface Props {
   cocktailId: number;
@@ -21,7 +22,7 @@ function RecipeComment({ cocktailId }: Props) {
 
   const { toastInfo } = useToast();
 
-  const postRecipeComment = async (cocktailId: number, content: string) => {
+  const postRecipeComment = async (cocktailId: number | ParamValue, content: string) => {
     if (!user?.id) {
       toastInfo('로그인 후 이용 가능합니다');
       return;

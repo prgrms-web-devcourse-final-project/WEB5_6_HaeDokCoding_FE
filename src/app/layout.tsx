@@ -5,7 +5,10 @@ import Header from '@/shared/components/header/Header';
 import FooterWrapper from '@/shared/components/footer/FooterWrapper';
 import ScrollTopBtnWrapper from '@/shared/components/scroll-top/ScrollTopBtnWrapper';
 import KaKaoScript from './api/kakao/KaKaoScript';
-import Provider from '@/shared/provider/Provider';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import Provider from '@/shared/api/Provider';
 import ClientInitHook from '@/domains/login/components/ClientInitHook';
 
 export const metadata: Metadata = {
