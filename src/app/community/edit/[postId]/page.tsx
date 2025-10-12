@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 
 function Page() {
   const params = useParams();
+  console.log(params);
 
   return (
     <div className="w-full mb-20 flex relative">

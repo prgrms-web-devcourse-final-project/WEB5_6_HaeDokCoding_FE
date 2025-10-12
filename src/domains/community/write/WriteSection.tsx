@@ -14,6 +14,8 @@ import TagModal from './cocktail-tag/TagModal';
 import { FormType, TagType, UploadedItem } from '@/domains/recipe/types/types';
 import { fetchPostById } from '../api/fetchPost';
 import { debounce } from '@/shared/utills/debounce';
+import ConfirmModal from '@/shared/components/modal-pop/ConfirmModal';
+import DetailSkeleton from '../detail/DetailSkeleton';
 
 type Props = {
   mode: 'create' | 'edit';
@@ -31,6 +33,8 @@ function WriteSection({ mode, postId }: Props) {
 
   const [uploadedFile, setUploadedFile] = useState<UploadedItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [editDone, setEditDone] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [tags, setTags] = useState<TagType[] | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -169,27 +173,27 @@ function WriteSection({ mode, postId }: Props) {
 
   const debouncedFetch = useMemo(() => debounce(fetchTags, 300), [fetchTags]);
 
-  const handleEdit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  // 실제 수정 처리만 담당 (이벤트 비의존)
+  const handleEditLogic = async (): Promise<boolean> => {
     if (!postId) {
       toastError('게시글 ID가 없습니다.');
-      return;
+      return false; // 실패 시 false 반환
     }
 
     if (!formData.title.trim()) {
       toastError('제목을 작성해주세요.');
-      return;
+      return false;
     }
+
     if (!formData.content.trim()) {
       toastError('내용을 작성해주세요.');
-      return;
+      return false;
     }
 
     const categoryId = tabItem.findIndex((tab) => tab.label === formData.categoryName);
     if (categoryId === -1) {
       toastError('카테고리를 선택해주세요.');
-      return;
+      return false;
     }
 
     const postJson = {
@@ -205,6 +209,7 @@ function WriteSection({ mode, postId }: Props) {
     payload.append('post', postBlob);
 
     try {
+      setIsLoading(true);
       const res = await fetch(`${getApi}/posts/${postId}`, {
         method: 'PATCH',
         credentials: 'include',
@@ -213,20 +218,30 @@ function WriteSection({ mode, postId }: Props) {
 
       if (!res.ok) {
         toastError('글 수정에 실패했습니다.');
-        return;
+        return false;
       }
 
-      router.push(`/community/${postId}`);
+      setIsLoading(false);
+
+      return true;
     } catch (err) {
       console.error('글수정 폼 작성 에러', err);
       toastError('서버 요청 중 오류가 발생했습니다.');
+      return false;
     }
   };
 
+  // 폼 제출용 핸들러 (이벤트 객체 받아서 preventDefault 처리)
+  const handleEditSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+  };
+
+  if (isLoading) <DetailSkeleton />;
+
   return (
     <>
-      <form onSubmit={mode === 'create' ? handleSubmit : handleEdit}>
-        <CompleteBtn mode={mode} />
+      <form onSubmit={mode === 'create' ? handleSubmit : handleEditSubmit}>
+        <CompleteBtn mode={mode} setEditDone={setEditDone} handleEditLogic={handleEditLogic} />
         <section>
           <FormTitle formData={formData} setFormData={setFormData} />
           <Category formData={formData} setFormData={setFormData} />
@@ -256,6 +271,19 @@ function WriteSection({ mode, postId }: Props) {
           selectedTags={selectedTags}
           setSelectedTags={setSelectedTags}
           debouncedFetch={debouncedFetch}
+        />
+      )}
+      {mode === 'edit' && editDone && (
+        <ConfirmModal
+          open={editDone}
+          onClose={() => setEditDone(false)}
+          onCancel={() => setEditDone(false)}
+          onConfirm={async () => {
+            setEditDone(false);
+            await handleEditLogic();
+            router.push(`/community/${postId}`);
+          }}
+          title="수정 완료"
         />
       )}
     </>
