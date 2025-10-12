@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import prePost from '@/shared/assets/images/prepost_img.webp';
 
 import PostInfo from '../components/post-info/PostInfo';
 import Label from '@/domains/shared/components/label/Label';
@@ -66,7 +65,6 @@ function PostCard({ posts, isLoading, isEnd, onLoadMore }: Props) {
                 ref={(el) => {
                   if (index === 0) firstItemRef.current = el;
                   if (isLast) {
-                    console.log('✅ 관찰 대상 등록', postId);
                     observeLastItem(el);
                   }
                 }}

@@ -80,7 +80,6 @@ function Community() {
 
       if (!newPosts || newPosts?.length === 0) {
         setIsEnd(true);
-        console.log('끝');
       } else {
         setPosts((prev) => [...(prev ?? []), ...(newPosts ?? [])]);
       }

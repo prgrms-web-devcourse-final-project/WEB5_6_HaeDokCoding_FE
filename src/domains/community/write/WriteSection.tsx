@@ -38,13 +38,13 @@ function WriteSection({ mode, postId }: Props) {
   const { toastError } = useToast();
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetchCocktails();
-      setTags(res);
-    };
-    fetchData();
-  }, [setTags]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const res = await fetchCocktails();
+  //     setTags(res);
+  //   };
+  //   fetchData();
+  // }, [setTags]);
 
   useEffect(() => {
     if (mode === 'edit' && postId) {
