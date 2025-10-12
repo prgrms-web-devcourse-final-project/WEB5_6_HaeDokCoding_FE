@@ -54,7 +54,7 @@ function PostCard({ posts, isLoading, isEnd, onLoadMore }: Props) {
               viewCount,
               createdAt,
               commentCount,
-              imageUrl,
+              imageUrls,
             },
             index
           ) => {
@@ -82,7 +82,7 @@ function PostCard({ posts, isLoading, isEnd, onLoadMore }: Props) {
                     <p className="font-bold sm:text-xl text-lg">{title}</p>
                     <div className="font-light sm:text-[15px] text-sm md:max-w-[820px] sm:max-w-[440px] max-w-[210px] h-full">
                       <p
-                        className="h-10"
+                        className="h-10 whitespace-pre-line"
                         style={{
                           display: '-webkit-box',
                           WebkitBoxOrient: 'vertical',
@@ -103,13 +103,13 @@ function PostCard({ posts, isLoading, isEnd, onLoadMore }: Props) {
                     />
                   </div>
                   <figure className="flex items-center flex-shrink-0 md:w-[115px] md:h-[115px] w-[85px] h-[85px]">
-                    {imageUrl && (
+                    {imageUrls.length > 0 && (
                       <Image
-                        src={prePost}
+                        src={imageUrls[0]}
                         alt="예비사진"
                         width={105}
                         height={105}
-                        className="w-full h-full object-cover self-center"
+                        className="w-full h-full object-cover self-center rounded-md"
                       />
                     )}
                   </figure>

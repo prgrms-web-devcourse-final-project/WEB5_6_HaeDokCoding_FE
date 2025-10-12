@@ -13,6 +13,7 @@ type Props = {
   commentCount: number;
   like: boolean;
   onLikeToggle: () => void;
+  imageUrls: string[];
 };
 
 function DetailContent({
@@ -23,15 +24,17 @@ function DetailContent({
   prevLikeCount,
   commentCount,
   like,
+  imageUrls,
   onLikeToggle,
 }: Props) {
+  console.log(tags);
   return (
     <section className="mt-5 flex flex-col items-start w-full gap-3 pb-10 relative">
-      <ImageSlide />
+      <ImageSlide imageUrls={imageUrls} />
       <article className="flex flex-col gap-1 mb-5 whitespace-pre-line text-md mt-4">
         {content}
       </article>
-      <CocktailTag use="detail" tags={tags} />
+      <CocktailTag use="detail" selectedTags={tags} />
       <PostInfo createdAt={createdAt} viewCount={viewCount} commentCount={commentCount} />
 
       <div className="block md:hidden mt-2">

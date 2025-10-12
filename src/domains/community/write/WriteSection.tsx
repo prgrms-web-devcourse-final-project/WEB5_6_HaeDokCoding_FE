@@ -1,15 +1,16 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Category from './Category';
 import FormTitle from './FormTitle';
 import WriteForm from './WriteForm';
 import CompleteBtn from './CompleteBtn';
 import ImageSection from './image-upload/ImageSection';
-import Tag from '../components/tag/Tag';
 import { getApi } from '@/app/api/config/appConfig';
 import { tabItem } from '../main/CommunityTab';
 import { useToast } from '@/shared/hook/useToast';
 import { useRouter } from 'next/navigation';
 import { ParamValue } from 'next/dist/server/request/params';
+import CocktailTag from '../components/tag/CocktailTag';
+import TagModal from './cocktail-tag/TagModal';
 
 export type FormType = {
   categoryName: string;
@@ -21,7 +22,6 @@ export type FormType = {
 
 type Props = {
   mode: 'create' | 'edit';
-  setIsOpen: (value: boolean) => void;
   postId?: ParamValue;
 };
 
@@ -30,7 +30,15 @@ export type UploadedItem = {
   url: string;
 };
 
-function WriteSection({ mode, setIsOpen, postId }: Props) {
+export type TagType = {
+  alcoholStrength: string;
+  cocktailId: number;
+  cocktailImgUrl: string;
+  cocktailName: string;
+  cocktailNameKo: string;
+};
+
+function WriteSection({ mode, postId }: Props) {
   const [formData, setFormData] = useState<FormType>({
     categoryName: '',
     title: '',
@@ -38,10 +46,27 @@ function WriteSection({ mode, setIsOpen, postId }: Props) {
     imageUrls: [],
     tags: [],
   });
+
   const [uploadedFile, setUploadedFile] = useState<UploadedItem[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [tags, setTags] = useState<TagType[] | null>(null);
+  const [selectedTags, setSelectedTags] = useState<TagType[]>([]);
 
   const { toastError } = useToast();
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(`${getApi}/cocktails`, {
+        method: 'GET',
+      });
+      const data = await res.json();
+      console.log(data);
+      setTags(data.data);
+    };
+    fetchData();
+  }, [setTags]);
 
   useEffect(() => {
     if (mode === 'edit' && postId) {
@@ -81,6 +106,24 @@ function WriteSection({ mode, setIsOpen, postId }: Props) {
     }
   }, [mode, postId]);
 
+  useEffect(() => {
+    // 변경사항이 있는 경우에만 setFormData 호출
+    const newTags = selectedTags.map((tag) => tag.cocktailNameKo);
+    if (JSON.stringify(formData.tags) !== JSON.stringify(newTags)) {
+      setFormData((prev) => ({
+        ...prev,
+        tags: newTags,
+      }));
+    }
+  }, [selectedTags]);
+
+  useEffect(() => {
+    if (mode === 'edit' && formData.tags.length > 0 && tags) {
+      const matched = tags.filter((tag) => formData.tags.includes(tag.cocktailNameKo));
+      setSelectedTags(matched);
+    }
+  }, [mode, formData.tags, tags]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -93,7 +136,6 @@ function WriteSection({ mode, setIsOpen, postId }: Props) {
       return;
     }
 
-    console.log(formData.categoryName);
     const categoryId = tabItem.findIndex((tab) => tab.label === formData.categoryName);
 
     if (categoryId === -1) {
@@ -106,9 +148,10 @@ function WriteSection({ mode, setIsOpen, postId }: Props) {
       content: formData.content,
       categoryId: categoryId,
       imageUrls: uploadedFile.map((file) => {
-        console.log(file.url);
-        return file.url;
+        console.log(file.file);
+        return file.file;
       }),
+      tags: formData.tags,
     };
     console.log(postJson);
     console.log(JSON.stringify(postJson, null, 2));
@@ -199,23 +242,40 @@ function WriteSection({ mode, setIsOpen, postId }: Props) {
   };
 
   return (
-    <form onSubmit={mode === 'create' ? handleSubmit : handleEdit}>
-      <CompleteBtn mode={mode} />
-      <section>
-        <FormTitle formData={formData} setFormData={setFormData} />
-        <Category formData={formData} setFormData={setFormData} />
-        <WriteForm formData={formData} setFormData={setFormData} />
-      </section>
-      <ImageSection
-        formData={formData}
-        setFormData={setFormData}
-        uploadedFile={uploadedFile}
-        setUploadedFile={setUploadedFile}
-      />
-      <section className="mt-8">
-        <Tag use="write" onClick={() => setIsOpen(true)} />
-      </section>
-    </form>
+    <>
+      <form onSubmit={mode === 'create' ? handleSubmit : handleEdit}>
+        <CompleteBtn mode={mode} />
+        <section>
+          <FormTitle formData={formData} setFormData={setFormData} />
+          <Category formData={formData} setFormData={setFormData} />
+          <WriteForm formData={formData} setFormData={setFormData} />
+        </section>
+        <ImageSection
+          formData={formData}
+          setFormData={setFormData}
+          uploadedFile={uploadedFile}
+          setUploadedFile={setUploadedFile}
+        />
+        <section className="mt-8">
+          <CocktailTag
+            use="write"
+            selectedTags={selectedTags}
+            setSelectedTags={setSelectedTags}
+            onClick={() => setIsOpen(true)}
+          />
+        </section>
+      </form>
+      {isOpen && (
+        <TagModal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          tags={tags}
+          setTags={setTags}
+          selectedTags={selectedTags}
+          setSelectedTags={setSelectedTags}
+        />
+      )}
+    </>
   );
 }
 

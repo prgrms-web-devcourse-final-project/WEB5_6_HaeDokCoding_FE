@@ -1,9 +1,8 @@
 import Image from 'next/image';
-import prePost from '@/shared/assets/images/prepost_img.webp';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 
-function ImageSlide() {
+function ImageSlide({ imageUrls }: { imageUrls: string[] }) {
   return (
     <Swiper
       spaceBetween={20}
@@ -13,31 +12,18 @@ function ImageSlide() {
       loop
       className="w-full max-h-100 flex justify-center items-center"
     >
-      {
-        <>
-          <SwiperSlide className="w-full flex justify-center items-center">
+      {imageUrls.length > 0 &&
+        imageUrls.map((img) => (
+          <SwiperSlide className="w-full flex justify-center items-center" key={img}>
             <Image
-              src={prePost}
-              alt="더미 이미지"
+              src={img}
+              alt="이미지"
+              width={150}
+              height={150}
               className="object-contain w-full max-h-[400px]"
             />
           </SwiperSlide>
-          <SwiperSlide className="w-full flex justify-center items-center">
-            <Image
-              src={prePost}
-              alt="더미 이미지"
-              className="object-contain w-full max-h-[400px]"
-            />
-          </SwiperSlide>
-          <SwiperSlide className="w-full flex justify-center items-center">
-            <Image
-              src={prePost}
-              alt="더미 이미지"
-              className="object-contain w-full max-h-[400px]"
-            />
-          </SwiperSlide>
-        </>
-      }
+        ))}
     </Swiper>
   );
 }

@@ -51,6 +51,7 @@ function Page() {
     userNickName,
     createdAt,
     viewCount,
+    imageUrls,
     postId,
     tags,
     content,
@@ -85,6 +86,7 @@ function Page() {
           viewCount={viewCount}
           postId={postId}
           tags={tags}
+          imageUrls={imageUrls}
           prevLikeCount={prevLikeCount ?? 0}
           commentCount={commentCount}
           like={like}
