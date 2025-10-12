@@ -9,9 +9,10 @@ export function useComments(postId: ParamValue, user: User | null, accessToken: 
   const [comments, setComments] = useState<CommentType[] | null>(null);
   const [isEnd, setIsEnd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [deleteTarget, setDeleteTarget] = useState<{ commentId: number; postId: number } | null>(
-    null
-  );
+  const [deleteTarget, setDeleteTarget] = useState<{
+    commentId: number;
+    postId: number | ParamValue;
+  } | null>(null);
 
   const fetchData = useCallback(async () => {
     const data = await fetchComment(postId);

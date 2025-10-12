@@ -49,7 +49,7 @@ export const postComments = async (postId: number | ParamValue, content: string)
 
 export async function updateComment(
   accessToken: string | null,
-  postId: number,
+  postId: number | ParamValue,
   commentId: number,
   content: string
 ): Promise<void> {
@@ -71,7 +71,7 @@ export async function updateComment(
 
 export async function deleteComment(
   accessToken: string | null,
-  postId: number,
+  postId: number | ParamValue,
   commentId: number
 ): Promise<void> {
   const response = await fetch(`${getApi}/posts/${postId}/comments/${commentId}`, {
