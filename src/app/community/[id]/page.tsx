@@ -2,9 +2,7 @@ import { Metadata } from 'next';
 import { getApi } from '@/app/api/config/appConfig';
 import DetailPage from '@/domains/community/detail/DetailPage';
 
-type RouteParams = { id: number };
-
-export async function generateMetadata({ params }: { params: RouteParams }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { id: number } }): Promise<Metadata> {
   const { id } = params;
   const res = await fetch(`${getApi}/posts/${id}`, {
     cache: 'no-store',
@@ -12,10 +10,10 @@ export async function generateMetadata({ params }: { params: RouteParams }): Pro
   const post = await res.json();
   console.log(post);
   return {
-    title: post.title,
+    title: `${post.title}`,
     description: post.content?.slice(0, 80),
     openGraph: {
-      title: post.title,
+      title: `${post.title}`,
       description: post.content?.slice(0, 80),
       url: `https://your-domain.com/community/${id}`,
       images: [
