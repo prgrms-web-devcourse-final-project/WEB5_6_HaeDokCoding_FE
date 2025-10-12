@@ -5,9 +5,10 @@ import { useAuthStore } from '@/domains/shared/store/auth';
 import { useShallow } from 'zustand/shallow';
 import ConfirmModal from '@/shared/components/modal-pop/ConfirmModal';
 import { useComments } from '../hook/useComment';
+import { ParamValue } from 'next/dist/server/request/params';
 
 type Props = {
-  postId: number;
+  postId: ParamValue;
 };
 
 function Comment({ postId }: Props) {
@@ -32,7 +33,7 @@ function Comment({ postId }: Props) {
 
   return (
     <>
-      <section className="mb-10 border-t-1 border-gray ">
+      <section className=" border-t-1 border-gray">
         <CommentHeader
           postId={postId}
           comments={comments}
