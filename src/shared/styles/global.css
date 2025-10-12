@@ -15,6 +15,3 @@
   background-color: var(--color-primary);
 }
 
-html {
-  scroll-behavior: auto; /* smooth가 아닌 auto로 */
-}

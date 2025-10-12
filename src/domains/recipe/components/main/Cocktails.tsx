@@ -63,11 +63,11 @@ function Cocktails() {
     }
   }, [keyword, isSearching, alcoholBaseTypes, alcoholStrengths, cocktailTypes]);
 
-  // 일반 fetch
-  useEffect(() => {
-    if (isSearching) return;
-    fetchData();
-  }, [isSearching, alcoholBaseTypes, alcoholStrengths, cocktailTypes]);
+  // // 일반 fetch
+  // useEffect(() => {
+  //   if (isSearching) return;
+  //   fetchData();
+  // }, [isSearching, alcoholBaseTypes, alcoholStrengths, cocktailTypes]);
 
   return (
     <section>

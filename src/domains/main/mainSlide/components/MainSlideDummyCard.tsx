@@ -25,7 +25,7 @@ function MainSlideDummyCard({ src,cocktailName}:Props) {
         <strong className="text-black text-lg">{cocktailName}</strong>
         <span className="text-gray-500 text-sm">+ 상세보기</span>
       </div>
-      <Keep className="absolute top-2 right-2" />
+      <Keep className="absolute top-2 right-2" fill='transparent'/>
     </div>
   );
 }

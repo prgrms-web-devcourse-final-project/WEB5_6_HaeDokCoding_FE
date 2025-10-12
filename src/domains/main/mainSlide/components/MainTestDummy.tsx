@@ -9,7 +9,7 @@ type Dummy = {
 }
 
 interface Props{
-  message: React.ReactNode
+  message?: React.ReactNode
   option?: Dummy[]
   type:'text'|'option'
 }
@@ -34,7 +34,7 @@ const DUMMY_CARD = [
 
 function MainTestDummy({ message, option, type}:Props) {
   return (
-    <li className="flex flex-col gap-2">
+    <li className="flex flex-col justify-end gap-2">
       <header className="flex items-end">
         <div className="relative ">
           <Image
@@ -47,29 +47,31 @@ function MainTestDummy({ message, option, type}:Props) {
         </div>
         <p className="tesx-xs">쑤리</p>
       </header>
-      <div className="flex flex-col w-fit  min-w-[120px] p-3 rounded-2xl rounded-tl-none bg-white text-black gap-2">
-        <p className="text-xs">{message}</p>
+      {message && (
+        <div className="flex flex-col w-fit  min-w-[120px] p-3 rounded-2xl rounded-tl-none bg-white text-black gap-2">
+          <p className="text-xs">{message}</p>
 
-        <div className="flex flex-col gap-2">
-          {type == 'option' &&
-            option &&
-            option.map(({ id, message, active }) => (
-              <span
-                key={id}
-                className={clsx(
-                  'w-full rounded-3xl px-2 py-1 text-center',
-                  active ? 'bg-secondary' : 'bg-gray-light'
-                )}
-              >
-                <span className="text-xs">{message}</span>
-              </span>
-            ))}
+          <div className="flex flex-col gap-2">
+            {type == 'option' &&
+              option &&
+              option.map(({ id, message, active }) => (
+                <span
+                  key={id}
+                  className={clsx(
+                    'w-full rounded-3xl px-2 py-1 text-center',
+                    active ? 'bg-secondary' : 'bg-gray-light'
+                  )}
+                >
+                  <span className="text-xs">{message}</span>
+                </span>
+              ))}
+          </div>
         </div>
-      </div>
+      )}
       {type == 'text' && (
-        <div className='flex gap-2'>
+        <div className="flex gap-2">
           {DUMMY_CARD.map(({ id, src, cocktailName }) => (
-            <MainSlideDummyCard key={id}  id={id} src={src} cocktailName={cocktailName} />
+            <MainSlideDummyCard key={id} id={id} src={src} cocktailName={cocktailName} />
           ))}
         </div>
       )}

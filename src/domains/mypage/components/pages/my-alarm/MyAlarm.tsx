@@ -22,7 +22,6 @@ function MyAlarm() {
       credentials: 'include',
     });
     const json = await res.json();
-    console.log(json)
     setMyAlarm(json.data.items);
   };
 
@@ -35,15 +34,17 @@ function MyAlarm() {
       <div className="flex justify-end">
         <TextButton className="my-5">전체삭제</TextButton>
       </div>
+      <div className='flex flex-col gap-3'>
       {myAlarm.length !== 0 ? (
-        myAlarm.map(({ id,postTitle,type}) => (
-          <Alarm key={id} title={postTitle} content={type} />
+        myAlarm.map(({ id,postTitle,type,createdAt}) => (
+          <Alarm key={id} title={postTitle} content={type} createdAt={createdAt} />
         ))
       ) : (
         <div className="flex justify-center">
           <p>알림이 없습니다.</p>
         </div>
       )}
+      </div>
     </section>
   );
 }

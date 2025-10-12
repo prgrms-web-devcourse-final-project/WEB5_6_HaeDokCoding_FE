@@ -1,5 +1,6 @@
 'use client';
 import SsuryAlram from '@/shared/assets/ssury/ssury_bell.webp';
+import { elapsedTime } from '@/shared/utills/elapsedTime';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -7,11 +8,17 @@ import { useState } from 'react';
 interface Props {
   title: string;
   content: string;
+  createdAt:Date
 }
 
-function Alarm({ title, content }: Props) {
+function Alarm({ title, content,createdAt }: Props) {
   const [isClick, setIsClick] = useState(false);
 
+  console.log(createdAt)
+  const date = new Date(createdAt)
+  const alarmDate = `${date.getMonth() + 1}월 ${date.getDate()}일`
+  const time = elapsedTime(createdAt.toString())
+  
   const handleClick = () => {
     setIsClick(!isClick);
   };
@@ -27,9 +34,9 @@ function Alarm({ title, content }: Props) {
         <div className="flex justify-between items-center">
           <div className="flex gap-2 items-center">
             <Image src={SsuryAlram} alt="알람" width={40} height={40} />
-            <p className="text-sm text-white/80">9월 18일</p>
+            <p className="text-sm text-white/80">{alarmDate}</p>
           </div>
-          <p className="text-sm text-white/80">10분 전</p>
+          <p className="text-sm text-white/80">{time}</p>
         </div>
         <div className="flex flex-col">
           <h2 className="text-lg font-bold">{title}</h2>
