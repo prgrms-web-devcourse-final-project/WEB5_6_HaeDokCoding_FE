@@ -27,7 +27,6 @@ function DetailContent({
   imageUrls,
   onLikeToggle,
 }: Props) {
-  console.log(tags);
   return (
     <section className="mt-5 flex flex-col items-start w-full gap-3 pb-10 relative">
       <ImageSlide imageUrls={imageUrls} />
