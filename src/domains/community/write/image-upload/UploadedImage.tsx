@@ -4,8 +4,9 @@ import Image from 'next/image';
 import DeleteIcon from '@/shared/assets/icons/close_20.svg';
 import React, { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { UploadedItem } from '../WriteSection';
+
 import { getApi } from '@/app/api/config/appConfig';
+import { UploadedItem } from '@/domains/recipe/types/types';
 
 type Props = {
   uploadedFile: UploadedItem[];
