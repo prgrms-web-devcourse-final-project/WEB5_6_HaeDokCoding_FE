@@ -5,11 +5,12 @@ import { getApi } from '@/app/api/config/appConfig';
 import TextButton from '@/shared/components/button/TextButton';
 
 interface MyAlarm {
-  notificationId: number;
-  title: string;
-  content: string;
-  isRead: boolean;
-  createdAt: Date;
+  id: number,
+  postId: number,
+  postTitle: string,
+  read: boolean,
+  type: string,
+  createdAt:Date
 }
 
 function MyAlarm() {
@@ -21,6 +22,7 @@ function MyAlarm() {
       credentials: 'include',
     });
     const json = await res.json();
+    console.log(json)
     setMyAlarm(json.data.items);
   };
 
@@ -34,8 +36,8 @@ function MyAlarm() {
         <TextButton className="my-5">전체삭제</TextButton>
       </div>
       {myAlarm.length !== 0 ? (
-        myAlarm.map(({ notificationId, title, content }) => (
-          <Alarm key={notificationId} title={title} content={content} />
+        myAlarm.map(({ id,postTitle,type}) => (
+          <Alarm key={id} title={postTitle} content={type} />
         ))
       ) : (
         <div className="flex justify-center">

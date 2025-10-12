@@ -12,7 +12,7 @@ interface Props {
 function CocktailFilter({ cocktailsEA, setData }: Props) {
   const sortMap = {
     최신순: 'recent',
-    인기순: 'popular',
+    인기순: 'keeps',
     댓글순: 'comments',
   };
   const searchParams = useSearchParams();

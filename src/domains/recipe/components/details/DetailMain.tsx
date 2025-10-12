@@ -8,10 +8,10 @@ import SsuryDrink from '@/shared/assets/ssury/ssury_drink.webp';
 import Image from 'next/image';
 import DetailList from './DetailList';
 import { Suspense, useEffect, useState } from 'react';
-import SkeletonDetail from '../skeleton/SkeletonDetail';
-import RecipeComment from '../components/details/RecipeComment';
 import { getApi } from '@/app/api/config/appConfig';
 import { useAuthStore } from '@/domains/shared/store/auth';
+import SkeletonDetail from '../../skeleton/SkeletonDetail';
+import RecipeComment from './RecipeComment';
 
 interface Kept {
   cocktailId: number;
