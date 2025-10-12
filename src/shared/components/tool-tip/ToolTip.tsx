@@ -89,7 +89,7 @@ function ToolTip({ position, message, viewPoint = 'web', children, ref }: Props)
       aria-expanded={isVisible}
       ref={ref}
       onMouseLeave={() => setIsVisible(false)}
-      onClick={handleClick}
+      onMouseEnter={handleClick}
     >
       {children}
       {isVisible && (

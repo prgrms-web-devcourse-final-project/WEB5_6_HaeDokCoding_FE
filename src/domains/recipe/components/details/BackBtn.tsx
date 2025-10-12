@@ -10,6 +10,7 @@ function BackButton() {
     const url = sessionStorage.getItem('saveUrl');
     if (!url) return;
     router.push(url);
+    sessionStorage.removeItem('listScrollY');
   };
 
   return (

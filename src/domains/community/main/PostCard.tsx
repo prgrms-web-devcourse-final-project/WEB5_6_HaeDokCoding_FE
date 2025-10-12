@@ -14,9 +14,6 @@ type Props = {
   posts: Post[] | null;
   setPost?: (value: Post[] | null) => void;
   isLoading: boolean;
-  setIsLoading?: (value: boolean) => void;
-  isEnd?: boolean;
-  onLoadMore?: (lastPostId: number) => Promise<void>;
 };
 
 function PostCard({ posts, isLoading, isEnd, onLoadMore }: Props) {
@@ -41,81 +38,65 @@ function PostCard({ posts, isLoading, isEnd, onLoadMore }: Props) {
 
   return (
     <>
-      {posts &&
-        posts.map(
-          (
-            {
-              postId,
-              categoryName,
-              title,
-              content,
-              userNickName,
-              viewCount,
-              createdAt,
-              commentCount,
-              imageUrls,
-            },
-            index
-          ) => {
-            const isLast = index === posts.length - 1;
-            return (
-              <article
-                className="py-4 sm:py-5 border-b-1 border-gray-light"
-                key={postId}
-                ref={(el) => {
-                  if (index === 0) firstItemRef.current = el;
-                  if (isLast) {
-                    observeLastItem(el);
-                  }
-                }}
-              >
-                <Label title={categoryName} />
+      {posts.map(
+        ({
+          postId,
+          categoryName,
+          title,
+          content,
+          userNickName,
+          viewCount,
+          createdAt,
+          commentCount,
+          imageUrl,
+        }) => (
+          <article className="py-4 sm:py-5 border-b-1 border-gray-light" key={postId}>
+            <Label title={categoryName} />
 
-                <section
-                  onClick={() => handlePost(postId)}
-                  className="flex items-center gap-3 justify-between mt-3 cursor-pointer h-full"
-                  role="link"
-                >
-                  <div className="flex flex-col gap-3 md:max-w-[51.25rem] sm:max-w-[27.5rem] max-w-[19.375rem] flex-grow content-between h-full">
-                    <p className="font-bold sm:text-xl text-lg">{title}</p>
-                    <div className="font-light sm:text-[15px] text-sm md:max-w-[820px] sm:max-w-[440px] max-w-[210px] h-full">
-                      <p
-                        className="h-10 whitespace-pre-line"
-                        style={{
-                          display: '-webkit-box',
-                          WebkitBoxOrient: 'vertical',
-                          WebkitLineClamp: 2,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                        }}
-                      >
-                        {content}
-                      </p>
-                    </div>
-                    <PostInfo
-                      hasUserName={true}
-                      userNickName={userNickName}
-                      viewCount={viewCount}
-                      createdAt={createdAt}
-                      commentCount={commentCount}
-                    />
-                  </div>
-                  <figure className="flex items-center flex-shrink-0 md:w-[115px] md:h-[115px] w-[85px] h-[85px]">
-                    {imageUrls.length > 0 && (
-                      <Image
-                        src={imageUrls[0]}
-                        alt="예비사진"
-                        width={105}
-                        height={105}
-                        className="w-full h-full object-cover self-center rounded-md"
-                      />
-                    )}
-                  </figure>
-                </section>
-              </article>
-            );
-          }
-        )}
+            <section
+              onClick={() => handlePost(postId)}
+              className="flex items-center gap-3 justify-between mt-3 cursor-pointer h-full"
+              role="link"
+            >
+              <div className="flex flex-col gap-3 md:max-w-[51.25rem] sm:max-w-[27.5rem] max-w-[19.375rem] flex-grow content-between h-full">
+                <p className="font-bold sm:text-xl text-lg">{title}</p>
+                <div className="font-light sm:text-[15px] text-sm md:max-w-[820px] sm:max-w-[440px] max-w-[210px] h-full">
+                  <p
+                    className="h-10"
+                    style={{
+                      display: '-webkit-box',
+                      WebkitBoxOrient: 'vertical',
+                      WebkitLineClamp: 2,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    {content}
+                  </p>
+                </div>
+                <PostInfo
+                  hasUserName={true}
+                  userNickName={userNickName}
+                  viewCount={viewCount}
+                  createdAt={createdAt}
+                  commentCount={commentCount}
+                />
+              </div>
+              <figure className="flex items-center flex-shrink-0 md:w-[115px] md:h-[115px] w-[85px] h-[85px]">
+                {imageUrl && (
+                  <Image
+                    src={prePost}
+                    alt="예비사진"
+                    width={105}
+                    height={105}
+                    className="w-full h-full object-cover self-center"
+                  />
+                )}
+              </figure>
+            </section>
+          </article>
+        )
+      )}
     </>
   );
 }

@@ -12,14 +12,16 @@ interface Meta {
   url: string;
 }
 
-function DetailsHeader({ id }: { id: number }) {
+function DetailsHeader({ id, favor }: { id: number; favor: boolean | null }) {
   const [isShare, setIsShare] = useState(false);
   const [meta, setMeta] = useState<Meta | null>(null);
+
   const url = async () => {
     const res = await fetch(`${getApi}/cocktails/${id}/share`);
     const json = await res.json();
     setMeta(json.data);
   };
+
   useEffect(() => {
     url();
   }, []);
@@ -38,7 +40,7 @@ function DetailsHeader({ id }: { id: number }) {
       <BackBtn />
       <div className="flex items-center gap-3">
         <Share size="sm" onClick={() => setIsShare(true)} />
-        <Keep cocktailId={id} />
+        <Keep cocktailId={id} favor={favor} />
       </div>
     </div>
   );

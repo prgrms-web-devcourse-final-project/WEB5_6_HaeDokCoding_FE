@@ -5,9 +5,10 @@ import MessageInput from './user/MessageInput';
 import { fetchSendStepMessage, fetchSendTextMessage } from '../api/chat';
 import { ChatMessage, stepPayload } from '../types/recommend';
 import ChatList from './ChatList';
-import { useChatInit } from '../hook/useChatInit';
 import { useSelectedOptions } from '../hook/useSelectedOptions';
 import { useAuthStore } from '@/domains/shared/store/auth';
+import { useChatInit } from '../hook/useChatInit';
+import { useChatWarning } from '../hook/useChatWarning';
 
 function ChatSection() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -121,10 +122,14 @@ function ChatSection() {
   };
 
   useChatInit(setMessages);
+  useChatWarning(messages);
 
   return (
     <section className="relative flex-1 flex flex-col items-center w-full">
       <h2 className="sr-only">대화 목록 및 입력 창</h2>
+      <div className="p-2 text-white/80 text-sm text-center">
+        ⚠️ 페이지를 벗어나면 채팅내용이 사라집니다.
+      </div>
       <ChatList
         messages={messages}
         userCurrentStep={userCurrentStep}

@@ -6,12 +6,14 @@ import { useInfiniteScrollObserver } from '@/shared/hook/useInfiniteScrollObserv
 import { useItemVirtualizer } from '@/domains/community/hook/useItemVirtualizer';
 import { useCommentEnterAnimation } from '@/domains/community/hook/useCommentAnimation';
 import { usePrevious } from 'react-use';
+import Link from 'next/link';
+import { getApi } from '@/app/api/config/appConfig';
 
 type Props = {
   comments: CommentType[] | null;
   currentUserNickname?: string;
-  onUpdateComment: (commentId: number, postId: number, content: string) => Promise<void>;
-  onDeleteComment: (commentId: number, postId: number) => void;
+  onUpdateComment?: (commentId: number, content: string) => Promise<void>;
+  onDeleteComment?: (commentId: number) => void;
   onLoadMore?: (lastCommentId: number) => void; // ← 무한스크롤 콜백
   isEnd?: boolean;
   isLoading: boolean;
@@ -73,10 +75,97 @@ function CommentList({
             const { commentId, content, userNickName, createdAt, postId } = comments[index];
             const isEditing = editCommentId === commentId;
             const isMyComment = comments && currentUserNickname === userNickName;
-
             const isLast = index === comments.length - 1;
 
-            return (
+            return myPage ? (
+              <Link href={`/community/${postId}`} key={key}>
+                <li
+                  className="border-b-1 border-gray py-3"
+                  data-index={index}
+                  ref={(el) => {
+                    if (el) {
+                      requestAnimationFrame(() => {
+                        try {
+                          rowVirtualizer.measureElement(el);
+                        } catch (e) {
+                          console.error('measureElement failed', e);
+                        }
+                      });
+                      if (index === 0) firstItemRef.current = el;
+                      if (isLast) observeLastItem(el);
+                    }
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    transform: `translateY(${start}px)`,
+                    minHeight: '60px', // ← 최소 보장
+                  }}
+                >
+                  <article>
+                    <CommentTitle
+                      userNickname={myPage ? currentUserNickname! : userNickName}
+                      commentTime={createdAt}
+                      isMyComment={isMyComment}
+                      isEditing={isEditing}
+                      myPage={myPage}
+                      onSubmitEdit={() => {
+                        const updatedContent = editedContentMap[commentId];
+                        if (!updatedContent) return;
+                        if (!onUpdateComment) return;
+                        onUpdateComment(commentId, updatedContent).then(() => {
+                          setEditCommentId(null);
+                          setEditedContentMap((prev) => {
+                            const next = { ...prev };
+                            delete next[commentId];
+                            return next;
+                          });
+                        });
+                      }}
+                      onDelete={() => {
+                        if (!onDeleteComment) return;
+                        onDeleteComment(commentId);
+                      }}
+                      onEdit={() => {
+                        setEditCommentId(commentId);
+                        setEditedContentMap((prev) => ({
+                          ...prev,
+                          [commentId]: content, // 기존 내용 세팅
+                        }));
+                      }}
+                      onCancelEdit={() => {
+                        setEditCommentId(null);
+                        setEditedContentMap((prev) => {
+                          const next = { ...prev };
+                          delete next[commentId];
+                          return next;
+                        });
+                      }}
+                    />
+                    <article className="mt-4 h-full">
+                      {isEditing ? (
+                        <AutoGrowingTextarea
+                          value={editedContentMap[commentId] ?? content}
+                          rowVirtualize={rowVirtualizer}
+                          onChange={(e) =>
+                            setEditedContentMap((prev) => ({
+                              ...prev,
+                              [commentId]: e.target.value,
+                            }))
+                          }
+                        />
+                      ) : (
+                        <div className="mt-4">
+                          <p className="whitespace-pre-wrap">{content}</p>
+                        </div>
+                      )}
+                    </article>
+                  </article>
+                </li>
+              </Link>
+            ) : (
               <li
                 className="border-b-1 border-gray py-3"
                 key={key}
@@ -105,7 +194,7 @@ function CommentList({
               >
                 <article>
                   <CommentTitle
-                    userNickname={userNickName}
+                    userNickname={myPage ? currentUserNickname! : userNickName}
                     commentTime={createdAt}
                     isMyComment={isMyComment}
                     isEditing={isEditing}
@@ -113,7 +202,8 @@ function CommentList({
                     onSubmitEdit={() => {
                       const updatedContent = editedContentMap[commentId];
                       if (!updatedContent) return;
-                      onUpdateComment(commentId, postId, updatedContent).then(() => {
+                      if (!onUpdateComment) return;
+                      onUpdateComment(commentId, updatedContent).then(() => {
                         setEditCommentId(null);
                         setEditedContentMap((prev) => {
                           const next = { ...prev };
@@ -122,7 +212,10 @@ function CommentList({
                         });
                       });
                     }}
-                    onDelete={() => onDeleteComment(commentId, postId)}
+                    onDelete={() => {
+                      if (!onDeleteComment) return;
+                      onDeleteComment(commentId);
+                    }}
                     onEdit={() => {
                       setEditCommentId(commentId);
                       setEditedContentMap((prev) => ({

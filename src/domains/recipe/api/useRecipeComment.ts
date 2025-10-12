@@ -1,24 +1,30 @@
 import { useState, useEffect, useCallback } from 'react';
-import { deleteComment, fetchComment, updateComment } from '../api/fetchComment';
 import { getApi } from '@/app/api/config/appConfig';
-import { CommentType } from '../types/post';
 import { User } from '@/domains/shared/store/auth';
-import { ParamValue } from 'next/dist/server/request/params';
+import { CommentType } from '@/domains/community/types/post';
+import { deleteRecipeComment, getRecipeComment, updateComment } from './fetchRecipeComment';
+import { useToast } from '@/shared/hook/useToast';
 
-export function useComments(postId: ParamValue, user: User | null, accessToken: string | null) {
+export function useRecipeComments(
+  cocktailId: number,
+  user: User | null,
+  accessToken: string | null
+) {
   const [comments, setComments] = useState<CommentType[] | null>(null);
   const [isEnd, setIsEnd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [deleteTarget, setDeleteTarget] = useState<{ commentId: number; postId: number } | null>(
-    null
-  );
+  const [deleteTarget, setDeleteTarget] = useState<{
+    commentId: number;
+    cocktailId: number;
+  } | null>(null);
+  const { toastError } = useToast();
 
   const fetchData = useCallback(async () => {
-    const data = await fetchComment(postId);
+    const data = await getRecipeComment(cocktailId);
     if (!data) return;
     setComments(data);
     setIsEnd(false);
-  }, [postId]);
+  }, [cocktailId]);
 
   useEffect(() => {
     fetchData();
@@ -26,11 +32,11 @@ export function useComments(postId: ParamValue, user: User | null, accessToken: 
 
   const handleUpdateComment = async (commentId: number, content: string) => {
     if (!user) {
-      alert('로그인이 필요합니다');
+      toastError('로그인이 필요합니다');
       return;
     }
     try {
-      await updateComment(accessToken!, postId, commentId, content);
+      await updateComment(accessToken!, cocktailId, commentId, content);
       setComments((prev) =>
         prev
           ? prev.map((comment) =>
@@ -40,29 +46,28 @@ export function useComments(postId: ParamValue, user: User | null, accessToken: 
       );
     } catch (err) {
       console.error(err);
-      alert('댓글 수정 중 오류가 발생했습니다.');
+      toastError('댓글 수정 중 오류가 발생했습니다.');
     }
   };
 
   const handleAskDeleteComment = (commentId: number) => {
-    setDeleteTarget({ commentId, postId });
+    setDeleteTarget({ commentId, cocktailId });
   };
 
   const handleConfirmDelete = async () => {
     if (!user) {
-      alert('로그인이 필요합니다');
+      toastError('로그인이 필요합니다');
       return;
     }
     if (!deleteTarget) return;
 
     try {
-      await deleteComment(accessToken!, deleteTarget.postId, deleteTarget.commentId);
+      await deleteRecipeComment(accessToken!, deleteTarget.cocktailId, deleteTarget.commentId);
       setComments((prev) =>
         prev ? prev.filter((c) => c.commentId !== deleteTarget.commentId) : prev
       );
     } catch (err) {
       console.error(err);
-      alert('댓글 삭제 중 오류가 발생했습니다.');
     } finally {
       setDeleteTarget(null);
     }
@@ -73,7 +78,7 @@ export function useComments(postId: ParamValue, user: User | null, accessToken: 
 
     setIsLoading(true);
     try {
-      const res = await fetch(`${getApi}/posts/${postId}/comments?lastId=${lastCommentId}`);
+      const res = await fetch(`${getApi}/cocktails/${cocktailId}/comments?lastId=${lastCommentId}`);
       const newComments = await res.json();
 
       if (newComments.data.length === 0) {

@@ -11,23 +11,45 @@ import { Suspense, useEffect, useState } from 'react';
 import SkeletonDetail from '../skeleton/SkeletonDetail';
 import RecipeComment from '../components/details/RecipeComment';
 import { getApi } from '@/app/api/config/appConfig';
+import { useAuthStore } from '@/domains/shared/store/auth';
+
+interface Kept {
+  cocktailId: number;
+  id: number;
+  keptAt: Date;
+}
 
 function DetailMain({ id }: { id: number }) {
+  const user = useAuthStore();
   const [cocktail, setCocktail] = useState();
+  const [isKept, setIsKept] = useState<boolean | null>(null);
 
   const fetchData = async () => {
     const res = await fetch(`${getApi}/cocktails/${id}`);
     const json = await res.json();
     if (!res.ok) throw new Error('데이터 요청 실패');
     setCocktail(json.data);
+
+    if (!user) {
+      setIsKept(false);
+      return;
+    } else {
+      const keepRes = await fetch(`${getApi}/me/bar`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      const keepjson = await keepRes.json();
+      const keepIds = keepjson.data.map((a: Kept) => String(a.cocktailId));
+      setIsKept(keepIds.includes(String(id)));
+    }
   };
 
   useEffect(() => {
     fetchData();
-    window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     return () => {
       // 레시피 페이지로 돌아가지 않는 경우 (헤더 탭 클릭 등)
       // 네비게이션 플래그를 제거하여 스크롤 복원 방지
@@ -42,6 +64,7 @@ function DetailMain({ id }: { id: number }) {
 
   if (!cocktail) return;
   const {
+    cocktailId,
     cocktailImgUrl,
     cocktailName,
     cocktailNameKo,
@@ -56,7 +79,7 @@ function DetailMain({ id }: { id: number }) {
     <Suspense fallback={<SkeletonDetail />}>
       <h1 className="sr-only">${cocktailNameKo} 상세정보</h1>
       <div className="max-w-1024 page-layout pt-4 pb-6 sm:pb-12">
-        <DetailsHeader id={id} />
+        <DetailsHeader id={id} favor={isKept} />
 
         <article className="flex flex-col items-center mt-4 lg:mt-0">
           <span className="md:bg-secondary w-1 h-104 -translate-y-19 absolute top-0 left-1/2 -translate-x-1/2 md: z-2"></span>
@@ -91,7 +114,7 @@ function DetailMain({ id }: { id: number }) {
         </section>
 
         <section className="mt-20">
-          <RecipeComment />
+          <RecipeComment cocktailId={cocktailId} />
         </section>
       </div>
     </Suspense>

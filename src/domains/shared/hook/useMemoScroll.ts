@@ -1,230 +1,156 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+// useScrollRestore.ts
+import { usePathname } from 'next/navigation';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 
-interface UseScrollRestorationProps {
-  storageKey: string;
-  eventName?: string;
+interface UseScrollRestoreProps {
+  lastId: number | null; // 현재까지 로드한 "최소 id"(내림차순에서 커서)
+  fetchData: (cursor?: string) => Promise<void>;
+  currentDataLength: number;
+  hasNextPage?: boolean; // 선택: 있으면 조기 종료에 사용
 }
 
-interface ScrollState<T> {
-  scrollY: number;
-  data: T[];
-  lastId: number | null;
-  hasNextPage: boolean;
-  timestamp: number;
-}
+type SavedShape = { targetId: number | null; scrollY: number };
 
-// 뒤로가기시 스크롤위치 기억 함수
+export function useScrollRestore({
+  lastId,
+  fetchData,
+  currentDataLength,
+  hasNextPage,
+}: UseScrollRestoreProps) {
+  const pathname = usePathname();
+  const KEY = `scroll-${pathname}`;
 
-export function useMemoScroll<T>({
-  storageKey,
-  eventName = 'resetScroll',
-}: UseScrollRestorationProps) {
-  // 뒤로가기를 통해 목록 복원을 저장해주는 플래그
-  const NAVIGATION_FLAG_KEY = `${storageKey}_nav_flag`;
-
-  // 실제 렌더링 되는 데이터
-  const [data, setData] = useState<T[]>([]);
-  const [lastId, setLastId] = useState<number | null>(null);
-  const [hasNextPage, setHasNextPage] = useState(true);
-  const [shouldFetch, setShouldFetch] = useState(false);
-
-  // 스크롤 복원중일 때 값이 바뀜
   const isRestoringRef = useRef(false);
-  // 스크롤 복원 후 값 바뀜
-  const scrollRestoredRef = useRef(false);
-  // 컴포넌트 마운트시 값 바뀜
-  const hasMountedRef = useRef(false);
+  const hasRestoredRef = useRef(false);
+  const lastIdRef = useRef<number | null>(lastId);
+  const lenRef = useRef<number>(currentDataLength);
 
-  // 스크롤 위치와 데이터 저장
-  const saveScrollState = useCallback(() => {
-    // 복원 중일때와 일정 스크롤 이상 안내려오면 저장 안함
-    if (isRestoringRef.current || window.scrollY < 10) return;
+  useEffect(() => {
+    lastIdRef.current = lastId;
+  }, [lastId]);
+  useEffect(() => {
+    lenRef.current = currentDataLength;
+  }, [currentDataLength]);
 
-    const scrollState: ScrollState<T> = {
-      scrollY: window.scrollY,
-      data: data,
-      lastId: lastId,
-      hasNextPage: hasNextPage,
-      timestamp: Date.now(),
-    };
+  // 브라우저 기본 복원 비활성화
+  useLayoutEffect(() => {
+    if ('scrollRestoration' in history) {
+      try {
+        history.scrollRestoration = 'manual';
+      } catch {}
+    }
+  }, []);
 
-    sessionStorage.setItem(storageKey, JSON.stringify(scrollState));
-  }, [data, lastId, hasNextPage, storageKey]);
+  const jumpOnce = useCallback(
+    (y: number) => {
+      const el = document.scrollingElement || document.documentElement;
+      const enough = () => document.body.scrollHeight >= y + window.innerHeight;
+      let done = false;
 
-  // 저장된 상태 복원
-  const restoreScrollState = useCallback(() => {
-    const saved = sessionStorage.getItem(storageKey);
-    const navFlag = sessionStorage.getItem(NAVIGATION_FLAG_KEY);
+      const finish = () => {
+        if (done) return;
+        done = true;
+        el.scrollTo({ top: y, behavior: 'auto' });
+        isRestoringRef.current = false;
+        hasRestoredRef.current = true;
+        sessionStorage.removeItem(KEY);
+      };
 
-    if (!saved) return false;
+      if (enough()) {
+        requestAnimationFrame(finish);
+        return;
+      }
 
-    // 네비게이션 플래그가 없으면 복원하지 않음 (새로 진입한 경우)
-    if (navFlag !== 'back') {
-      sessionStorage.removeItem(storageKey);
-      return false;
+      const ro = new ResizeObserver(() => {
+        if (enough()) {
+          ro.disconnect();
+          finish();
+        }
+      });
+      ro.observe(document.body);
+      window.addEventListener(
+        'load',
+        () => {
+          if (enough()) finish();
+        },
+        { once: true }
+      );
+      setTimeout(() => finish(), 1000);
+    },
+    [KEY]
+  );
+
+  // 복원
+  useEffect(() => {
+    if (hasRestoredRef.current) return;
+
+    const raw = sessionStorage.getItem(KEY);
+    if (!raw) {
+      hasRestoredRef.current = true;
+      return;
     }
 
-    // 플래그 사용 후 제거
-    sessionStorage.removeItem(NAVIGATION_FLAG_KEY);
-
+    let saved: SavedShape | null = null;
     try {
-      // 데이터 복원
-      const parsed = JSON.parse(saved);
-
-      const {
-        scrollY,
-        data: savedData,
-        lastId: savedLastId,
-        hasNextPage: savedHasNextPage,
-        timestamp,
-      }: ScrollState<T> = parsed;
-
-      // 세션이 30분 지나가면 세션 삭제
-      const isRecent = Date.now() - timestamp < 30 * 60 * 1000;
-
-      if (isRecent && savedData.length > 0 && scrollY > 10) {
-        // 조건 충족 시 스크롤 데이터 복원
-
-        isRestoringRef.current = true;
-
-        setData(savedData);
-        setLastId(savedLastId);
-        setHasNextPage(savedHasNextPage);
-
-        const restoreScroll = () => {
-          // 스크롤 복원 시도 로직
-          window.scrollTo({
-            top: scrollY,
-            behavior: 'instant',
-          });
-
-          setTimeout(() => {
-            // 무한 스크롤시 데이터에따라 한번에 스크롤 복원 안되는 현상 발생 => 재시도 로직
-            const currentScroll = window.scrollY;
-            const diff = Math.abs(currentScroll - scrollY);
-
-            if (diff > 5) {
-              // 스크롤 재 조정이 필요한 경우 실행
-              window.scrollTo({
-                top: scrollY,
-                behavior: 'instant',
-              });
-            }
-
-            setTimeout(() => {
-              // 복원 완료 ref초기화
-              isRestoringRef.current = false;
-              scrollRestoredRef.current = true;
-            }, 300);
-          }, 100);
-        };
-
-        // 재 조정시 애니메이션 매끄럽게 처리
-        setTimeout(restoreScroll, 0);
-        requestAnimationFrame(() => {
-          setTimeout(restoreScroll, 50);
-        });
-
-        return true;
-      }
-    } catch (err) {
-      console.error(err);
-      sessionStorage.removeItem(storageKey);
-      return false;
+      saved = JSON.parse(raw) as SavedShape;
+    } catch {
+      sessionStorage.removeItem(KEY);
+      return;
     }
-  }, [storageKey, NAVIGATION_FLAG_KEY]);
-
-  // 스크롤 리셋
-  const resetScroll = useCallback(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    sessionStorage.removeItem(storageKey);
-    sessionStorage.removeItem(NAVIGATION_FLAG_KEY);
-  }, [storageKey, NAVIGATION_FLAG_KEY]);
-
-  // 아이템 클릭 시 호출할 함수 (네비게이션 플래그 설정)
-  const handleItemClick = useCallback(() => {
-    if (!isRestoringRef.current && window.scrollY > 10) {
-      saveScrollState();
-
-      // 뒤로가기임을 표시하는 플래그 설정
-      sessionStorage.setItem(NAVIGATION_FLAG_KEY, 'back');
+    if (!saved) {
+      sessionStorage.removeItem(KEY);
+      return;
     }
-  }, [saveScrollState, NAVIGATION_FLAG_KEY]);
 
-  // 컴포넌트 마운트 시 복원 시도
-  useEffect(() => {
-    if (hasMountedRef.current) return;
-    hasMountedRef.current = true;
+    const { targetId, scrollY } = saved;
+    isRestoringRef.current = true;
 
-    const restored = restoreScrollState();
+    const MAX_FETCH = 50;
 
-    if (!restored) {
-      setShouldFetch(true);
-    }
-  }, [restoreScrollState]);
+    const restore = async () => {
+      let tries = 0;
+      let lastProgressLen = lenRef.current;
+      let lastProgressId = lastIdRef.current;
 
-  // 헤더에서 같은 페이지 클릭 시 이벤트 리스너
-  useEffect(() => {
-    const handleResetScroll = () => {
-      resetScroll();
-    };
+      // 내림차순 전제:
+      // 더 불러올수록 현재 최소 id(=lastIdRef.current)가 "작아진다"
+      // 목표 지점 도달 조건: currentMinId <= targetId  또는 targetId==null
+      while (
+        targetId != null &&
+        (lastIdRef.current == null || (lastIdRef.current as number) > targetId)
+      ) {
+        if (hasNextPage === false) break; // 더 없음
+        if (tries++ >= MAX_FETCH) break; // 안전망
 
-    window.addEventListener(eventName, handleResetScroll);
+        await fetchData();
 
-    return () => {
-      window.removeEventListener(eventName, handleResetScroll);
-    };
-  }, [eventName, resetScroll]);
+        // 진행 없음(길이와 lastId 모두 동일) → 중단
+        const noLenChange = lenRef.current === lastProgressLen;
+        const noIdChange = lastIdRef.current === lastProgressId;
+        if (noLenChange && noIdChange) break;
 
-  // 언마운트 시 정리 (복원되지 않은 데이터 정리)
-  useEffect(() => {
-    return () => {
-      // 네비게이션 플래그가 없으면 데이터도 삭제
-      const navFlag = sessionStorage.getItem(NAVIGATION_FLAG_KEY);
-      if (!navFlag) {
-        sessionStorage.removeItem(storageKey);
-      }
-    };
-  }, [storageKey, NAVIGATION_FLAG_KEY]);
+        lastProgressLen = lenRef.current;
+        lastProgressId = lastIdRef.current;
 
-  // 스크롤 이벤트 리스너
-  useEffect(() => {
-    if (data.length === 0) return;
-
-    const handleScroll = () => {
-      if (isRestoringRef.current) return;
-
-      if (scrollRestoredRef.current) {
-        scrollRestoredRef.current = false;
+        // 다음 렌더로 넘겨 레이아웃 안정화
+        await new Promise((r) => setTimeout(r, 0));
       }
 
-      saveScrollState();
+      requestAnimationFrame(() => jumpOnce(scrollY));
     };
 
-    // 디바운스 유틸을 이벤트마다 새로 생성시 timer초기화 => 로컬timeout사용
-    let timeoutId: NodeJS.Timeout;
-    const debouncedHandleScroll = () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(handleScroll, 100);
+    restore();
+  }, [KEY, fetchData, hasNextPage, jumpOnce]);
+
+  // 저장
+  const saveScroll = useCallback(() => {
+    const payload: SavedShape = {
+      targetId: lastIdRef.current,
+      scrollY: window.scrollY,
     };
+    sessionStorage.setItem(KEY, JSON.stringify(payload));
+    sessionStorage.setItem('saveUrl', location.href);
+  }, [KEY]);
 
-    window.addEventListener('scroll', debouncedHandleScroll, { passive: true });
-
-    return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener('scroll', debouncedHandleScroll);
-    };
-  }, [data, saveScrollState]);
-
-  return {
-    data,
-    setData,
-    lastId,
-    setLastId,
-    hasNextPage,
-    setHasNextPage,
-    handleItemClick,
-    saveScrollState,
-    shouldFetch,
-  };
+  return saveScroll;
 }
