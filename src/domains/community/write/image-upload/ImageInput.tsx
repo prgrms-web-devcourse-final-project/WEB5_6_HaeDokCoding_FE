@@ -88,7 +88,7 @@ function ImageInput({ uploadedFile, setUploadedFile, onAddImage }: Props) {
         type="file"
         id="fileInput"
         hidden
-        accept="image/*, video/*"
+        accept="image/*"
         multiple
         onChange={handleInputChange}
       />
