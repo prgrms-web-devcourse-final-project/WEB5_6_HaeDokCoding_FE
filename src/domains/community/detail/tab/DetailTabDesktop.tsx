@@ -5,6 +5,7 @@ import CommentBtn from '../../components/comment/CommentBtn';
 import LikeBtn from '../../components/like/LikeBtn';
 import ShareModal from '@/domains/shared/components/share/ShareModal';
 import { RefObject, useState } from 'react';
+import { useParams } from 'next/navigation';
 
 type Props = {
   likeCount: number;
@@ -34,6 +35,9 @@ function DetailTabDesktop({
   const [isShare, setIsShare] = useState(false);
   const [meta, setMeta] = useState<Meta | null>(null);
 
+  const params = useParams();
+  const postId = params?.id;
+
   const handleClick = () => {
     if (commentRef.current) {
       const top = commentRef.current.getBoundingClientRect().top + window.scrollY - 100; // 100px 위로 offset
@@ -43,15 +47,13 @@ function DetailTabDesktop({
 
   // ✅ 공유 버튼 클릭 시 meta 생성
   const handleShareClick = () => {
-    if (typeof window !== 'undefined') {
-      const currentUrl = window.location.href;
-      setMeta({
-        title,
-        url: currentUrl,
-        imageUrl: imageUrls[0] || getOgImage(),
-      });
-      setIsShare(true);
-    }
+    const currentUrl = `http://www.ssoul.life/community/${postId}`;
+    setMeta({
+      title,
+      url: currentUrl,
+      imageUrl: imageUrls[0] || getOgImage(),
+    });
+    setIsShare(true);
   };
 
   // ✅ og:image 메타태그에서 이미지 가져오기 (fallback용)
