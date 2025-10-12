@@ -66,7 +66,7 @@ function DetailTabDesktop({
     <>
       <section
         aria-label="게시글 인터랙션 버튼"
-        className="absolute top-[50px] 2xl:right-80 xl:right-50 lg:right-10 md:right-10 z-10 h-full transition-transform duration-300 ease-in-out"
+        className="absolute top-[50px] 2xl:right-60 xl:right-50 lg:right-10 md:right-10 z-10 h-full transition-transform duration-300 ease-in-out"
       >
         <div className="sticky top-[183px]">
           <div className="flex md:flex-col md:gap-10 w-full h-full">

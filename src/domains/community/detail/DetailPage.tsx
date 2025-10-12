@@ -119,7 +119,7 @@ function DetailPage() {
           </section>
         </article>
         {isLoggedIn && (
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <DetailTabDesktop
               likeCount={prevLikeCount ?? 0}
               commentCount={commentCount}
