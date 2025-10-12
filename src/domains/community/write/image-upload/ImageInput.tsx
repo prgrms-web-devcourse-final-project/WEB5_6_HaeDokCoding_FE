@@ -1,8 +1,8 @@
 import { getApi } from '@/app/api/config/appConfig';
+import { UploadedItem } from '@/domains/recipe/types/types';
 import ImageBox from '@/shared/assets/icons/imageBox_fill_24.svg';
 import { useToast } from '@/shared/hook/useToast';
 import { Dispatch, SetStateAction } from 'react';
-import { UploadedItem } from '../WriteSection';
 
 type Props = {
   setUploadedFile: Dispatch<SetStateAction<UploadedItem[]>>;
