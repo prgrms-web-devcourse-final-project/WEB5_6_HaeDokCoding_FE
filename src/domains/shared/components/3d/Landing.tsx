@@ -4,6 +4,9 @@ import { useState } from 'react';
 import HomeModel from './HomeModel';
 import StarMain from './StarMain';
 import Spinner from '@/shared/components/spinner/Spinner';
+import HomeLogo from './HomeLogo';
+import HomeText from './HomeText';
+import Scroll from './Scroll';
 
 function Landing() {
   const [isLoading, setIsLoading] = useState(true);
@@ -11,10 +14,17 @@ function Landing() {
   return (
     <>
       {isLoading && <Spinner />}
-      <div className="page-layout max-w-full">
-        <div className="relative w-full h-[1000px]">
+      <div className="page-layout max-w-full min-h-[200vh]">
+        <div className="relative w-full h-[700px]">
           <HomeModel onLoaded={() => setIsLoading(false)} />
-          {!isLoading && <StarMain />}
+          {!isLoading && (
+            <>
+              <HomeLogo />
+              <HomeText />
+              <Scroll />
+              <StarMain />
+            </>
+          )}
         </div>
         <div className="w-full h-[1000px]"></div>
       </div>

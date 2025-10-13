@@ -8,11 +8,11 @@ import * as THREE from 'three';
 
 function Model({ onLoaded }: { onLoaded: () => void }) {
   const { scene } = useGLTF('/3d/model/scene.gltf');
-  const [scale, setScale] = useState(13);
+  const [scale, setScale] = useState(9.5);
 
   useEffect(() => {
     const isMobile = window.innerWidth < 768; // 모바일 기준 너비
-    setScale(isMobile ? 3.8 : 11.5); // 모바일이면 작게
+    setScale(isMobile ? 4.8 : 9.5); // 모바일이면 작게
   }, []);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ function Model({ onLoaded }: { onLoaded: () => void }) {
     }
   });
 
-  return <primitive object={scene} scale={scale} />;
+  return <primitive object={scene} scale={scale} position={[0, -1.2, 0]} />;
 }
 
 function CameraAnimation() {
@@ -61,9 +61,30 @@ function CameraAnimation() {
   return null;
 }
 
+export function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  return isMobile;
+}
+
 function HomeModel({ onLoaded }: { onLoaded: () => void }) {
+  const isMobile = useIsMobile();
   return (
-    <Canvas className="z-10 w-full" camera={{ position: [5, 20, 10], fov: 30 }} dpr={[1, 1.5]}>
+    <Canvas
+      style={{
+        pointerEvents: isMobile ? 'none' : 'auto',
+      }}
+      className="z-10 w-full"
+      camera={{ position: [10, 40, 9], fov: 26 }}
+      dpr={[1, 1.5]}
+    >
       <ambientLight intensity={0.5} />
       <pointLight position={[10, 30, 40]} intensity={1} />
       <spotLight position={[0, 10, 10]} angle={0.2} penumbra={1} intensity={15} castShadow />

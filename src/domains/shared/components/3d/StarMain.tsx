@@ -66,7 +66,7 @@ function StarMain() {
     <>
       {/* <HomeBackground /> */}
       <div>
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
           <div
             ref={background}
             className="absolute w-screen h-screen top-0 left-0 will-change-transform"
@@ -77,7 +77,6 @@ function StarMain() {
               fill
               className="object-cover object-center"
               priority
-              quality={100}
             />
           </div>
           <div
@@ -90,7 +89,6 @@ function StarMain() {
               fill
               className="object-cover object-center"
               priority
-              quality={100}
             />
           </div>
         </div>
