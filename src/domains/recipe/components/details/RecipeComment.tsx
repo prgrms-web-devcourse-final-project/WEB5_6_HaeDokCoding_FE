@@ -13,10 +13,9 @@ interface Props {
 }
 
 function RecipeComment({ cocktailId }: Props) {
-  const { user, accessToken } = useAuthStore(
+  const { user } = useAuthStore(
     useShallow((state) => ({
       user: state.user,
-      accessToken: state.accessToken,
     }))
   );
 
@@ -60,7 +59,7 @@ function RecipeComment({ cocktailId }: Props) {
     deleteTarget,
     handleConfirmDelete,
     setDeleteTarget,
-  } = useRecipeComments(cocktailId, user, accessToken);
+  } = useRecipeComments(cocktailId, user);
 
   return (
     <div className="mb-10 border-t-1 border-gray">

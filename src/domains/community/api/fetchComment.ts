@@ -48,7 +48,6 @@ export const postComments = async (postId: number | ParamValue, content: string)
 };
 
 export async function updateComment(
-  accessToken: string | null,
   postId: number | ParamValue,
   commentId: number,
   content: string
@@ -57,8 +56,8 @@ export async function updateComment(
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
     },
+    credentials: 'include',
     body: JSON.stringify({ content }),
   });
 
@@ -69,16 +68,10 @@ export async function updateComment(
   }
 }
 
-export async function deleteComment(
-  accessToken: string | null,
-  postId: number | ParamValue,
-  commentId: number
-): Promise<void> {
+export async function deleteComment(postId: number | ParamValue, commentId: number): Promise<void> {
   const response = await fetch(`${getApi}/posts/${postId}/comments/${commentId}`, {
     method: 'DELETE',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+    credentials: 'include',
   });
 
   if (!response.ok) {
