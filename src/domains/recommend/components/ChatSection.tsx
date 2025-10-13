@@ -1,19 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import MessageInput from './user/MessageInput';
-import { fetchSendStepMessage, fetchSendTextMessage } from '../api/chat';
+import { fetchGreeting, fetchSendStepMessage, fetchSendTextMessage } from '../api/chat';
 import { ChatMessage, stepPayload } from '../types/recommend';
 import ChatList from './ChatList';
 import { useSelectedOptions } from '../hook/useSelectedOptions';
 import { useAuthStore } from '@/domains/shared/store/auth';
 import { useChatInit } from '../hook/useChatInit';
 import { useChatWarning } from '../hook/useChatWarning';
+import { useChatCapture } from '../hook/useChatCapture';
 
 function ChatSection() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [userCurrentStep, setUserCurrentStep] = useState(0);
   const { selectedOptions, setOption, setStepOption } = useSelectedOptions();
+  const chatRef = useRef<HTMLDivElement>(null);
+  const { capture } = useChatCapture(chatRef);
 
   const isInputDisabled =
     selectedOptions.current.selectedSearchType !== 'QA' && userCurrentStep < 3;
@@ -77,6 +80,25 @@ function ChatSection() {
     const userId = useAuthStore.getState().user?.id;
     if (!userId) return;
 
+    // RESTART 처리
+    if (value === 'RESTART') {
+      setUserCurrentStep(0);
+      setMessages([]);
+
+      // 초기 인사 불러오기
+      try {
+        const greeting = await fetchGreeting('');
+        if (greeting) setMessages([greeting]);
+      } catch (err) {
+        console.error('인사 메시지 불러오기 실패:', err);
+      }
+
+      // 선택된 옵션 초기화
+      setOption('selectedSearchType', '');
+      setStepOption(0, '');
+      return;
+    }
+
     const tempId = Date.now().toString();
     const tempCreatedAt = new Date().toISOString();
 
@@ -131,11 +153,12 @@ function ChatSection() {
         ⚠️ 페이지를 벗어나면 채팅내용이 사라집니다.
       </div>
       <ChatList
+        chatRef={chatRef}
         messages={messages}
         userCurrentStep={userCurrentStep}
         onSelectedOption={handleSelectedOption}
       />
-      <MessageInput onSubmit={handleSubmitText} disabled={isInputDisabled} />
+      <MessageInput onSubmit={handleSubmitText} onCapture={capture} disabled={isInputDisabled} />
     </section>
   );
 }

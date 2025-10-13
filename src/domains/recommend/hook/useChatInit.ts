@@ -11,7 +11,7 @@ export function useChatInit(setMessages: React.Dispatch<React.SetStateAction<Cha
         const greeting = await fetchGreeting('');
         if (greeting) setMessages([greeting]);
       } catch (err) {
-        console.error('채팅 초기화 실패:', err);
+        console.error('채팅 첫 시작 실패:', err);
       }
     };
     loadGreeting();
