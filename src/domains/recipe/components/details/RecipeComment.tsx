@@ -13,16 +13,9 @@ interface Props {
 }
 
 function RecipeComment({ cocktailId }: Props) {
-<<<<<<< HEAD
-  const { user, accessToken } = useAuthStore(
-    useShallow((state) => ({
-      user: state.user,
-      accessToken: state.accessToken,
-=======
   const { user } = useAuthStore(
     useShallow((state) => ({
       user: state.user,
->>>>>>> dev
     }))
   );
 
