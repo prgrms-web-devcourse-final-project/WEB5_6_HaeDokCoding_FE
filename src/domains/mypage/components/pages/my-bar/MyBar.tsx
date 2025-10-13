@@ -38,7 +38,7 @@ function MyBar() {
   return (
     <div>
       <div className="flex justify-end">
-        {isModal && <DeleteAllModal open={isModal} onClose={()=> setIsModal(!isModal)} setIsModal={setIsModal} />}
+        {isModal && <DeleteAllModal open={isModal} onClose={()=> setIsModal(!isModal)} setIsModal={setIsModal}  type='myBar'/>}
         <TextButton className="my-5" onClick={handleDelete}>전체삭제</TextButton>
       </div>
       {items.length > 0 ? (

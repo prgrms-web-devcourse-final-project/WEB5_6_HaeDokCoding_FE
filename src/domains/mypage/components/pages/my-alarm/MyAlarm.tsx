@@ -1,9 +1,12 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Alarm from '../../Alarm';
 import { getApi } from '@/app/api/config/appConfig';
 import TextButton from '@/shared/components/button/TextButton';
 import Link from 'next/link';
+import useFetchAlarm from '@/domains/mypage/api/fetchAlarm';
+import { useQuery } from '@tanstack/react-query';
+import DeleteAllModal from '../../DeleteAllModal';
 
 interface MyAlarm {
   createdAt:Date
@@ -18,20 +21,16 @@ interface MyAlarm {
 }
 
 function MyAlarm() {
-  const [myAlarm, setMyAlarm] = useState<MyAlarm[]>([]);
+  const [isModal,setIsModal] = useState(false)
+  const {fetchAlarm} =useFetchAlarm()
+  const { data } = useQuery({
+    queryKey: ['alarm'],
+    queryFn: fetchAlarm,
+  })
 
-  const fetchAlarm = async () => {
-    const res = await fetch(`${getApi}/me/notifications`, {
-      method: 'GET',
-      credentials: 'include',
-    });
-    const json = await res.json();
-    setMyAlarm(json.data.items);
-  };
-
-  useEffect(() => {
-    fetchAlarm();
-  }, []);
+  const handleDelete = () => {
+    setIsModal(!isModal)
+  }
 
   const handleRead = async (id:number) => {
     await fetch(`${getApi}/me/notifications/${id}`, {
@@ -39,15 +38,17 @@ function MyAlarm() {
       credentials:'include'
     })
   }
+  const items = data?.items ?? [];
 
   return (
     <section>
       <div className="flex justify-end">
-        <TextButton className="my-5">전체삭제</TextButton>
+        {isModal && <DeleteAllModal open={isModal} onClose={() => setIsModal(!isModal)} setIsModal={setIsModal} type='myAlarm' /> }
+        <TextButton className="my-5" onClick={handleDelete}>전체삭제</TextButton>
       </div>
       <div className="flex flex-col gap-3">
-        {myAlarm.length !== 0 ? (
-          myAlarm.map(({ id, postId, postTitle,read, message, createdAt }) => (
+        {items.length !== 0 ? (
+          items.map(({ id, postId, postTitle,read, message, createdAt }:MyAlarm) => (
             <Link href={`/community/${postId}`} key={id} onClick={() => handleRead(id)}>
               <Alarm title={postTitle} content={message} createdAt={createdAt} read={read} />
             </Link>
