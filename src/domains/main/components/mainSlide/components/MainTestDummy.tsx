@@ -48,7 +48,7 @@ function MainTestDummy({ message, option, type }: Props) {
         <p className="tesx-xs">쑤리</p>
       </header>
       {message && (
-        <div className="flex flex-col w-fit  min-w-[120px] p-3 rounded-2xl rounded-tl-none bg-white text-black gap-2">
+        <div className="flex flex-col w-[215px] p-3 rounded-2xl rounded-tl-none bg-white text-black gap-2">
           <p className="text-xs">{message}</p>
 
           <div className="flex flex-col gap-2">
@@ -60,6 +60,7 @@ function MainTestDummy({ message, option, type }: Props) {
                   className={clsx(
                     'w-full rounded-3xl px-2 py-1 text-center',
                     active ? 'bg-secondary' : 'bg-gray-light'
+
                   )}
                 >
                   <span className="text-xs">{message}</span>

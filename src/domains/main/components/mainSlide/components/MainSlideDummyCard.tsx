@@ -9,7 +9,7 @@ interface Props {
 
 function MainSlideDummyCard({ src, cocktailName }: Props) {
   return (
-    <div className="relative flex flex-col w-full min-w-[150px] rounded-2xl overflow-hidden bg-white shadow-[0_0_12px_rgba(255,255,255,0.4)]">
+    <div className="relative flex flex-col w-50 sm:w-full min-w-[150px] rounded-2xl overflow-hidden bg-white shadow-[0_0_12px_rgba(255,255,255,0.4)]">
       <div className="relative w-full h-[100px]">
         <Image src={src} fill className="object-cover" alt="" sizes="100px" priority />
       </div>
