@@ -7,7 +7,7 @@ import MobileAbv from './MobileAbv';
 
 function MobileSlide() {
   return (
-    <section className="xl:h-screen">
+    <div>
       <Image src={background} alt="" fill className="-z-1"></Image>
       <h2 className="md:text-3xl font-bold leading-[1.5] text-secondary text-shadow-[0_4px_6px_rgb(255_255_255_/0.25)]">
         칵테일 <br /> 누구나 쉽게 즐길 수 있어요
@@ -20,7 +20,7 @@ function MobileSlide() {
         <MobileSlideCommunity />
         <MobileAbv/>
       </div>
-    </section>
+    </div>
   );
 }
 export default MobileSlide

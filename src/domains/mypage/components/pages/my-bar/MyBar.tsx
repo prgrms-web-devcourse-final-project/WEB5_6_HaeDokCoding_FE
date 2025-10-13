@@ -5,6 +5,7 @@ import CocktailCard from '@/domains/shared/components/cocktail-card/CocktailCard
 import TextButton from '@/shared/components/button/TextButton';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import DeleteAllModal from '../../DeleteAllModal';
 
 interface MyCocktail {
   cocktailId: number;
@@ -17,6 +18,7 @@ interface MyCocktail {
 
 function MyBar() {
   const [myCocktail, setMyCocktail] = useState<MyCocktail[]>([]);
+  const [isModal,setIsModal] = useState(false)
   const fetchData = async () => {
     const res = await fetch(`${getApi}/me/bar/detail`, {
       method: 'GET',
@@ -30,10 +32,15 @@ function MyBar() {
     fetchData();
   }, []);
 
+  const handleDelete = async() => {
+    setIsModal(!isModal)
+  }
+
   return (
     <div>
       <div className="flex justify-end">
-        <TextButton className="my-5">전체삭제</TextButton>
+        {isModal && <DeleteAllModal open={isModal} onClose={()=> setIsModal(!isModal)} setIsModal={setIsModal} />}
+        <TextButton className="my-5" onClick={handleDelete}>전체삭제</TextButton>
       </div>
       {myCocktail.length !== 0 ? (
         <div

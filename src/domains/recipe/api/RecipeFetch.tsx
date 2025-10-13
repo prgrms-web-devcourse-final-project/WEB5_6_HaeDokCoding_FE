@@ -2,7 +2,7 @@
 
 import { getApi } from '@/app/api/config/appConfig';
 import { Cocktail } from '../types/types';
-import { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback} from 'react';
 import { useAuthStore } from '@/domains/shared/store/auth';
 
 interface Props {
@@ -23,7 +23,7 @@ export const RecipeFetch = ({
   setHasNextPage,
   SIZE = 20,
 }: Props) => {
-  const user = useAuthStore();
+  const user = useAuthStore(state => state.user);
   const fetchData = useCallback(async () => {
     // 쿼리파라미터에 값 넣기
     if (!hasNextPage) return;
