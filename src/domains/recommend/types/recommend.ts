@@ -1,3 +1,5 @@
+import { RefObject } from 'react';
+
 export interface StepOption {
   value: string;
   label: string;
@@ -57,4 +59,5 @@ export interface ChatListProps {
   userCurrentStep: number;
   onSelectedOption: (value: string) => void;
   isBotTyping?: boolean;
+  chatRef?: RefObject<HTMLDivElement | null>;
 }

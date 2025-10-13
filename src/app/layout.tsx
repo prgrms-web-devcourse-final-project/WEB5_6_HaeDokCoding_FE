@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   title: { default: 'SSOUL', template: 'SSOUL | %s' },
   metadataBase: new URL('http://www.ssoul.life'),
   description: '칵테일을 좋아하는 사람들을 위한 서비스',
+  icons: '/favicon.ico',
 };
 
 export default function RootLayout({
@@ -24,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko-KR">
-      <body className="relative flex flex-col min-h-screen">
+      <body className="relative flex flex-col min-h-full-screen">
         <Provider>
           <Header />
           <ClientInitHook />
