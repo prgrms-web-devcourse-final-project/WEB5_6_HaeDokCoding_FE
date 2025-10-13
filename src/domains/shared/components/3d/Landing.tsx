@@ -12,8 +12,11 @@ function Landing() {
     <>
       {isLoading && <Spinner />}
       <div className="page-layout max-w-full">
-        <HomeModel onLoaded={() => setIsLoading(false)} />
-        {!isLoading && <StarMain />}
+        <div className="relative w-full h-[1000px]">
+          <HomeModel onLoaded={() => setIsLoading(false)} />
+          {!isLoading && <StarMain />}
+        </div>
+        <div className="w-full h-[1000px]"></div>
       </div>
     </>
   );
