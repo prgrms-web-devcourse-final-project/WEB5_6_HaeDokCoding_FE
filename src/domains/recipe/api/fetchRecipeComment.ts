@@ -22,7 +22,6 @@ export const getRecipeComment = async (cocktailId: number): Promise<CommentType[
 };
 
 export async function updateComment(
-  accessToken: string | null,
   postId: number,
   commentId: number,
   content: string
@@ -32,8 +31,8 @@ export async function updateComment(
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
     },
+    credentials: 'include',
     body: JSON.stringify({ content }),
   });
 
@@ -44,16 +43,10 @@ export async function updateComment(
   }
 }
 
-export async function deleteRecipeComment(
-  accessToken: string | null,
-  cocktailId: number,
-  commentId: number
-): Promise<void> {
+export async function deleteRecipeComment(cocktailId: number, commentId: number): Promise<void> {
   const response = await fetch(`${getApi}/cocktails/${cocktailId}/comments/${commentId}`, {
     method: 'DELETE',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+    credentials: 'include',
   });
 
   if (!response.ok) {
