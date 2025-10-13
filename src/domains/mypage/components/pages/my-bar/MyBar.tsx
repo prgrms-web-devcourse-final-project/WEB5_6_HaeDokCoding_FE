@@ -1,11 +1,14 @@
 'use client';
-import { getApi } from '@/app/api/config/appConfig';
+
 import { abvMap } from '@/domains/mypage/utills/abvMap';
 import CocktailCard from '@/domains/shared/components/cocktail-card/CocktailCard';
 import TextButton from '@/shared/components/button/TextButton';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import DeleteAllModal from '../../DeleteAllModal';
+import useFetchMyBar from '@/domains/mypage/api/fetchMyBar';
+import { useQuery } from '@tanstack/react-query';
+
 
 interface MyCocktail {
   cocktailId: number;
@@ -17,32 +20,28 @@ interface MyCocktail {
 }
 
 function MyBar() {
-  const [myCocktail, setMyCocktail] = useState<MyCocktail[]>([]);
+
   const [isModal,setIsModal] = useState(false)
-  const fetchData = async () => {
-    const res = await fetch(`${getApi}/me/bar/detail`, {
-      method: 'GET',
-      credentials: 'include',
-    });
-    const json = await res.json();
-    setMyCocktail(json.data.items ?? []);
-  };
+  const { fetchMyBar} = useFetchMyBar()
+  const { data } = useQuery({
+    queryKey: ['myBar'],
+    queryFn: fetchMyBar,
+    staleTime:0
+  })
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const handleDelete = async() => {
+  const handleDelete = () => {
     setIsModal(!isModal)
   }
 
+  const items = data?.items ?? [];
+  
   return (
     <div>
       <div className="flex justify-end">
         {isModal && <DeleteAllModal open={isModal} onClose={()=> setIsModal(!isModal)} setIsModal={setIsModal} />}
         <TextButton className="my-5" onClick={handleDelete}>전체삭제</TextButton>
       </div>
-      {myCocktail.length !== 0 ? (
+      {items.length > 0 ? (
         <div
           className="
            grid gap-8 md:justify-between justify-center
@@ -51,8 +50,8 @@ function MyBar() {
            md:[grid-template-columns:repeat(3,minmax(0,250px))]
            "
         >
-          {myCocktail.map(
-            ({ cocktailId, cocktailName, imageUrl, cocktailNameKo, alcoholStrength }) => {
+          {items.map(
+            ({ cocktailId, cocktailName, imageUrl, cocktailNameKo, alcoholStrength }:MyCocktail) => {
               const alcohol = abvMap(alcoholStrength);
               return (
                 <Link href={`/recipe/${cocktailId}`} key={cocktailId}>

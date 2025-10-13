@@ -9,8 +9,11 @@ import { RecipeFetch } from '../../api/RecipeFetch';
 import CocktailSearchBar from './CocktailSearchBar';
 import useSearchControl from '../../hook/useSearchControl';
 import CocktailSearch from '../../api/CocktailSearch';
+import { useAuthStore } from '@/domains/shared/store/auth';
 
 function Cocktails() {
+  const user = useAuthStore(state => state.user)
+
   const [data, setData] = useState<Cocktail[]>([]);
   const [lastId, setLastId] = useState<number | null>(null);
   const [hasNextPage, setHasNextPage] = useState(true);
