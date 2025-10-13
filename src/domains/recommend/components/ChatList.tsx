@@ -4,13 +4,18 @@ import BotMessage from './bot/BotMessage';
 import NewMessageAlert from './bot/NewMessageAlert';
 import UserMessage from './user/UserMessage';
 
-function ChatList({ messages, userCurrentStep, onSelectedOption }: ChatListProps) {
+function ChatList({ messages, userCurrentStep, onSelectedOption, chatRef }: ChatListProps) {
   const { chatListRef, chatEndRef, showNewMessageAlert, handleCheckBottom, handleScrollToBottom } =
     useChatScroll(messages[messages.length - 1]?.id);
 
+  const combinedRef = (el: HTMLDivElement) => {
+    chatListRef.current = el;
+    if (chatRef) chatRef.current = el;
+  };
+
   return (
     <div
-      ref={chatListRef}
+      ref={combinedRef}
       onScroll={handleCheckBottom}
       className="absolute top-8 left-0 bottom-18 sm:bottom-21 w-full gap-5 px-3 pt-7 pb-4 flex flex-col items-center overflow-y-auto pr-2"
     >
@@ -39,7 +44,6 @@ function ChatList({ messages, userCurrentStep, onSelectedOption }: ChatListProps
                 },
               ]}
               showProfile={showProfile}
-              stepData={msg.stepData}
               currentStep={userCurrentStep}
               onSelectedOption={onSelectedOption}
               isTyping={isTyping}

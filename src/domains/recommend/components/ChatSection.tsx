@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import MessageInput from './user/MessageInput';
 import { fetchGreeting, fetchSendStepMessage, fetchSendTextMessage } from '../api/chat';
 import { ChatMessage, stepPayload } from '../types/recommend';
@@ -9,11 +9,14 @@ import { useSelectedOptions } from '../hook/useSelectedOptions';
 import { useAuthStore } from '@/domains/shared/store/auth';
 import { useChatInit } from '../hook/useChatInit';
 import { useChatWarning } from '../hook/useChatWarning';
+import { useChatCapture } from '../hook/useChatCapture';
 
 function ChatSection() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [userCurrentStep, setUserCurrentStep] = useState(0);
   const { selectedOptions, setOption, setStepOption } = useSelectedOptions();
+  const chatRef = useRef<HTMLDivElement>(null);
+  const { capture } = useChatCapture(chatRef);
 
   const isInputDisabled =
     selectedOptions.current.selectedSearchType !== 'QA' && userCurrentStep < 3;
@@ -150,11 +153,12 @@ function ChatSection() {
         ⚠️ 페이지를 벗어나면 채팅내용이 사라집니다.
       </div>
       <ChatList
+        chatRef={chatRef}
         messages={messages}
         userCurrentStep={userCurrentStep}
         onSelectedOption={handleSelectedOption}
       />
-      <MessageInput onSubmit={handleSubmitText} disabled={isInputDisabled} />
+      <MessageInput onSubmit={handleSubmitText} onCapture={capture} disabled={isInputDisabled} />
     </section>
   );
 }
