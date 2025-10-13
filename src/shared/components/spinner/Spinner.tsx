@@ -10,7 +10,7 @@ function Spinner() {
 
   return (
     <div
-      className="page-layout max-w-full flex justify-center items-center"
+      className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center"
       role="status"
       aria-label="페이지를 불러오는 중입니다"
     >

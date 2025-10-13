@@ -18,6 +18,10 @@
     ]
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.6",
+    "@react-three/fiber": "^9.3.0",
+    "@react-three/gltfjsx": "^4.3.4",
+    "@react-three/postprocessing": "^3.0.4",
     "@tanstack/react-query": "^5.90.2",
     "@tanstack/react-virtual": "^3.13.12",
     "class-variance-authority": "^0.7.1",
@@ -30,7 +34,8 @@
     "react-hot-toast": "^2.6.0",
     "react-intersection-observer": "^9.16.0",
     "react-use": "^17.6.0",
-    "swiper": "^12.0.2"
+    "swiper": "^12.0.2",
+    "three": "^0.180.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
