@@ -12,10 +12,9 @@ type Props = {
 };
 
 function Comment({ postId }: Props) {
-  const { user, accessToken } = useAuthStore(
+  const { user } = useAuthStore(
     useShallow((state) => ({
       user: state.user,
-      accessToken: state.accessToken,
     }))
   );
   const {
@@ -29,7 +28,7 @@ function Comment({ postId }: Props) {
     handleAskDeleteComment,
     handleConfirmDelete,
     loadMoreComments,
-  } = useComments(postId, user, accessToken);
+  } = useComments(postId, user);
 
   return (
     <>

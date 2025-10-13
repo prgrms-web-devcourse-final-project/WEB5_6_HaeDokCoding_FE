@@ -5,11 +5,7 @@ import { CommentType } from '@/domains/community/types/post';
 import { deleteRecipeComment, getRecipeComment, updateComment } from './fetchRecipeComment';
 import { useToast } from '@/shared/hook/useToast';
 
-export function useRecipeComments(
-  cocktailId: number,
-  user: User | null,
-  accessToken: string | null
-) {
+export function useRecipeComments(cocktailId: number, user: User | null) {
   const [comments, setComments] = useState<CommentType[] | null>(null);
   const [isEnd, setIsEnd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +32,7 @@ export function useRecipeComments(
       return;
     }
     try {
-      await updateComment(accessToken!, cocktailId, commentId, content);
+      await updateComment(cocktailId, commentId, content);
       setComments((prev) =>
         prev
           ? prev.map((comment) =>
@@ -62,7 +58,7 @@ export function useRecipeComments(
     if (!deleteTarget) return;
 
     try {
-      await deleteRecipeComment(accessToken!, deleteTarget.cocktailId, deleteTarget.commentId);
+      await deleteRecipeComment(deleteTarget.cocktailId, deleteTarget.commentId);
       setComments((prev) =>
         prev ? prev.filter((c) => c.commentId !== deleteTarget.commentId) : prev
       );

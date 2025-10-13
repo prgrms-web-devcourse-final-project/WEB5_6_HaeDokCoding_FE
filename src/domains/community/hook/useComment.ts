@@ -5,7 +5,7 @@ import { CommentType } from '../types/post';
 import { User } from '@/domains/shared/store/auth';
 import { ParamValue } from 'next/dist/server/request/params';
 
-export function useComments(postId: ParamValue, user: User | null, accessToken: string | null) {
+export function useComments(postId: ParamValue, user: User | null) {
   const [comments, setComments] = useState<CommentType[] | null>(null);
   const [isEnd, setIsEnd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +23,7 @@ export function useComments(postId: ParamValue, user: User | null, accessToken: 
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, [postId]);
 
   const handleUpdateComment = async (commentId: number, content: string) => {
     if (!user) {
@@ -31,7 +31,7 @@ export function useComments(postId: ParamValue, user: User | null, accessToken: 
       return;
     }
     try {
-      await updateComment(accessToken!, postId, commentId, content);
+      await updateComment(postId, commentId, content);
       setComments((prev) =>
         prev
           ? prev.map((comment) =>
@@ -39,6 +39,8 @@ export function useComments(postId: ParamValue, user: User | null, accessToken: 
             )
           : prev
       );
+      const updatedComments = await fetchComment(postId);
+      setComments(updatedComments);
     } catch (err) {
       console.error(err);
       alert('댓글 수정 중 오류가 발생했습니다.');
@@ -57,10 +59,12 @@ export function useComments(postId: ParamValue, user: User | null, accessToken: 
     if (!deleteTarget) return;
 
     try {
-      await deleteComment(accessToken!, deleteTarget.postId, deleteTarget.commentId);
+      await deleteComment(deleteTarget.postId, deleteTarget.commentId);
       setComments((prev) =>
         prev ? prev.filter((c) => c.commentId !== deleteTarget.commentId) : prev
       );
+      const updatedComments = await fetchComment(postId);
+      setComments(updatedComments);
     } catch (err) {
       console.error(err);
       alert('댓글 삭제 중 오류가 발생했습니다.');

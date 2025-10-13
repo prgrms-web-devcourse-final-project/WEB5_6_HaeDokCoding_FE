@@ -39,7 +39,7 @@ function DetailContent({
       <CocktailTag use="detail" selectedTags={tags} />
       <PostInfo createdAt={createdAt} viewCount={viewCount} commentCount={commentCount} />
 
-      <div className="block md:hidden mt-2">
+      <div className="block lg:hidden mt-2">
         <DetailTabMobile
           likeCount={prevLikeCount ?? 0}
           like={like}

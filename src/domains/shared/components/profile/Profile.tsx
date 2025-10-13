@@ -17,10 +17,7 @@ function Profile({ userNickname }: Props) {
 
   return (
     <div className="flex gap-2 items-center justify-start">
-      <div
-        className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center"
-        aria-label="작성자 아이콘"
-      >
+      <div className="w-8 h-8 flex items-center justify-center" aria-label="작성자 아이콘">
         <div className="w-8 flex items-center justify-center">
           <SsuryImage abvLevel={abvLevel} />
         </div>
