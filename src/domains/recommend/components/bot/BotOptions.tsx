@@ -12,14 +12,7 @@ interface BotOptionsProps {
   disabled?: boolean;
 }
 
-function BotOptions({
-  options,
-  value,
-  onChange,
-  step,
-  currentStep,
-  disabled = false,
-}: BotOptionsProps) {
+function BotOptions({ options, value, onChange, step, disabled = false }: BotOptionsProps) {
   return (
     <div role="radiogroup" className="flex flex-col gap-3 mt-5">
       {options.map((opt) => (
