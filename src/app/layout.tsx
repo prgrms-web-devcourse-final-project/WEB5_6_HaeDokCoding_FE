@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko-KR">
-      <body className="relative flex flex-col min-h-screen">
+      <body className="relative flex flex-col min-h-full-screen">
         <Provider>
           <Header />
           <ClientInitHook />
