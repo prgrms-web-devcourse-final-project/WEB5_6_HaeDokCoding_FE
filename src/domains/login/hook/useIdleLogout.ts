@@ -5,7 +5,7 @@ import { useLogout } from './useLogout';
 import { useToast } from '@/shared/hook/useToast';
 import { useAuthStore } from '@/domains/shared/store/auth';
 
-const IDLE_TIMEOUT = 1 * 60 * 1000;
+const IDLE_TIMEOUT = 4 * 60 * 60 * 1000;
 
 export const useIdleLogout = () => {
   const handleLogout = useLogout();
