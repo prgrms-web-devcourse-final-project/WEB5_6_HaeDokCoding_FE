@@ -8,14 +8,6 @@ function ChatList({ messages, userCurrentStep, onSelectedOption }: ChatListProps
   const { chatListRef, chatEndRef, showNewMessageAlert, handleCheckBottom, handleScrollToBottom } =
     useChatScroll(messages[messages.length - 1]?.id);
 
-  const getRecommendations = (
-    type: string | undefined,
-    stepData?: StepRecommendation | null
-  ): RecommendationItem[] => {
-    if (type !== 'CARD_LIST' || !stepData?.recommendations) return [];
-    return stepData.recommendations;
-  };
-
   return (
     <div
       ref={chatListRef}
@@ -35,8 +27,6 @@ function ChatList({ messages, userCurrentStep, onSelectedOption }: ChatListProps
 
           const isTyping = msg.type === 'TYPING';
 
-          const recommendations = getRecommendations(msg.type, msg.stepData);
-
           return (
             <BotMessage
               key={keyId}
@@ -45,8 +35,7 @@ function ChatList({ messages, userCurrentStep, onSelectedOption }: ChatListProps
                   id: msg.id,
                   message: msg.message,
                   type: msg.type ?? 'TEXT',
-                  options: msg.type === 'RADIO_OPTIONS' ? (msg.stepData?.options ?? []) : [],
-                  recommendations,
+                  stepData: msg.stepData,
                 },
               ]}
               showProfile={showProfile}

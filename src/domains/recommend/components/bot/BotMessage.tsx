@@ -12,14 +12,12 @@ interface BotMessage {
   id: string;
   message: string;
   type: string;
-  options?: StepOption[];
-  recommendations?: RecommendationItem[];
+  stepData?: StepRecommendation | null;
 }
 
 interface BotMessages {
   messages: BotMessage[];
   showProfile: boolean;
-  stepData?: StepRecommendation | null;
   currentStep?: number;
   onSelectedOption?: (value: string) => void;
   isTyping?: boolean;
@@ -28,7 +26,6 @@ interface BotMessages {
 function BotMessage({
   messages,
   showProfile,
-  stepData,
   currentStep,
   onSelectedOption,
   isTyping,
@@ -71,31 +68,47 @@ function BotMessage({
               </div>
 
               {/* radio */}
-              {msg.type === 'RADIO_OPTIONS' && msg.options?.length && (
+              {msg.type === 'RADIO_OPTIONS' && msg.stepData?.options?.length ? (
                 <BotOptions
-                  options={msg.options}
-                  step={stepData?.currentStep ?? 0} // step id용
-                  value={selectedOptions[stepData?.currentStep ?? 0] ?? ''} // step별 선택값
-                  onChange={(val) => handleOptionChange(stepData?.currentStep ?? 0, val)}
-                  disabled={currentStep ? currentStep > (stepData?.currentStep ?? 0) : false} // disabled 처리
+                  options={msg.stepData.options} // stepData와 options가 존재하는 게 보장됨
+                  step={msg.stepData.currentStep ?? 0}
+                  value={selectedOptions[msg.stepData.currentStep ?? 0] ?? ''}
+                  onChange={(val) => handleOptionChange(msg.stepData?.currentStep ?? 0, val)}
+                  disabled={currentStep ? currentStep > (msg.stepData.currentStep ?? 0) : false}
                 />
-              )}
-              {/* {children} */}
+              ) : null}
             </div>
-            {msg.type === 'CARD_LIST' && msg.recommendations?.length ? (
-              <ul className="inline-grid grid-cols-1 mt-5 sm:grid-cols-3 gap-2 justify-start">
-                {msg.recommendations.map((rec) => (
-                  <li key={rec.cocktailId}>
-                    <BotCocktailCard
-                      cocktailId={rec.cocktailId}
-                      cocktailName={rec.cocktailName}
-                      cocktailNameKo={rec.cocktailNameKo}
-                      cocktailImgUrl={rec.cocktailImgUrl}
-                      alcoholStrength={rec.alcoholStrength}
+            {msg.type === 'CARD_LIST' && msg.stepData?.recommendations?.length ? (
+              <>
+                {/* 카드 목록 */}
+                <ul className="inline-grid grid-cols-1 mt-5 sm:grid-cols-3 gap-2 justify-start">
+                  {msg.stepData.recommendations.map((rec) => (
+                    <li key={rec.cocktailId}>
+                      <BotCocktailCard
+                        cocktailId={rec.cocktailId}
+                        cocktailName={rec.cocktailName}
+                        cocktailNameKo={rec.cocktailNameKo}
+                        cocktailImgUrl={rec.cocktailImgUrl}
+                        alcoholStrength={rec.alcoholStrength}
+                      />
+                    </li>
+                  ))}
+                </ul>
+
+                {/* 카드 목록 마지막 restart */}
+                {msg.stepData?.options && msg.stepData.options?.length > 0 && (
+                  <div className="flex flex-col w-fit max-w-[80%] min-w-[120px] p-3 rounded-2xl rounded-tl-none bg-white text-black opacity-0 animate-fadeIn mt-3">
+                    <p>다시 추천받기를 원하시나요?</p>
+                    <BotOptions
+                      options={msg.stepData.options}
+                      step={msg.stepData.currentStep ?? 0}
+                      value={selectedOptions[msg.stepData.currentStep ?? 0] ?? ''}
+                      onChange={(val) => handleOptionChange(msg.stepData?.currentStep ?? 0, val)}
+                      disabled={currentStep ? currentStep > (msg.stepData.currentStep ?? 0) : false}
                     />
-                  </li>
-                ))}
-              </ul>
+                  </div>
+                )}
+              </>
             ) : (
               ''
             )}

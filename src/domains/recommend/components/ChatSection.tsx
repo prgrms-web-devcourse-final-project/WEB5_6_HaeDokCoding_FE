@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import MessageInput from './user/MessageInput';
-import { fetchSendStepMessage, fetchSendTextMessage } from '../api/chat';
+import { fetchGreeting, fetchSendStepMessage, fetchSendTextMessage } from '../api/chat';
 import { ChatMessage, stepPayload } from '../types/recommend';
 import ChatList from './ChatList';
 import { useSelectedOptions } from '../hook/useSelectedOptions';
@@ -76,6 +76,25 @@ function ChatSection() {
   const handleSelectedOption = async (value: string) => {
     const userId = useAuthStore.getState().user?.id;
     if (!userId) return;
+
+    // RESTART 처리
+    if (value === 'RESTART') {
+      setUserCurrentStep(0);
+      setMessages([]);
+
+      // 초기 인사 불러오기
+      try {
+        const greeting = await fetchGreeting('');
+        if (greeting) setMessages([greeting]);
+      } catch (err) {
+        console.error('인사 메시지 불러오기 실패:', err);
+      }
+
+      // 선택된 옵션 초기화
+      setOption('selectedSearchType', '');
+      setStepOption(0, '');
+      return;
+    }
 
     const tempId = Date.now().toString();
     const tempCreatedAt = new Date().toISOString();
