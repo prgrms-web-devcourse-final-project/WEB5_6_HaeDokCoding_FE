@@ -16,7 +16,6 @@ function Landing() {
           <HomeModel onLoaded={() => setIsLoading(false)} />
           {!isLoading && <StarMain />}
         </div>
-        <div className="w-full h-[1000px]"></div>
       </div>
     </>
   );

@@ -1,10 +1,11 @@
 'use client';
 import Share from '@/domains/shared/components/share/Share';
-import BackBtn from '../components/details/BackBtn';
+
 import Keep from '@/domains/shared/components/keep/Keep';
 import { useEffect, useState } from 'react';
 import ShareModal from '@/domains/shared/components/share/ShareModal';
 import { getApi } from '@/app/api/config/appConfig';
+import BackBtn from './BackBtn';
 
 interface Meta {
   title: string;
