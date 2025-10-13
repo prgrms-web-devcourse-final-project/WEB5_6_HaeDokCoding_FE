@@ -17,7 +17,7 @@ function MainSsuryDrunk({ src, abv }: Props) {
   }
   return (
     <div className="flex flex-col items-center gap-1">
-      <p className={`text-3xl font-bold ${className(abv)}`}>
+      <p className={`text-lg sm:text-3xl font-bold ${className(abv)}`}>
         {abv}
         {abv !== 86 ? (
           <span className="text-xs text-primary">%</span>
@@ -25,7 +25,7 @@ function MainSsuryDrunk({ src, abv }: Props) {
           <span className="text-xs text-primary">%~</span>
         )}
       </p>
-      <Image src={src} alt="" width={60} height={60} className="w-15 h-15 object-cover"></Image>
+      <Image src={src} alt="" width={60} height={60} className="w-15 h-15 object-contain"></Image>
     </div>
   );
 }

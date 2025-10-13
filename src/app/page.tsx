@@ -1,4 +1,5 @@
-import MainSlide from "@/domains/main/mainSlide/MainSlide";
+import MainSlide from "@/domains/main/components/mainSlide/components/MainSlide";
+
 
 export default function Home() {
   return (

@@ -69,7 +69,7 @@ function MainTestDummy({ message, option, type}:Props) {
         </div>
       )}
       {type == 'text' && (
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           {DUMMY_CARD.map(({ id, src, cocktailName }) => (
             <MainSlideDummyCard key={id} id={id} src={src} cocktailName={cocktailName} />
           ))}

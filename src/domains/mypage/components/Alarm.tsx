@@ -9,12 +9,11 @@ interface Props {
   title: string;
   content: string;
   createdAt:Date
+  read:boolean
 }
 
-function Alarm({ title, content,createdAt }: Props) {
-  const [isClick, setIsClick] = useState(false);
-
-  console.log(createdAt)
+function Alarm({ title, content,createdAt,read }: Props) {
+  const [isClick, setIsClick] = useState(read);
   const date = new Date(createdAt)
   const alarmDate = `${date.getMonth() + 1}월 ${date.getDate()}일`
   const time = elapsedTime(createdAt.toString())
@@ -39,8 +38,8 @@ function Alarm({ title, content,createdAt }: Props) {
           <p className="text-sm text-white/80">{time}</p>
         </div>
         <div className="flex flex-col">
-          <h2 className="text-lg font-bold">{title}</h2>
-          <p className="text-sm text-white/80">{content}</p>
+          <h2 className="text-lg font-bold">{content}</h2>
+          <p className="text-sm text-white/80">{title}</p>
         </div>
       </div>
     </div>
