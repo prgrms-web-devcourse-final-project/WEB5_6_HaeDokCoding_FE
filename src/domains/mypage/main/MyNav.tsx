@@ -46,11 +46,8 @@ function MyNav() {
   const subIndex = SUB_TABMENU.findIndex((opt) => pathname.startsWith(opt.href));
   const isSubActive = subIndex === -1 ? 0 : subIndex;
 
-
-
   return (
     <section aria-labelledby="mypage-tabs" className=" mt-6 md:mt-1 flex flex-col gap-3">
- 
       <h2 id="mypage-tabs" className="sr-only">
         마이페이지 탭 메뉴
       </h2>
