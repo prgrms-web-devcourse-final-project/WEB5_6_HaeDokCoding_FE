@@ -4,21 +4,18 @@ import BotMessage from './bot/BotMessage';
 import NewMessageAlert from './bot/NewMessageAlert';
 import UserMessage from './user/UserMessage';
 
-function ChatList({ messages, userCurrentStep, onSelectedOption }: ChatListProps) {
+function ChatList({ messages, userCurrentStep, onSelectedOption, chatRef }: ChatListProps) {
   const { chatListRef, chatEndRef, showNewMessageAlert, handleCheckBottom, handleScrollToBottom } =
     useChatScroll(messages[messages.length - 1]?.id);
 
-  const getRecommendations = (
-    type: string | undefined,
-    stepData?: StepRecommendation | null
-  ): RecommendationItem[] => {
-    if (type !== 'CARD_LIST' || !stepData?.recommendations) return [];
-    return stepData.recommendations;
+  const combinedRef = (el: HTMLDivElement) => {
+    chatListRef.current = el;
+    if (chatRef) chatRef.current = el;
   };
 
   return (
     <div
-      ref={chatListRef}
+      ref={combinedRef}
       onScroll={handleCheckBottom}
       className="absolute top-8 left-0 bottom-18 sm:bottom-21 w-full gap-5 px-3 pt-7 pb-4 flex flex-col items-center overflow-y-auto pr-2"
     >
@@ -35,8 +32,6 @@ function ChatList({ messages, userCurrentStep, onSelectedOption }: ChatListProps
 
           const isTyping = msg.type === 'TYPING';
 
-          const recommendations = getRecommendations(msg.type, msg.stepData);
-
           return (
             <BotMessage
               key={keyId}
@@ -45,12 +40,10 @@ function ChatList({ messages, userCurrentStep, onSelectedOption }: ChatListProps
                   id: msg.id,
                   message: msg.message,
                   type: msg.type ?? 'TEXT',
-                  options: msg.type === 'RADIO_OPTIONS' ? (msg.stepData?.options ?? []) : [],
-                  recommendations,
+                  stepData: msg.stepData,
                 },
               ]}
               showProfile={showProfile}
-              stepData={msg.stepData}
               currentStep={userCurrentStep}
               onSelectedOption={onSelectedOption}
               isTyping={isTyping}

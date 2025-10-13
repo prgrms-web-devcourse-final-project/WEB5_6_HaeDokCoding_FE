@@ -5,7 +5,7 @@ import { CommentType } from '../types/post';
 import { User } from '@/domains/shared/store/auth';
 import { ParamValue } from 'next/dist/server/request/params';
 
-export function useComments(postId: ParamValue, user: User | null, accessToken?: string | null) {
+export function useComments(postId: ParamValue, user: User | null) {
   const [comments, setComments] = useState<CommentType[] | null>(null);
   const [isEnd, setIsEnd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +31,7 @@ export function useComments(postId: ParamValue, user: User | null, accessToken?:
       return;
     }
     try {
-      await updateComment(accessToken!, postId, commentId, content);
+      await updateComment(postId, commentId, content);
       setComments((prev) =>
         prev
           ? prev.map((comment) =>
@@ -59,7 +59,7 @@ export function useComments(postId: ParamValue, user: User | null, accessToken?:
     if (!deleteTarget) return;
 
     try {
-      await deleteComment(accessToken!, deleteTarget.postId, deleteTarget.commentId);
+      await deleteComment(deleteTarget.postId, deleteTarget.commentId);
       setComments((prev) =>
         prev ? prev.filter((c) => c.commentId !== deleteTarget.commentId) : prev
       );
