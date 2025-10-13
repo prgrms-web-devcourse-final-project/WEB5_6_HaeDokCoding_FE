@@ -1,28 +1,60 @@
 'use client';
+import { getApi } from '@/app/api/config/appConfig';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import AlarmConfirm from './pages/my-alarm/AlarmConfirm';
 
 function ToggleBtn() {
-  const [isClick, setIsClick] = useState(false);
+  const [isAlarm, setIsAlarm] = useState<boolean | null>(null);
+  const [isClick, setIsClick] = useState<boolean>(false);
 
-  const handleClick = () => {
-    setIsClick(!isClick);
+  useEffect(() => {
+    const fetchToggle = async () => {
+      try {
+        const res = await fetch(`${getApi}/me/notification-setting`, {
+          method: 'GET',
+          credentials: 'include',
+        });
+        const json = await res.json();
+        setIsAlarm(json.data.enabled);
+      } catch {
+        console.error();
+      }
+    };
+    fetchToggle();
+  }, []);
+
+  const handleClick = async () => {
+    setIsClick(true);
   };
+
   return (
-    <button
-      className={clsx(
-        'rounded-full flex py-0.5 pl-[2px] w-17 h-7 duration-300',
-        isClick ? 'bg-tertiary' : 'bg-white'
+    <div>
+      {isClick && (
+        <AlarmConfirm
+          open={isClick}
+          onClose={() => setIsClick(false)}
+          state={isAlarm}
+          cancle={() => setIsClick(isClick)}
+          setIsAlarm={setIsAlarm}
+          setIsClick={setIsClick}
+        />
       )}
-      onClick={handleClick}
-    >
-      <div
+      <button
         className={clsx(
-          'rounded-full w-6 h-6 duration-300',
-          isClick ? 'bg-secondary translate-x-10' : 'bg-gray-dark'
+          'rounded-full flex py-0.5 pl-[2px] w-17 h-7 duration-300',
+          isAlarm ? 'bg-tertiary' : 'bg-white'
         )}
-      ></div>
-    </button>
+        onClick={handleClick}
+      >
+        <div
+          className={clsx(
+            'rounded-full w-6 h-6 duration-300',
+            isAlarm ? 'bg-secondary translate-x-10' : 'bg-gray-dark'
+          )}
+        ></div>
+      </button>
+    </div>
   );
 }
 export default ToggleBtn;

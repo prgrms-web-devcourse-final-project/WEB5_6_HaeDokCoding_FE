@@ -1,19 +1,22 @@
 import LikeIcon from '@/shared/assets/icons/like_28.svg';
 import { useState } from 'react';
 
-function LikeBtn({ size }: { size: 'sm' | 'md' }) {
-  const [isClick, setIsClick] = useState(false);
+type Props = {
+  size: 'sm' | 'md';
+  onClick?: () => void;
+  isClick?: boolean; // 외부에서 제어
+};
 
-  const handleClick = () => {
-    setIsClick(!isClick);
-  };
+function LikeBtn({ size, onClick, isClick = false }: Props) {
   return (
     <button
       type="button"
       className={`${size === 'md' ? 'w-13.75 h-13.75 flex-center border-1 border-white rounded-full' : ''} bg-primary`}
       aria-label="좋아요 버튼"
       aria-pressed={isClick}
-      onClick={handleClick}
+      onClick={() => {
+        if (onClick) onClick();
+      }}
     >
       <LikeIcon
         fill={`${isClick ? '#81689d' : 'transparent'}`}

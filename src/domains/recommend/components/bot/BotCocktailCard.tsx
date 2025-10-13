@@ -3,16 +3,15 @@ import Link from 'next/link';
 import Keep from '@/domains/shared/components/keep/Keep';
 import { RecommendationItem } from '../../types/recommend';
 
-function BotCocktailCard({
-  cocktailId,
-  cocktailName,
-  cocktailNameKo,
-  cocktailImgUrl,
-  alcoholStrength,
-}: RecommendationItem) {
+function BotCocktailCard({ cocktailId, cocktailNameKo, cocktailImgUrl }: RecommendationItem) {
   return (
     <div className="relative flex flex-col w-full min-w-[200px] rounded-2xl overflow-hidden bg-white shadow-[0_0_12px_rgba(255,255,255,0.4)]">
-      <Link href="/" className="block relative">
+      <Link
+        href={`/recipe/${cocktailId}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block relative"
+      >
         <div className="relative w-full h-[200px]">
           <Image
             src={cocktailImgUrl}
@@ -29,7 +28,7 @@ function BotCocktailCard({
           <span className="text-gray-500 text-sm">+ 상세보기</span>
         </div>
       </Link>
-      <Keep className="absolute top-2 right-2" />
+      <Keep cocktailId={cocktailId} className="absolute top-2 right-2" />
     </div>
   );
 }

@@ -1,27 +1,92 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import CommunityFilter from './CommunityFilter';
 import CommunityTab from './CommunityTab';
 import PostCard from './PostCard';
 import WriteBtn from './WriteBtn';
 import { Post } from '../types/post';
-import { fetchPost } from '../api/fetchPost';
+import { fetchPostByTab } from '../api/fetchPost';
+import { useSearchParams } from 'next/navigation';
 
 function Community() {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<Post[] | null>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [lastLoadedId, setLastLoadedId] = useState<number | null>(null);
+
+  const searchParams = useSearchParams();
+
+  const category = useMemo(() => searchParams.get('category') || 'all', [searchParams]);
+  const filter = useMemo(
+    () => (searchParams.get('postSortStatus') as 'LATEST' | 'POPULAR' | 'COMMENTS') || 'LATEST',
+    [searchParams]
+  );
+
+  const lastLikeCount =
+    posts && posts.length > 0 ? Math.min(...posts.map((post) => post.likeCount)) : null;
+
+  const lastCommentCount =
+    posts && posts.length > 0 ? Math.min(...posts.map((post) => post.commentCount)) : null;
+
+  const [isEnd, setIsEnd] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      const data = await fetchPost();
-      if (!data) return;
-      setPosts(data);
+    setPosts([]);
+    setIsEnd(false);
+    setLastLoadedId(null);
+    loadInitialPosts();
+  }, [category, filter]);
+
+  const loadInitialPosts = async () => {
+    setIsLoading(true);
+    setIsEnd(false);
+
+    try {
+      const newPosts = await fetchPostByTab({
+        category,
+        filter,
+        lastLikeCount,
+        lastCommentCount,
+      });
+
+      if (!newPosts || newPosts.length === 0) {
+        setIsEnd(true);
+        setPosts([]);
+      } else {
+        setPosts(newPosts);
+      }
+    } finally {
       setIsLoading(false);
-    };
-    fetchData();
-  }, [setPosts]);
+    }
+  };
+
+  const loadMorePosts = async (lastPostId: number) => {
+    if (isEnd || isLoading) return;
+    if (!posts || posts.length === 0) return;
+    console.log('시작', lastPostId);
+
+    if (lastLoadedId === lastPostId) return;
+    setLastLoadedId(lastPostId);
+
+    setIsLoading(true);
+    try {
+      const newPosts = await fetchPostByTab({
+        category,
+        filter,
+        lastLikeCount,
+        lastCommentCount,
+        lastId: lastPostId,
+      });
+
+      if (!newPosts || newPosts?.length === 0) {
+        setIsEnd(true);
+      } else {
+        setPosts((prev) => [...(prev ?? []), ...(newPosts ?? [])]);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -29,13 +94,20 @@ function Community() {
         aria-label="탭과 글쓰기"
         className="flex justify-between item-center sm:flex-row flex-col gap-4 mt-1"
       >
-        <CommunityTab setPosts={setPosts} />
+        <CommunityTab setPosts={setPosts} setIsLoading={setIsLoading} setIsEnd={setIsEnd} />
         <WriteBtn />
       </section>
 
       <section aria-label="게시물 목록">
-        <CommunityFilter posts={posts} />
-        <PostCard posts={posts} isLoading={isLoading} />
+        <CommunityFilter posts={posts} setPosts={setPosts} />
+        <PostCard
+          posts={posts}
+          setPost={setPosts}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+          isEnd={isEnd}
+          onLoadMore={loadMorePosts}
+        />
       </section>
     </>
   );

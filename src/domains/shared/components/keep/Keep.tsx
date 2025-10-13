@@ -1,17 +1,51 @@
 'use client';
+
 import KeepIcon from '@/shared/assets/icons/keep_36.svg';
 import KeepIconActive from '@/shared/assets/icons/keep_active_36.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { deleteKeep, postKeep } from '../../api/keep/keep';
+import { useToast } from '@/shared/hook/useToast';
+import { useAuthStore } from '../../store/auth';
 
 interface Props {
   className?: string;
+  cocktailId?: number;
+  favor?: boolean | null;
 }
+// ID는 커뮤니티 공유할때 id 타입보고 옵셔널 체크 풀어주세요!
+// 만약 타입 안맞는다면 그냥 두셔도 됩니다.
 
-function Keep({ className }: Props) {
-  const [isClick, setIsClick] = useState(false);
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+function Keep({ className, cocktailId, favor }: Props) {
+  const { user } = useAuthStore();
+  const { toastInfo, toastSuccess } = useToast();
+  const [isClick, setIsClick] = useState(favor);
+
+  useEffect(() => {
+    setIsClick(favor);
+  }, [favor]);
+
+  const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     e.stopPropagation();
+
+    if (!user) {
+      toastInfo('로그인 후 이용 가능합니다.');
+      return;
+    }
+
     setIsClick(!isClick);
+    try {
+      if (!cocktailId) return;
+      if (!isClick) {
+        await postKeep(cocktailId);
+        toastSuccess('저장에 성공하셨습니다.');
+      } else {
+        await deleteKeep(cocktailId);
+        toastSuccess('저장을 취소하셨습니다.');
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

@@ -9,7 +9,7 @@ import { usePathname } from 'next/navigation';
 const MAIN_TABMENU = [
   {
     title: '나만의 BAR',
-    href: '/mypage/mybar',
+    href: '/mypage/my-bar',
   },
   {
     title: '내 활동',
@@ -92,16 +92,8 @@ function MyNav() {
           role="tabpanel"
           aria-labelledby={`main-tab-${i}`}
           hidden={isActive !== i}
-        >
-          {/* 필요하면 여기 메인 탭별 콘텐츠 렌더 */}
-        </div>
+        ></div>
       ))}
-
-      {(isActive == 0 || isActive == 2) && (
-        <TextButton className="self-end" onClick={() => setIsDeleteAll(!isDeleteAll)}>
-          전체삭제
-        </TextButton>
-      )}
 
       {isActive == 1 && (
         <nav aria-label="내 활동 하위 탭">
@@ -139,9 +131,7 @@ function MyNav() {
             role="tabpanel"
             aria-labelledby={`sub-tab-${i}`}
             hidden={isActive !== i}
-          >
-            {/* 필요하면 여기 서브 탭별 콘텐츠 렌더 */}
-          </div>
+          ></div>
         ))}
     </section>
   );

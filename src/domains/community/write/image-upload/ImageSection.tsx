@@ -1,18 +1,44 @@
-import DragandClick from './DragandClick';
+import { Dispatch, SetStateAction, useEffect } from 'react';
+import ImageInput from './ImageInput';
 import UploadedImage from './UploadedImage';
+import { FormType, UploadedItem } from '@/domains/recipe/types/types';
 
-function ImageSection() {
+type Props = {
+  formData: FormType;
+  setFormData: Dispatch<SetStateAction<FormType>>;
+  uploadedFile: UploadedItem[];
+  setUploadedFile: Dispatch<SetStateAction<UploadedItem[]>>;
+};
+
+function ImageSection({ formData, setFormData, uploadedFile, setUploadedFile }: Props) {
+  useEffect(() => {
+    console.log(uploadedFile);
+  }, [uploadedFile]);
+
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, imageUrls: uploadedFile.map((file) => file.url) }));
+    console.log(formData.imageUrls);
+  }, [uploadedFile]);
+
+  const handleAddImage = (newFiles: UploadedItem[]) => {
+    const MAX_IMAGES = 10;
+    if (uploadedFile.length + newFiles.length > MAX_IMAGES) {
+      alert(`이미지는 최대 ${MAX_IMAGES}개까지 업로드할 수 있어요.`);
+      return;
+    }
+    setUploadedFile((prev) => [...prev, ...newFiles]);
+  };
+
   return (
     <section className="mt-5 sm:grid md:grid-cols-7 sm:grid-cols-5 sm:place-items-center  flex overflow-y-scroll no-scrollbar gap-5 whitespace-nowrap py-5 w-full max-w-full">
-      <DragandClick />
-      <UploadedImage />
-      <UploadedImage />
-      <UploadedImage />
-      <UploadedImage />
-      <UploadedImage />
-      <UploadedImage />
-      <UploadedImage />
-      <UploadedImage />
+      <ImageInput
+        uploadedFile={uploadedFile}
+        setUploadedFile={setUploadedFile}
+        onAddImage={handleAddImage}
+      />
+      {uploadedFile && (
+        <UploadedImage uploadedFile={uploadedFile} setUploadedFile={setUploadedFile} />
+      )}
     </section>
   );
 }

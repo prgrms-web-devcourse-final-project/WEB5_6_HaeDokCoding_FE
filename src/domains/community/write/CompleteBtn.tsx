@@ -1,10 +1,23 @@
 import Button from '@/shared/components/button/Button';
 
-function CompleteBtn() {
+type Props = {
+  mode: 'edit' | 'create';
+  setEditDone: (value: boolean) => void;
+  handleEditLogic: () => Promise<boolean>;
+};
+
+function CompleteBtn({ mode, setEditDone, handleEditLogic }: Props) {
   return (
     <div className="w-full flex items-center justify-end mt-10">
-      <Button type="submit" size="default" color="default">
-        올리기
+      <Button
+        type={mode === 'create' ? 'submit' : 'button'}
+        size="default"
+        color="default"
+        onClick={async () => {
+          setEditDone(true);
+        }}
+      >
+        {mode === 'create' ? '올리기' : '수정하기'}
       </Button>
     </div>
   );

@@ -14,3 +14,16 @@
   color: #fff;
   background-color: var(--color-primary);
 }
+
+html {
+  scroll-behavior: auto; /* smooth가 아닌 auto로 */
+}
+
+/* 전역 CSS 또는 글로벌 스타일에서 */
+.swiper,
+.swiper-slide,
+.swiper-button-prev,
+.swiper-button-next,
+.swiper-pagination {
+  font-family: inherit !important;
+}

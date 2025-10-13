@@ -12,7 +12,7 @@ function EditDelete({ use, isEditing, onEdit, onCancelEdit, onDelete, onSubmitEd
     <div
       role="group"
       aria-label="게시글 수정 및 삭제"
-      className="flex sm:gap-3 gap-1 sm:text-[14px] text-[12px] text-gray"
+      className="flex sm:gap-3 gap-1 sm:text-[14px] text-[12px] text-gray z-20"
     >
       <button
         type="button"

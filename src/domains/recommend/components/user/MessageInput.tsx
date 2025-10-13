@@ -7,9 +7,10 @@ import { useRef, useState } from 'react';
 
 interface Props {
   onSubmit: (message: string) => void;
+  disabled: boolean;
 }
 
-function MessageInput({ onSubmit }: Props) {
+function MessageInput({ onSubmit, disabled }: Props) {
   const [value, setValue] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -21,9 +22,9 @@ function MessageInput({ onSubmit }: Props) {
   };
 
   return (
-    <div className="fixed left-1/2 bottom-0 -translate-x-1/2 w-full max-w-[64rem] px-3 py-4 bg-primary">
-      <form onSubmit={(e) => e.preventDefault()}>
-        <div className="flex items-end w-full gap-2">
+    <div className="fixed left-0 bottom-0 w-full px-3 py-4 flex-center bg-primary">
+      <form onSubmit={(e) => e.preventDefault()} className="w-full max-w-[64rem]">
+        <div className="flex items-end gap-2">
           <label htmlFor="chatInput" className="sr-only">
             질문 입력창
           </label>
@@ -35,8 +36,14 @@ function MessageInput({ onSubmit }: Props) {
             id="chatInput"
             name="chatInput"
             onInput={(e) => resizeTextarea(e.currentTarget)}
-            placeholder="칵테일 추천 질문을 입력해주세요."
-            className="w-[calc(100%-3rem)] md:w-[calc(100%-3.75rem)] px-4 py-2 md:py-3.5 rounded-lg h-[40px] md:h-[52px] max-h-[160px] md:max-h-[280px] bg-white text-primary placeholder:text-gray-dark resize-none outline-none"
+            placeholder={disabled ? '옵션 선택' : '칵테일 추천 질문 입력'}
+            disabled={disabled}
+            className={`
+    w-[calc(100%-3rem)] md:w-[calc(100%-3.75rem)] px-4 py-2 md:py-3.5
+    rounded-lg h-[40px] md:h-[52px] max-h-[160px] md:max-h-[280px]
+    bg-white text-primary placeholder:text-gray-dark resize-none outline-none
+    disabled:bg-gray disabled:text-gray-dark disabled:cursor-not-allowed
+  `}
           />
           <button
             type="button"

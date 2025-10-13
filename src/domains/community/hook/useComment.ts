@@ -3,14 +3,16 @@ import { deleteComment, fetchComment, updateComment } from '../api/fetchComment'
 import { getApi } from '@/app/api/config/appConfig';
 import { CommentType } from '../types/post';
 import { User } from '@/domains/shared/store/auth';
+import { ParamValue } from 'next/dist/server/request/params';
 
-export function useComments(postId: number, user: User | null, accessToken: string | null) {
+export function useComments(postId: ParamValue, user: User | null, accessToken?: string | null) {
   const [comments, setComments] = useState<CommentType[] | null>(null);
   const [isEnd, setIsEnd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [deleteTarget, setDeleteTarget] = useState<{ commentId: number; postId: number } | null>(
-    null
-  );
+  const [deleteTarget, setDeleteTarget] = useState<{
+    commentId: number;
+    postId: number | ParamValue;
+  } | null>(null);
 
   const fetchData = useCallback(async () => {
     const data = await fetchComment(postId);
@@ -21,9 +23,9 @@ export function useComments(postId: number, user: User | null, accessToken: stri
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, [postId]);
 
-  const handleUpdateComment = async (commentId: number, postId: number, content: string) => {
+  const handleUpdateComment = async (commentId: number, content: string) => {
     if (!user) {
       alert('로그인이 필요합니다');
       return;
@@ -37,13 +39,15 @@ export function useComments(postId: number, user: User | null, accessToken: stri
             )
           : prev
       );
+      const updatedComments = await fetchComment(postId);
+      setComments(updatedComments);
     } catch (err) {
       console.error(err);
       alert('댓글 수정 중 오류가 발생했습니다.');
     }
   };
 
-  const handleAskDeleteComment = (commentId: number, postId: number) => {
+  const handleAskDeleteComment = (commentId: number) => {
     setDeleteTarget({ commentId, postId });
   };
 
@@ -59,6 +63,8 @@ export function useComments(postId: number, user: User | null, accessToken: stri
       setComments((prev) =>
         prev ? prev.filter((c) => c.commentId !== deleteTarget.commentId) : prev
       );
+      const updatedComments = await fetchComment(postId);
+      setComments(updatedComments);
     } catch (err) {
       console.error(err);
       alert('댓글 삭제 중 오류가 발생했습니다.');

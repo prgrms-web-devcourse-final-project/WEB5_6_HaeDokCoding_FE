@@ -1,5 +1,5 @@
 'use client';
-import { Ref, useMemo, useRef, useState } from 'react';
+import { Ref, useEffect, useMemo, useRef, useState } from 'react';
 import Down from '@/shared/assets/icons/selectDown_24.svg';
 import { useShallow } from 'zustand/shallow';
 import { ID, useAccordionStore } from '@/domains/recipe/store/accordionStore';
@@ -11,22 +11,26 @@ interface Props {
   ref?: Ref<HTMLButtonElement | null>;
   option: string[];
   title: string;
+  value?: string;
   onChange?: (value: string) => void;
   use?: string;
 }
 
-// groupKey를 Props로 내릴경우 == 아코디언 없는 경우 == select박스
-function SelectBox({ id, groupKey, ref, option, title, onChange, use }: Props) {
+function SelectBox({ id, groupKey, ref, option, title, value, onChange, use }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const [select, setSelect] = useState('');
+  const [select, setSelect] = useState(value || '');
   const menuRef = useRef<HTMLDivElement>(null);
 
   const ingroup = !!groupKey;
-  // groupKey가 있을경우 true
-  // groupkey일 경우 전달받은 ID로 식별 아닐경우 title로 식별
 
   const keyId = useMemo<ID>(() => id ?? title, [id, title]);
-  // id가 없을경우 title로 키 아이디를 받음
+
+  // value prop이 변경되면 select state도 업데이트
+  useEffect(() => {
+    if (value !== undefined) {
+      setSelect(value);
+    }
+  }, [value]);
 
   useCloseOutside({
     menuRef,
@@ -39,22 +43,18 @@ function SelectBox({ id, groupKey, ref, option, title, onChange, use }: Props) {
   const { openId, toggleGroup, closeGroup } = useAccordionStore(
     useShallow((s) => ({
       openId: ingroup ? (s.openByGroup[groupKey] ?? null) : null,
-      // 그룹키가 없으면 openId == null 따라서 state로 관리됨
       toggleGroup: s.toggle,
       closeGroup: s.closeGroup,
     }))
   );
 
-  //groupkey가 있을 떄와 없을때로 구분해서 state혹은 store로 관리
   const localOpen = ingroup ? openId === keyId : isOpen;
 
-  // 그룹일 경우 filter와 id abv | base | glass 를
   const toggle = () => {
     if (ingroup) toggleGroup(groupKey, keyId);
     else
       setIsOpen((prev) => {
         const next = !prev;
-        console.log('TOGGLE BTN CLICK:', { prev, next });
         return next;
       });
   };
@@ -71,11 +71,6 @@ function SelectBox({ id, groupKey, ref, option, title, onChange, use }: Props) {
     close();
   };
 
-  useCloseOutside({
-    menuRef,
-    onClose: close,
-  });
-
   return (
     <div className="flex flex-col gap-2 relative h-6" ref={menuRef}>
       <button
@@ -83,6 +78,7 @@ function SelectBox({ id, groupKey, ref, option, title, onChange, use }: Props) {
         className="flex gap-2 cursor-pointer text-base"
         onClick={toggle}
         aria-expanded={isOpen}
+        type="button"
       >
         {select ? select : title}
         {localOpen ? (
@@ -93,7 +89,7 @@ function SelectBox({ id, groupKey, ref, option, title, onChange, use }: Props) {
       </button>
 
       <ul
-        className={`w-30 text-gray-dark p-2 rounded-xl z-99 duration-200  absolute transition-all 
+        className={`w-fit min-w-30 text-gray-dark p-2 rounded-xl z-99 duration-200  absolute transition-all 
          ${
            groupKey
              ? localOpen
@@ -109,7 +105,7 @@ function SelectBox({ id, groupKey, ref, option, title, onChange, use }: Props) {
           <li
             key={v + i}
             role="option"
-            className="cursor-pointer p-1 hover:bg-secondary aria-selected:bg-secondary"
+            className="cursor-pointer whitespace-nowrap p-1 hover:bg-secondary aria-selected:bg-secondary"
             onClick={() => handleChoose(v)}
             aria-selected={v === select}
           >

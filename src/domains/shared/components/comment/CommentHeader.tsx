@@ -4,13 +4,14 @@ import Textarea from '@/shared/components/textarea-box/Textarea';
 import { intervalCall } from '@/shared/utills/intervalCall';
 import { resizeTextarea } from '@/shared/utills/textareaResize';
 import { useToast } from '@/shared/hook/useToast';
+import { ParamValue } from 'next/dist/server/request/params';
 
 type Props = {
   totalComment?: boolean;
-  postId: number;
+  postId: number | ParamValue;
   comments: CommentType[] | null;
   onCommentAdded: () => void; //댓글 추가 후 실행할 콜백
-  postCommentsApi: (postId: number, comment: string) => Promise<CommentType[] | null>;
+  postCommentsApi: (postId: number | ParamValue, comment: string) => Promise<CommentType[] | null>;
 };
 
 function CommentHeader({
@@ -60,7 +61,7 @@ function CommentHeader({
       intervalCall1000(async () => {
         const success = await createComment(newComment);
         if (!success) {
-          console.error('엔터키로 댓글 작성 실패');
+          console.log('칵테일 페이지에서 댓글은 한개만 입력 가능합니다');
         }
       });
     }
