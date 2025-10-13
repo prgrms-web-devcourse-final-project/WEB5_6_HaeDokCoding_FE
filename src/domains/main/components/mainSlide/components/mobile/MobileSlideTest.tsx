@@ -1,5 +1,4 @@
-import MainTestDummy from "../MainTestDummy";
-
+import MainTestDummy from '../MainTestDummy';
 
 const DUMMY_TEST = [
   {
@@ -13,7 +12,6 @@ const DUMMY_TEST = [
     active: true,
   },
 ];
-
 
 function MobileSlideTest() {
   return (
@@ -48,4 +46,4 @@ function MobileSlideTest() {
     </section>
   );
 }
-export default MobileSlideTest
+export default MobileSlideTest;

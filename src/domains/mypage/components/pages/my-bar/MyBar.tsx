@@ -9,7 +9,6 @@ import DeleteAllModal from '../../DeleteAllModal';
 import useFetchMyBar from '@/domains/mypage/api/fetchMyBar';
 import { useQuery } from '@tanstack/react-query';
 
-
 interface MyCocktail {
   cocktailId: number;
   cocktailName: string;
@@ -20,26 +19,34 @@ interface MyCocktail {
 }
 
 function MyBar() {
-
-  const [isModal,setIsModal] = useState(false)
-  const { fetchMyBar} = useFetchMyBar()
+  const [isModal, setIsModal] = useState(false);
+  const { fetchMyBar } = useFetchMyBar();
   const { data } = useQuery({
     queryKey: ['myBar'],
     queryFn: fetchMyBar,
-    staleTime:0
-  })
+    staleTime: 0,
+  });
 
   const handleDelete = () => {
-    setIsModal(!isModal)
-  }
+    setIsModal(!isModal);
+  };
 
   const items = data?.items ?? [];
-  
+
   return (
     <div>
       <div className="flex justify-end">
-        {isModal && <DeleteAllModal open={isModal} onClose={()=> setIsModal(!isModal)} setIsModal={setIsModal}  type='myBar'/>}
-        <TextButton className="my-5" onClick={handleDelete}>전체삭제</TextButton>
+        {isModal && (
+          <DeleteAllModal
+            open={isModal}
+            onClose={() => setIsModal(!isModal)}
+            setIsModal={setIsModal}
+            type="myBar"
+          />
+        )}
+        <TextButton className="my-5" onClick={handleDelete}>
+          전체삭제
+        </TextButton>
       </div>
       {items.length > 0 ? (
         <div
@@ -51,7 +58,13 @@ function MyBar() {
            "
         >
           {items.map(
-            ({ cocktailId, cocktailName, imageUrl, cocktailNameKo, alcoholStrength }:MyCocktail) => {
+            ({
+              cocktailId,
+              cocktailName,
+              imageUrl,
+              cocktailNameKo,
+              alcoholStrength,
+            }: MyCocktail) => {
               const alcohol = abvMap(alcoholStrength);
               return (
                 <Link href={`/recipe/${cocktailId}`} key={cocktailId}>

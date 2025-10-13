@@ -7,37 +7,36 @@ import Ssury6 from '@/shared/assets/ssury/ssury_level6.webp';
 import MainSsuryDrunk from './MainSsuryDrunk';
 
 function MainSlideAbv() {
-
   const SSURY_DRUNK = [
     {
       id: 1,
       src: Ssury1,
-      abv:5
+      abv: 5,
     },
     {
       id: 2,
       src: Ssury2,
-      abv:11
+      abv: 11,
     },
     {
       id: 3,
       src: Ssury3,
-      abv:26
+      abv: 26,
     },
     {
       id: 4,
       src: Ssury4,
-      abv:46
+      abv: 46,
     },
     {
       id: 5,
       src: Ssury5,
-      abv:66
+      abv: 66,
     },
     {
       id: 6,
       src: Ssury6,
-      abv:86
+      abv: 86,
     },
   ];
 
@@ -70,4 +69,4 @@ function MainSlideAbv() {
     </div>
   );
 }
-export default MainSlideAbv
+export default MainSlideAbv;

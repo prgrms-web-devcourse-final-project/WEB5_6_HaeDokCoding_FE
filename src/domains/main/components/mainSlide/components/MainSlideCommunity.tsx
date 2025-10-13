@@ -1,7 +1,6 @@
 function MainSlideCommunity() {
   return (
     <div className="slide-content w-3/5 h-full p-15 bg-[#77688d] rounded-tl-[30px] rounded-bl-[30px] flex flex-col justify-center">
-
       <div className="flex flex-col justify-center">
         <div className="flex flex-col gap-15">
           <span className="text-[32px] font-black">2</span>
@@ -19,8 +18,7 @@ function MainSlideCommunity() {
         </div>
         <span className="h-[250px]"></span>
       </div>
-
     </div>
   );
 }
-export default MainSlideCommunity
+export default MainSlideCommunity;

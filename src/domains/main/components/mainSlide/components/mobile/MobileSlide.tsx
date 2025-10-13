@@ -1,9 +1,8 @@
-import Image from 'next/image'
+import Image from 'next/image';
 import background from '@/shared/assets/images/main_slide.webp';
 import MobileSlideTest from './MobileSlideTest';
 import MobileSlideCommunity from './MobileSlideCommunity';
 import MobileAbv from './MobileAbv';
-
 
 function MobileSlide() {
   return (
@@ -15,12 +14,12 @@ function MobileSlide() {
       <p className="md:text-2xl font-normal">
         SSOUL의 재밌고 다양한 기능들로 더 친근하게 접해보세요
       </p>
-      <div className='flex flex-col gap-10 mt-8'>
+      <div className="flex flex-col gap-10 mt-8">
         <MobileSlideTest />
         <MobileSlideCommunity />
-        <MobileAbv/>
+        <MobileAbv />
       </div>
     </div>
   );
 }
-export default MobileSlide
+export default MobileSlide;

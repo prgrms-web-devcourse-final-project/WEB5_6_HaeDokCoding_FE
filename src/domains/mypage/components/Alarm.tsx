@@ -8,16 +8,16 @@ import { useState } from 'react';
 interface Props {
   title: string;
   content: string;
-  createdAt:Date
-  read:boolean
+  createdAt: Date;
+  read: boolean;
 }
 
-function Alarm({ title, content,createdAt,read }: Props) {
+function Alarm({ title, content, createdAt, read }: Props) {
   const [isClick, setIsClick] = useState(read);
-  const date = new Date(createdAt)
-  const alarmDate = `${date.getMonth() + 1}월 ${date.getDate()}일`
-  const time = elapsedTime(createdAt.toString())
-  
+  const date = new Date(createdAt);
+  const alarmDate = `${date.getMonth() + 1}월 ${date.getDate()}일`;
+  const time = elapsedTime(createdAt.toString());
+
   const handleClick = () => {
     setIsClick(!isClick);
   };

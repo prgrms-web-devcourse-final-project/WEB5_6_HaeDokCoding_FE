@@ -6,7 +6,6 @@ import Ssury5 from '@/shared/assets/ssury/ssury_level5.webp';
 import Ssury6 from '@/shared/assets/ssury/ssury_level6.webp';
 import MainSsuryDrunk from '../MainSsuryDrunk';
 
-
 function MobileAbv() {
   const SSURY_DRUNK = [
     {

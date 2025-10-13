@@ -3,15 +3,15 @@ import Ssury from '@/shared/assets/ssury/ssury_shaker.webp';
 import clsx from 'clsx';
 import MainSlideDummyCard from './MainSlideDummyCard';
 type Dummy = {
-  id: number,
-  message: string,
-  active:boolean
-}
+  id: number;
+  message: string;
+  active: boolean;
+};
 
-interface Props{
-  message?: React.ReactNode
-  option?: Dummy[]
-  type:'text'|'option'
+interface Props {
+  message?: React.ReactNode;
+  option?: Dummy[];
+  type: 'text' | 'option';
 }
 
 const DUMMY_CARD = [
@@ -32,7 +32,7 @@ const DUMMY_CARD = [
   },
 ];
 
-function MainTestDummy({ message, option, type}:Props) {
+function MainTestDummy({ message, option, type }: Props) {
   return (
     <li className="flex flex-col justify-end gap-2">
       <header className="flex items-end">

@@ -18,4 +18,4 @@ function MobileSlideCommunity() {
     </section>
   );
 }
-export default MobileSlideCommunity
+export default MobileSlideCommunity;

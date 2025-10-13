@@ -4,7 +4,6 @@ import AbvGraph from '@/domains/shared/components/abv-graph/AbvGraph';
 import { labelTitle } from '../../utills/labelTitle';
 import useGlass from '../../hook/useGlass';
 
-
 interface Props {
   name: string;
   nameKo: string;
