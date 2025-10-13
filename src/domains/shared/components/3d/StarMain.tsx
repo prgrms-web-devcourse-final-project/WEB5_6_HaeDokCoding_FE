@@ -16,7 +16,7 @@ function StarMain() {
     if (!background.current || !foreground.current) return;
 
     const bgX = gsap.quickSetter(background.current, 'x', 'px');
-    const bgY = gsap.quickSetter(background.current, 'x', 'px');
+    const bgY = gsap.quickSetter(background.current, 'y', 'px');
     const bgRotate = gsap.quickSetter(background.current, 'rotate', 'deg');
 
     const fgX = gsap.quickSetter(foreground.current, 'x', 'px');
@@ -26,13 +26,13 @@ function StarMain() {
     const update = () => {
       const { x, y } = mouse.current;
 
-      bgX(x * -10);
-      bgY(y * -10);
-      bgRotate(x * -5);
+      bgX(x * -2);
+      bgY(y * -2);
+      bgRotate(x * -0.2);
 
-      fgX(x * 20);
-      fgY(y * 20);
-      fgRotate(y * 5);
+      fgX(x * 3);
+      fgY(y * 3);
+      fgRotate(y * 0.2);
 
       rafId.current = requestAnimationFrame(update);
     };
@@ -63,22 +63,39 @@ function StarMain() {
   }, []);
 
   return (
-    <div>
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div
-          ref={background}
-          className="absolute w-screen h-screen top-0 left-0 will-change-transform"
-        >
-          <Image src={foreStar} alt="앞쪽 별" fill className="object-cover object-center" />
-        </div>
-        <div
-          ref={foreground}
-          className="absolute w-screen h-screen top-0 left-0  will-change-transform"
-        >
-          <Image src={backStar} alt="뒤쪽 별" fill className="object-cover object-center" />
+    <>
+      {/* <HomeBackground /> */}
+      <div>
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <div
+            ref={background}
+            className="absolute w-screen h-screen top-0 left-0 will-change-transform"
+          >
+            <Image
+              src={foreStar}
+              alt="앞쪽 별"
+              fill
+              className="object-cover object-center"
+              priority
+              quality={100}
+            />
+          </div>
+          <div
+            ref={foreground}
+            className="absolute w-screen h-screen top-0 left-0  will-change-transform"
+          >
+            <Image
+              src={backStar}
+              alt="뒤쪽 별"
+              fill
+              className="object-cover object-center"
+              priority
+              quality={100}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
