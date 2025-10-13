@@ -34,7 +34,7 @@ function BotMessage({
 
   const handleOptionChange = (step: number, value: string) => {
     setSelectedOptions((prev) => ({ ...prev, [step]: value }));
-    onSelectedOption?.(value); // 부모로 단일 값 전달
+    onSelectedOption?.(value);
   };
 
   return (
@@ -70,11 +70,11 @@ function BotMessage({
               {/* radio */}
               {msg.type === 'RADIO_OPTIONS' && msg.stepData?.options?.length ? (
                 <BotOptions
-                  options={msg.stepData.options} // stepData와 options가 존재하는 게 보장됨
+                  options={msg.stepData.options}
                   step={msg.stepData.currentStep ?? 0}
                   value={selectedOptions[msg.stepData.currentStep ?? 0] ?? ''}
                   onChange={(val) => handleOptionChange(msg.stepData?.currentStep ?? 0, val)}
-                  disabled={currentStep ? currentStep > (msg.stepData.currentStep ?? 0) : false}
+                  disabled={currentStep !== undefined && currentStep > msg.stepData.currentStep!}
                 />
               ) : null}
             </div>

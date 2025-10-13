@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   title: { default: 'SSOUL', template: 'SSOUL | %s' },
   metadataBase: new URL('http://www.ssoul.life'),
   description: '칵테일을 좋아하는 사람들을 위한 서비스',
+  icons: '/favicon.ico',
 };
 
 export default function RootLayout({
