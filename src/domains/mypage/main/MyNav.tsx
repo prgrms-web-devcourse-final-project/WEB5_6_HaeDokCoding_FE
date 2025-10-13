@@ -1,9 +1,6 @@
 'use client';
 import TabMenu from '@/domains/mypage/main/TabMenu';
-import TextButton from '@/shared/components/button/TextButton';
 import Link from 'next/link';
-import { useState } from 'react';
-import DeleteAllModal from '../components/DeleteAllModal';
 import { usePathname } from 'next/navigation';
 
 const MAIN_TABMENU = [
@@ -49,13 +46,11 @@ function MyNav() {
   const subIndex = SUB_TABMENU.findIndex((opt) => pathname.startsWith(opt.href));
   const isSubActive = subIndex === -1 ? 0 : subIndex;
 
-  const [isDeleteAll, setIsDeleteAll] = useState(false);
+
 
   return (
     <section aria-labelledby="mypage-tabs" className=" mt-6 md:mt-1 flex flex-col gap-3">
-      {isDeleteAll && (
-        <DeleteAllModal open={isDeleteAll} onClose={() => setIsDeleteAll(!isDeleteAll)} />
-      )}
+ 
       <h2 id="mypage-tabs" className="sr-only">
         마이페이지 탭 메뉴
       </h2>
