@@ -3,74 +3,42 @@
 import { useEffect, useState } from 'react';
 import CocktailFilter from './CocktailFilter';
 import CocktailList from './CocktailList';
-import { Cocktail } from '../../types/types';
 import Accordion from './Accordion';
-import { RecipeFetch } from '../../api/RecipeFetch';
 import CocktailSearchBar from './CocktailSearchBar';
-import useSearchControl from '../../hook/useSearchControl';
-import CocktailSearch from '../../api/CocktailSearch';
-import { useAuthStore } from '@/domains/shared/store/auth';
+import { useCocktails} from '../../api/fetchRecipe';
+import { useInView } from 'react-intersection-observer';
+
 
 function Cocktails() {
-  const user = useAuthStore((state) => state.user);
-
-  const [data, setData] = useState<Cocktail[]>([]);
-  const [lastId, setLastId] = useState<number | null>(null);
-  const [hasNextPage, setHasNextPage] = useState(true);
-
-  const { inputValue, keyword, isSearching, onInputChange, noResults, setNoResults } =
-    useSearchControl({ delay: 300, storageKey: 'cocktails_scoll_state' });
-  const { fetchData } = RecipeFetch({ setData, lastId, setLastId, hasNextPage, setHasNextPage });
+const [keyword,setKeyword] = useState('')
+const [alcoholStrengths,setAlcoholStrengths] = useState<string[]>([])
+const [alcoholBaseTypes,setAlcoholBaseTypes] = useState<string[]>([])
+const [cocktailTypes,setCocktailTypes] = useState<string[]>([])
 
   const {
-    searchApi,
-    setAlcoholBaseTypes,
-    setAlcoholStrengths,
-    setCocktailTypes,
+    data,
+    fetchNextPage,
+    hasNextPage,
+    noResults,
+    isSearchMode,
+    isFetchingNextPage
+  } = useCocktails({
+    keyword,
     alcoholBaseTypes,
-    cocktailTypes,
     alcoholStrengths,
-  } = CocktailSearch({
-    setData,
-    setNoResults,
-  });
+    cocktailTypes
+  },20)
 
-  const countLabel = isSearching
-    ? hasNextPage
-      ? `검색결과 현재 ${data.length}+`
-      : `검색결과 총 ${data.length}`
-    : hasNextPage
-      ? `전체 ${data.length}+`
-      : `전체 ${data.length}`;
+  const { ref, inView } = useInView({
+    threshold:0.1
+  })
 
-  // 초기 로드 시 검색어가 있으면 검색 실행
-  // useEffect(() => {
-  //   const readyForFirstLoad = !isSearching && hasNextPage && lastId == null && data.length === 0;
-
-  //   if (readyForFirstLoad) {
-  //     fetchData();
-  //   }
-  // }, [hasNextPage, lastId]);
-
-  // 검색어 변경 시
   useEffect(() => {
-    if (isSearching && keyword.trim()) {
-      setLastId(null);
-      setHasNextPage(false);
-      searchApi(keyword.trim());
-    } else if (!isSearching) {
-      // 검색어를 지웠을 때만 초기화
-      setData([]);
-      setLastId(null);
-      setHasNextPage(true);
-    }
-  }, [keyword, isSearching, alcoholBaseTypes, alcoholStrengths, cocktailTypes]);
+    if (!isSearchMode && inView && hasNextPage) {
+    fetchNextPage?.()
+  }
+},[inView,hasNextPage,fetchNextPage,isSearchMode])
 
-  // 일반 fetch
-  useEffect(() => {
-    if (isSearching) return;
-    fetchData();
-  }, [isSearching, alcoholBaseTypes, alcoholStrengths, cocktailTypes]);
 
   return (
     <section>
@@ -80,23 +48,15 @@ function Cocktails() {
           setAlcoholStrengths={setAlcoholStrengths}
           setCocktailTypes={setCocktailTypes}
         />
-        <CocktailSearchBar value={inputValue} onChange={onInputChange} />
+        <CocktailSearchBar keyword={keyword} setKeyword={setKeyword} />
       </div>
 
-      <CocktailFilter cocktailsEA={countLabel} setData={setData} />
-
+      <CocktailFilter cocktailsEA={data.length} />
+    
       <section className="mt-5">
-        {isSearching && noResults ? (
-          <div>검색결과가 없습니다.</div>
-        ) : (
-          <CocktailList
-            cocktails={data}
-            RecipeFetch={isSearching ? undefined : fetchData}
-            hasNextPage={isSearching ? false : hasNextPage}
-            lastId={lastId}
-          />
-        )}
+          <CocktailList cocktails={data}/>
       </section>
+      <div ref={ref}></div>
     </section>
   );
 }

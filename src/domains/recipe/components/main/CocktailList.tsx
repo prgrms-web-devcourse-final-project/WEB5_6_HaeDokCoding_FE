@@ -1,35 +1,15 @@
 'use client';
-import { useRef } from 'react';
+
 import Link from 'next/link';
-import { useIntersectionObserver } from '@/domains/shared/hook/useIntersectionObserver';
 import { Cocktail } from '../../types/types';
 import CocktailCard from '@/domains/shared/components/cocktail-card/CocktailCard';
-import { useScrollRestore } from '@/domains/shared/hook/useMemoScroll';
 
 interface Props {
   cocktails: Cocktail[];
-  RecipeFetch?: (cursor?: string | undefined) => Promise<void>;
-  hasNextPage: boolean;
-  lastId: number | null;
 }
 
-function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId }: Props) {
-  const cocktailRef = useRef(null);
-  const onIntersect: IntersectionObserverCallback = ([entry]) => {
-    if (!RecipeFetch) return;
-    if (!lastId) return;
-    if (entry.isIntersecting && lastId > 1) {
-      RecipeFetch();
-    }
-  };
-
-  useIntersectionObserver(cocktailRef, onIntersect, hasNextPage);
-  const saveScroll = useScrollRestore({
-    lastId,
-    fetchData: RecipeFetch!,
-    hasNextPage,
-    currentDataLength: cocktails.length,
-  });
+function CocktailList({ cocktails}: Props) {
+ 
   return (
     <ul
       className="
@@ -49,7 +29,7 @@ function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId }: Props) {
           alcoholStrength,
           isFavorited,
         }) => (
-          <li key={cocktailId} onClick={saveScroll} className="w-full">
+          <li key={cocktailId} className="w-full">
             <Link href={`/recipe/${cocktailId}`}>
               <CocktailCard
                 favor={isFavorited}
@@ -63,7 +43,6 @@ function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId }: Props) {
           </li>
         )
       )}
-      <div ref={cocktailRef} className="h-2"></div>
     </ul>
   );
 }

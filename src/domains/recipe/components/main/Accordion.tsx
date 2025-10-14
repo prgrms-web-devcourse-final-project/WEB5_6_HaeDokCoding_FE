@@ -93,13 +93,13 @@ function Accordion({ setAlcoholBaseTypes, setCocktailTypes, setAlcoholStrengths 
   };
 
   // URL 파라미터에서 현재 선택된 값 가져오기 아코디언 UI에 적용
-  const currentValues = useMemo(() => {
+  const currentValues = () => {
     return {
       abv: getDisplayValue('abv', searchParams.get('abv')),
       base: getDisplayValue('base', searchParams.get('base')),
       glass: getDisplayValue('glass', searchParams.get('glass')),
     };
-  }, [searchParams]);
+  }
 
   const handleSelect = (id: string, value: string) => {
     const optionGroup = SELECT_OPTIONS.find((opt) => opt.id === id);

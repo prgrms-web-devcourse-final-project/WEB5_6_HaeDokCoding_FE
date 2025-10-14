@@ -5,11 +5,11 @@ import { Dispatch, SetStateAction } from 'react';
 import { Cocktail } from '../../types/types';
 
 interface Props {
-  cocktailsEA: string;
-  setData: Dispatch<SetStateAction<Cocktail[]>>;
+  cocktailsEA: number;
+ 
 }
 
-function CocktailFilter({ cocktailsEA, setData }: Props) {
+function CocktailFilter({ cocktailsEA }: Props) {
   const sortMap = {
     최신순: 'recent',
     인기순: 'keeps',
@@ -23,7 +23,7 @@ function CocktailFilter({ cocktailsEA, setData }: Props) {
     try {
       const res = await fetch(`${getApi}/cocktails`);
       const json = await res.json();
-      setData(json.data);
+  
     } catch {
       console.error();
       console.log(selectTitle);
