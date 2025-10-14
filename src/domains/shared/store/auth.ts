@@ -49,9 +49,6 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
       });
 
       set({ user: null, isLoggedIn: false, isAuthChecked: true });
-
-      // 로그아웃 후 로그인 페이지로 리다이렉트
-      window.location.href = '/login';
     } catch (err) {
       console.error('로그아웃 실패', err);
       set({ user: null, isLoggedIn: false, isAuthChecked: true });
