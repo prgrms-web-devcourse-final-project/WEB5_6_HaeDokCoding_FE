@@ -27,7 +27,6 @@ interface Meta {
 
 function DetailTabDesktop({
   likeCount,
-  commentCount,
   commentRef,
   like,
   onLikeToggle,

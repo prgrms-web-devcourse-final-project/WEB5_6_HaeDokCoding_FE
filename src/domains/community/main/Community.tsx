@@ -45,8 +45,6 @@ function Community() {
       const newPosts = await fetchPostByTab({
         category,
         filter,
-        lastLikeCount,
-        lastCommentCount,
       });
 
       if (!newPosts || newPosts.length === 0) {
@@ -81,7 +79,11 @@ function Community() {
       if (!newPosts || newPosts?.length === 0) {
         setIsEnd(true);
       } else {
-        setPosts((prev) => [...(prev ?? []), ...(newPosts ?? [])]);
+        setPosts((prev) => {
+          const existingIds = new Set(prev?.map((p) => p.postId));
+          const filtered = newPosts.filter((p) => !existingIds.has(p.postId));
+          return [...(prev || []), ...filtered];
+        });
       }
     } finally {
       setIsLoading(false);

@@ -224,6 +224,7 @@ function WriteSection({ mode, postId }: Props) {
     }
     const payload = new FormData();
     const imageUrls = uploadedFile.filter((item) => !item.isNew); // 생성 함수와 동일하게 변경 .map((item) => item.url),
+    console.log(imageUrls);
 
     const postJson = {
       title: formData.title,
@@ -282,7 +283,7 @@ function WriteSection({ mode, postId }: Props) {
   return (
     <>
       <form onSubmit={mode === 'create' ? handleSubmit : handleEditSubmit}>
-        <CompleteBtn mode={mode} setEditDone={setEditDone} handleEditLogic={handleEditLogic} />
+        <CompleteBtn mode={mode} setEditDone={setEditDone} />
         <section>
           <FormTitle formData={formData} setFormData={setFormData} />
           <Category formData={formData} setFormData={setFormData} />
