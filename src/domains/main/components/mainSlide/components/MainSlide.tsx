@@ -162,7 +162,7 @@ function MainSlide() {
   return (
     <>
       {isMobile ? (
-        <StarBg className=''>
+        <StarBg className="">
           <MobileSlide key="mobile" />
         </StarBg>
       ) : (

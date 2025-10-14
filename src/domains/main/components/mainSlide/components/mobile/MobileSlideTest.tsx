@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import MainTestDummy from '../MainTestDummy';
-import Add from '@/shared/assets/icons/add_24.svg'
+import Add from '@/shared/assets/icons/add_24.svg';
 import clsx from 'clsx';
 const DUMMY_TEST = [
   {
@@ -16,7 +16,7 @@ const DUMMY_TEST = [
 ];
 
 function MobileSlideTest() {
-  const [isClick,setIsClick] = useState(false)
+  const [isClick, setIsClick] = useState(false);
   return (
     <section className="p-4 sm:p-12 bg-[#645a72] rounded-2xl sm:rounded-[30px] flex flex-col sm:justify-center">
       <span className=" hidden sm:text-xl sm:block md:text-2xl font-black text-secondary">1</span>

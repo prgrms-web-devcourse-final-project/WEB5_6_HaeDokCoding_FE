@@ -1,10 +1,10 @@
 function MainSlideCommunity() {
   return (
-    <div className="slide-content w-3/5 h-full p-15 bg-[#77688d] rounded-tl-[30px] rounded-bl-[30px] flex flex-col justify-center">
+    <section className="slide-content w-3/5 h-full p-15 bg-[#77688d] rounded-tl-[30px] rounded-bl-[30px] flex flex-col justify-center">
       <div className="flex flex-col justify-center">
         <div className="flex flex-col gap-15">
           <span className="text-[32px] font-black">2</span>
-          <div className="flex flex-col gap-5">
+          <header className="flex flex-col gap-5">
             <h2 className="text-5xl text-secondary font-black text-shadow-[0_4px_6px_rgb(255_255_255_/0.25)]">
               술술 즐기는, 커뮤니티
             </h2>
@@ -14,11 +14,10 @@ function MainSlideCommunity() {
               <br />
               회원들과 소통하면 내 칵테일 솜씨를 뽐내보세요.
             </p>
-          </div>
+          </header>
         </div>
-      
       </div>
-    </div>
+    </section>
   );
 }
 export default MainSlideCommunity;

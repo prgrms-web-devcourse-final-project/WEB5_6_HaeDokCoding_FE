@@ -10,8 +10,7 @@ import clsx from 'clsx';
 import { useState } from 'react';
 
 function MobileAbv() {
-
-  const [isClick,setIsClick] = useState(false)
+  const [isClick, setIsClick] = useState(false);
   const SSURY_DRUNK = [
     {
       id: 1,

@@ -28,24 +28,24 @@ function RecipeComment({ cocktailId }: Props) {
     }
     const body = {
       cocktailId,
-      content:content
+      content: content,
+    };
+
+    const res = await fetch(`${getApi}/cocktails/${cocktailId}/comments`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(body),
+    });
+
+    const text = await res.text();
+    if (!res.ok) {
+      toastInfo('댓글은 한 개만 작성가능합니다');
+      return;
     }
 
-      const res = await fetch(`${getApi}/cocktails/${cocktailId}/comments`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(body),
-      });
-     
-      const text = await res.text();
-      if (!res.ok) {
-        toastInfo('댓글은 한 개만 작성가능합니다');
-        return;
-      }
-
-      const data = JSON.parse(text);
-      return data;
+    const data = JSON.parse(text);
+    return data;
   };
 
   const {
