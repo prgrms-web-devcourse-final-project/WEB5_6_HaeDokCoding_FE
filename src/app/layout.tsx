@@ -8,8 +8,9 @@ import KaKaoScript from './api/kakao/KaKaoScript';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import Provider from '@/shared/api/Provider';
+
 import ClientInitHook from '@/domains/login/components/ClientInitHook';
+import Provider from '@/shared/provider/Provider';
 
 export const metadata: Metadata = {
   title: { default: 'SSOUL', template: 'SSOUL | %s' },

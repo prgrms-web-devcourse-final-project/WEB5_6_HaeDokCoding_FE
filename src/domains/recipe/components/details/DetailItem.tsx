@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Label from '@/domains/shared/components/label/Label';
 import AbvGraph from '@/domains/shared/components/abv-graph/AbvGraph';
-import { labelTitle } from '../utills/labelTitle';
-import useGlass from '../hook/useGlass';
+import { labelTitle } from '../../utills/labelTitle';
+import useGlass from '../../hook/useGlass';
 
 interface Props {
   name: string;

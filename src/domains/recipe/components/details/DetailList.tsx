@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import DetailRecommendList from './DetailRecommendList';
 import { getApi } from '@/app/api/config/appConfig';
 import { useParams } from 'next/navigation';
-import { RecommendCocktail } from '../types/types';
+
 import Link from 'next/link';
+import { RecommendCocktail } from '../../types/types';
 
 function DetailList() {
   const { id } = useParams();

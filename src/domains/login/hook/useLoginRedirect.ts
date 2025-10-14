@@ -33,7 +33,7 @@ export const useLoginRedirect = () => {
 
     if (user && preLoginPath === '/login') {
       router.replace('/');
-      removeCookie('preLoginPath');
+      setTimeout(() => removeCookie('preLoginPath'), 500);
       return;
     }
 
@@ -42,14 +42,14 @@ export const useLoginRedirect = () => {
     } else if (pathname.startsWith('/login/user/success')) {
       toastSuccess(`${user.nickname}님 \n 로그인 성공 🎉`);
       router.replace(preLoginPath);
-      removeCookie('preLoginPath');
+      setTimeout(() => removeCookie('preLoginPath'), 500);
     }
   }, [pathname, user, loading, router, toastSuccess]);
 
   const handleCloseWelcomeModal = () => {
     setWelcomeModalOpen(false);
     const preLoginPath = getCookie('preLoginPath') || '/';
-    removeCookie('preLoginPath');
+    setTimeout(() => removeCookie('preLoginPath'), 500);
     router.replace(preLoginPath);
   };
 
