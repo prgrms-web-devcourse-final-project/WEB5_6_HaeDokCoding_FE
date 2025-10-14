@@ -31,7 +31,7 @@ function MainSsuryDrunk({ src, abv }: Props) {
           <span className="text-xs text-primary">%~</span>
         )}
       </p>
-      <Image src={src} alt="" width={60} height={60} className="w-15 h-15 object-contain"></Image>
+      <Image src={src} alt="" width={60} height={60} className="object-contain" />
     </div>
   );
 }

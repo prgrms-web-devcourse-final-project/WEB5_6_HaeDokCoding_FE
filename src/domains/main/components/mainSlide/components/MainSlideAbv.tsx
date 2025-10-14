@@ -41,7 +41,7 @@ function MainSlideAbv() {
   ];
 
   return (
-    <div className="slide-content w-1/2 h-full bg-[#84739e] rounded-tl-[30px] rounded-bl-[30px] p-15 flex flex-col justify-center">
+    <section className="slide-content invisible w-1/2 h-full bg-[#84739e] rounded-tl-[30px] rounded-bl-[30px] p-15 flex flex-col justify-center">
       <div className="flex flex-col gap-15">
         <span className="font-black text-[32px]">3</span>
         <div className="flex flex-col gap-5">
@@ -66,7 +66,7 @@ function MainSlideAbv() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 export default MainSlideAbv;

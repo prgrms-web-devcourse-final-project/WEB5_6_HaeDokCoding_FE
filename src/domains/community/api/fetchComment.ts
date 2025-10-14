@@ -32,7 +32,6 @@ export const postComments = async (postId: number | ParamValue, content: string)
       credentials: 'include',
       body: JSON.stringify({ content }),
     });
-
     const text = await res.text();
 
     if (!res.ok) {
