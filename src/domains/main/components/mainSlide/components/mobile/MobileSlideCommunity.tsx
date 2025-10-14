@@ -10,7 +10,7 @@ function MobileSlideCommunity() {
         <span className="hidden sm:block text-xl md:text-2xl font-black">2</span>
         <article className="flex flex-col gap-5">
           <header className='flex justify-between'>
-            <h2 className="text-2xl md:text-3xl text-secondary font-black text-shadow-[0_4px_6px_rgb(255_255_255_/0.25)]">
+            <h2 className="text-xl sm:text-2xl md:text-3xl text-secondary font-black text-shadow-[0_4px_6px_rgb(255_255_255_/0.25)]">
               술술 즐기는, 커뮤니티
             </h2>
             <button

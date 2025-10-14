@@ -8,6 +8,7 @@ import MobileSlide from './mobile/MobileSlide';
 import MainSlideIntro from './MainSlideIntro';
 import MainSlideTest from './MainSlideTest';
 import MainSlideCommunity from './MainSlideCommunity';
+import StarBg from '@/domains/shared/components/star-bg/StarBg';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -161,24 +162,28 @@ function MainSlide() {
   return (
     <>
       {isMobile ? (
-        <MobileSlide key="mobile" />
+        <StarBg className=''>
+          <MobileSlide key="mobile" />
+        </StarBg>
       ) : (
-        <section key="desktop" ref={root} className="h-screen">
-          <div className="stage relative w-full h-full overflow-hidden">
-            <div className="panel absolute inset-0">
-              <MainSlideIntro />
+        <StarBg className="bg-fixed">
+          <section key="desktop" ref={root} className="h-screen">
+            <div className="stage relative w-full h-full overflow-hidden">
+              <div className="panel absolute inset-0">
+                <MainSlideIntro />
+              </div>
+              <div className="panel absolute inset-0">
+                <MainSlideTest />
+              </div>
+              <div className="panel absolute inset-0">
+                <MainSlideCommunity />
+              </div>
+              <div className="panel absolute inset-0">
+                <MainSlideAbv />
+              </div>
             </div>
-            <div className="panel absolute inset-0">
-              <MainSlideTest />
-            </div>
-            <div className="panel absolute inset-0">
-              <MainSlideCommunity />
-            </div>
-            <div className="panel absolute inset-0">
-              <MainSlideAbv />
-            </div>
-          </div>
-        </section>
+          </section>
+        </StarBg>
       )}
     </>
   );

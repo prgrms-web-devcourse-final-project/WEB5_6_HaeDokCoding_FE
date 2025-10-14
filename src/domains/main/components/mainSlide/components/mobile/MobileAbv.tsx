@@ -51,7 +51,7 @@ function MobileAbv() {
         <span className="hidden sm:block font-black text-xl md:text-2xl">3</span>
         <div className="flex flex-col gap-5">
           <header className="flex justify-between">
-            <h2 className="text-2xl md:text-3xl font-black text-shadow-[0_4px_6px_rgb(255_255_255_/0.25)]">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-shadow-[0_4px_6px_rgb(255_255_255_/0.25)]">
               내 알콜도수 UP
             </h2>
             <button
@@ -74,7 +74,7 @@ function MobileAbv() {
               5도 부터 시작하는 내 알콜도수 <br />글 작성,댓글,좋아요 / 킵으로 알콜도수 UP! <br />
               알콜도수에 따라 변하는 쑤리(SSURY)를 보는 재미도 있어요.
             </p>
-            <div className="flex flex-col gap-2">
+            <div className="mt-4 flex flex-col gap-2">
               <ul className="flex gap-[5%] md:gap-[8%]">
                 {SSURY_DRUNK.map(({ id, src, abv }) => (
                   <li key={id}>

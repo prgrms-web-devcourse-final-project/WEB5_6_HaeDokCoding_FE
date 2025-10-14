@@ -21,7 +21,7 @@ function MobileSlideTest() {
     <section className="p-4 sm:p-12 bg-[#645a72] rounded-2xl sm:rounded-[30px] flex flex-col sm:justify-center">
       <span className=" hidden sm:text-xl sm:block md:text-2xl font-black text-secondary">1</span>
       <div className="flex flex-col gap-3">
-        <article className="flex flex-col  gap-5">
+        <article className="flex flex-col gap-5">
           <header className="flex justify-between items-center">
             <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-secondary text-shadow-[0_4px_6px_rgb(255_255_255_/0.25)]">
               AI기반 취향테스트
@@ -36,7 +36,7 @@ function MobileSlideTest() {
           </header>
           <article
             className={clsx(
-              `overflow-hidden flex flex-col gap-5 transition-all duration-500 `,
+              `overflow-hidden flex flex-col gap-3 transition-all duration-500 `,
               isClick
                 ? 'opacity-100 max-h-[1000px] sm:opacity-100 sm:max-h-none sm:block'
                 : 'opacity-0 max-h-0 hidden sm:opacity-100 sm:max-h-none sm:block'
@@ -48,7 +48,7 @@ function MobileSlideTest() {
                 AI쑤리가 당신에게 딱 맞는 칵테일을 추천해 드려요!
               </p>
             </div>
-            <ul className="flex flex-col lg:flex-row gap-8">
+            <ul className="flex flex-col mt-4 lg:flex-row gap-5">
               <MainTestDummy
                 message={
                   <>
