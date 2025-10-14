@@ -96,12 +96,12 @@ export async function likePost(postId: number | ParamValue) {
   if (!res.ok) throw new Error('좋아요 실패');
 }
 
-// export async function getLikePost(postId: number | ParamValue) {
-//   const res = await fetch(`${getApi}/posts/${postId}/like`, {
-//     method: 'POST',
-//     credentials: 'include',
-//   });
-//   if (!res.ok) throw new Error('좋아요 실패');
-//   const data = await res.json();
-//   return data.data.status;
-// }
+export async function getLikePost(postId: number | ParamValue) {
+  const res = await fetch(`${getApi}/posts/${postId}/like`, {
+    method: 'POST',
+    credentials: 'include',
+  });
+  if (!res.ok) throw new Error('좋아요 실패');
+  const data = await res.json();
+  return data.data.status;
+}

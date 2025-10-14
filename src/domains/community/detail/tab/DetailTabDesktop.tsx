@@ -12,7 +12,7 @@ type Props = {
   likeCount: number | undefined;
   commentCount: number;
   commentRef: RefObject<HTMLElement | null>;
-  like: boolean;
+  like: boolean | null;
   onLikeToggle: () => void;
   title: string;
   imageUrls: string[];

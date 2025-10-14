@@ -86,21 +86,17 @@ function DetailPage() {
   } = postDetail;
 
   const handleLike = async () => {
-    setLike((prev) => {
-      const newLike = !prev;
-      setPrevLikeCount((count) => (newLike ? count! + 1 : count! - 1));
-      return newLike;
+    setLike((prev) => !prev);
+    setPrevLikeCount((prev) => {
+      return like ? prev! - 1 : prev! + 1;
     });
 
     try {
       await likePost(postId); // POST 요청 한 번으로 토글 처리
     } catch (err) {
       console.error('좋아요 토글 실패', err);
-      setLike((prev) => {
-        const newLike = !prev;
-        setPrevLikeCount((count) => (newLike ? count! + 1 : count! - 1));
-        return newLike;
-      });
+      setLike((prev) => !prev); // 롤백
+      setPrevLikeCount((prev) => (like ? prev! + 1 : prev! - 1));
     }
   };
 
