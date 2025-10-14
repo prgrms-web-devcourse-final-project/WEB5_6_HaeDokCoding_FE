@@ -9,8 +9,11 @@ import { RecipeFetch } from '../../api/RecipeFetch';
 import CocktailSearchBar from './CocktailSearchBar';
 import useSearchControl from '../../hook/useSearchControl';
 import CocktailSearch from '../../api/CocktailSearch';
+import { useAuthStore } from '@/domains/shared/store/auth';
 
 function Cocktails() {
+  const user = useAuthStore((state) => state.user);
+
   const [data, setData] = useState<Cocktail[]>([]);
   const [lastId, setLastId] = useState<number | null>(null);
   const [hasNextPage, setHasNextPage] = useState(true);
@@ -41,13 +44,13 @@ function Cocktails() {
       : `전체 ${data.length}`;
 
   // 초기 로드 시 검색어가 있으면 검색 실행
-  useEffect(() => {
-    const readyForFirstLoad = !isSearching && hasNextPage && lastId == null && data.length === 0;
+  // useEffect(() => {
+  //   const readyForFirstLoad = !isSearching && hasNextPage && lastId == null && data.length === 0;
 
-    if (readyForFirstLoad) {
-      fetchData();
-    }
-  }, [hasNextPage, lastId]);
+  //   if (readyForFirstLoad) {
+  //     fetchData();
+  //   }
+  // }, [hasNextPage, lastId]);
 
   // 검색어 변경 시
   useEffect(() => {

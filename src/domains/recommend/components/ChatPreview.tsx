@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Send from '@/shared/assets/icons/send_36.svg';
 import Link from 'next/link';
 import { setPreLoginPath } from '@/domains/shared/auth/utils/setPreLoginPath';
+import Crop from '@/shared/assets/icons/crop_32.svg';
 
 function ChatPreview() {
   return (
@@ -27,7 +28,7 @@ function ChatPreview() {
             <div>
               <div className="flex flex-col w-fit max-w-[80%] min-w-[120px] p-3 rounded-2xl rounded-tl-none bg-white text-black opacity-0 animate-fadeIn">
                 <div>
-                  <p className="whitespace-pre-line">취향에 맞는 칵테일, 저와 함께 찾아볼까요?</p>
+                  <p className="whitespace-pre-line">취향에 맞는 칵테일🤩 저와 함께 찾아볼까요?</p>
                   <Link
                     href="/login"
                     onNavigate={async () => {
@@ -45,7 +46,14 @@ function ChatPreview() {
 
         <div className="fixed left-0 bottom-0 w-full px-3 py-4 flex-center bg-primary">
           <form onSubmit={(e) => e.preventDefault()} className="w-full max-w-[64rem]">
-            <div className="flex items-end gap-2">
+            <div className="flex items-center gap-2">
+              <button
+                aria-label="채팅 이미지 저장"
+                title="채팅내용 이미지 저장"
+                className="flex-center rounded-full sm:bg-secondary/20 sm:w-10 sm:h-10 hover:bg-white/10 active:bg-white/10"
+              >
+                <Crop />
+              </button>
               <label htmlFor="chatInput" className="sr-only">
                 질문 입력창
               </label>
