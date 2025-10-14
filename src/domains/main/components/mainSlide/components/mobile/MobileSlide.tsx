@@ -12,7 +12,7 @@ function MobileSlide() {
         backgroundAttachment: 'fixed',
         backgroundSize: 'contain',
         backgroundRepeat: 'no-repeat',
-        backgroundPosition:'center'
+        backgroundPosition: 'center',
       }}
     >
       <h2 className="text-xl md:text-3xl font-bold leading-[1.5] text-secondary text-shadow-[0_4px_6px_rgb(255_255_255_/0.25)]">
