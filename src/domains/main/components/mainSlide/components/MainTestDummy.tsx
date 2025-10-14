@@ -34,7 +34,7 @@ const DUMMY_CARD = [
 
 function MainTestDummy({ message, option, type }: Props) {
   return (
-    <li className="flex flex-col justify-end gap-2">
+    <section className="flex flex-col justify-end gap-2">
       <header className="flex items-end">
         <div className="relative ">
           <Image
@@ -48,7 +48,7 @@ function MainTestDummy({ message, option, type }: Props) {
         <p className="tesx-xs">쑤리</p>
       </header>
       {message && (
-        <div className="flex flex-col w-fit  min-w-[120px] p-3 rounded-2xl rounded-tl-none bg-white text-black gap-2">
+        <section className="flex flex-col w-[215px] p-3 rounded-2xl rounded-tl-none bg-white text-black gap-2">
           <p className="text-xs">{message}</p>
 
           <div className="flex flex-col gap-2">
@@ -66,7 +66,7 @@ function MainTestDummy({ message, option, type }: Props) {
                 </span>
               ))}
           </div>
-        </div>
+        </section>
       )}
       {type == 'text' && (
         <div className="flex flex-col sm:flex-row gap-2">
@@ -75,7 +75,7 @@ function MainTestDummy({ message, option, type }: Props) {
           ))}
         </div>
       )}
-    </li>
+    </section>
   );
 }
 export default MainTestDummy;
