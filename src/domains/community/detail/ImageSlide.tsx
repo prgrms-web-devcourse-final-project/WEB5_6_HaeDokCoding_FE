@@ -16,7 +16,7 @@ function ImageSlide({ imageUrls }: { imageUrls: string[] }) {
         imageUrls.map((img) => (
           <SwiperSlide className="w-full flex justify-center items-center" key={img}>
             <Image
-              src={encodeURI(img)}
+              src={img}
               alt="이미지"
               width={150}
               height={150}

@@ -9,7 +9,7 @@ import { useParams } from 'next/navigation';
 import { CommentType } from '../../types/post';
 
 type Props = {
-  likeCount: number;
+  likeCount: number | undefined;
   commentCount: number;
   commentRef: RefObject<HTMLElement | null>;
   like: boolean;

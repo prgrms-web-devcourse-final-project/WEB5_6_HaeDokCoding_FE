@@ -62,6 +62,7 @@ function WriteSection({ mode, postId }: Props) {
             (data.imageUrls || []).map((url: string) => ({
               file: null,
               url,
+              isNew: false,
             }))
           );
           setSelectedTags(data.tags || []);
@@ -71,6 +72,10 @@ function WriteSection({ mode, postId }: Props) {
       })();
     }
   }, [mode, postId]);
+
+  useEffect(() => {
+    console.log(uploadedFile);
+  }, [uploadedFile]);
 
   useEffect(() => {
     // 변경사항이 있는 경우에만 setFormData 호출
@@ -111,21 +116,21 @@ function WriteSection({ mode, postId }: Props) {
       title: formData.title,
       content: formData.content,
       categoryId: categoryId,
-      imageUrls: uploadedFile.map((file) => {
-        console.log(file.file);
-        return file.file;
-      }),
       tags: formData.tags,
+      imageUrls: uploadedFile
+        .filter((item) => !item.isNew) // 기존 이미지 URL만
+        .map((item) => item.url),
     };
-    console.log(postJson);
-    console.log(JSON.stringify(postJson, null, 2));
+
+    uploadedFile.forEach((file) => {
+      console.log(file);
+      if (file.file && file.isNew) {
+        payload.append('images', file.file);
+      }
+    });
 
     const postBlob = new Blob([JSON.stringify(postJson)], { type: 'application/json' });
     payload.append('post', postBlob);
-
-    // uploadedFile.forEach((file) => {
-    //   payload.append('files', file.url);
-    // });
 
     try {
       const res = await fetch(`${getApi}/posts`, {
@@ -200,13 +205,19 @@ function WriteSection({ mode, postId }: Props) {
       title: formData.title,
       content: formData.content,
       categoryId,
-      imageUrls: uploadedFile.map((file) => file.url),
       tags: formData.tags,
+      imageUrls: uploadedFile.filter((item) => !item.file && item.url).map((item) => item.url),
     };
 
     const payload = new FormData();
+    console.log(postJson);
+
+    uploadedFile.forEach(({ file }) => {
+      if (file) payload.append('images', file); // 새로 업로드된 파일만
+    });
     const postBlob = new Blob([JSON.stringify(postJson)], { type: 'application/json' });
     payload.append('post', postBlob);
+    console.log(payload);
 
     try {
       setIsLoading(true);
@@ -222,7 +233,9 @@ function WriteSection({ mode, postId }: Props) {
       }
 
       setIsLoading(false);
-
+      console.log('▶ 요청 보낸 후 status:', res.status);
+      const text = await res.text();
+      console.log('▶ 응답 텍스트:', text);
       return true;
     } catch (err) {
       console.error('글수정 폼 작성 에러', err);
@@ -247,12 +260,7 @@ function WriteSection({ mode, postId }: Props) {
           <Category formData={formData} setFormData={setFormData} />
           <WriteForm formData={formData} setFormData={setFormData} />
         </section>
-        <ImageSection
-          formData={formData}
-          setFormData={setFormData}
-          uploadedFile={uploadedFile}
-          setUploadedFile={setUploadedFile}
-        />
+        <ImageSection uploadedFile={uploadedFile} setUploadedFile={setUploadedFile} />
         <section className="mt-8">
           <CocktailTag
             use="write"
