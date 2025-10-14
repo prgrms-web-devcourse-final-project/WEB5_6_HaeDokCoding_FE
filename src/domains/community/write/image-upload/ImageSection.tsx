@@ -11,6 +11,10 @@ type Props = {
 function ImageSection({ uploadedFile, setUploadedFile }: Props) {
   useEffect(() => {
     console.log(uploadedFile);
+    console.log(
+      '✅ imageUrls',
+      uploadedFile.map((item) => item.url)
+    );
   }, [uploadedFile]);
 
   const handleAddImage = (newFiles: UploadedItem[]) => {

@@ -55,8 +55,7 @@ function DetailPage() {
     const fetchLikeStatus = async () => {
       try {
         const liked = await getLikePost(postId);
-        console.log(liked);
-        setLike(liked === 'LIKE');
+        setLike(liked);
       } catch (err) {
         console.error('좋아요 상태 불러오기 실패', err);
       }
@@ -86,17 +85,17 @@ function DetailPage() {
   } = postDetail;
 
   const handleLike = async () => {
-    setLike((prev) => !prev);
-    setPrevLikeCount((prev) => {
-      return like ? prev! - 1 : prev! + 1;
-    });
+    const newLike = !like; // 현재 상태 기준으로 먼저 계산
+    setLike(newLike); // 좋아요 상태 먼저 반영
+    setPrevLikeCount((count) => (newLike ? (count ?? 0) + 1 : (count ?? 0) - 1)); // count도 바로 계산
 
     try {
       await likePost(postId); // POST 요청 한 번으로 토글 처리
     } catch (err) {
       console.error('좋아요 토글 실패', err);
-      setLike((prev) => !prev); // 롤백
-      setPrevLikeCount((prev) => (like ? prev! + 1 : prev! - 1));
+      // 롤백
+      setLike(!newLike);
+      setPrevLikeCount((count) => (newLike ? (count ?? 0) - 1 : (count ?? 0) + 1));
     }
   };
 

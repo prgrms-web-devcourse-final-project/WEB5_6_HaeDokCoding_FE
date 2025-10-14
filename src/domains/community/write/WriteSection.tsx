@@ -22,6 +22,13 @@ type Props = {
   postId?: ParamValue;
 };
 
+// utils/urlToFile.ts
+export const urlToFile = async (url: string, fileName: string): Promise<File> => {
+  const response = await fetch(url);
+  const blob = await response.blob();
+  return new File([blob], fileName, { type: blob.type });
+};
+
 function WriteSection({ mode, postId }: Props) {
   const [formData, setFormData] = useState<FormType>({
     categoryName: '',
@@ -58,13 +65,27 @@ function WriteSection({ mode, postId }: Props) {
             tags: data.tags || [],
           });
 
-          setUploadedFile(
-            (data.imageUrls || []).map((url: string) => ({
-              file: null,
-              url,
-              isNew: false,
-            }))
+          // ✅ 기존 이미지 URL → File 객체로 변환
+          const convertedImages = await Promise.all(
+            (data.imageUrls || []).map(async (url: string, index: number) => {
+              try {
+                const file = await urlToFile(url, `existing-image-${index}.jpg`);
+                return {
+                  file,
+                  url,
+                  isNew: false,
+                };
+              } catch (error) {
+                console.warn('Failed to convert image:', url, error);
+                return {
+                  file: null,
+                  url,
+                  isNew: false,
+                };
+              }
+            })
           );
+          setUploadedFile(convertedImages);
           setSelectedTags(data.tags || []);
         } catch (error) {
           console.error(error);
@@ -118,7 +139,7 @@ function WriteSection({ mode, postId }: Props) {
       categoryId: categoryId,
       tags: formData.tags,
       imageUrls: uploadedFile
-        .filter((item) => !item.isNew) // 기존 이미지 URL만
+        .filter((item) => item.isNew) // 기존 이미지 URL만
         .map((item) => item.url),
     };
 
@@ -131,6 +152,7 @@ function WriteSection({ mode, postId }: Props) {
 
     const postBlob = new Blob([JSON.stringify(postJson)], { type: 'application/json' });
     payload.append('post', postBlob);
+    console.log(postBlob);
 
     try {
       const res = await fetch(`${getApi}/posts`, {
@@ -200,23 +222,29 @@ function WriteSection({ mode, postId }: Props) {
       toastError('카테고리를 선택해주세요.');
       return false;
     }
+    const payload = new FormData();
+    const imageUrls = uploadedFile.filter((item) => !item.isNew); // 생성 함수와 동일하게 변경 .map((item) => item.url),
 
     const postJson = {
       title: formData.title,
       content: formData.content,
       categoryId,
       tags: formData.tags,
-      imageUrls: uploadedFile.filter((item) => !item.file && item.url).map((item) => item.url),
+      keepImageUrls: imageUrls,
     };
 
-    const payload = new FormData();
     console.log(postJson);
 
-    uploadedFile.forEach(({ file }) => {
-      if (file) payload.append('images', file); // 새로 업로드된 파일만
+    console.log(uploadedFile);
+    uploadedFile.forEach((file) => {
+      if (file.file && file.isNew) {
+        payload.append('images', file.file);
+      }
     });
+
     const postBlob = new Blob([JSON.stringify(postJson)], { type: 'application/json' });
     payload.append('post', postBlob);
+    console.log(postBlob);
     console.log(payload);
 
     try {
