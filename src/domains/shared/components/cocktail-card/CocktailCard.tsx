@@ -33,7 +33,6 @@ function CocktailCard({
   favor,
 }: Props) {
   const alcoholTitle = labelTitle(alcohol);
-
   return (
     <div className="flex flex-col gap-4">
       <div

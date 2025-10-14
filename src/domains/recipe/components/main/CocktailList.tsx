@@ -27,12 +27,12 @@ function CocktailList({ cocktails}: Props) {
           cocktailName,
           cocktailNameKo,
           alcoholStrength,
-          isFavorited,
+          isKeep,
         }) => (
           <li key={cocktailId} className="w-full">
             <Link href={`/recipe/${cocktailId}`}>
               <CocktailCard
-                favor={isFavorited}
+                favor={isKeep}
                 id={cocktailId}
                 src={cocktailImgUrl}
                 name={cocktailName}
