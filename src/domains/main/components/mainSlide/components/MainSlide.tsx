@@ -19,49 +19,49 @@ function MainSlide() {
   const cleanupFnRef = useRef<(() => void) | null>(null);
   const resizeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-useEffect(() => {
-  setIsMobile(window.innerWidth < 1024);
-  setMounted(true);
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 1024);
+    setMounted(true);
 
-  const handleResize = () => {
-    // 디바운스: resize 이벤트를 200ms 지연
-    if (resizeTimeoutRef.current) {
-      clearTimeout(resizeTimeoutRef.current);
-    }
-
-    resizeTimeoutRef.current = setTimeout(() => {
-      const newIsMobile = window.innerWidth < 1024;
-
-      // 모바일 ↔ 데스크탑 전환 시에만 cleanup 실행
-      if (newIsMobile !== isMobile) {
-        // GSAP을 먼저 완전히 정리
-        if (cleanupFnRef.current) {
-          cleanupFnRef.current();
-          cleanupFnRef.current = null;
-        }
-
-        // 상태 업데이트
-        setIsMobile(newIsMobile);
-      } else if (!newIsMobile) {
-        // 데스크탑 내에서의 리사이즈 - ScrollTrigger refresh
-        ScrollTrigger.refresh(true);
+    const handleResize = () => {
+      // 디바운스: resize 이벤트를 200ms 지연
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current);
       }
-    }, 200);
-  };
 
-  window.addEventListener('resize', handleResize);
-  return () => {
-    window.removeEventListener('resize', handleResize);
-    if (resizeTimeoutRef.current) {
-      clearTimeout(resizeTimeoutRef.current);
-    }
-    if (cleanupFnRef.current) {
-      cleanupFnRef.current();
-    }
-  };
-}, [isMobile]);
+      resizeTimeoutRef.current = setTimeout(() => {
+        const newIsMobile = window.innerWidth < 1024;
 
-// GSAP 초기화 - 데스크탑에서만
+        // 모바일 ↔ 데스크탑 전환 시에만 cleanup 실행
+        if (newIsMobile !== isMobile) {
+          // GSAP을 먼저 완전히 정리
+          if (cleanupFnRef.current) {
+            cleanupFnRef.current();
+            cleanupFnRef.current = null;
+          }
+
+          // 상태 업데이트
+          setIsMobile(newIsMobile);
+        } else if (!newIsMobile) {
+          // 데스크탑 내에서의 리사이즈 - ScrollTrigger refresh
+          ScrollTrigger.refresh(true);
+        }
+      }, 200);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current);
+      }
+      if (cleanupFnRef.current) {
+        cleanupFnRef.current();
+      }
+    };
+  }, [isMobile]);
+
+  // GSAP 초기화 - 데스크탑에서만
   useLayoutEffect(() => {
     if (!mounted) return;
     if (isMobile) return;
