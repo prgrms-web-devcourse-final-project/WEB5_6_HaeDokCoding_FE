@@ -6,11 +6,11 @@ import Back from '@/shared/assets/icons/back_36.svg';
 function BackButton() {
   const router = useRouter();
 
+
   const handleClick = () => {
     const url = sessionStorage.getItem('saveUrl');
     if (!url) return;
-    router.push(url);
-    sessionStorage.removeItem('listScrollY');
+    router.replace(url,{scroll:false});
   };
 
   return (

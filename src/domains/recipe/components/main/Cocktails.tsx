@@ -8,9 +8,13 @@ import CocktailSearchBar from './CocktailSearchBar';
 import { useCocktails} from '../../api/fetchRecipe';
 import { useInView } from 'react-intersection-observer';
 import { debounce } from '@/shared/utills/debounce';
+import { useSearchParams } from 'next/navigation';
+import { Sort } from '../../types/types';
 
 
 function Cocktails() {
+ const searchParams = useSearchParams();
+ const sortBy = searchParams.get('sortBy') as Sort
 const [keyword,setKeyword] = useState('')
 const [input, setInput] = useState('');
 
@@ -29,7 +33,7 @@ const [cocktailTypes,setCocktailTypes] = useState<string[]>([])
     alcoholBaseTypes,
     alcoholStrengths,
     cocktailTypes,
-  }, 20)
+  }, 20,sortBy)
 
   const { ref, inView } = useInView({
     threshold:0.1
@@ -45,7 +49,7 @@ const debounceKeyword = useMemo(()=> debounce((v:string)=> setKeyword(v),300),[]
   const handleSearch = (v: string) => {
     setInput(v)
     debounceKeyword(v)
-}
+  }
 
   return (
     <section>
@@ -61,9 +65,15 @@ const debounceKeyword = useMemo(()=> debounce((v:string)=> setKeyword(v),300),[]
       <CocktailFilter cocktailsEA={data.length} />
     
       <section className="mt-5">
-          <CocktailList cocktails={data}/>
+        {
+          noResults ? (
+          <div>검색 결과가 없습니다.</div>
+          ): (
+          <CocktailList cocktails={data}/>  
+          )
+        }
       </section>
-      <div ref={ref}></div>
+      <div ref={ref} className='h-4'></div>
     </section>
   );
 }

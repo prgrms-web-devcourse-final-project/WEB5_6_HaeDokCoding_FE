@@ -8,8 +8,12 @@ interface Props {
   cocktails: Cocktail[];
 }
 
-function CocktailList({ cocktails}: Props) {
+function CocktailList({cocktails}: Props) {
  
+  const handleClick = () => {
+    sessionStorage.setItem('saveUrl',location.href)
+  }
+
   return (
     <ul
       className="
@@ -28,9 +32,9 @@ function CocktailList({ cocktails}: Props) {
           cocktailNameKo,
           alcoholStrength,
           isKeep,
-        }) => (
-          <li key={cocktailId} className="w-full">
-            <Link href={`/recipe/${cocktailId}`}>
+        },i) => (
+          <li key={`${cocktailId} - ${i}` } className="w-full">
+            <Link href={`/recipe/${cocktailId}`}  onClick={handleClick}>
               <CocktailCard
                 favor={isKeep}
                 id={cocktailId}

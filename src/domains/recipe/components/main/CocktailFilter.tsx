@@ -1,12 +1,11 @@
-import { getApi } from '@/app/api/config/appConfig';
+
 import SelectBox from '@/shared/components/select-box/SelectBox';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Dispatch, SetStateAction } from 'react';
-import { Cocktail } from '../../types/types';
+import { useQueryClient } from '@tanstack/react-query';
+import { useRouter} from 'next/navigation';
+
 
 interface Props {
   cocktailsEA: number;
- 
 }
 
 function CocktailFilter({ cocktailsEA }: Props) {
@@ -15,19 +14,15 @@ function CocktailFilter({ cocktailsEA }: Props) {
     인기순: 'keeps',
     댓글순: 'comments',
   };
-  const searchParams = useSearchParams();
-  const query = searchParams.get('sortBy');
+ const queryClient = useQueryClient();
   const router = useRouter();
   const handleChange = async (selectTitle: string) => {
-    if (!query) return;
-    try {
-      const res = await fetch(`${getApi}/cocktails`);
-      const json = await res.json();
-  
-    } catch {
-      console.error();
-      console.log(selectTitle);
-    }
+    const sortValue = sortMap[selectTitle as keyof typeof sortMap]
+    queryClient.removeQueries({
+      queryKey: ['cocktails', 'infinite'],
+      exact:false
+    })
+     router.push(`?sortBy=${sortValue}`);
   };
 
   return (
@@ -36,11 +31,7 @@ function CocktailFilter({ cocktailsEA }: Props) {
       <SelectBox
         option={['최신순', '댓글순', '인기순']}
         title="최신순"
-        onChange={(value) => {
-          const sortValue = sortMap[value as keyof typeof sortMap];
-          handleChange(value);
-          router.push(`?sortBy=${sortValue}`);
-        }}
+        onChange={handleChange}
       />
     </div>
   );

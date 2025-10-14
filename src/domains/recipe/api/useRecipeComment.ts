@@ -68,8 +68,7 @@ export function useRecipeComment({cocktailId}:{cocktailId:number}) {
   const { data:comments=[],refetch,isLoading } = useQuery({
     queryKey: ['comments', cocktailId],
     queryFn: () => getRecipeComment(cocktailId),
-    staleTime: 30_000
-  
+    staleTime: 30_000,
   })
 
   const createMut = useMutation({

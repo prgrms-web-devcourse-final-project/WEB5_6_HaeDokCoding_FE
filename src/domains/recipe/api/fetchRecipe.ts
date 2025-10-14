@@ -1,7 +1,7 @@
 import { getApi } from "@/app/api/config/appConfig";
 import { useAuthStore } from "@/domains/shared/store/auth";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { Cocktail } from "../types/types";
+import { Cocktail, Sort } from "../types/types";
 
 
 
@@ -20,7 +20,6 @@ interface SearchFilters {
   alcoholBaseTypes: string[];
 }
 
-type Sort = 'recent' | 'keeps' | 'comments'
 
 interface CocktailFilter extends SearchFilters{
   sortBy?:Sort
@@ -44,19 +43,19 @@ const fetchKeep = async (): Promise<Set<number>> => {
   const fetchRecipe = async (
   lastId: number | null,
   size: number,
-    sortBy?: Sort
+  sortBy?: Sort
   ): Promise<Cocktail[]> => {
     
     const url = new URL(`${getApi}/cocktails`)
-    url.searchParams.set('SIZE',String(size))
-    url.searchParams.set('lastId', String(lastId))
-    url.searchParams.set('lastValue', String(lastId));
-
-
+    url.searchParams.set('size',String(size))
+      if (lastId !== null) {
+        url.searchParams.set('lastId', String(lastId));
+        url.searchParams.set('lastValue', String(lastId));
+      }
+  
     if (sortBy) {
-      url.searchParams.set('sortBy',sortBy)
+      url.searchParams.set('sortBy',String(sortBy))
     }
-
 
     const res = await fetch(url.toString(), {
       method:'GET'
@@ -110,28 +109,27 @@ export const useCocktailsInfiniteQuery = (
   sortBy?: Sort
 ) => {
     const user = useAuthStore((state) => state.user);
-    
     return useInfiniteQuery({
-      queryKey: ['cocktails','infinite',sortBy, size, user?.id],
+      queryKey: ['cocktails', 'infinite', sortBy, size, user?.id],
       queryFn: async ({ pageParam }) => {
-        const cocktails = await fetchRecipe(pageParam,size,sortBy)
+        const cocktails = await fetchRecipe(pageParam, size, sortBy);
 
         if (user) {
-          const keepId = await fetchKeep()
+          const keepId = await fetchKeep();
           return cocktails.map((item) => ({
             ...item,
-            isKeep: keepId.has(item.cocktailId)
-          }))
+            isKeep: keepId.has(item.cocktailId),
+          }));
         }
 
-        return cocktails
+        return cocktails;
       },
       getNextPageParam: (lastpage) => {
-        if(lastpage.length < size) return undefined
-        return lastpage[lastpage.length - 1]?.cocktailId ?? undefined
+        if (lastpage.length < size) return undefined;
+        return lastpage[lastpage.length - 1]?.cocktailId ?? undefined;
       },
-      initialPageParam: 345
-    })
+      initialPageParam: null as number | null,
+    });
 }
 
 
@@ -140,7 +138,7 @@ export const useCocktailsSearchQuery = (filters:SearchFilters) => {
   const isActive = hasActiveFilters(filters)
 
   return useQuery({
-    queryKey: ['cocktails', 'search',  filters, user?.id],
+    queryKey: ['cocktails', 'search', filters, user?.id],
     queryFn: async () => {
       const cocktails = await searchCocktails(filters)
       if (user && cocktails.length > 0) {
@@ -157,9 +155,9 @@ export const useCocktailsSearchQuery = (filters:SearchFilters) => {
   })
 }
 
-export const useCocktails = (filters: CocktailFilter, infiniteScrollSize: number = 20) => {
+export const useCocktails = (filters: CocktailFilter, infiniteScrollSize: number = 20,sortBy?:Sort) => {
   const isSearchMode = hasActiveFilters(filters);
-  const infiniteQuery = useCocktailsInfiniteQuery(infiniteScrollSize, filters.sortBy);
+  const infiniteQuery = useCocktailsInfiniteQuery(infiniteScrollSize, sortBy);
   const searchQuery = useCocktailsSearchQuery(filters);
 
   if (isSearchMode) {

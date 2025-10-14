@@ -1,7 +1,7 @@
 'use client';
 
 import SelectBox from '@/shared/components/select-box/SelectBox';
-import { Dispatch, SetStateAction, useEffect, useMemo } from 'react';
+import { Dispatch, SetStateAction, useEffect} from 'react';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
 interface Props {
@@ -140,7 +140,7 @@ function Accordion({ setAlcoholBaseTypes, setCocktailTypes, setAlcoholStrengths 
   return (
     <ul className="flex w-full gap-3">
       {SELECT_OPTIONS.map(({ id, option, title }) => {
-        const currentValue = currentValues[id as keyof typeof currentValues];
+        const currentValue = currentValues()[id as keyof typeof currentValues];
 
         return (
           <li key={id}>
