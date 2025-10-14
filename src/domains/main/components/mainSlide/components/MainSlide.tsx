@@ -19,47 +19,49 @@ function MainSlide() {
   const cleanupFnRef = useRef<(() => void) | null>(null);
   const resizeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // 초기 마운트
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 1024);
-    setMounted(true);
+useEffect(() => {
+  setIsMobile(window.innerWidth < 1024);
+  setMounted(true);
 
-    const handleResize = () => {
-      // 디바운스: resize 이벤트를 200ms 지연
-      if (resizeTimeoutRef.current) {
-        clearTimeout(resizeTimeoutRef.current);
-      }
+  const handleResize = () => {
+    // 디바운스: resize 이벤트를 200ms 지연
+    if (resizeTimeoutRef.current) {
+      clearTimeout(resizeTimeoutRef.current);
+    }
 
-      resizeTimeoutRef.current = setTimeout(() => {
-        const newIsMobile = window.innerWidth < 1024;
+    resizeTimeoutRef.current = setTimeout(() => {
+      const newIsMobile = window.innerWidth < 1024;
 
-        // 모바일 ↔ 데스크탑 전환 시에만 cleanup 실행
-        if (newIsMobile !== isMobile) {
-          // GSAP을 먼저 완전히 정리
-          if (cleanupFnRef.current) {
-            cleanupFnRef.current();
-            cleanupFnRef.current = null;
-          }
-
-          // 상태 업데이트
-          setIsMobile(newIsMobile);
+      // 모바일 ↔ 데스크탑 전환 시에만 cleanup 실행
+      if (newIsMobile !== isMobile) {
+        // GSAP을 먼저 완전히 정리
+        if (cleanupFnRef.current) {
+          cleanupFnRef.current();
+          cleanupFnRef.current = null;
         }
-      }, 200);
-    };
 
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      if (resizeTimeoutRef.current) {
-        clearTimeout(resizeTimeoutRef.current);
+        // 상태 업데이트
+        setIsMobile(newIsMobile);
+      } else if (!newIsMobile) {
+        // 데스크탑 내에서의 리사이즈 - ScrollTrigger refresh
+        ScrollTrigger.refresh(true);
       }
-      if (cleanupFnRef.current) {
-        cleanupFnRef.current();
-      }
-    };
-  }, [isMobile]);
+    }, 200);
+  };
 
-  // GSAP 초기화 - 데스크탑에서만
+  window.addEventListener('resize', handleResize);
+  return () => {
+    window.removeEventListener('resize', handleResize);
+    if (resizeTimeoutRef.current) {
+      clearTimeout(resizeTimeoutRef.current);
+    }
+    if (cleanupFnRef.current) {
+      cleanupFnRef.current();
+    }
+  };
+}, [isMobile]);
+
+// GSAP 초기화 - 데스크탑에서만
   useLayoutEffect(() => {
     if (!mounted) return;
     if (isMobile) return;
@@ -69,13 +71,12 @@ function MainSlide() {
     const stage = el.querySelector('.stage') as HTMLElement;
     if (!stage) return;
 
-    // 약간의 지연을 줘서 DOM이 안정화되도록
     const timer = setTimeout(() => {
       if (!root.current) return;
 
       const ctx = gsap.context(() => {
         const panels = Array.from(el.querySelectorAll<HTMLElement>('.panel'));
-        const tl = gsap.timeline({ paused: true, defaults: { ease: 'none' } });
+        const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.inOut' } });
 
         panels.forEach((panel, i) => {
           const c = panel.querySelector<HTMLElement>('.slide-content');
@@ -83,13 +84,16 @@ function MainSlide() {
           const stageW = () => stage.clientWidth;
           const contentW = () => c.getBoundingClientRect().width;
 
-          gsap.set(c, { x: stageW() });
+          gsap.set(c, {
+            x: () => stageW(),
+            immediateRender: false,
+          });
 
           tl.to(
             c,
             {
               x: () => stageW() - contentW(),
-              duration: 1,
+              duration: 2,
               immediateRender: false,
               onStart: () => c.classList.remove('invisible'),
             },
@@ -110,9 +114,7 @@ function MainSlide() {
         ScrollTrigger.refresh();
       }, root);
 
-      // cleanup 함수를 ref에 저장
       cleanupFnRef.current = () => {
-        // ScrollTrigger를 먼저 완전히 제거
         const allTriggers = ScrollTrigger.getAll();
         allTriggers.forEach((st) => {
           if (st.trigger === el || el.contains(st.trigger as Node)) {
@@ -120,26 +122,18 @@ function MainSlide() {
           }
         });
 
-        // GSAP context revert
         try {
           ctx.revert();
-        } catch (e) {
-          // 무시
-        }
+        } catch {}
 
-        // 혹시 남아있는 pin-spacer 수동 제거
         const pinSpacers = document.querySelectorAll('.pin-spacer');
         pinSpacers.forEach((spacer) => {
           if (spacer.contains(el) || el.contains(spacer)) {
-            try {
-              const child = spacer.querySelector('section');
-              if (child && spacer.parentElement) {
-                spacer.parentElement.appendChild(child);
-              }
-              spacer.remove();
-            } catch (e) {
-              // 무시
+            const child = spacer.querySelector('section');
+            if (child && spacer.parentElement) {
+              spacer.parentElement.appendChild(child);
             }
+            spacer.remove();
           }
         });
       };
@@ -153,7 +147,6 @@ function MainSlide() {
       }
     };
   }, [isMobile, mounted]);
-
   // SSR 방지
   if (!mounted) {
     return null;
@@ -167,7 +160,7 @@ function MainSlide() {
         </StarBg>
       ) : (
         <StarBg className="bg-fixed">
-          <section key="desktop" ref={root} className="h-screen">
+          <section key="desktop" ref={root} className="stage h-screen">
             <div className="stage relative w-full h-full overflow-hidden">
               <div className="panel absolute inset-0">
                 <MainSlideIntro />
