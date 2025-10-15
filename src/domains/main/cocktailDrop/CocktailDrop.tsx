@@ -5,10 +5,15 @@ import Cocktailcup from '../../../../public/CocktailDrop.webp';
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
+import PassBtn from './PassBtn';
 
 gsap.registerPlugin(ScrollTrigger);
 
-function CocktailDrop() {
+interface CocktailDropProps {
+  isDesktop?: boolean;
+}
+
+function CocktailDrop({ isDesktop = false }: CocktailDropProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const line1Ref = useRef<HTMLDivElement>(null);
@@ -39,12 +44,11 @@ function CocktailDrop() {
       );
 
       // 로고 위에서 아래로 자연스럽게 등장
-      const isMobile = window.innerWidth < 768;
       gsap.fromTo(
         logoRef.current,
         { y: -300, opacity: 0 },
         {
-          y: isMobile ? -140 : -40, // 모바일에서는 더 위로
+          y: !isDesktop ? -230 : -18, // 데스크톱이 아닐 때 더 위로
           opacity: 1,
           duration: 3,
           ease: 'power3.out',
@@ -60,12 +64,12 @@ function CocktailDrop() {
     }, containerRef);
 
     return () => ctx.revert();
-  }, [containerRef]);
+  }, [containerRef, isDesktop]);
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full md:min-h-[110vh] min-h-[74vh] flex flex-col md:justify-center justify-end items-center mt-10 overflow-hidden"
+      className="relative w-full lg:min-h-[110vh] min-h-[89vh] flex flex-col md:justify-center justify-end items-center mt-10 overflow-hidden"
       id="scroll-fixed"
     >
       {/* 대각선 줄 1 */}
@@ -80,7 +84,7 @@ function CocktailDrop() {
       />
 
       {/* 로고 */}
-      <div ref={logoRef} className="absolute z-20 md:w-115 w-65 md:h-90 h-40">
+      <div ref={logoRef} className="absolute md:w-115 w-85 md:h-90 h-40">
         <Image
           src="/logo.svg"
           alt="로고 이미지"
@@ -94,16 +98,18 @@ function CocktailDrop() {
       <div className="w-full md:h-90 h-30"></div>
 
       {/* 컵 이미지 - 모바일에서 바닥에 붙도록 */}
-      <div className="z-10 md:relative absolute bottom-0">
+      <div className="md:relative absolute bottom-0">
         <Image
           src={Cocktailcup}
           alt="칵테일 컵"
           width={900}
-          height={800}
+          height={700}
           priority
-          style={{ width: 'auto', height: 'auto' }}
-          className="md:w-auto md:h-auto w-[300px] h-[300px] object-contain"
+          className="md:w-auto md:h-auto w-[500px] h-[400px] object-cover"
         />
+      </div>
+      <div className="absolute md:bottom-35 bottom-20 flex items-center justify-center z-3 w-full">
+        <PassBtn />
       </div>
     </div>
   );

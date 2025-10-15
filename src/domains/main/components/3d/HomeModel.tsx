@@ -1,9 +1,9 @@
 'use client';
 
 import { Environment, OrbitControls, useGLTF } from '@react-three/drei';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Canvas } from '@react-three/fiber';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import * as THREE from 'three';
 
 interface Props {
@@ -42,7 +42,7 @@ function Model({ onLoaded }: Props) {
   return (
     <primitive
       object={scene}
-      scale={6.4}
+      scale={5.8}
       position={[0, -1.2, 0]}
       rotation={[-0.15, Math.PI + 3, 0]}
     />
