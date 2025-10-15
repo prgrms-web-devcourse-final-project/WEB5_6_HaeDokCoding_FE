@@ -1,7 +1,8 @@
 import { getApi } from '@/app/api/config/appConfig';
 import { useAuthStore } from '@/domains/shared/store/auth';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Cocktail, Sort } from '../types/types';
+import { useEffect, useRef } from 'react';
 
 interface CocktailResponse {
   data: Cocktail[];
@@ -22,6 +23,11 @@ interface CocktailFilter extends SearchFilters {
   sortBy?: Sort;
 }
 
+interface PageParam {
+  lastId: number;
+  lastValue: number | string;
+}
+
 const fetchKeep = async (): Promise<Set<number>> => {
   const res = await fetch(`${getApi}/me/bar`, {
     method: 'GET',
@@ -36,15 +42,15 @@ const fetchKeep = async (): Promise<Set<number>> => {
 };
 
 const fetchRecipe = async (
-  lastId: number | null,
+  pageParam: PageParam | null,
   size: number,
   sortBy?: Sort
 ): Promise<Cocktail[]> => {
   const url = new URL(`${getApi}/cocktails`);
   url.searchParams.set('size', String(size));
-  if (lastId !== null) {
-    url.searchParams.set('lastId', String(lastId));
-    url.searchParams.set('lastValue', String(lastId));
+  if (pageParam) {
+    url.searchParams.set('lastId', String(pageParam.lastId));
+    url.searchParams.set('lastValue', String(pageParam.lastValue));
   }
 
   if (sortBy) {
@@ -95,6 +101,18 @@ const hasActiveFilters = (filters: SearchFilters): boolean => {
 
 export const useCocktailsInfiniteQuery = (size: number = 20, sortBy?: Sort) => {
   const user = useAuthStore((state) => state.user);
+  const queryClient = useQueryClient();
+  const prevSortBy = useRef(sortBy);
+
+  useEffect(() => {
+    if (prevSortBy.current !== undefined && prevSortBy.current !== sortBy) {
+      queryClient.removeQueries({
+        queryKey: ['cocktails', 'infinite', prevSortBy.current],
+      });
+    }
+    prevSortBy.current = sortBy;
+  }, [sortBy, queryClient]);
+
   return useInfiniteQuery({
     queryKey: ['cocktails', 'infinite', sortBy, size, user?.id],
     queryFn: async ({ pageParam }) => {
@@ -110,11 +128,37 @@ export const useCocktailsInfiniteQuery = (size: number = 20, sortBy?: Sort) => {
 
       return cocktails;
     },
-    getNextPageParam: (lastpage) => {
-      if (lastpage.length < size) return undefined;
-      return lastpage[lastpage.length - 1]?.cocktailId ?? undefined;
+    getNextPageParam: (lastPage) => {
+      if (lastPage.length < size) {
+        return undefined;
+      }
+
+      const lastItem = lastPage[lastPage.length - 1];
+      if (!lastItem) return undefined;
+
+      let lastValue: number | string;
+
+      switch (sortBy) {
+        case 'keeps':
+          lastValue = lastItem.keepCount ?? lastItem.cocktailId;
+          break;
+        case 'comments':
+          lastValue = lastItem.commentCount ?? lastItem.cocktailId;
+          break;
+        case 'recent':
+        default:
+          lastValue = lastItem.cocktailId;
+          break;
+      }
+
+      return {
+        lastId: lastItem.cocktailId,
+        lastValue: lastValue,
+      };
     },
-    initialPageParam: null as number | null,
+    initialPageParam: null as PageParam | null,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 };
 
@@ -161,13 +205,17 @@ export const useCocktails = (
   }
 
   const allCocktails = infiniteQuery.data?.pages.flatMap((page) => page) ?? [];
+  const uniqueCocktails = allCocktails.filter(
+    (cocktail, index, self) => index === self.findIndex((c) => c.cocktailId === cocktail.cocktailId)
+  );
 
+  const hasDuplicates = allCocktails.length !== uniqueCocktails.length;
   return {
-    data: allCocktails,
+    data: uniqueCocktails,
     noResults: false,
     isSearchMode: false,
     fetchNextPage: infiniteQuery.fetchNextPage,
-    hasNextPage: infiniteQuery.hasNextPage,
+    hasNextPage: hasDuplicates ? false : infiniteQuery.hasNextPage,
     isFetchingNextPage: infiniteQuery.isFetchingNextPage,
   };
 };

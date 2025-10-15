@@ -11,6 +11,8 @@ function HeaderLogo() {
           width={82}
           height={26}
           className="w-[62px] md:w-[82px] h-auto"
+          priority
+          style={{ width: 'auto', height: 'auto' }}
         />
       </Link>
     </div>

@@ -14,7 +14,6 @@ export async function generateMetadata({
     cache: 'no-store',
   });
   const post = await res.json();
-  console.log(post);
   return {
     title: post.title,
     description: post.content?.slice(0, 80),

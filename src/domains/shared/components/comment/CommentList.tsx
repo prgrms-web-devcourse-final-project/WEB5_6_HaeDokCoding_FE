@@ -3,7 +3,6 @@ import CommentTitle from './CommentTitle';
 import React, { useEffect, useRef, useState } from 'react';
 import AutoGrowingTextarea from '../../../community/components/textarea/AutoGrowingTextarea';
 import { useInfiniteScrollObserver } from '@/shared/hook/useInfiniteScrollObserver';
-import { useItemVirtualizer } from '@/domains/community/hook/useItemVirtualizer';
 import { useCommentEnterAnimation } from '@/domains/community/hook/useCommentAnimation';
 import { usePrevious } from 'react-use';
 import Link from 'next/link';
@@ -32,7 +31,6 @@ function CommentList({
   const [editCommentId, setEditCommentId] = useState<number | null>(null);
   const [editedContentMap, setEditedContentMap] = useState<Record<number, string>>({});
   const firstItemRef = useRef<HTMLLIElement | null>(null);
-  const rowVirtualizer = useItemVirtualizer(comments, parentRef);
   useCommentEnterAnimation(comments, parentRef);
 
   const observeLastItem = useInfiniteScrollObserver<HTMLElement>({
@@ -52,10 +50,12 @@ function CommentList({
 
     if (newLength > oldLength) {
       requestAnimationFrame(() => {
-        rowVirtualizer.scrollToIndex(0);
+        if (parentRef.current) {
+          parentRef.current.scrollTop = 0;
+        }
       });
     }
-  }, [comments, prevComments, rowVirtualizer]);
+  }, [comments, prevComments]);
 
   if (!comments || comments.length === 0) {
     return null;
@@ -67,40 +67,23 @@ function CommentList({
         aria-label="댓글 목록"
         className="flex flex-col mt-6 overflow-y-auto no-scrollbar"
         ref={parentRef}
-        style={{ minHeight: '300px', maxHeight: '600px', position: 'relative' }}
+        style={{ minHeight: '300px', maxHeight: '600px' }}
       >
-        <ul style={{ height: rowVirtualizer.getTotalSize(), position: 'relative' }}>
-          {rowVirtualizer.getVirtualItems().map(({ index, key, start }) => {
-            const { commentId, content, userNickName, createdAt, postId } = comments[index];
+        <ul>
+          {comments?.map((comment, index) => {
+            const { commentId, content, userNickName, createdAt, postId } = comment;
             const isEditing = editCommentId === commentId;
             const isMyComment = comments && currentUserNickname === userNickName;
             const isLast = index === comments.length - 1;
+            const key = `${commentId}-${createdAt}`;
 
             return myPage ? (
               <Link href={`/community/${postId}`} key={key}>
                 <li
                   className="border-b-1 border-gray py-3"
-                  data-index={index}
                   ref={(el) => {
-                    if (el) {
-                      requestAnimationFrame(() => {
-                        try {
-                          rowVirtualizer.measureElement(el);
-                        } catch (e) {
-                          console.error('measureElement failed', e);
-                        }
-                      });
-                      if (index === 0) firstItemRef.current = el;
-                      if (isLast) observeLastItem(el);
-                    }
-                  }}
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    transform: `translateY(${start}px)`,
-                    minHeight: '60px', // ← 최소 보장
+                    if (index === 0) firstItemRef.current = el;
+                    if (isLast) observeLastItem(el);
                   }}
                 >
                   <article>
@@ -147,7 +130,6 @@ function CommentList({
                       {isEditing ? (
                         <AutoGrowingTextarea
                           value={editedContentMap[commentId] ?? content}
-                          rowVirtualize={rowVirtualizer}
                           onChange={(e) =>
                             setEditedContentMap((prev) => ({
                               ...prev,
@@ -168,27 +150,9 @@ function CommentList({
               <li
                 className="border-b-1 border-gray py-3"
                 key={key}
-                data-index={index}
                 ref={(el) => {
-                  if (el) {
-                    requestAnimationFrame(() => {
-                      try {
-                        rowVirtualizer.measureElement(el);
-                      } catch (e) {
-                        console.error('measureElement failed', e);
-                      }
-                    });
-                    if (index === 0) firstItemRef.current = el;
-                    if (isLast) observeLastItem(el);
-                  }
-                }}
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  transform: `translateY(${start}px)`,
-                  minHeight: '60px', // ← 최소 보장
+                  if (index === 0) firstItemRef.current = el;
+                  if (isLast) observeLastItem(el);
                 }}
               >
                 <article>
@@ -235,7 +199,6 @@ function CommentList({
                     {isEditing ? (
                       <AutoGrowingTextarea
                         value={editedContentMap[commentId] ?? content}
-                        rowVirtualize={rowVirtualizer}
                         onChange={(e) =>
                           setEditedContentMap((prev) => ({
                             ...prev,
@@ -254,22 +217,7 @@ function CommentList({
             );
           })}
           {isEnd && (
-            <li
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                transform: `translateY(${rowVirtualizer.getTotalSize()}px)`,
-                textAlign: 'center',
-                padding: '1rem',
-                color: '#999',
-                fontSize: '14px',
-                marginTop: '5rem',
-              }}
-            >
-              더 이상 댓글이 없어요.
-            </li>
+            <li className="text-center py-4 text-gray-500 text-sm">더 이상 댓글이 없어요.</li>
           )}
         </ul>
       </div>

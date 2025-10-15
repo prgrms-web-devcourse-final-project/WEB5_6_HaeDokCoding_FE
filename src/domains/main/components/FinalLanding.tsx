@@ -13,6 +13,7 @@ function FinalLanding() {
   const smootherRef = useRef<ScrollSmoother | null>(null);
 
   const [isDesktop, setIsDesktop] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
     const checkViewport = () => {
@@ -20,6 +21,7 @@ function FinalLanding() {
     };
 
     checkViewport();
+    setHasMounted(true);
 
     window.addEventListener('resize', checkViewport);
 
@@ -58,8 +60,10 @@ function FinalLanding() {
     };
   }, [isDesktop]);
 
+  if (!hasMounted) return null;
+
   return (
-    <>
+    <div className="overflow-x-hidden">
       <StarMain />
       {isDesktop ? (
         <div id="scroll-wrapper">
@@ -69,24 +73,24 @@ function FinalLanding() {
             {!isLoading && (
               <>
                 <MainSlide isDesktop={isDesktop} />
-                <CocktailDrop />
+                <CocktailDrop isDesktop={isDesktop} />
               </>
             )}
           </div>
         </div>
       ) : (
-        <div>
+        <div className="overflow-x-hidden">
           {isLoading && <Spinner />}
           <Landing setIsLoading={setIsLoading} isDesktop={isDesktop} />
           {!isLoading && (
             <>
               <MainSlide isDesktop={isDesktop} />
-              <CocktailDrop />
+              <CocktailDrop isDesktop={isDesktop} />
             </>
           )}
         </div>
       )}
-    </>
+    </div>
   );
 }
 

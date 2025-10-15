@@ -1,5 +1,4 @@
 import SelectBox from '@/shared/components/select-box/SelectBox';
-import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 interface Props {
@@ -12,14 +11,12 @@ function CocktailFilter({ cocktailsEA }: Props) {
     인기순: 'keeps',
     댓글순: 'comments',
   };
-  const queryClient = useQueryClient();
+
   const router = useRouter();
-  const handleChange = async (selectTitle: string) => {
+
+  const handleChange = (selectTitle: string) => {
     const sortValue = sortMap[selectTitle as keyof typeof sortMap];
-    queryClient.removeQueries({
-      queryKey: ['cocktails', 'infinite'],
-      exact: false,
-    });
+
     router.push(`?sortBy=${sortValue}`);
   };
 

@@ -13,10 +13,11 @@ import { Sort } from '../../types/types';
 
 function Cocktails() {
   const searchParams = useSearchParams();
-  const sortBy = searchParams.get('sortBy') as Sort;
+  const sortByParam = searchParams.get('sortBy') || 'recent';
   const [keyword, setKeyword] = useState('');
   const [input, setInput] = useState('');
 
+  const [sortBy, setSortBy] = useState<Sort>(sortByParam as Sort);
   const [alcoholStrengths, setAlcoholStrengths] = useState<string[]>([]);
   const [alcoholBaseTypes, setAlcoholBaseTypes] = useState<string[]>([]);
   const [cocktailTypes, setCocktailTypes] = useState<string[]>([]);
@@ -41,6 +42,10 @@ function Cocktails() {
       fetchNextPage?.();
     }
   }, [inView, hasNextPage, fetchNextPage]);
+
+  useEffect(() => {
+    setSortBy(sortByParam as Sort);
+  }, [sortByParam]);
 
   const debounceKeyword = useMemo(() => debounce((v: string) => setKeyword(v), 300), []);
   const handleSearch = (v: string) => {

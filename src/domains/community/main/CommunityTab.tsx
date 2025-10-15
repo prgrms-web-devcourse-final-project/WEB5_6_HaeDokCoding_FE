@@ -1,15 +1,8 @@
 'use client';
 
 import tw from '@/shared/utills/tw';
-import { Post } from '../types/post';
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-
-type Props = {
-  setPosts: (value: Post[] | null) => void;
-  setIsLoading: (value: boolean) => void;
-  setIsEnd: (value: boolean) => void;
-};
 
 export const tabItem = [
   { key: 'all', label: '전체' },
@@ -19,7 +12,7 @@ export const tabItem = [
   { key: 'chat', label: '자유' },
 ];
 
-function CommunityTab({ setPosts, setIsLoading, setIsEnd }: Props) {
+function CommunityTab() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
