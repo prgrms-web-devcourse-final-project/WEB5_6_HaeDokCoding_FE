@@ -42,7 +42,7 @@ function MainSlideAbv() {
 
   return (
     <article className="slide-content invisible w-[61%] h-full bg-primary rounded-tl-[30px] rounded-bl-[30px] p-12 flex flex-col">
-      <div className="flex flex-col gap-30 h-full">
+      <div className="flex flex-col gap-20 h-full">
         <p className="text-[32px] font-bold ">3</p>
         <div className="flex flex-col gap-5 h-full justify-between">
           <header className="flex flex-col gap-10">
@@ -52,7 +52,7 @@ function MainSlideAbv() {
               알콜도수에 따라 변하는 쑤리(SSURY)를 보는 재미도 있어요.
             </p>
           </header>
-          <div className=" h-[190px] flex flex-col gap-2">
+          <div className="h-[190px] flex flex-col gap-2">
             <ul className="flex gap-[5%] xl:gap-[10%]">
               {SSURY_DRUNK.map(({ id, src, abv }) => (
                 <li key={id}>

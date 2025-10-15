@@ -16,7 +16,7 @@ const DUMMY_TEST = [
 function MainSlideTest() {
   return (
     <article className="slide-content invisible w-[80%] p-12 h-full bg-[#4D4D4D] rounded-tl-[30px] rounded-bl-[30px] flex flex-col">
-      <div className="flex flex-col gap-30 h-full">
+      <div className="flex flex-col gap-20 h-full">
         <p className="text-[32px] text-white font-bold">1</p>
         <div className="flex flex-col justify-between h-full">
           <header className="flex flex-col gap-10">
