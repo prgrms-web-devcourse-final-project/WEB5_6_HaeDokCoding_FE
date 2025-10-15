@@ -3,6 +3,8 @@
 ## �� 프로젝트 개요
 
 **프로젝트명**: SSOUL (칵테일을 좋아하는 사람들을 위한 서비스)  
+**팀명**: 해독코딩FE팀  
+**팀원**: 김아현, 문태민, 정은빈  
 **기술 스택**: Next.js 15, React 19, TypeScript, Tailwind CSS  
 **저장소**: https://github.com/prgrms-web-devcourse-final-project/WEB5_6_HaeDokCoding_FE
 
@@ -36,28 +38,31 @@ npm run lint
 ```
 src/
 ├── app/                          # Next.js App Router 페이지
-│   ├── layout.tsx               # 루트 레이아웃
-│   ├── page.tsx                 # 메인 페이지
-│   ├── community/               # 커뮤니티 관련 페이지
-│   ├── recipe/                  # 칵테일 레시피 페이지
-│   ├── recommend/               # 취향 추천 페이지
-│   ├── login/                   # 로그인 관련 페이지
-│   ├── mypage/                  # 마이페이지
+│   ├── (main)/                  # 메인 페이지
+│   ├── (with-layout)/           # 레이아웃이 있는 페이지들
+│   │   ├── community/           # 커뮤니티 (목록, 상세, 작성, 수정)
+│   │   ├── recipe/              # 칵테일 레시피 (목록, 상세)
+│   │   ├── recommend/           # 취향 추천
+│   │   ├── login/               # 로그인
+│   │   ├── mypage/              # 마이페이지 (활동내역, 알림, 바, 설정)
+│   │   └── design-system/       # 디자인 시스템
 │   └── api/                     # API 설정
 ├── domains/                      # 도메인별 컴포넌트
 │   ├── community/               # 커뮤니티 도메인
+│   ├── login/                   # 로그인 도메인
+│   ├── main/                    # 메인 페이지 도메인 (3D, 애니메이션)
+│   ├── mypage/                  # 마이페이지 도메인
 │   ├── recipe/                  # 레시피 도메인
 │   ├── recommend/               # 추천 도메인
-│   ├── login/                   # 로그인 도메인
-│   ├── mypage/                  # 마이페이지 도메인
+│   ├── not-found/               # 404 페이지 도메인
 │   └── shared/                  # 공통 도메인 컴포넌트
-└── shared/                       # 공통 컴포넌트 및 유틸
-    ├── components/              # 공통 UI 컴포넌트
-    ├── styles/                  # 글로벌 스타일
-    ├── assets/                  # 이미지, 아이콘 등
-    ├── hook/                    # 공통 훅
-    ├── types/                   # 타입 정의
-    └── utills/                  # 유틸리티 함수
+├── shared/                       # 공통 컴포넌트 및 유틸
+│   ├── assets/                  # 정적 자산 (이미지, 아이콘, 애니메이션)
+│   ├── components/              # 공통 UI 컴포넌트
+│   ├── hook/                    # 공통 훅
+│   ├── styles/                  # 글로벌 스타일
+│   └── utills/                  # 유틸리티 함수
+└── middleware.ts                 # Next.js 미들웨어
 ```
 
 ## �� 주요 기능
@@ -165,5 +170,5 @@ src/
 ---
 
 **작성일**: 2025-10-14  
-**작성자**: 이성헌  
+**작성자**: 해독코딩FE팀 (김아현, 문태민, 정은빈)  
 **버전**: 1.0
