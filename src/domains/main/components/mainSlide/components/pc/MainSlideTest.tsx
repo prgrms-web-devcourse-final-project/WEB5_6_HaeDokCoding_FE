@@ -16,10 +16,10 @@ const DUMMY_TEST = [
 function MainSlideTest() {
   return (
     <article className="slide-content invisible w-[80%] p-12 h-full bg-[#4D4D4D] rounded-tl-[30px] rounded-bl-[30px] flex flex-col">
-      <div className="flex flex-col gap-[4%] h-full">
+      <div className="flex flex-col gap-8 h-full">
         <p className="text-[32px] text-white font-bold">1</p>
         <div className="flex flex-col justify-between h-full">
-          <header className="flex flex-col gap-10">
+          <header className="flex flex-col gap-8">
             <h2 className="text-5xl text-white font-bold">AI기반 취향테스트</h2>
             <p className="text-xl leading-[1.5] font-normal text-white">
               복잡한 이름과 긴 설명 때문에 내 취향 칵테일 찾기 어려우셨나요? <br />

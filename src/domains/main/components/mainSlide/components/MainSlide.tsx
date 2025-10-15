@@ -40,7 +40,7 @@ function MainSlide({ isDesktop }: { isDesktop: boolean }) {
           ease: 'power5.out',
           scrollTrigger: {
             trigger: initialRoot.current,
-            start: 'top 80%',
+            start: 'top top',
             end: 'top top',
             scrub: 0.2,
           },
@@ -65,7 +65,7 @@ function MainSlide({ isDesktop }: { isDesktop: boolean }) {
           c,
           {
             x: () => stageW() - contentW(),
-            duration: 2,
+            duration: 1,
             immediateRender: false,
             onStart: () => c.classList.remove('invisible'),
           },
