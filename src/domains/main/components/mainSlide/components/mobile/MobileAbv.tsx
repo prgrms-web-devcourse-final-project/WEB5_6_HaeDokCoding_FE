@@ -53,7 +53,10 @@ function MobileAbv() {
             <h2 className="text-xl sm:text-2xl font-black text-white">내 알콜도수 UP</h2>
             <button
               type="button"
-              className={clsx(`block z-1 duration-300 sm:hidden`, isClick ? 'rotate-[135deg]' : 'rotate-0')}
+              className={clsx(
+                `block z-1 duration-300 sm:hidden`,
+                isClick ? 'rotate-[135deg]' : 'rotate-0'
+              )}
               onClick={() => setIsClick(!isClick)}
             >
               <Add />

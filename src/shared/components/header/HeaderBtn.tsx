@@ -6,18 +6,16 @@ import { useRouter } from 'next/navigation';
 import tw from '@/shared/utills/tw';
 import { useAuthStore } from '@/domains/shared/store/auth';
 import { setPreLoginPath } from '@/domains/shared/auth/utils/setPreLoginPath';
-import {  useState } from 'react';
+import { useState } from 'react';
 import LogoutConfirm from '@/domains/login/components/LogoutConfirm';
 import { useSSENotification } from '@/domains/main/api/useSSENotification';
-
 
 function HeaderBtn({ pathname }: { pathname: string }) {
   const { isLoggedIn } = useAuthStore();
   const router = useRouter();
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
- 
- 
-const {hasNewNotification,clearNotification} = useSSENotification(isLoggedIn)
+
+  const { hasNewNotification, clearNotification } = useSSENotification(isLoggedIn);
 
   const navButtons = [
     {
@@ -26,7 +24,7 @@ const {hasNewNotification,clearNotification} = useSSENotification(isLoggedIn)
       className: pathname === '/mypage/my-alarm' ? 'text-tertiary' : 'text-current',
       hiddenMobile: true,
       onClick: () => {
-        clearNotification()
+        clearNotification();
         router.push('/mypage/my-alarm');
       },
       showBadge: true,
