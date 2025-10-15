@@ -46,6 +46,12 @@ function Header({ className, isMain = false }: Props) {
       return;
     }
 
+    if (y <= 10) {
+      setVisible(true);
+      setShowShadow(false);
+      return;
+    }
+
     setLastScrollTop(y); // 마지막 위치 갱신
   }, [lastScrollTop, y]);
 
