@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import ImageInput from './ImageInput';
 import UploadedImage from './UploadedImage';
 import { UploadedItem } from '@/domains/recipe/types/types';
@@ -9,14 +9,6 @@ type Props = {
 };
 
 function ImageSection({ uploadedFile, setUploadedFile }: Props) {
-  useEffect(() => {
-    console.log(uploadedFile);
-    console.log(
-      '✅ imageUrls',
-      uploadedFile.map((item) => item.url)
-    );
-  }, [uploadedFile]);
-
   const handleAddImage = (newFiles: UploadedItem[]) => {
     const MAX_IMAGES = 10;
     if (uploadedFile.length + newFiles.length > MAX_IMAGES) {

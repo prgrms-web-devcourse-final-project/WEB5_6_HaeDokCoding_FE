@@ -17,7 +17,7 @@ function FormTitle({ formData, setFormData }: Props) {
         placeholder="제목을 입력해주세요."
         name="writingTitle"
         id="writingTitle"
-        maxLength={20}
+        maxLength={30}
         aria-describedby="title-count"
         value={formData.title}
         onChange={(e) => {
@@ -25,7 +25,7 @@ function FormTitle({ formData, setFormData }: Props) {
         }}
       />
       <span id="title-count" aria-live="polite" className="text-gray ">
-        0/20
+        {formData.title.length}/30
       </span>
     </div>
   );

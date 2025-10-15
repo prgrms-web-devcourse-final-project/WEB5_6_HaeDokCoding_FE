@@ -27,11 +27,6 @@ function DetailPage() {
   const [like, setLike] = useState<boolean | null>(null);
   const [prevLikeCount, setPrevLikeCount] = useState<number | undefined>(0);
 
-  useEffect(() => {
-    console.log('like:', like);
-    console.log('prevLikeCount:', prevLikeCount);
-  }, [like, prevLikeCount]);
-
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const router = useRouter();
 

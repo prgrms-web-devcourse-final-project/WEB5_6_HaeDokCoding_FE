@@ -31,7 +31,6 @@ function CocktailDrop() {
           stagger: 0.2,
           scrollTrigger: {
             trigger: containerRef.current,
-            // markers: true, // ✅ 디버
             start: 'top 95%',
             toggleActions: 'restart none none none',
             once: false,
@@ -50,7 +49,6 @@ function CocktailDrop() {
           ease: 'power3.out',
           scrollTrigger: {
             trigger: containerRef.current,
-            // markers: true, // ✅ 디버
             start: 'top 90%',
             toggleActions: 'restart none none none',
             once: false,
@@ -66,28 +64,29 @@ function CocktailDrop() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full min-h-[110vh] flex flex-col justify-center items-center mt-10"
+      className="relative w-full min-h-[110vh] flex flex-col justify-center items-center mt-10 overflow-hidden"
       id="scroll-fixed"
     >
       {/* 대각선 줄 1 */}
       <div
         ref={line1Ref}
-        className="absolute top-[80px] left-[-50%] w-[200%] h-[40px] bg-secondary/80 rotate-[8deg] z-10"
+        className="absolute md:top-[100px] top-[75px] left-[-50%] w-[200%] md:h-[80px] h-[50px] bg-secondary/80 rotate-[8deg] z-10"
       />
       {/* 대각선 줄 2 */}
       <div
         ref={line2Ref}
-        className="absolute top-[140px] left-[-50%] w-[200%] h-[40px] bg-secondary rotate-[8deg] z-10"
+        className="absolute md:top-[200px] top-[150px] left-[-50%] w-[200%] md:h-[80px] h-[50px] bg-secondary rotate-[8deg] z-10"
       />
 
       {/* 로고 */}
-      <div ref={logoRef} className="absolute z-20">
+      <div ref={logoRef} className="absolute z-20 w-155 h-100">
         <Image
           src="/logo.svg"
           alt="로고 이미지"
-          width={600}
-          height={600}
           className="rotate-[-9deg]"
+          fill
+          priority
+          // style={{ width: 'auto', height: 'auto' }}
         />
       </div>
 
@@ -95,7 +94,14 @@ function CocktailDrop() {
 
       {/* 컵 이미지 */}
       <div className="z-10">
-        <Image src={Cocktailcup} alt="칵테일 컵" width={800} height={800} priority />
+        <Image
+          src={Cocktailcup}
+          alt="칵테일 컵"
+          width={800}
+          height={800}
+          priority
+          style={{ width: 'auto', height: 'auto' }}
+        />
       </div>
     </div>
   );

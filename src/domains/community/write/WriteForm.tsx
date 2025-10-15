@@ -1,5 +1,5 @@
 import { FormType } from '@/domains/recipe/types/types';
-import { Dispatch, SetStateAction, useRef } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 type Props = {
   formData: FormType;
@@ -7,8 +7,6 @@ type Props = {
 };
 
 function WriteForm({ formData, setFormData }: Props) {
-  const divRef = useRef<HTMLDivElement>(null);
-
   return (
     <div className="mt-5">
       <label htmlFor="content" className="sr-only">

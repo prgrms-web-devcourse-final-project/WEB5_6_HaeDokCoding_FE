@@ -53,6 +53,9 @@ function Community() {
       } else {
         setPosts(newPosts);
       }
+    } catch (error) {
+      console.error('게시글 로딩 실패:', error);
+      setPosts([]);
     } finally {
       setIsLoading(false);
     }
@@ -61,7 +64,6 @@ function Community() {
   const loadMorePosts = async (lastPostId: number) => {
     if (isEnd || isLoading) return;
     if (!posts || posts.length === 0) return;
-    console.log('시작', lastPostId);
 
     if (lastLoadedId === lastPostId) return;
     setLastLoadedId(lastPostId);
@@ -85,6 +87,8 @@ function Community() {
           return [...(prev || []), ...filtered];
         });
       }
+    } catch (error) {
+      console.error('추가 게시글 로딩 실패:', error);
     } finally {
       setIsLoading(false);
     }
@@ -96,7 +100,7 @@ function Community() {
         aria-label="탭과 글쓰기"
         className="flex justify-between item-center sm:flex-row flex-col gap-4 mt-1"
       >
-        <CommunityTab setPosts={setPosts} setIsLoading={setIsLoading} setIsEnd={setIsEnd} />
+        <CommunityTab />
         <WriteBtn />
       </section>
 

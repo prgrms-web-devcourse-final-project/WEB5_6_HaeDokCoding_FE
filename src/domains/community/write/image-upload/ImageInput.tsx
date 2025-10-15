@@ -22,7 +22,6 @@ function ImageInput({ uploadedFile, onAddImage }: Props) {
         toastError('최대 10개 파일까지 업로드할 수 있어요.');
         return;
       }
-      console.log(newFiles);
       // 중복 제거
       const existingIdentifiers = new Set(
         uploadedFile.map((item) => (item.file ? `${item.file.name}-${item.file.size}` : item.url))
@@ -34,7 +33,6 @@ function ImageInput({ uploadedFile, onAddImage }: Props) {
           url: URL.createObjectURL(file), // 미리보기용
           isNew: true,
         }));
-      console.log(filteredItems);
 
       if (filteredItems.length === 0) {
         toastError('이미 업로드된 파일입니다.');

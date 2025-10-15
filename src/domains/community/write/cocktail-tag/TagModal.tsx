@@ -9,6 +9,7 @@ import CocktailCard from '@/domains/shared/components/cocktail-card/CocktailCard
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { TagType } from '@/domains/recipe/types/types';
 import { useToast } from '@/shared/hook/useToast';
+import Spinner from '@/shared/components/spinner/Spinner';
 
 type Props = {
   isOpen: boolean;
@@ -30,6 +31,7 @@ function TagModal({
   debouncedFetch,
 }: Props) {
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const { toastError } = useToast();
 
   useEffect(() => {
@@ -45,8 +47,12 @@ function TagModal({
       toastError('태그는 5개까지 가능해요!');
       return;
     }
+    setIsLoading(true);
     if (tag) setSelectedTags((prev) => [...prev, tag.cocktailNameKo]);
+    setIsLoading(false);
   };
+
+  if (isLoading) <Spinner />;
 
   return (
     <ModalLayout

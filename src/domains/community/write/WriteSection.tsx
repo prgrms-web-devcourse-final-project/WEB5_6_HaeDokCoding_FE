@@ -16,6 +16,8 @@ import { fetchPostById } from '../api/fetchPost';
 import { debounce } from '@/shared/utills/debounce';
 import ConfirmModal from '@/shared/components/modal-pop/ConfirmModal';
 import DetailSkeleton from '../detail/DetailSkeleton';
+import { useAuthStore } from '@/domains/shared/store/auth';
+import Spinner from '@/shared/components/spinner/Spinner';
 
 type Props = {
   mode: 'create' | 'edit';
@@ -42,12 +44,14 @@ function WriteSection({ mode, postId }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [editDone, setEditDone] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isEditLoading, setIsEditLoading] = useState(false);
 
   const [tags, setTags] = useState<TagType[] | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const { toastError } = useToast();
   const router = useRouter();
+  const { user, isLoggedIn } = useAuthStore();
 
   useEffect(() => {
     if (mode === 'edit' && postId) {
@@ -95,10 +99,6 @@ function WriteSection({ mode, postId }: Props) {
   }, [mode, postId]);
 
   useEffect(() => {
-    console.log(uploadedFile);
-  }, [uploadedFile]);
-
-  useEffect(() => {
     // 변경사항이 있는 경우에만 setFormData 호출
     if (JSON.stringify(formData.tags) !== JSON.stringify(selectedTags)) {
       setFormData((prev) => ({
@@ -144,7 +144,6 @@ function WriteSection({ mode, postId }: Props) {
     };
 
     uploadedFile.forEach((file) => {
-      console.log(file);
       if (file.file && file.isNew) {
         payload.append('images', file.file);
       }
@@ -152,7 +151,6 @@ function WriteSection({ mode, postId }: Props) {
 
     const postBlob = new Blob([JSON.stringify(postJson)], { type: 'application/json' });
     payload.append('post', postBlob);
-    console.log(postBlob);
 
     try {
       const res = await fetch(`${getApi}/posts`, {
@@ -161,11 +159,7 @@ function WriteSection({ mode, postId }: Props) {
         body: payload,
       });
 
-      console.log('▶ 요청 보낸 후 status:', res.status);
-      const text = await res.text();
-      console.log('▶ 응답 텍스트:', text);
       if (res.ok) {
-        console.log('글작성 성공', formData);
         router.push('/community');
       }
     } catch (err) {
@@ -207,6 +201,11 @@ function WriteSection({ mode, postId }: Props) {
       return false; // 실패 시 false 반환
     }
 
+    if (!isLoggedIn || !user) {
+      toastError('로그인이 필요합니다.');
+      return false;
+    }
+
     if (!formData.title.trim()) {
       toastError('제목을 작성해주세요.');
       return false;
@@ -223,20 +222,19 @@ function WriteSection({ mode, postId }: Props) {
       return false;
     }
     const payload = new FormData();
-    const imageUrls = uploadedFile.filter((item) => !item.isNew); // 생성 함수와 동일하게 변경 .map((item) => item.url),
-    console.log(imageUrls);
+    // ✅ 백엔드 요구사항에 맞게 수정: keepImageUrls로 변경
+    const keepImageUrls = uploadedFile
+      .filter((item) => !item.isNew) // 기존 이미지만
+      .map((item) => item.url); // URL만 추출
 
     const postJson = {
       title: formData.title,
       content: formData.content,
       categoryId,
       tags: formData.tags,
-      keepImageUrls: imageUrls,
+      keepImageUrls: keepImageUrls, // ✅ imageUrls → keepImageUrls로 변경
     };
 
-    console.log(postJson);
-
-    console.log(uploadedFile);
     uploadedFile.forEach((file) => {
       if (file.file && file.isNew) {
         payload.append('images', file.file);
@@ -245,11 +243,10 @@ function WriteSection({ mode, postId }: Props) {
 
     const postBlob = new Blob([JSON.stringify(postJson)], { type: 'application/json' });
     payload.append('post', postBlob);
-    console.log(postBlob);
-    console.log(payload);
 
     try {
-      setIsLoading(true);
+      setIsEditLoading(true);
+
       const res = await fetch(`${getApi}/posts/${postId}`, {
         method: 'PATCH',
         credentials: 'include',
@@ -257,17 +254,17 @@ function WriteSection({ mode, postId }: Props) {
       });
 
       if (!res.ok) {
-        toastError('글 수정에 실패했습니다.');
+        const errorText = await res.text();
+        console.error('🔍 [ERROR] 서버 응답 에러:', errorText);
+        toastError(`글 수정에 실패했습니다. (${res.status})`);
         return false;
       }
 
-      setIsLoading(false);
-      console.log('▶ 요청 보낸 후 status:', res.status);
-      const text = await res.text();
-      console.log('▶ 응답 텍스트:', text);
+      setIsEditLoading(false);
+
       return true;
     } catch (err) {
-      console.error('글수정 폼 작성 에러', err);
+      console.error('🔍 [CATCH] 네트워크 에러:', err);
       toastError('서버 요청 중 오류가 발생했습니다.');
       return false;
     }
@@ -277,6 +274,8 @@ function WriteSection({ mode, postId }: Props) {
   const handleEditSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
   };
+
+  if (isEditLoading) <Spinner />;
 
   if (isLoading) <DetailSkeleton />;
 

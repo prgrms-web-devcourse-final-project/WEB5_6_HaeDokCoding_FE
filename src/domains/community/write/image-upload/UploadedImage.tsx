@@ -51,7 +51,6 @@ function UploadedImage({ uploadedFile, setUploadedFile }: Props) {
     <>
       {uploadedFile.length > 0 &&
         uploadedFile.map(({ file, url }, index) => {
-          console.log(file);
           const src = file ? URL.createObjectURL(file) : url;
 
           return (
