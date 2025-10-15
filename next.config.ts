@@ -1,6 +1,9 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  experimental: {
+    scrollRestoration: false,
+  },
   images: {
     domains: ['team2-app-s3-bucket.s3.ap-northeast-2.amazonaws.com'],
     remotePatterns: [
@@ -9,6 +12,7 @@ const nextConfig: NextConfig = {
         hostname: 'www.thecocktaildb.com',
       },
     ],
+    qualities: [25, 50, 75, 90, 100],
   },
   env: {
     NPUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,

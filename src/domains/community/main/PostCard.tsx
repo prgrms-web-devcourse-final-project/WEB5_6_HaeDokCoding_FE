@@ -6,7 +6,6 @@ import PostInfo from '../components/post-info/PostInfo';
 import Label from '@/domains/shared/components/label/Label';
 import { Post } from '@/domains/community/types/post';
 import { useRouter } from 'next/navigation';
-import SkeletonPostCard from '@/domains/shared/skeleton/SkeletonPostCard';
 import { useInfiniteScrollObserver } from '@/shared/hook/useInfiniteScrollObserver';
 import { useRef } from 'react';
 
@@ -33,8 +32,7 @@ function PostCard({ posts, isLoading, isEnd, onLoadMore }: Props) {
     onLoadMore: onLoadMore ?? (() => {}),
   });
 
-  if (isLoading) return <SkeletonPostCard />;
-  if (posts && posts.length === 0)
+  if (posts && posts.length === 0 && !isLoading)
     return (
       <div className="w-full flex items-center justify-center mt-20">작성된 글이 없습니다.</div>
     );
@@ -116,6 +114,16 @@ function PostCard({ posts, isLoading, isEnd, onLoadMore }: Props) {
             );
           }
         )}
+
+      {/* 무한 스크롤 로딩 인디케이터 */}
+      {isLoading && posts && posts.length > 0 && (
+        <div className="flex justify-center items-center py-8">
+          <div className="flex items-center gap-2 text-gray-500">
+            <div className="w-4 h-4 border-2 border-gray-300 border-t-primary rounded-full animate-spin"></div>
+            <span className="text-sm">더 많은 게시글을 불러오는 중...</span>
+          </div>
+        </div>
+      )}
     </>
   );
 }

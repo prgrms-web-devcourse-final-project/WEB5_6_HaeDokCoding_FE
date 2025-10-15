@@ -1,8 +1,9 @@
 'use client';
 
+import Image from 'next/image';
+import foreStar from '../../../../../public/1Stars.png';
+import backStar from '../../../../../public/2Stars.png';
 import { useEffect, useRef } from 'react';
-import foreStar from '../../../../../public/1star.webp';
-import backStar from '../../../../../public/2star.webp';
 import gsap from 'gsap';
 
 function StarMain() {
@@ -25,12 +26,12 @@ function StarMain() {
     const update = () => {
       const { x, y } = mouse.current;
 
-      bgX(x * -1);
-      bgY(y * -1);
-      bgRotate(x * -0.1);
+      bgX(x * -2);
+      bgY(y * -2);
+      bgRotate(x * -0.2);
 
-      fgX(x * 1);
-      fgY(y * 1);
+      fgX(x * 3);
+      fgY(y * 3);
       fgRotate(y * 0.2);
 
       rafId.current = requestAnimationFrame(update);
@@ -62,33 +63,39 @@ function StarMain() {
   }, []);
 
   return (
-    <div className="fixed inset-0 w-full h-full">
-      {/* 배경 별 레이어 (뒤쪽) - 반복 패턴 */}
-      <div
-        className="absolute inset-0 w-full h-full"
-        ref={background}
-        style={{
-          backgroundImage: `url(${backStar.src})`,
-          backgroundRepeat: 'repeat',
-          backgroundSize: '200px 200px',
-          backgroundPosition: '0 0',
-          opacity: 0.8,
-        }}
-      />
-
-      {/* 전경 별 레이어 (앞쪽) - 반복 패턴 */}
-      <div
-        className="absolute inset-0 w-full h-full"
-        ref={foreground}
-        style={{
-          backgroundImage: `url(${foreStar.src})`,
-          backgroundRepeat: 'repeat',
-          backgroundSize: '150px 150px',
-          backgroundPosition: '50px 50px',
-          opacity: 0.9,
-        }}
-      />
-    </div>
+    <>
+      {/* <HomeBackground /> */}
+      <div>
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <div
+            ref={background}
+            className="absolute w-screen h-screen top-0 left-0 will-change-transform"
+          >
+            <Image
+              src={foreStar}
+              alt="앞쪽 별"
+              fill
+              className="object-cover object-center"
+              priority
+              quality={100}
+            />
+          </div>
+          <div
+            ref={foreground}
+            className="absolute w-screen h-screen top-0 left-0  will-change-transform"
+          >
+            <Image
+              src={backStar}
+              alt="뒤쪽 별"
+              fill
+              className="object-cover object-center"
+              priority
+              quality={100}
+            />
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 

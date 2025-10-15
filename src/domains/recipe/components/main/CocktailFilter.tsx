@@ -3,7 +3,6 @@ import { useRouter } from 'next/navigation';
 
 interface Props {
   cocktailsEA: number;
-
 }
 
 function CocktailFilter({ cocktailsEA }: Props) {

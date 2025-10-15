@@ -1,6 +1,6 @@
 'use client';
 
-import { fetchPostById, likePost } from '@/domains/community/api/fetchPost';
+import { fetchPostById, getLikePost, likePost } from '@/domains/community/api/fetchPost';
 import DetailContent from '@/domains/community/detail/DetailContent';
 import DetailHeader from '@/domains/community/detail/DetailHeader';
 import DetailTitle from '@/domains/community/detail/DetailTitle';
@@ -24,7 +24,7 @@ function DetailPage() {
 
   const [postDetail, setPostDetail] = useState<Post | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [like, setLike] = useState(false);
+  const [like, setLike] = useState<boolean | null>(null);
   const [prevLikeCount, setPrevLikeCount] = useState<number | undefined>(0);
 
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
@@ -45,6 +45,18 @@ function DetailPage() {
     };
     fetchData();
   }, [postId, setPostDetail]);
+
+  useEffect(() => {
+    const fetchLikeStatus = async () => {
+      try {
+        const liked = await getLikePost(postId);
+        setLike(liked);
+      } catch (err) {
+        console.error('좋아요 상태 불러오기 실패', err);
+      }
+    };
+    fetchLikeStatus();
+  }, [postId]);
 
   useEffect(() => {
     if (postDetail) {
@@ -68,17 +80,17 @@ function DetailPage() {
   } = postDetail;
 
   const handleLike = async () => {
-    setLike((prev) => !prev);
-    setPrevLikeCount((prev) => {
-      return like ? prev! - 1 : prev! + 1;
-    });
+    const newLike = !like; // 현재 상태 기준으로 먼저 계산
+    setLike(newLike); // 좋아요 상태 먼저 반영
+    setPrevLikeCount((count) => (newLike ? (count ?? 0) + 1 : (count ?? 0) - 1)); // count도 바로 계산
 
     try {
       await likePost(postId); // POST 요청 한 번으로 토글 처리
     } catch (err) {
       console.error('좋아요 토글 실패', err);
-      setLike((prev) => !prev);
-      setPrevLikeCount((prev) => (like ? prev! + 1 : prev! - 1));
+      // 롤백
+      setLike(!newLike);
+      setPrevLikeCount((count) => (newLike ? (count ?? 0) - 1 : (count ?? 0) + 1));
     }
   };
 
@@ -126,7 +138,7 @@ function DetailPage() {
         {isLoggedIn && (
           <div className="hidden lg:block">
             <DetailTabDesktop
-              likeCount={prevLikeCount ?? 0}
+              likeCount={prevLikeCount}
               commentCount={commentCount}
               commentRef={commentRef}
               like={like}

@@ -3,14 +3,21 @@
 import Write from '@/shared/assets/icons/edit_28.svg';
 import { useRouter } from 'next/navigation';
 import Button from '@/shared/components/button/Button';
+import { useAuthStore } from '@/domains/shared/store/auth';
+import { useToast } from '@/shared/hook/useToast';
 
 type RouterType = ReturnType<typeof useRouter>;
 
 function WriteBtn() {
   const router = useRouter();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const { toastError } = useToast();
 
   const handleClick = (router: RouterType) => {
-    router.push('/community/write');
+    if (!isLoggedIn) {
+      toastError('로그인 후에 이용 가능합니다.');
+      return;
+    } else router.push('/community/write');
   };
 
   return (

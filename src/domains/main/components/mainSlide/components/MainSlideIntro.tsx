@@ -2,7 +2,7 @@ function MainSlideIntro() {
   return (
     <article className="relative w-full p-12 h-full">
       <header className="flex flex-col gap-8 items-start justify-center h-full">
-        <h2 className="text-3xl lg:text-[5rem] font-extrabold leading-[1.2] text-primary text-shadow-[0_4px_6px_rgb(255_255_255_/0.25)]">
+        <h2 className="text-3xl lg:text-[5rem] font-extrabold leading-[1.2] text-primary">
           칵테일 <br /> 누구나 쉽게 즐길 수 있어요
         </h2>
         <p className="text-2xl font-normal text-primary/80">

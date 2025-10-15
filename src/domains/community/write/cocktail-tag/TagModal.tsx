@@ -8,6 +8,8 @@ import TagList from '../../components/tag/TagList';
 import CocktailCard from '@/domains/shared/components/cocktail-card/CocktailCard';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { TagType } from '@/domains/recipe/types/types';
+import { useToast } from '@/shared/hook/useToast';
+import Spinner from '@/shared/components/spinner/Spinner';
 
 type Props = {
   isOpen: boolean;
@@ -29,6 +31,8 @@ function TagModal({
   debouncedFetch,
 }: Props) {
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const { toastError } = useToast();
 
   useEffect(() => {
     if (!isOpen) {
@@ -39,8 +43,16 @@ function TagModal({
 
   const handleAddTags = (tag: TagType) => {
     if (selectedTags.includes(tag.cocktailNameKo)) return;
-    setSelectedTags((prev) => [...prev, tag.cocktailNameKo]);
+    if (selectedTags.length >= 5) {
+      toastError('태그는 5개까지 가능해요!');
+      return;
+    }
+    setIsLoading(true);
+    if (tag) setSelectedTags((prev) => [...prev, tag.cocktailNameKo]);
+    setIsLoading(false);
   };
+
+  if (isLoading) <Spinner />;
 
   return (
     <ModalLayout
@@ -81,7 +93,7 @@ function TagModal({
         />
       </div>
       <div className="mt-5 flex items-center justify-center">
-        <ul className="p-2 rounded-xl grid md:grid-cols-4 grid-cols-2 gap-3 w-full max-w-[560px] md:max-h-[450px] max-h-[330px] overflow-y-auto custom-scrollbar will-change-scroll">
+        <ul className="p-2 rounded-xl grid md:grid-cols-4 grid-cols-2 gap-3 w-full max-w-[560px] md:max-h-[390px] max-h-[270px] overflow-y-auto custom-scrollbar will-change-scroll">
           {tags && tags.length > 0 ? (
             tags.map((tag) => (
               <div className="relative" key={tag.cocktailId}>

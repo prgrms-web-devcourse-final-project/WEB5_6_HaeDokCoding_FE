@@ -80,8 +80,7 @@ export function useRecipeComment({ cocktailId }: { cocktailId: number }) {
     queryFn: () => getRecipeComment(cocktailId),
     staleTime: 30_000,
   });
-  console.log(comments)
-  console.log(user)
+ 
   const hasComment = comments.some((c:Comment) => c.userNickName === user?.nickname);
   const createMut = useMutation({
     mutationFn: (content: string) => {
