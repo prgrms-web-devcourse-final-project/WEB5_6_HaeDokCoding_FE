@@ -41,6 +41,7 @@ function MobileSlideCommunity() {
                   src={Community01}
                   alt=""
                   fill
+                  sizes="300px"
                   priority
                   className="object-contain object-left-bottom"
                 />
@@ -50,6 +51,7 @@ function MobileSlideCommunity() {
                   src={Community02}
                   alt=""
                   fill
+                  sizes="600px"
                   priority
                   className="object-contain object-left-bottom"
                 />

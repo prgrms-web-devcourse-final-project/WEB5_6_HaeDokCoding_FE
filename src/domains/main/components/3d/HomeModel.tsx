@@ -42,8 +42,8 @@ function Model({ onLoaded }: Props) {
   return (
     <primitive
       object={scene}
-      scale={5.8}
-      position={[0, -1.2, 0]}
+      scale={4.6}
+      position={[0, -0.6, 0]}
       rotation={[-0.15, Math.PI + 3, 0]}
     />
   );

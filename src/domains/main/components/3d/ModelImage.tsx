@@ -19,7 +19,7 @@ function ModelImage({ onLoaded }: Props) {
           width={260}
           height={290}
           priority
-          className="object-cover w-[300px] h-[390px]"
+          className="object-cover w-[300px] h-[350px]"
         />
       </div>
     </div>

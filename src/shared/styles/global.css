@@ -5,14 +5,42 @@
 @import './_components.css';
 
 /* 1) 로컬 폰트 등록 */
+
 @font-face {
-  font-family: 'NanumSquareNeo Var';
-  src: url('/fonts/NanumSquareNeo-Variable.ttf') format('truetype');
-  font-weight: 100 900;
+  font-family: 'NanumSquareNeo';
+  src: url('/fonts/NanumSquareNeo-aLt.ttf') format('truetype');
+  font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
-
+@font-face {
+  font-family: 'NanumSquareNeo';
+  src: url('/fonts/NanumSquareNeo-bRg.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'NanumSquareNeo';
+  src: url('/fonts/NanumSquareNeo-cBd.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'NanumSquareNeo';
+  src: url('/fonts/NanumSquareNeo-dEb.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'NanumSquareNeo';
+  src: url('/fonts/NanumSquareNeo-eHv.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
 @font-face { font-family: 'Hahmlet'; src: url('/fonts/Hahmlet-Light.ttf') format('truetype'); font-weight: 300; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Hahmlet'; src: url('/fonts/Hahmlet-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Hahmlet'; src: url('/fonts/Hahmlet-Medium.ttf') format('truetype'); font-weight: 500; font-style: normal; font-display: swap; }
@@ -23,15 +51,13 @@
 :root {
   color: #fff;
   background-color: var(--color-primary);
+  line-height: 1.5;
+  font-weight: 500;
+  --default-font-family:'NanumSquareNeo',  ui-sans-serif, system-ui, sans-serif;
 }
 
 html { scroll-behavior: auto; }
 
-body {
-  font-family: 'NanumSquareNeo Var', system-ui, sans-serif;
-  line-height: 1.5;
-  font-weight: 500;
-}
 
 /* 3) font-serif 클래스 사용 시 Hahmlet 적용 */
 .font-serif {
