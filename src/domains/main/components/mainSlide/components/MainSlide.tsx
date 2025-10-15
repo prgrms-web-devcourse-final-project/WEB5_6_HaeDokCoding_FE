@@ -40,7 +40,7 @@ function MainSlide({ isDesktop }: { isDesktop: boolean }) {
           ease: 'power5.out',
           scrollTrigger: {
             trigger: initialRoot.current,
-            start: 'top top',
+            start: 'top 80%',
             end: 'top top',
             scrub: 0.2,
           },
