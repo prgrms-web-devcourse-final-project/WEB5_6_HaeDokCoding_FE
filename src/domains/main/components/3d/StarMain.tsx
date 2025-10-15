@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import foreStar from '../../../../../public/1Star.webp';
-import backStar from '../../../../../public/2Star.webp';
+import foreStar from '../../../../../public/1star.webp';
+import backStar from '../../../../../public/2star.webp';
 import gsap from 'gsap';
 
 function StarMain() {
