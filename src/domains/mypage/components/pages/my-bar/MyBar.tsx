@@ -1,5 +1,6 @@
 'use client';
 
+
 import { abvMap } from '@/domains/mypage/utills/abvMap';
 import CocktailCard from '@/domains/shared/components/cocktail-card/CocktailCard';
 import TextButton from '@/shared/components/button/TextButton';
@@ -38,6 +39,7 @@ function MyBar() {
   };
 
   const items = data?.items ?? [];
+  const items = data?.items ?? [];
 
   return (
     <div>
@@ -53,7 +55,19 @@ function MyBar() {
         <TextButton className="my-5" onClick={handleDelete}>
           전체삭제
         </TextButton>
+        {isModal && (
+          <DeleteAllModal
+            open={isModal}
+            onClose={() => setIsModal(!isModal)}
+            setIsModal={setIsModal}
+            type="myBar"
+          />
+        )}
+        <TextButton className="my-5" onClick={handleDelete}>
+          전체삭제
+        </TextButton>
       </div>
+      {items.length > 0 ? (
       {items.length > 0 ? (
         <div
           className="
@@ -63,6 +77,14 @@ function MyBar() {
            md:[grid-template-columns:repeat(3,minmax(0,250px))]
            "
         >
+          {items.map(
+            ({
+              cocktailId,
+              cocktailName,
+              imageUrl,
+              cocktailNameKo,
+              alcoholStrength,
+            }: MyCocktail) => {
           {items.map(
             ({
               cocktailId,
