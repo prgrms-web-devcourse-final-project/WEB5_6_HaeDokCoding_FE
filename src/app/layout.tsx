@@ -1,8 +1,7 @@
+import '@/shared/styles/global.css';
 import type { Metadata } from 'next';
 import '@/shared/styles/global.css';
 import { Toaster } from 'react-hot-toast';
-import Header from '@/shared/components/header/Header';
-import FooterWrapper from '@/shared/components/footer/FooterWrapper';
 import ScrollTopBtnWrapper from '@/shared/components/scroll-top/ScrollTopBtnWrapper';
 import KaKaoScript from './api/kakao/KaKaoScript';
 import 'swiper/css';

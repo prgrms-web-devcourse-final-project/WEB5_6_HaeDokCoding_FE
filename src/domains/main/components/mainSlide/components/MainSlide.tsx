@@ -127,7 +127,7 @@ function MainSlide({ isDesktop }: { isDesktop: boolean }) {
         <MobileSlide key="mobile" />
       ) : (
         <div ref={initialRoot} className="w-full overflow-hidden">
-          <section key="desktop" ref={root} className="w-full stage h-screen" id="scroll-fixed">
+          <section key="desktop" ref={root} className="w-full stage h-screen " id="scroll-fixed">
             <div className="stage relative w-full h-full overflow-hidden bg-secondary">
               <div className="panel absolute inset-0 overflow-hidden">
                 <MainSlideIntro />
