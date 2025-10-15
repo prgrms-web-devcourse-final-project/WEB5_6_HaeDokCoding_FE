@@ -11,7 +11,6 @@ import { debounce } from '@/shared/utills/debounce';
 import { useSearchParams } from 'next/navigation';
 import { Sort } from '../../types/types';
 
-
 function Cocktails() {
   const searchParams = useSearchParams();
   const sortByParam = searchParams.get('sortBy') || 'recent';
@@ -37,7 +36,6 @@ function Cocktails() {
   const { ref, inView } = useInView({
     threshold: 0.1,
   });
-
 
   useEffect(() => {
     if (!isSearchMode && inView && hasNextPage) {
@@ -67,7 +65,6 @@ function Cocktails() {
       </div>
 
       <CocktailFilter cocktailsEA={data.length} />
-
 
       <section className="mt-5">
         {noResults ? <div>검색 결과가 없습니다.</div> : <CocktailList cocktails={data} />}
