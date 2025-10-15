@@ -17,10 +17,7 @@ export const useSaveScroll = (opt: Scroll = {}) => {
   const hasRestore = useRef(false);
 
   useEffect(() => {
-    console.log('=== useEffect 실행 ===');
-    console.log('pageType:', pageType);
-
-
+   
     if (pageType === 'detail') return
 
     if (!enabled || hasRestore.current) return
@@ -33,9 +30,7 @@ export const useSaveScroll = (opt: Scroll = {}) => {
       const position = parseInt(savedPosition, 10);
 
       const restoreScroll = () => {
-        console.log('restoreScroll 함수 실행');
         window.scrollTo(0, position);
-        console.log('현재 스크롤 위치:', window.scrollY);
         hasRestore.current = true;
       };
 
@@ -45,9 +40,7 @@ export const useSaveScroll = (opt: Scroll = {}) => {
       setTimeout(restoreScroll, 100);
 
       sessionStorage.removeItem(`${storageKey}_should_restore`);
-    } else {
-      console.log('복원 조건 불만족');
-    }
+    } 
   }, [storageKey, enabled, pageType]);
 
   const saveScroll = () => {

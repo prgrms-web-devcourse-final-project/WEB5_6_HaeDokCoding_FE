@@ -2,6 +2,7 @@ import ConfirmModal from '@/shared/components/modal-pop/ConfirmModal';
 import { Dispatch, SetStateAction } from 'react';
 import useFetchMyBar from '../api/fetchMyBar';
 import useFetchAlarm from '../api/fetchAlarm';
+import { useToast } from '@/shared/hook/useToast';
 
 interface Props {
   open: boolean;
@@ -11,16 +12,23 @@ interface Props {
 }
 
 function DeleteAllModal({ open, onClose, setIsModal, type }: Props) {
+  const { toastSuccess } =useToast()
   const { deleteMyBar } = useFetchMyBar();
   const { deleteAlarm } = useFetchAlarm();
   const handleBarDelete = () => {
     deleteMyBar.mutate(undefined, {
-      onSuccess: () => setIsModal(false),
+      onSuccess: () => {
+        toastSuccess('성공적으로 삭제 되었습니다.');
+        setIsModal(false);
+      }
     });
   };
   const handleAlarmDelete = () => {
     deleteAlarm.mutate(undefined, {
-      onSuccess: () => setIsModal(false),
+      onSuccess: () => {
+        setIsModal(false);
+        toastSuccess('성공적으로 삭제 되었습니다.');
+      },
     });
   };
 
