@@ -14,6 +14,10 @@ function StarMain() {
   useEffect(() => {
     if (!background.current || !foreground.current) return;
 
+    // 모바일에서는 별 애니메이션 비활성화
+    const isMobile = window.innerWidth < 768;
+    if (isMobile) return;
+
     const bgX = gsap.quickSetter(background.current, 'x', 'px');
     const bgY = gsap.quickSetter(background.current, 'y', 'px');
     const bgRotate = gsap.quickSetter(background.current, 'rotate', 'deg');
@@ -43,20 +47,11 @@ function StarMain() {
       mouse.current = { x, y };
     };
 
-    const handleTouchMove = (e: TouchEvent) => {
-      const touch = e.touches[0];
-      const x = (touch.clientX / window.innerWidth - 0.5) * 2;
-      const y = (touch.clientY / window.innerHeight - 0.5) * 2;
-      mouse.current = { x, y };
-    };
-
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('touchmove', handleTouchMove);
     rafId.current = requestAnimationFrame(update);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('touchmove', handleTouchMove);
       if (rafId.current) cancelAnimationFrame(rafId.current);
     };
   }, []);

@@ -20,6 +20,10 @@ function MyLike() {
     fetchLike();
   }, []);
 
+  useEffect(() => {
+    console.log(myLike);
+  }, [myLike]);
+
   return (
     <section className="flex justify-center">
       {myLike.length > 0 ? (
