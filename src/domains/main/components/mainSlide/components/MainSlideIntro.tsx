@@ -6,6 +6,7 @@ function MainSlideIntro() {
           칵테일 <br /> 누구나 쉽게 즐길 수 있어요
         </h2>
         <p className="text-2xl font-normal text-primary/80">
+        <p className="text-2xl font-normal text-primary/80">
           SSOUL의 재밌고 다양한 기능들로 더 친근하게 접해보세요
         </p>
       </header>

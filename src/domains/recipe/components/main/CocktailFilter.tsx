@@ -3,8 +3,10 @@ import { useRouter } from 'next/navigation';
 
 interface Props {
   cocktailsEA: number;
+  cocktailsEA: number;
 }
 
+function CocktailFilter({ cocktailsEA }: Props) {
 function CocktailFilter({ cocktailsEA }: Props) {
   const sortMap = {
     최신순: 'recent',
@@ -22,6 +24,8 @@ function CocktailFilter({ cocktailsEA }: Props) {
 
   return (
     <div className="h-10 flex justify-between items-center mt-3 border-b-1 border-gray-light">
+      <p>{cocktailsEA}개+</p>
+      <SelectBox option={['최신순', '댓글순', '인기순']} title="최신순" onChange={handleChange} />
       <p>{cocktailsEA}개+</p>
       <SelectBox option={['최신순', '댓글순', '인기순']} title="최신순" onChange={handleChange} />
     </div>

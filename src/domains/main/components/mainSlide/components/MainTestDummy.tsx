@@ -72,6 +72,7 @@ function MainTestDummy({ message, option, type }: Props) {
       )}
       {type == 'text' && (
         <div className="flex flex-row gap-2 md:overflow-x-none overflow-x-auto no-scrollbar">
+        <div className="flex flex-row gap-2 md:overflow-x-none overflow-x-auto no-scrollbar">
           {DUMMY_CARD.map(({ id, src, cocktailName }) => (
             <MainSlideDummyCard key={id} id={id} src={src} cocktailName={cocktailName} />
           ))}
