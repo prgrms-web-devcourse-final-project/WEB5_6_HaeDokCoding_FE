@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Cocktail } from '../../types/types';
 import CocktailCard from '@/domains/shared/components/cocktail-card/CocktailCard';
+import { useSaveScroll } from '../../hook/useSaveScroll';
 
 interface Props {
   cocktails: Cocktail[];
@@ -10,9 +11,15 @@ interface Props {
 
 function CocktailList({cocktails}: Props) {
  
-  const handleClick = () => {
-    sessionStorage.setItem('saveUrl',location.href)
-  }
+  const { saveAndNavigate } = useSaveScroll({
+    storageKey: 'cocktail_list_scroll',
+  });
+  
+const handleClick = (cocktailId: number) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+  e.preventDefault();
+
+  saveAndNavigate(`/recipe/${cocktailId}`);
+};
 
   return (
     <ul
@@ -34,7 +41,7 @@ function CocktailList({cocktails}: Props) {
           isKeep,
         },i) => (
           <li key={`${cocktailId} - ${i}` } className="w-full">
-            <Link href={`/recipe/${cocktailId}`}  onClick={handleClick}>
+            <Link href={`/recipe/${cocktailId}`}  onClick={handleClick(cocktailId)}>
               <CocktailCard
                 favor={isKeep}
                 id={cocktailId}

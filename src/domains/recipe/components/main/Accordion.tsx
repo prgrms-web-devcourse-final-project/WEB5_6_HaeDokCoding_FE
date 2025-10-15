@@ -149,7 +149,7 @@ function Accordion({ setAlcoholBaseTypes, setCocktailTypes, setAlcoholStrengths 
               title={title}
               id={id}
               groupKey="filter"
-              value={currentValue} // 현재 선택된 값 전달
+              value={currentValue} 
               onChange={(value) => handleSelect(id, value)}
             />
           </li>
