@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Cocktailcup from '../../../../public/cocktailDrop_4x.webp';
+import Cocktailcup from '../../../../public/CocktailDrop_4x.webp';
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
