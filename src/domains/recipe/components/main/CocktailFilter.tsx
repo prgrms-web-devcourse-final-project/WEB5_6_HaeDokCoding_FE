@@ -1,47 +1,32 @@
-import { getApi } from '@/app/api/config/appConfig';
 import SelectBox from '@/shared/components/select-box/SelectBox';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Dispatch, SetStateAction } from 'react';
-import { Cocktail } from '../../types/types';
+import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 interface Props {
-  cocktailsEA: string;
-  setData: Dispatch<SetStateAction<Cocktail[]>>;
+  cocktailsEA: number;
 }
 
-function CocktailFilter({ cocktailsEA, setData }: Props) {
+function CocktailFilter({ cocktailsEA }: Props) {
   const sortMap = {
     최신순: 'recent',
     인기순: 'keeps',
     댓글순: 'comments',
   };
-  const searchParams = useSearchParams();
-  const query = searchParams.get('sortBy');
+  const queryClient = useQueryClient();
   const router = useRouter();
   const handleChange = async (selectTitle: string) => {
-    if (!query) return;
-    try {
-      const res = await fetch(`${getApi}/cocktails`);
-      const json = await res.json();
-      setData(json.data);
-    } catch {
-      console.error();
-      console.log(selectTitle);
-    }
+    const sortValue = sortMap[selectTitle as keyof typeof sortMap];
+    queryClient.removeQueries({
+      queryKey: ['cocktails', 'infinite'],
+      exact: false,
+    });
+    router.push(`?sortBy=${sortValue}`);
   };
 
   return (
     <div className="h-10 flex justify-between items-center mt-3 border-b-1 border-gray-light">
-      <p>{cocktailsEA}개</p>
-      <SelectBox
-        option={['최신순', '댓글순', '인기순']}
-        title="최신순"
-        onChange={(value) => {
-          const sortValue = sortMap[value as keyof typeof sortMap];
-          handleChange(value);
-          router.push(`?sortBy=${sortValue}`);
-        }}
-      />
+      <p>{cocktailsEA}개+</p>
+      <SelectBox option={['최신순', '댓글순', '인기순']} title="최신순" onChange={handleChange} />
     </div>
   );
 }

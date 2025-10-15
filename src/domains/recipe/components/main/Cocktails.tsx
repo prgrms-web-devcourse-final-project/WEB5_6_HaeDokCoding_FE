@@ -1,76 +1,52 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import CocktailFilter from './CocktailFilter';
 import CocktailList from './CocktailList';
-import { Cocktail } from '../../types/types';
 import Accordion from './Accordion';
-import { RecipeFetch } from '../../api/RecipeFetch';
 import CocktailSearchBar from './CocktailSearchBar';
-import useSearchControl from '../../hook/useSearchControl';
-import CocktailSearch from '../../api/CocktailSearch';
-import { useAuthStore } from '@/domains/shared/store/auth';
+import { useCocktails } from '../../api/fetchRecipe';
+import { useInView } from 'react-intersection-observer';
+import { debounce } from '@/shared/utills/debounce';
+import { useSearchParams } from 'next/navigation';
+import { Sort } from '../../types/types';
 
 function Cocktails() {
-  const user = useAuthStore((state) => state.user);
+  const searchParams = useSearchParams();
+  const sortBy = searchParams.get('sortBy') as Sort;
+  const [keyword, setKeyword] = useState('');
+  const [input, setInput] = useState('');
 
-  const [data, setData] = useState<Cocktail[]>([]);
-  const [lastId, setLastId] = useState<number | null>(null);
-  const [hasNextPage, setHasNextPage] = useState(true);
+  const [alcoholStrengths, setAlcoholStrengths] = useState<string[]>([]);
+  const [alcoholBaseTypes, setAlcoholBaseTypes] = useState<string[]>([]);
+  const [cocktailTypes, setCocktailTypes] = useState<string[]>([]);
 
-  const { inputValue, keyword, isSearching, onInputChange, noResults, setNoResults } =
-    useSearchControl({ delay: 300, storageKey: 'cocktails_scoll_state' });
-  const { fetchData } = RecipeFetch({ setData, lastId, setLastId, hasNextPage, setHasNextPage });
+  const { data, fetchNextPage, hasNextPage, noResults, isSearchMode } = useCocktails(
+    {
+      keyword,
+      alcoholBaseTypes,
+      alcoholStrengths,
+      cocktailTypes,
+    },
+    20,
+    sortBy
+  );
 
-  const {
-    searchApi,
-    setAlcoholBaseTypes,
-    setAlcoholStrengths,
-    setCocktailTypes,
-    alcoholBaseTypes,
-    cocktailTypes,
-    alcoholStrengths,
-  } = CocktailSearch({
-    setData,
-    setNoResults,
+  const { ref, inView } = useInView({
+    threshold: 0.1,
   });
 
-  const countLabel = isSearching
-    ? hasNextPage
-      ? `검색결과 현재 ${data.length}+`
-      : `검색결과 총 ${data.length}`
-    : hasNextPage
-      ? `전체 ${data.length}+`
-      : `전체 ${data.length}`;
-
-  // 초기 로드 시 검색어가 있으면 검색 실행
-  // useEffect(() => {
-  //   const readyForFirstLoad = !isSearching && hasNextPage && lastId == null && data.length === 0;
-
-  //   if (readyForFirstLoad) {
-  //     fetchData();
-  //   }
-  // }, [hasNextPage, lastId]);
-
-  // 검색어 변경 시
   useEffect(() => {
-    if (isSearching && keyword.trim()) {
-      setLastId(null);
-      setHasNextPage(false);
-      searchApi(keyword.trim());
-    } else if (!isSearching) {
-      // 검색어를 지웠을 때만 초기화
-      setData([]);
-      setLastId(null);
-      setHasNextPage(true);
+    if (!isSearchMode && inView && hasNextPage) {
+      fetchNextPage?.();
     }
-  }, [keyword, isSearching, alcoholBaseTypes, alcoholStrengths, cocktailTypes]);
+  }, [inView, hasNextPage, fetchNextPage]);
 
-  // 일반 fetch
-  useEffect(() => {
-    if (isSearching) return;
-    fetchData();
-  }, [isSearching, alcoholBaseTypes, alcoholStrengths, cocktailTypes]);
+  const debounceKeyword = useMemo(() => debounce((v: string) => setKeyword(v), 300), []);
+  const handleSearch = (v: string) => {
+    setInput(v);
+    debounceKeyword(v);
+  };
 
   return (
     <section>
@@ -80,23 +56,15 @@ function Cocktails() {
           setAlcoholStrengths={setAlcoholStrengths}
           setCocktailTypes={setCocktailTypes}
         />
-        <CocktailSearchBar value={inputValue} onChange={onInputChange} />
+        <CocktailSearchBar keyword={input} onChange={handleSearch} />
       </div>
 
-      <CocktailFilter cocktailsEA={countLabel} setData={setData} />
+      <CocktailFilter cocktailsEA={data.length} />
 
       <section className="mt-5">
-        {isSearching && noResults ? (
-          <div>검색결과가 없습니다.</div>
-        ) : (
-          <CocktailList
-            cocktails={data}
-            RecipeFetch={isSearching ? undefined : fetchData}
-            hasNextPage={isSearching ? false : hasNextPage}
-            lastId={lastId}
-          />
-        )}
+        {noResults ? <div>검색 결과가 없습니다.</div> : <CocktailList cocktails={data} />}
       </section>
+      <div ref={ref} className="h-4"></div>
     </section>
   );
 }

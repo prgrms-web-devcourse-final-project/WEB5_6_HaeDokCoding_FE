@@ -13,7 +13,7 @@ interface Meta {
   url: string;
 }
 
-function DetailsHeader({ id, favor }: { id: number; favor: boolean | null }) {
+function DetailsHeader({ id, favor }: { id: number; favor: boolean | undefined }) {
   const [isShare, setIsShare] = useState(false);
   const [meta, setMeta] = useState<Meta | null>(null);
 
