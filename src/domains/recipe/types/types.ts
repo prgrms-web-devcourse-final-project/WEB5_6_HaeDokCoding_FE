@@ -40,4 +40,3 @@ export type TagType = {
   cocktailNameKo: string;
 };
 export type Sort = 'recent' | 'keeps' | 'comments';
-
