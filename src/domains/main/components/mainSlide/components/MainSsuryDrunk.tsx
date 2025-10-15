@@ -26,9 +26,9 @@ function MainSsuryDrunk({ src, abv }: Props) {
       <p className={`text-lg sm:text-3xl font-bold ${className(abv)}`}>
         {abv}
         {abv !== 86 ? (
-          <span className="text-xs text-primary">%</span>
+          <span className="text-xs text-white">%</span>
         ) : (
-          <span className="text-xs text-primary">%~</span>
+          <span className="text-xs text-white">%~</span>
         )}
       </p>
       <Image src={src} alt="" width={60} height={60} className="object-contain" />
