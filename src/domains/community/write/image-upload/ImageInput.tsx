@@ -1,16 +1,13 @@
-import { getApi } from '@/app/api/config/appConfig';
 import { UploadedItem } from '@/domains/recipe/types/types';
 import ImageBox from '@/shared/assets/icons/imageBox_fill_24.svg';
 import { useToast } from '@/shared/hook/useToast';
-import { Dispatch, SetStateAction } from 'react';
 
 type Props = {
   uploadedFile: UploadedItem[];
-  setUploadedFile: Dispatch<SetStateAction<UploadedItem[]>>;
   onAddImage: (newFiles: UploadedItem[]) => void;
 };
 
-function ImageInput({ uploadedFile, setUploadedFile, onAddImage }: Props) {
+function ImageInput({ uploadedFile, onAddImage }: Props) {
   const { toastError } = useToast();
 
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,23 +17,22 @@ function ImageInput({ uploadedFile, setUploadedFile, onAddImage }: Props) {
     const newFiles = Array.from(newFileList);
 
     try {
-      const urls: string[] = await uploadFiles(newFiles);
-
-      const newItems: UploadedItem[] = urls.map((url, i) => ({
-        file: newFiles[i],
-        url,
-      }));
-
-      const totalLength = uploadedFile.length + newItems.length;
-
+      const totalLength = uploadedFile.length + newFiles.length;
       if (totalLength > 10) {
         toastError('최대 10개 파일까지 업로드할 수 있어요.');
         return;
       }
-
       // 중복 제거
-      const existingUrls = new Set(uploadedFile.map((item) => item.url));
-      const filteredItems = newItems.filter((item) => !existingUrls.has(item.url));
+      const existingIdentifiers = new Set(
+        uploadedFile.map((item) => (item.file ? `${item.file.name}-${item.file.size}` : item.url))
+      );
+      const filteredItems = newFiles
+        .filter((file) => !existingIdentifiers.has(`${file.name}-${file.size}`))
+        .map((file) => ({
+          file,
+          url: URL.createObjectURL(file), // 미리보기용
+          isNew: true,
+        }));
 
       if (filteredItems.length === 0) {
         toastError('이미 업로드된 파일입니다.');
@@ -47,28 +43,6 @@ function ImageInput({ uploadedFile, setUploadedFile, onAddImage }: Props) {
     } catch (error) {
       toastError('파일 업로드 실패');
     }
-  };
-
-  const uploadFiles = async (files: File[]): Promise<string[]> => {
-    if (files.length === 0) return [];
-
-    const formData = new FormData();
-    files.forEach((file) => formData.append('file', file));
-
-    const res = await fetch(`${getApi}/file/upload`, {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (!res.ok) throw new Error('파일 업로드 실패');
-
-    const data = await res.json();
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    const matched = data.data.match(urlRegex);
-
-    if (!matched) throw new Error('URL 파싱 실패');
-
-    return matched;
   };
 
   return (

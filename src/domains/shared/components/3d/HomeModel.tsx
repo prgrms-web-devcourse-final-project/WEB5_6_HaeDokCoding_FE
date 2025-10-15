@@ -3,15 +3,17 @@
 import { Environment, OrbitControls, useGLTF } from '@react-three/drei';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
-interface Props {
-  onLoaded: () => void;
-}
-
-function Model({ onLoaded }: Props) {
+function Model({ onLoaded }: { onLoaded: () => void }) {
   const { scene } = useGLTF('/3d/model/scene.gltf');
+  const [scale, setScale] = useState(13);
+
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768; // 모바일 기준 너비
+    setScale(isMobile ? 3.8 : 11.5); // 모바일이면 작게
+  }, []);
 
   useEffect(() => {
     if (scene) {
@@ -39,38 +41,43 @@ function Model({ onLoaded }: Props) {
     }
   });
 
-  return (
-    <primitive
-      object={scene}
-      scale={6.4}
-      position={[0, -1.2, 0]}
-      rotation={[-0.15, Math.PI + 3, 0]}
-    />
-  );
+  return <primitive object={scene} scale={scale} />;
 }
 
-function HomeModel({ onLoaded }: Props) {
+function CameraAnimation() {
+  const { camera } = useThree();
+  const targetPosition = new THREE.Vector3(5, 10, 10); // 최종 위치
+  const startPosition = new THREE.Vector3(0, 15, 6); // 시작 위치
+  const progress = useRef(0);
+
+  useFrame((state, delta) => {
+    if (progress.current < 1) {
+      progress.current += delta / 5; // 3초 동안
+      const t = Math.min(progress.current, 1);
+      camera.position.lerpVectors(startPosition, targetPosition, t);
+    }
+  });
+
+  return null;
+}
+
+function HomeModel({ onLoaded }: { onLoaded: () => void }) {
   return (
-    <Canvas
-      className="z-10 w-full pointer-none"
-      camera={{ position: [0, 5, 8], fov: 26 }}
-      dpr={[1, 1.5]}
-    >
-      <ambientLight intensity={1} />
+    <Canvas className="z-10 w-full" camera={{ position: [5, 20, 10], fov: 30 }} dpr={[1, 1.5]}>
+      <ambientLight intensity={0.5} />
       <pointLight position={[10, 30, 40]} intensity={1} />
-      <spotLight position={[0, 10, 10]} angle={0.2} penumbra={1} intensity={9} castShadow />
-      <directionalLight intensity={8} color={0xffffff} position={[10, 40, 100]} />
+      <spotLight position={[0, 10, 10]} angle={0.2} penumbra={1} intensity={15} castShadow />
+      <directionalLight intensity={6} color={0xffffff} position={[10, 40, 100]} />
       <Environment files={`/hdri/footprint_court.hdr`} background={false} />
       <Model onLoaded={onLoaded} />
+      <CameraAnimation />
       <OrbitControls
         enablePan={false}
         enableZoom={false}
         enableRotate={true}
         autoRotate={true}
-        autoRotateSpeed={0.2}
+        autoRotateSpeed={-0.4}
         target={[0, 0, 0]}
-        minPolarAngle={Math.PI / 3}
-        maxPolarAngle={Math.PI / 2}
       />
 
       <EffectComposer multisampling={0}>

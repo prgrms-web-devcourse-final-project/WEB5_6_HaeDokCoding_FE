@@ -4,8 +4,6 @@ import Image from 'next/image';
 import DeleteIcon from '@/shared/assets/icons/close_20.svg';
 import React, { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import gsap from 'gsap';
-
-import { getApi } from '@/app/api/config/appConfig';
 import { UploadedItem } from '@/domains/recipe/types/types';
 
 type Props = {
@@ -18,7 +16,6 @@ function UploadedImage({ uploadedFile, setUploadedFile }: Props) {
   const prevLength = useRef(0);
 
   useEffect(() => {
-    console.log(uploadedFile);
     const isAdded = uploadedFile.length > prevLength.current;
     prevLength.current = uploadedFile.length;
 
@@ -37,34 +34,17 @@ function UploadedImage({ uploadedFile, setUploadedFile }: Props) {
     }
   }, [uploadedFile]);
 
-  const handleDelete = (url: string) => {
-    setUploadedFile((prev) => {
-      const target = prev.find((p) => p.url === url);
-
-      if (target) {
-        deleteFileFromServer(target.url); // 서버에서 삭제 요청
-      }
-      return prev.filter((p) => p.url !== url);
-    });
-  };
-
-  const deleteFileFromServer = async (url: string) => {
-    console.log(url);
-    try {
-      const encodedUrl = encodeURIComponent(url);
-      const res = await fetch(`${getApi}/file?fileName=${encodedUrl}`, {
-        method: 'DELETE',
-      });
-
-      if (!res.ok) {
-        const errorText = await res.text();
-        console.error('서버 파일 삭제 실패:', res.status, errorText);
-      } else {
-        console.log(res.status);
-      }
-    } catch (err) {
-      console.error('파일 삭제 요청 에러', err);
-    }
+  const handleDelete = (target: UploadedItem) => {
+    setUploadedFile((prev) =>
+      prev.filter((item) => {
+        // File 기반 비교 (업로드 직후)
+        if (target.file && item.file && target.isNew) {
+          return item.file.name !== target.file.name || item.file.size !== target.file.size;
+        }
+        // URL 기반 비교 (수정시 불러온 이미지)
+        return item.url !== target.url;
+      })
+    );
   };
 
   return (
@@ -72,11 +52,10 @@ function UploadedImage({ uploadedFile, setUploadedFile }: Props) {
       {uploadedFile.length > 0 &&
         uploadedFile.map(({ file, url }, index) => {
           const src = file ? URL.createObjectURL(file) : url;
-          console.log(file);
 
           return (
             <figure
-              key={url}
+              key={file ? `${file.name}-${file.size}` : url}
               ref={(el) => {
                 if (el) imageRefs.current[index] = el;
               }}
@@ -91,16 +70,14 @@ function UploadedImage({ uploadedFile, setUploadedFile }: Props) {
                 unoptimized={true} // next/image가 외부 url 처리 못 하면 이 옵션도 추가 가능
               />
               <figcaption className="sr-only">업로드된 이미지입니다</figcaption>
-              {url && (
-                <button
-                  type="button"
-                  className="bg-gray-light text-primary py-1 px-1 rounded-full absolute -top-2 -right-2 hover:bg-gray-light/90"
-                  aria-label="이미지 삭제"
-                  onClick={() => handleDelete(url)}
-                >
-                  <DeleteIcon />
-                </button>
-              )}
+              <button
+                type="button"
+                className="bg-gray-light text-primary py-1 px-1 rounded-full absolute -top-2 -right-2 hover:bg-gray-light/90"
+                aria-label="이미지 삭제"
+                onClick={() => handleDelete({ file, url })}
+              >
+                <DeleteIcon />
+              </button>
             </figure>
           );
         })}

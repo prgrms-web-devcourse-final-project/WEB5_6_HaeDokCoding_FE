@@ -13,13 +13,14 @@ interface Meta {
   url: string;
 }
 
-function DetailsHeader({ id, favor }: { id: number; favor: boolean | null }) {
+function DetailsHeader({ id, favor }: { id: number; favor: boolean | undefined }) {
   const [isShare, setIsShare] = useState(false);
   const [meta, setMeta] = useState<Meta | null>(null);
 
   const url = async () => {
     const res = await fetch(`${getApi}/cocktails/${id}/share`);
     const json = await res.json();
+    console.log(json.data);
     setMeta(json.data);
   };
 

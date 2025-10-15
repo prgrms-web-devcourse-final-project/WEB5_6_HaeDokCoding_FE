@@ -4,7 +4,7 @@ export interface Cocktail {
   cocktailName: string;
   cocktailImgUrl: string;
   cocktailNameKo: string;
-  isFavorited: boolean;
+  isKeep: boolean;
 }
 
 export interface RecommendCocktail {
@@ -25,8 +25,9 @@ export type FormType = {
 };
 
 export type UploadedItem = {
-  file: File;
+  file: File | null;
   url: string;
+  isNew?: boolean; // 새로 업로드된 이미지인지 구분하는 플래그
 };
 
 export type TagType = {
@@ -36,3 +37,4 @@ export type TagType = {
   cocktailName: string;
   cocktailNameKo: string;
 };
+export type Sort = 'recent' | 'keeps' | 'comments';
