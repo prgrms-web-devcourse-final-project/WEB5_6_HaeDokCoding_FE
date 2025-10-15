@@ -5,8 +5,7 @@ import { useToast } from '@/shared/hook/useToast';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 interface Comment {
-
-  userNickName: string
+  userNickName: string;
 }
 
 export const postRecipeComment = async (cocktailId: number, content: string) => {
@@ -23,8 +22,7 @@ export const postRecipeComment = async (cocktailId: number, content: string) => 
     body: JSON.stringify(body),
   });
 
-
-    if (res.status === 401) throw new Error('unauth')
+  if (res.status === 401) throw new Error('unauth');
 
   const text = await res.text();
   const data = JSON.parse(text);
@@ -80,15 +78,15 @@ export function useRecipeComment({ cocktailId }: { cocktailId: number }) {
     queryFn: () => getRecipeComment(cocktailId),
     staleTime: 30_000,
   });
- 
-  const hasComment = comments.some((c:Comment) => c.userNickName === user?.nickname);
+
+  const hasComment = comments.some((c: Comment) => c.userNickName === user?.nickname);
   const createMut = useMutation({
     mutationFn: (content: string) => {
       if (!user?.id) {
         toastInfo('로그인 후 이용 가능합니다.');
-        return Promise.resolve(null)
+        return Promise.resolve(null);
       } else if (hasComment) {
-        toastInfo('댓글은 한 개만 작성 가능합니다.')
+        toastInfo('댓글은 한 개만 작성 가능합니다.');
       }
       return postRecipeComment(cocktailId, content);
     },

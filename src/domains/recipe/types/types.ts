@@ -6,7 +6,7 @@ export interface Cocktail {
   cocktailNameKo: string;
   isKeep: boolean;
   keepCount?: number;
-  commentCount?: number; 
+  commentCount?: number;
 }
 
 export interface RecommendCocktail {

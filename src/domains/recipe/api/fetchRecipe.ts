@@ -4,7 +4,6 @@ import { useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-quer
 import { Cocktail, Sort } from '../types/types';
 import { useEffect, useRef } from 'react';
 
-
 interface CocktailResponse {
   data: Cocktail[];
 }
@@ -43,9 +42,9 @@ const fetchKeep = async (): Promise<Set<number>> => {
 };
 
 const fetchRecipe = async (
-  pageParam:PageParam|null,
+  pageParam: PageParam | null,
   size: number,
-  sortBy?: Sort,
+  sortBy?: Sort
 ): Promise<Cocktail[]> => {
   const url = new URL(`${getApi}/cocktails`);
   url.searchParams.set('size', String(size));
@@ -137,7 +136,6 @@ export const useCocktailsInfiniteQuery = (size: number = 20, sortBy?: Sort) => {
       const lastItem = lastPage[lastPage.length - 1];
       if (!lastItem) return undefined;
 
-
       let lastValue: number | string;
 
       switch (sortBy) {
@@ -207,17 +205,17 @@ export const useCocktails = (
   }
 
   const allCocktails = infiniteQuery.data?.pages.flatMap((page) => page) ?? [];
- const uniqueCocktails = allCocktails.filter(
-   (cocktail, index, self) => index === self.findIndex((c) => c.cocktailId === cocktail.cocktailId)
- );
-  
-    const hasDuplicates = allCocktails.length !== uniqueCocktails.length;
+  const uniqueCocktails = allCocktails.filter(
+    (cocktail, index, self) => index === self.findIndex((c) => c.cocktailId === cocktail.cocktailId)
+  );
+
+  const hasDuplicates = allCocktails.length !== uniqueCocktails.length;
   return {
     data: uniqueCocktails,
     noResults: false,
     isSearchMode: false,
     fetchNextPage: infiniteQuery.fetchNextPage,
-    hasNextPage: hasDuplicates ? false: infiniteQuery.hasNextPage,
+    hasNextPage: hasDuplicates ? false : infiniteQuery.hasNextPage,
     isFetchingNextPage: infiniteQuery.isFetchingNextPage,
   };
 };
