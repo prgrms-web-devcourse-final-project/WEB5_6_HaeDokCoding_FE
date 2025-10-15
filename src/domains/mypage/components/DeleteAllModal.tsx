@@ -9,8 +9,6 @@ interface Props {
   onClose: () => void;
   setIsModal: Dispatch<SetStateAction<boolean>>;
   type: 'myBar' | 'myAlarm';
-  setIsModal: Dispatch<SetStateAction<boolean>>;
-  type: 'myBar' | 'myAlarm';
 }
 
 function DeleteAllModal({ open, onClose, setIsModal, type }: Props) {
@@ -40,8 +38,6 @@ function DeleteAllModal({ open, onClose, setIsModal, type }: Props) {
       description="정말로 전부 삭제하시겠습니까?"
       open={open}
       onClose={onClose}
-      onConfirm={type == 'myBar' ? handleBarDelete : handleAlarmDelete}
-      onCancel={onClose}
       onConfirm={type == 'myBar' ? handleBarDelete : handleAlarmDelete}
       onCancel={onClose}
     ></ConfirmModal>
