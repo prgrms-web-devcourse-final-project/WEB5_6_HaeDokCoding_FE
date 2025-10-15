@@ -44,11 +44,23 @@ function CocktailDrop({ isDesktop = false }: CocktailDropProps) {
       );
 
       // 로고 위에서 아래로 자연스럽게 등장
+      const screenWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const isTablet = screenWidth >= 640 && screenWidth < 1024;
+      const isMobile = screenWidth < 640;
+
+      // 뷰포트 높이 기반으로 로고 위치 계산
+      const logoFinalY = isMobile
+        ? `-${viewportHeight * 0.3}px`
+        : isTablet
+          ? `-${viewportHeight * -0.9}px`
+          : '0px';
+
       gsap.fromTo(
         logoRef.current,
         { y: -300, opacity: 0 },
         {
-          y: !isDesktop ? -230 : -18, // 데스크톱이 아닐 때 더 위로
+          y: logoFinalY, // 뷰포트 높이 기반 계산
           opacity: 1,
           duration: 3,
           ease: 'power3.out',
@@ -69,7 +81,7 @@ function CocktailDrop({ isDesktop = false }: CocktailDropProps) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full lg:min-h-[110vh] min-h-[89vh] flex flex-col md:justify-center justify-end items-center mt-10 overflow-hidden"
+      className="relative w-full lg:min-h-[120vh] md:min-h-[85vh] min-h-[82vh] flex flex-col lg:justify-center md:justify-center justify-end items-center mt-10"
       id="scroll-fixed"
     >
       {/* 대각선 줄 1 */}
@@ -84,7 +96,7 @@ function CocktailDrop({ isDesktop = false }: CocktailDropProps) {
       />
 
       {/* 로고 */}
-      <div ref={logoRef} className="absolute md:w-115 w-85 md:h-90 h-40">
+      <div ref={logoRef} className="absolute md:w-130 w-85 md:h-90 h-40">
         <Image
           src="/logo.svg"
           alt="로고 이미지"
@@ -95,17 +107,14 @@ function CocktailDrop({ isDesktop = false }: CocktailDropProps) {
         />
       </div>
 
-      <div className="w-full md:h-90 h-30"></div>
-
       {/* 컵 이미지 - 모바일에서 바닥에 붙도록 */}
-      <div className="md:relative absolute bottom-0">
+      <div className="absolute bottom-0">
         <Image
           src={Cocktailcup}
           alt="칵테일 컵"
-          width={900}
-          height={700}
           priority
-          className="md:w-auto md:h-auto w-[500px] h-[400px] object-cover"
+          style={{ height: 'auto' }}
+          className="md:w-[700px] w-[500px] object-contain"
         />
       </div>
       <div className="absolute md:bottom-35 bottom-20 flex items-center justify-center z-3 w-full">

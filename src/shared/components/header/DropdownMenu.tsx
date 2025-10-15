@@ -58,6 +58,7 @@ function DropdownMenu({ isClicked, setIsClicked, visible, setVisible }: Props) {
     }
 
     if (isClicked) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       setVisible(true);
       tlRef.current.play();
     } else {
