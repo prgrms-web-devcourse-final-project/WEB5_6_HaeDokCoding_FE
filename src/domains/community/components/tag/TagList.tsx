@@ -13,12 +13,26 @@ function TagList({ hasDelete, tags, setTags }: Props) {
 
   if (!tags) return;
   return (
-    <ul className="flex text-sm gap-2 items-center text-primary font-light flex-wrap">
+    <ul
+      className="flex 
+      flex-nowrap 
+      md:flex-wrap 
+      overflow-x-scroll 
+      md:overflow-visible 
+      text-sm 
+      gap-2 
+      items-center 
+      text-primary 
+      font-light 
+      no-scrollbar
+      max-w-full
+      "
+    >
       {tags?.length > 0 &&
         tags.map((tag) => (
           <li
             key={tag}
-            className={`bg-[#FFE4E6] px-2 py-[1px] rounded-md flex gap-2 ${hasDelete && 'hover:opacity-90 pl-2 pr-1'}`}
+            className={`bg-[#FFE4E6] px-2 py-[1px] rounded-md flex gap-2 w-fit whitespace-nowrap ${hasDelete && 'hover:opacity-90 pl-2 pr-1'}`}
           >
             <p>{tag}</p>
             {hasDelete && (

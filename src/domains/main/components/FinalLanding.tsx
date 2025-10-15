@@ -59,7 +59,7 @@ function FinalLanding() {
   }, [isDesktop]);
 
   return (
-    <>
+    <div className="overflow-x-hidden">
       <StarMain />
       {isDesktop ? (
         <div id="scroll-wrapper">
@@ -75,7 +75,7 @@ function FinalLanding() {
           </div>
         </div>
       ) : (
-        <div>
+        <div className="overflow-x-hidden">
           {isLoading && <Spinner />}
           <Landing setIsLoading={setIsLoading} isDesktop={isDesktop} />
           {!isLoading && (
@@ -86,7 +86,7 @@ function FinalLanding() {
           )}
         </div>
       )}
-    </>
+    </div>
   );
 }
 

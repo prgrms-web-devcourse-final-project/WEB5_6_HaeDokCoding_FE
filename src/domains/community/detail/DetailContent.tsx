@@ -12,7 +12,7 @@ type Props = {
   content: string;
   prevLikeCount: number;
   commentCount: number;
-  like: boolean;
+  like: boolean | null;
   onLikeToggle: () => void;
   imageUrls: string[];
   title: string;

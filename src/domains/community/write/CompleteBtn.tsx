@@ -3,10 +3,9 @@ import Button from '@/shared/components/button/Button';
 type Props = {
   mode: 'edit' | 'create';
   setEditDone: (value: boolean) => void;
-  handleEditLogic: () => Promise<boolean>;
 };
 
-function CompleteBtn({ mode, setEditDone, handleEditLogic }: Props) {
+function CompleteBtn({ mode, setEditDone }: Props) {
   return (
     <div className="w-full flex items-center justify-end mt-10">
       <Button

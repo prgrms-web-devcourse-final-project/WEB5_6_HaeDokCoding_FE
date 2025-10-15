@@ -61,7 +61,7 @@ function ModalLayout({
         ></div>
         <div
           className={tw(
-            'relative w-[calc(100%-1.5rem)] max-h-[90vh] px-5 py-8 rounded-lg bg-bg-pop shadow-[0_4px_9px_0_rgba(255,255,255,0.25)]',
+            'relative max-w-full overflow-hidden w-[calc(100%-1.5rem)] max-h-[90vh] px-5 py-8 rounded-lg bg-bg-pop shadow-[0_4px_9px_0_rgba(255,255,255,0.25)]',
             size === 'sm' && 'p-5 max-w-[18.75rem]',
             size === 'md' && 'max-w-[31.25rem]'
           )}

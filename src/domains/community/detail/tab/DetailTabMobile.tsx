@@ -8,7 +8,7 @@ import { useParams } from 'next/navigation';
 
 type Props = {
   likeCount: number;
-  like: boolean;
+  like: boolean | null;
   onLikeToggle: () => void;
   title: string;
   imageUrls: string[];

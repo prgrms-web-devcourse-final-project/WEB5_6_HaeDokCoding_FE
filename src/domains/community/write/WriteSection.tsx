@@ -16,10 +16,19 @@ import { fetchPostById } from '../api/fetchPost';
 import { debounce } from '@/shared/utills/debounce';
 import ConfirmModal from '@/shared/components/modal-pop/ConfirmModal';
 import DetailSkeleton from '../detail/DetailSkeleton';
+import { useAuthStore } from '@/domains/shared/store/auth';
+import Spinner from '@/shared/components/spinner/Spinner';
 
 type Props = {
   mode: 'create' | 'edit';
   postId?: ParamValue;
+};
+
+// utils/urlToFile.ts
+export const urlToFile = async (url: string, fileName: string): Promise<File> => {
+  const response = await fetch(url);
+  const blob = await response.blob();
+  return new File([blob], fileName, { type: blob.type });
 };
 
 function WriteSection({ mode, postId }: Props) {
@@ -35,12 +44,14 @@ function WriteSection({ mode, postId }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [editDone, setEditDone] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isEditLoading, setIsEditLoading] = useState(false);
 
   const [tags, setTags] = useState<TagType[] | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const { toastError } = useToast();
   const router = useRouter();
+  const { user, isLoggedIn } = useAuthStore();
 
   useEffect(() => {
     if (mode === 'edit' && postId) {
@@ -58,12 +69,27 @@ function WriteSection({ mode, postId }: Props) {
             tags: data.tags || [],
           });
 
-          setUploadedFile(
-            (data.imageUrls || []).map((url: string) => ({
-              file: null,
-              url,
-            }))
+          // ✅ 기존 이미지 URL → File 객체로 변환
+          const convertedImages = await Promise.all(
+            (data.imageUrls || []).map(async (url: string, index: number) => {
+              try {
+                const file = await urlToFile(url, `existing-image-${index}.jpg`);
+                return {
+                  file,
+                  url,
+                  isNew: false,
+                };
+              } catch (error) {
+                console.warn('Failed to convert image:', url, error);
+                return {
+                  file: null,
+                  url,
+                  isNew: false,
+                };
+              }
+            })
           );
+          setUploadedFile(convertedImages);
           setSelectedTags(data.tags || []);
         } catch (error) {
           console.error(error);
@@ -111,21 +137,20 @@ function WriteSection({ mode, postId }: Props) {
       title: formData.title,
       content: formData.content,
       categoryId: categoryId,
-      imageUrls: uploadedFile.map((file) => {
-        console.log(file.file);
-        return file.file;
-      }),
       tags: formData.tags,
+      imageUrls: uploadedFile
+        .filter((item) => item.isNew) // 기존 이미지 URL만
+        .map((item) => item.url),
     };
-    console.log(postJson);
-    console.log(JSON.stringify(postJson, null, 2));
+
+    uploadedFile.forEach((file) => {
+      if (file.file && file.isNew) {
+        payload.append('images', file.file);
+      }
+    });
 
     const postBlob = new Blob([JSON.stringify(postJson)], { type: 'application/json' });
     payload.append('post', postBlob);
-
-    // uploadedFile.forEach((file) => {
-    //   payload.append('files', file.url);
-    // });
 
     try {
       const res = await fetch(`${getApi}/posts`, {
@@ -134,11 +159,7 @@ function WriteSection({ mode, postId }: Props) {
         body: payload,
       });
 
-      console.log('▶ 요청 보낸 후 status:', res.status);
-      const text = await res.text();
-      console.log('▶ 응답 텍스트:', text);
       if (res.ok) {
-        console.log('글작성 성공', formData);
         router.push('/community');
       }
     } catch (err) {
@@ -180,6 +201,11 @@ function WriteSection({ mode, postId }: Props) {
       return false; // 실패 시 false 반환
     }
 
+    if (!isLoggedIn || !user) {
+      toastError('로그인이 필요합니다.');
+      return false;
+    }
+
     if (!formData.title.trim()) {
       toastError('제목을 작성해주세요.');
       return false;
@@ -195,21 +221,32 @@ function WriteSection({ mode, postId }: Props) {
       toastError('카테고리를 선택해주세요.');
       return false;
     }
+    const payload = new FormData();
+    // ✅ 백엔드 요구사항에 맞게 수정: keepImageUrls로 변경
+    const keepImageUrls = uploadedFile
+      .filter((item) => !item.isNew) // 기존 이미지만
+      .map((item) => item.url); // URL만 추출
 
     const postJson = {
       title: formData.title,
       content: formData.content,
       categoryId,
-      imageUrls: uploadedFile.map((file) => file.url),
       tags: formData.tags,
+      keepImageUrls: keepImageUrls, // ✅ imageUrls → keepImageUrls로 변경
     };
 
-    const payload = new FormData();
+    uploadedFile.forEach((file) => {
+      if (file.file && file.isNew) {
+        payload.append('images', file.file);
+      }
+    });
+
     const postBlob = new Blob([JSON.stringify(postJson)], { type: 'application/json' });
     payload.append('post', postBlob);
 
     try {
-      setIsLoading(true);
+      setIsEditLoading(true);
+
       const res = await fetch(`${getApi}/posts/${postId}`, {
         method: 'PATCH',
         credentials: 'include',
@@ -217,15 +254,17 @@ function WriteSection({ mode, postId }: Props) {
       });
 
       if (!res.ok) {
-        toastError('글 수정에 실패했습니다.');
+        const errorText = await res.text();
+        console.error('🔍 [ERROR] 서버 응답 에러:', errorText);
+        toastError(`글 수정에 실패했습니다. (${res.status})`);
         return false;
       }
 
-      setIsLoading(false);
+      setIsEditLoading(false);
 
       return true;
     } catch (err) {
-      console.error('글수정 폼 작성 에러', err);
+      console.error('🔍 [CATCH] 네트워크 에러:', err);
       toastError('서버 요청 중 오류가 발생했습니다.');
       return false;
     }
@@ -236,23 +275,20 @@ function WriteSection({ mode, postId }: Props) {
     e.preventDefault();
   };
 
+  if (isEditLoading) <Spinner />;
+
   if (isLoading) <DetailSkeleton />;
 
   return (
     <>
       <form onSubmit={mode === 'create' ? handleSubmit : handleEditSubmit}>
-        <CompleteBtn mode={mode} setEditDone={setEditDone} handleEditLogic={handleEditLogic} />
+        <CompleteBtn mode={mode} setEditDone={setEditDone} />
         <section>
           <FormTitle formData={formData} setFormData={setFormData} />
           <Category formData={formData} setFormData={setFormData} />
           <WriteForm formData={formData} setFormData={setFormData} />
         </section>
-        <ImageSection
-          formData={formData}
-          setFormData={setFormData}
-          uploadedFile={uploadedFile}
-          setUploadedFile={setUploadedFile}
-        />
+        <ImageSection uploadedFile={uploadedFile} setUploadedFile={setUploadedFile} />
         <section className="mt-8">
           <CocktailTag
             use="write"

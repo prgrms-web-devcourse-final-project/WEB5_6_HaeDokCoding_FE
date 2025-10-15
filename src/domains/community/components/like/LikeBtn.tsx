@@ -4,7 +4,7 @@ import { useState } from 'react';
 type Props = {
   size: 'sm' | 'md';
   onClick?: () => void;
-  isClick?: boolean; // 외부에서 제어
+  isClick?: boolean | null; // 외부에서 제어
 };
 
 function LikeBtn({ size, onClick, isClick = false }: Props) {
@@ -13,7 +13,7 @@ function LikeBtn({ size, onClick, isClick = false }: Props) {
       type="button"
       className={`${size === 'md' ? 'w-13.75 h-13.75 flex-center border-1 border-white rounded-full' : ''} bg-primary`}
       aria-label="좋아요 버튼"
-      aria-pressed={isClick}
+      aria-pressed={isClick ? isClick : false}
       onClick={() => {
         if (onClick) onClick();
       }}
