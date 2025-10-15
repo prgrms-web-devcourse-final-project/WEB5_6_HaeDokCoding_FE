@@ -1,29 +1,42 @@
-@import url('https://hangeul.pstatic.net/hangeul_static/css/nanum-square-neo.css');
-@import url('https://fonts.googleapis.com/css2?family=Hahmlet:wght@100..900&display=swap');
 @import 'tailwindcss';
-
 @import './_base.css';
 @import './_theme.css';
 @import './_utilities.css';
 @import './_components.css';
 
+/* 1) 로컬 폰트 등록: public/fonts 기준 절대경로 */
+@font-face { font-family: 'NanumSquareNeo Var';
+  src: url('/fonts/NanumSquareNeo-Variable.ttf') format('truetype');
+  font-weight: 100 900; font-style: normal; font-display: swap;
+}
+
+/* Hahmlet 가변 아님: 굵기별 매핑 */
+@font-face { font-family: 'Hahmlet'; src: url('/fonts/Hahmlet-Thin.ttf') format('truetype'); font-weight: 100; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Hahmlet'; src: url('/fonts/Hahmlet-ExtraLight.ttf') format('truetype'); font-weight: 200; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Hahmlet'; src: url('/fonts/Hahmlet-Light.ttf') format('truetype'); font-weight: 300; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Hahmlet'; src: url('/fonts/Hahmlet-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Hahmlet'; src: url('/fonts/Hahmlet-Medium.ttf') format('truetype'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Hahmlet'; src: url('/fonts/Hahmlet-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Hahmlet'; src: url('/fonts/Hahmlet-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Hahmlet'; src: url('/fonts/Hahmlet-ExtraBold.ttf') format('truetype'); font-weight: 800; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Hahmlet'; src: url('/fonts/Hahmlet-Black.ttf') format('truetype'); font-weight: 900; font-style: normal; font-display: swap; }
+
+/* 2) 전역 설정 */
 :root {
-  font-family: 'NanumSquareNeo', sans-serif;
-  line-height: 1.5;
-  font-weight: 500;
+  --font-body: 'NanumSquareNeo Var', 'Hahmlet', system-ui, sans-serif;
   color: #fff;
   background-color: var(--color-primary);
 }
+html { scroll-behavior: auto; }
+body { font-family: var(--font-body); line-height: 1.5; font-weight: 500; }
 
-html {
-  scroll-behavior: auto; /* smooth가 아닌 auto로 */
-}
+/* 3) 필요 시 클래스 스위치 */
+.font-hahmlet { font-family: 'Hahmlet', system-ui, sans-serif; }
+.font-nanum  { font-family: 'NanumSquareNeo Var', 'Hahmlet', system-ui, sans-serif; }
 
-/* 전역 CSS 또는 글로벌 스타일에서 */
+/* Swiper 등 외부 컴포넌트도 상속 */
 .swiper,
 .swiper-slide,
 .swiper-button-prev,
 .swiper-button-next,
-.swiper-pagination {
-  font-family: inherit !important;
-}
+.swiper-pagination { font-family: inherit !important; }
