@@ -6,13 +6,15 @@ import { useRouter } from 'next/navigation';
 import tw from '@/shared/utills/tw';
 import { useAuthStore } from '@/domains/shared/store/auth';
 import { setPreLoginPath } from '@/domains/shared/auth/utils/setPreLoginPath';
-import { useState } from 'react';
+import {  useState } from 'react';
 import LogoutConfirm from '@/domains/login/components/LogoutConfirm';
+
 
 function HeaderBtn({ pathname }: { pathname: string }) {
   const { isLoggedIn } = useAuthStore();
   const router = useRouter();
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+
 
   const navButtons = [
     {
