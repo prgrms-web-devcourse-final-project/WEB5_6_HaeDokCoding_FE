@@ -1,5 +1,6 @@
 import { getApi } from '@/app/api/config/appConfig';
-import DetailMain from '@/domains/recipe/details/DetailMain';
+import DetailMain from '@/domains/recipe/components/details/DetailMain';
+
 import StarBg from '@/domains/shared/components/star-bg/StarBg';
 import { Metadata } from 'next';
 

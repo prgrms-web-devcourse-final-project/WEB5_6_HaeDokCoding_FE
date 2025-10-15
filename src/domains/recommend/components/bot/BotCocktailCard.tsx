@@ -19,6 +19,7 @@ function BotCocktailCard({ cocktailId, cocktailNameKo, cocktailImgUrl }: Recomme
             className="object-cover"
             alt={cocktailNameKo}
             sizes="200px"
+            crossOrigin="anonymous"
             priority
           />
         </div>

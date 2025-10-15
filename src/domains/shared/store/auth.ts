@@ -1,6 +1,6 @@
+// auth.ts
 import { getApi } from '@/app/api/config/appConfig';
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 
 export interface User {
   id: string;
@@ -13,68 +13,116 @@ export interface User {
 
 interface AuthState {
   user: User | null;
-  accessToken: string | null;
   isLoggedIn: boolean;
-  setUser: (user: User, token: string) => void;
+  isAuthChecked: boolean;
+
+  setUser: (user: User) => void;
   logout: () => Promise<void>;
   loginWithProvider: (provider: User['provider']) => void;
-
   updateUser: () => Promise<User | null>;
+  checkAuth: () => Promise<User | null>;
 }
 
-export const useAuthStore = create<AuthState>()(
-  persist(
-    (set) => ({
-      user: null,
-      accessToken: null,
-      isLoggedIn: false,
+export const useAuthStore = create<AuthState>()((set, get) => ({
+  user: null,
+  isLoggedIn: false,
+  isAuthChecked: false,
 
-      loginWithProvider: (provider) => {
-        window.location.href = `${getApi}/oauth2/authorization/${provider}`;
-      },
+  loginWithProvider: (provider) => {
+    window.location.href = `${getApi}/oauth2/authorization/${provider}`;
+  },
 
-      setUser: (user, token) => {
-        const updatedUser = { ...user, abv_degree: 5.0 };
-        set({ user: updatedUser, accessToken: token, isLoggedIn: true });
-      },
+  setUser: (user) => {
+    const updatedUser = { ...user, abv_degree: user.abv_degree ?? 5.0 };
+    set({
+      user: updatedUser,
+      isLoggedIn: true,
+      isAuthChecked: true,
+    });
+  },
 
-      logout: async () => {
-        try {
-          await fetch(`${getApi}/user/auth/logout`, {
-            method: 'POST',
-            credentials: 'include',
-          });
-          set({ user: null, accessToken: null, isLoggedIn: false });
-        } catch (err) {
-          console.error('로그아웃 실패', err);
-        }
-      },
+  logout: async () => {
+    try {
+      await fetch(`${getApi}/user/auth/logout`, {
+        method: 'POST',
+        credentials: 'include',
+      });
 
-      updateUser: async () => {
-        try {
-          const res = await fetch(`${getApi}/user/auth/refresh`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-          });
+      set({ user: null, isLoggedIn: false, isAuthChecked: true });
+    } catch (err) {
+      console.error('로그아웃 실패', err);
+      set({ user: null, isLoggedIn: false, isAuthChecked: true });
+    }
+  },
 
-          if (!res.ok) throw new Error('토큰 갱신 실패');
-          const data = await res.json();
-          const userInfo = data?.data?.user;
-          const accessToken = data?.data?.accessToken;
+  updateUser: async () => {
+    try {
+      const res = await fetch(`${getApi}/user/auth/refresh`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+      });
 
-          if (userInfo && accessToken) {
-            set({ user: userInfo, accessToken, isLoggedIn: true });
-            return userInfo;
-          }
-          return null;
-        } catch (err) {
-          console.error('updateUser 실패', err);
-          set({ accessToken: null, user: null, isLoggedIn: false });
-          return null;
-        }
-      },
-    }),
-    { name: 'auth-storage' } // localStorage key
-  )
-);
+      // 200 응답 기대
+      if (!res.ok) {
+        set({ user: null, isLoggedIn: false });
+        return null;
+      }
+
+      const data = await res.json();
+      const userInfo = data?.data?.user;
+
+      if (userInfo) {
+        const updatedUser = { ...userInfo, abv_degree: userInfo.abv_degree ?? 5.0 };
+        set({ user: updatedUser, isLoggedIn: true });
+        return updatedUser;
+      }
+
+      set({ user: null, isLoggedIn: false });
+      return null;
+    } catch (err) {
+      console.error('updateUser 실패', err);
+      set({ user: null, isLoggedIn: false });
+      return null;
+    }
+  },
+
+  checkAuth: async () => {
+    const { isAuthChecked } = get();
+
+    // 이미 체크했으면 현재 user 반환
+    if (isAuthChecked) {
+      return get().user;
+    }
+
+    try {
+      const res = await fetch(`${getApi}/user/auth/me`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+
+      // 항상 200 응답 기대
+      if (!res.ok) {
+        set({ user: null, isLoggedIn: false, isAuthChecked: true });
+        return null;
+      }
+
+      const data = await res.json();
+      const userInfo = data?.data?.user || null;
+
+      if (userInfo) {
+        const updatedUser = { ...userInfo, abv_degree: userInfo.abv_degree ?? 5.0 };
+        set({ user: updatedUser, isLoggedIn: true, isAuthChecked: true });
+        return updatedUser;
+      }
+
+      // user가 null이어도 정상 응답
+      set({ user: null, isLoggedIn: false, isAuthChecked: true });
+      return null;
+    } catch (err) {
+      console.error('checkAuth 실패', err);
+      set({ user: null, isLoggedIn: false, isAuthChecked: true });
+      return null;
+    }
+  },
+}));

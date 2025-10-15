@@ -127,4 +127,14 @@
   .swiper-pagination-bullet-active {
     background: var(--color-secondary) !important;
   }
+
+  .min-h-full-screen {
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+
+  .h-full-screen {
+    height: 100vh;
+    height: 100svh;
+  }
 }

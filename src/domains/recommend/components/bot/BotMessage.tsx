@@ -12,14 +12,12 @@ interface BotMessage {
   id: string;
   message: string;
   type: string;
-  options?: StepOption[];
-  recommendations?: RecommendationItem[];
+  stepData?: StepRecommendation | null;
 }
 
 interface BotMessages {
   messages: BotMessage[];
   showProfile: boolean;
-  stepData?: StepRecommendation | null;
   currentStep?: number;
   onSelectedOption?: (value: string) => void;
   isTyping?: boolean;
@@ -28,12 +26,16 @@ interface BotMessages {
 function BotMessage({
   messages,
   showProfile,
-  stepData,
   currentStep,
   onSelectedOption,
   isTyping,
 }: BotMessages) {
-  const [selected, setSelected] = useState('');
+  const [selectedOptions, setSelectedOptions] = useState<Record<number, string>>({});
+
+  const handleOptionChange = (step: number, value: string) => {
+    setSelectedOptions((prev) => ({ ...prev, [step]: value }));
+    onSelectedOption?.(value);
+  };
 
   return (
     <article aria-label="취향추천 챗봇 메시지" className="">
@@ -66,34 +68,47 @@ function BotMessage({
               </div>
 
               {/* radio */}
-              {msg.type === 'RADIO_OPTIONS' && msg.options?.length && (
+              {msg.type === 'RADIO_OPTIONS' && msg.stepData?.options?.length ? (
                 <BotOptions
-                  options={msg.options}
-                  step={stepData?.currentStep ?? 0}
-                  currentStep={currentStep ?? 0}
-                  value={selected}
-                  onChange={(val) => {
-                    setSelected(val);
-                    onSelectedOption?.(val);
-                  }}
+                  options={msg.stepData.options}
+                  step={msg.stepData.currentStep ?? 0}
+                  value={selectedOptions[msg.stepData.currentStep ?? 0] ?? ''}
+                  onChange={(val) => handleOptionChange(msg.stepData?.currentStep ?? 0, val)}
+                  disabled={currentStep !== undefined && currentStep > msg.stepData.currentStep!}
                 />
-              )}
-              {/* {children} */}
+              ) : null}
             </div>
-            {msg.type === 'CARD_LIST' && msg.recommendations?.length ? (
-              <ul className="inline-grid grid-cols-1 mt-5 sm:grid-cols-3 gap-2 justify-start">
-                {msg.recommendations.map((rec) => (
-                  <li key={rec.cocktailId}>
-                    <BotCocktailCard
-                      cocktailId={rec.cocktailId}
-                      cocktailName={rec.cocktailName}
-                      cocktailNameKo={rec.cocktailNameKo}
-                      cocktailImgUrl={rec.cocktailImgUrl}
-                      alcoholStrength={rec.alcoholStrength}
+            {msg.type === 'CARD_LIST' && msg.stepData?.recommendations?.length ? (
+              <>
+                {/* 카드 목록 */}
+                <ul className="inline-grid grid-cols-1 mt-5 sm:grid-cols-3 gap-2 justify-start">
+                  {msg.stepData.recommendations.map((rec) => (
+                    <li key={rec.cocktailId}>
+                      <BotCocktailCard
+                        cocktailId={rec.cocktailId}
+                        cocktailName={rec.cocktailName}
+                        cocktailNameKo={rec.cocktailNameKo}
+                        cocktailImgUrl={rec.cocktailImgUrl}
+                        alcoholStrength={rec.alcoholStrength}
+                      />
+                    </li>
+                  ))}
+                </ul>
+
+                {/* 카드 목록 마지막 restart */}
+                {msg.stepData?.options && msg.stepData.options?.length > 0 && (
+                  <div className="flex flex-col w-fit max-w-[80%] min-w-[120px] p-3 rounded-2xl rounded-tl-none bg-white text-black opacity-0 animate-fadeIn mt-3">
+                    <p>다시 추천받기를 원하시나요?</p>
+                    <BotOptions
+                      options={msg.stepData.options}
+                      step={msg.stepData.currentStep ?? 0}
+                      value={selectedOptions[msg.stepData.currentStep ?? 0] ?? ''}
+                      onChange={(val) => handleOptionChange(msg.stepData?.currentStep ?? 0, val)}
+                      disabled={currentStep ? currentStep > (msg.stepData.currentStep ?? 0) : false}
                     />
-                  </li>
-                ))}
-              </ul>
+                  </div>
+                )}
+              </>
             ) : (
               ''
             )}
