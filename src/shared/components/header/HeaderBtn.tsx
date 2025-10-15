@@ -6,44 +6,43 @@ import { useRouter } from 'next/navigation';
 import tw from '@/shared/utills/tw';
 import { useAuthStore } from '@/domains/shared/store/auth';
 import { setPreLoginPath } from '@/domains/shared/auth/utils/setPreLoginPath';
-import {  useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import LogoutConfirm from '@/domains/login/components/LogoutConfirm';
 import { getApi } from '@/app/api/config/appConfig';
-
 
 function HeaderBtn({ pathname }: { pathname: string }) {
   const { isLoggedIn } = useAuthStore();
   const router = useRouter();
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
-  const [hasNewNotification,setHasNotification] = useState(false)
+  const [hasNewNotification, setHasNotification] = useState(false);
 
- useEffect(() => {
-   if (!isLoggedIn) return;
+  useEffect(() => {
+    if (!isLoggedIn) return;
 
-   console.log('🔌 SSE 연결 시작...');
-   const eventSource = new EventSource(`${getApi}/me/subscribe`, { withCredentials: true });
+    console.log('🔌 SSE 연결 시작...');
+    const eventSource = new EventSource(`${getApi}/me/subscribe`, { withCredentials: true });
 
-   eventSource.onopen = () => {
-     console.log('✅ SSE 연결 성공!');
-   };
+    eventSource.onopen = () => {
+      console.log('✅ SSE 연결 성공!');
+    };
 
-   eventSource.onmessage = (event) => {
-     console.log('📢 새 알림 도착:', event.data);
-     setHasNotification(true);
-   };
+    eventSource.onmessage = (event) => {
+      console.log('📢 새 알림 도착:', event.data);
+      setHasNotification(true);
+    };
 
-   eventSource.onerror = (error) => {
-     console.error('❌ SSE 에러:', error);
-     console.log('연결 상태:', eventSource.readyState); // 0: CONNECTING, 1: OPEN, 2: CLOSED
-     eventSource.close();
-   };
+    eventSource.onerror = (error) => {
+      console.error('❌ SSE 에러:', error);
+      console.log('연결 상태:', eventSource.readyState); // 0: CONNECTING, 1: OPEN, 2: CLOSED
+      eventSource.close();
+    };
 
-   return () => {
-     console.log('🔌 SSE 연결 종료');
-     eventSource.close();
-   };
- }, [isLoggedIn]);
-  
+    return () => {
+      console.log('🔌 SSE 연결 종료');
+      eventSource.close();
+    };
+  }, [isLoggedIn]);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       console.log('🧪 테스트 알림 발생');
@@ -60,10 +59,10 @@ function HeaderBtn({ pathname }: { pathname: string }) {
       className: pathname === '/mypage/my-alarm' ? 'text-tertiary' : 'text-current',
       hiddenMobile: true,
       onClick: () => {
-        setHasNotification(false)
-        router.push('/mypage/my-alarm')
+        setHasNotification(false);
+        router.push('/mypage/my-alarm');
       },
-      showBadge:true
+      showBadge: true,
     },
     {
       icon: User,
@@ -71,9 +70,8 @@ function HeaderBtn({ pathname }: { pathname: string }) {
       className: pathname === '/mypage' ? 'text-tertiary' : 'text-current',
       hiddenMobile: true,
       onClick: () => router.push('/mypage'),
-      showBadge:false
+      showBadge: false,
     },
-  
   ];
 
   const authButton = isLoggedIn

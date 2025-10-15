@@ -20,8 +20,6 @@ function MyLike() {
     fetchLike();
   }, []);
 
-  return (
-    <PostCard posts={myLike} isLoading={isLoading} />
-  );
+  return <PostCard posts={myLike} isLoading={isLoading} />;
 }
 export default MyLike;
