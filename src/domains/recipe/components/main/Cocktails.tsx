@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { useEffect, useMemo, useState } from 'react';
 import CocktailFilter from './CocktailFilter';
 import CocktailList from './CocktailList';
 import Accordion from './Accordion';
@@ -11,11 +10,7 @@ import { useInView } from 'react-intersection-observer';
 import { debounce } from '@/shared/utills/debounce';
 import { useSearchParams } from 'next/navigation';
 import { Sort } from '../../types/types';
-import { useCocktails } from '../../api/fetchRecipe';
-import { useInView } from 'react-intersection-observer';
-import { debounce } from '@/shared/utills/debounce';
-import { useSearchParams } from 'next/navigation';
-import { Sort } from '../../types/types';
+
 
 function Cocktails() {
   const searchParams = useSearchParams();
@@ -43,9 +38,6 @@ function Cocktails() {
     threshold: 0.1,
   });
 
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-  });
 
   useEffect(() => {
     if (!isSearchMode && inView && hasNextPage) {
@@ -72,17 +64,14 @@ function Cocktails() {
           setCocktailTypes={setCocktailTypes}
         />
         <CocktailSearchBar keyword={input} onChange={handleSearch} />
-        <CocktailSearchBar keyword={input} onChange={handleSearch} />
       </div>
 
       <CocktailFilter cocktailsEA={data.length} />
-      <CocktailFilter cocktailsEA={data.length} />
+
 
       <section className="mt-5">
         {noResults ? <div>검색 결과가 없습니다.</div> : <CocktailList cocktails={data} />}
-        {noResults ? <div>검색 결과가 없습니다.</div> : <CocktailList cocktails={data} />}
       </section>
-      <div ref={ref} className="h-4"></div>
       <div ref={ref} className="h-4"></div>
     </section>
   );

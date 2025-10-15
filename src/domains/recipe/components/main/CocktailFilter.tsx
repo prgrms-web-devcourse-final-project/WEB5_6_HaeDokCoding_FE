@@ -24,8 +24,6 @@ function CocktailFilter({ cocktailsEA }: Props) {
     <div className="h-10 flex justify-between items-center mt-3 border-b-1 border-gray-light">
       <p>{cocktailsEA}개+</p>
       <SelectBox option={['최신순', '댓글순', '인기순']} title="최신순" onChange={handleChange} />
-      <p>{cocktailsEA}개+</p>
-      <SelectBox option={['최신순', '댓글순', '인기순']} title="최신순" onChange={handleChange} />
     </div>
   );
 }

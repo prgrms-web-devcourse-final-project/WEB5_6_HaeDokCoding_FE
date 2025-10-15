@@ -17,7 +17,6 @@ function MobileSlide() {
         <MobileAbv />
       </div>
     </section>
-    </section>
   );
 }
 export default MobileSlide;
