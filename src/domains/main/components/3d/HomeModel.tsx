@@ -39,7 +39,7 @@ function Model({ onLoaded }: Props) {
     }
   });
 
-  return <primitive object={scene} scale={9.5} position={[0, -1.2, 0]} />;
+  return <primitive object={scene} scale={18} position={[0, -1.2, 0]} />;
 }
 
 function CameraAnimation() {
@@ -72,7 +72,7 @@ function HomeModel({ onLoaded }: Props) {
       <directionalLight intensity={8} color={0xffffff} position={[10, 40, 100]} />
       <Environment files={`/hdri/footprint_court.hdr`} background={false} />
       <Model onLoaded={onLoaded} />
-      <CameraAnimation />
+      {/* <CameraAnimation /> */}
       <OrbitControls
         enablePan={false}
         enableZoom={false}
