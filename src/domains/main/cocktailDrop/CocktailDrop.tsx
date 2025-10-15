@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Cocktailcup from '../../../../public/CocktailDrop_4x.webp';
+import Cocktailcup from '../../../../public/CocktailDrop.webp';
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
@@ -39,11 +39,12 @@ function CocktailDrop() {
       );
 
       // 로고 위에서 아래로 자연스럽게 등장
+      const isMobile = window.innerWidth < 768;
       gsap.fromTo(
         logoRef.current,
         { y: -300, opacity: 0 },
         {
-          y: -40,
+          y: isMobile ? -140 : -40, // 모바일에서는 더 위로
           opacity: 1,
           duration: 3,
           ease: 'power3.out',
@@ -64,7 +65,7 @@ function CocktailDrop() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full min-h-[110vh] flex flex-col justify-center items-center mt-10 overflow-hidden"
+      className="relative w-full md:min-h-[110vh] min-h-[74vh] flex flex-col md:justify-center justify-end items-center mt-10 overflow-hidden"
       id="scroll-fixed"
     >
       {/* 대각선 줄 1 */}
@@ -79,7 +80,7 @@ function CocktailDrop() {
       />
 
       {/* 로고 */}
-      <div ref={logoRef} className="absolute z-20 w-155 h-100">
+      <div ref={logoRef} className="absolute z-20 md:w-115 w-65 md:h-90 h-40">
         <Image
           src="/logo.svg"
           alt="로고 이미지"
@@ -90,17 +91,18 @@ function CocktailDrop() {
         />
       </div>
 
-      <div className="w-full h-90"></div>
+      <div className="w-full md:h-90 h-30"></div>
 
-      {/* 컵 이미지 */}
-      <div className="z-10">
+      {/* 컵 이미지 - 모바일에서 바닥에 붙도록 */}
+      <div className="z-10 md:relative absolute bottom-0">
         <Image
           src={Cocktailcup}
           alt="칵테일 컵"
-          width={800}
+          width={900}
           height={800}
           priority
           style={{ width: 'auto', height: 'auto' }}
+          className="md:w-auto md:h-auto w-[300px] h-[300px] object-contain"
         />
       </div>
     </div>

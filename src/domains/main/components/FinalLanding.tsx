@@ -75,7 +75,7 @@ function FinalLanding() {
           </div>
         </div>
       ) : (
-        <div className="overflow-x-hidden">
+        <div className="overflow-x-hidden sm:-mb-20">
           {isLoading && <Spinner />}
           <Landing setIsLoading={setIsLoading} isDesktop={isDesktop} />
           {!isLoading && (
