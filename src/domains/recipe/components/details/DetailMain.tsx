@@ -12,15 +12,11 @@ import SkeletonDetail from '../../skeleton/SkeletonDetail';
 import RecipeComment from './RecipeComment';
 import { useDetailRecipe } from '../../api/useRecipeDetails';
 
-
 function DetailMain({ id }: { id: number }) {
+  const { data } = useDetailRecipe(id);
 
-  const {
-    data,
-  } = useDetailRecipe(id)
+  if (!data?.recipe) return null;
 
-  if(!data?.recipe) return null
-  
   const {
     cocktailName,
     cocktailNameKo,
@@ -30,8 +26,8 @@ function DetailMain({ id }: { id: number }) {
     cocktailType,
     ingredient,
     recipe,
-    cocktailId
-  } =data?.recipe
+    cocktailId,
+  } = data?.recipe;
 
   return (
     <Suspense fallback={<SkeletonDetail />}>

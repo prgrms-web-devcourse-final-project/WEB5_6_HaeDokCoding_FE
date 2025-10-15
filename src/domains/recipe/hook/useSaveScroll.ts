@@ -8,23 +8,17 @@ interface Scroll {
 }
 
 export const useSaveScroll = (opt: Scroll = {}) => {
-  const {
-    storageKey = 'cocktail_scroll',
-    enabled = true,
-    pageType = 'list',
-  } = opt;
+  const { storageKey = 'cocktail_scroll', enabled = true, pageType = 'list' } = opt;
   const router = useRouter();
   const hasRestore = useRef(false);
 
   useEffect(() => {
-   
-    if (pageType === 'detail') return
+    if (pageType === 'detail') return;
 
-    if (!enabled || hasRestore.current) return
+    if (!enabled || hasRestore.current) return;
 
     const savedPosition = sessionStorage.getItem(storageKey);
     const shouldRestore = sessionStorage.getItem(`${storageKey}_should_restore`);
-
 
     if (savedPosition && shouldRestore === 'true') {
       const position = parseInt(savedPosition, 10);
@@ -34,13 +28,12 @@ export const useSaveScroll = (opt: Scroll = {}) => {
         hasRestore.current = true;
       };
 
-
       requestAnimationFrame(restoreScroll);
       setTimeout(restoreScroll, 0);
       setTimeout(restoreScroll, 100);
 
       sessionStorage.removeItem(`${storageKey}_should_restore`);
-    } 
+    }
   }, [storageKey, enabled, pageType]);
 
   const saveScroll = () => {

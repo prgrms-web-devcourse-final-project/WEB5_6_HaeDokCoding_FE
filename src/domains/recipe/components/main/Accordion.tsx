@@ -1,7 +1,7 @@
 'use client';
 
 import SelectBox from '@/shared/components/select-box/SelectBox';
-import { Dispatch, SetStateAction, useEffect} from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
 interface Props {
@@ -99,7 +99,7 @@ function Accordion({ setAlcoholBaseTypes, setCocktailTypes, setAlcoholStrengths 
       base: getDisplayValue('base', searchParams.get('base')),
       glass: getDisplayValue('glass', searchParams.get('glass')),
     };
-  }
+  };
 
   const handleSelect = (id: string, value: string) => {
     const optionGroup = SELECT_OPTIONS.find((opt) => opt.id === id);
@@ -149,7 +149,7 @@ function Accordion({ setAlcoholBaseTypes, setCocktailTypes, setAlcoholStrengths 
               title={title}
               id={id}
               groupKey="filter"
-              value={currentValue} 
+              value={currentValue}
               onChange={(value) => handleSelect(id, value)}
             />
           </li>

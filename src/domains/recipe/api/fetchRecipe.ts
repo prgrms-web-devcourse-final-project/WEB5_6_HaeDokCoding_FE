@@ -1,16 +1,14 @@
-import { getApi } from "@/app/api/config/appConfig";
-import { useAuthStore } from "@/domains/shared/store/auth";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { Cocktail, Sort } from "../types/types";
-
-
+import { getApi } from '@/app/api/config/appConfig';
+import { useAuthStore } from '@/domains/shared/store/auth';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { Cocktail, Sort } from '../types/types';
 
 interface CocktailResponse {
-  data: Cocktail[]
+  data: Cocktail[];
 }
 
-interface KeepResponse{
-  data: Array<{cocktailId:number}>
+interface KeepResponse {
+  data: Array<{ cocktailId: number }>;
 }
 
 interface SearchFilters {
@@ -20,11 +18,9 @@ interface SearchFilters {
   alcoholBaseTypes: string[];
 }
 
-
-interface CocktailFilter extends SearchFilters{
-  sortBy?:Sort
+interface CocktailFilter extends SearchFilters {
+  sortBy?: Sort;
 }
-
 
 const fetchKeep = async (): Promise<Set<number>> => {
   const res = await fetch(`${getApi}/me/bar`, {
@@ -39,39 +35,34 @@ const fetchKeep = async (): Promise<Set<number>> => {
   return new Set(myKeep.map((v: { cocktailId: number }) => v.cocktailId));
 };
 
-
-  const fetchRecipe = async (
+const fetchRecipe = async (
   lastId: number | null,
   size: number,
   sortBy?: Sort
-  ): Promise<Cocktail[]> => {
-    
-    const url = new URL(`${getApi}/cocktails`)
-    url.searchParams.set('size',String(size))
-      if (lastId !== null) {
-        url.searchParams.set('lastId', String(lastId));
-        url.searchParams.set('lastValue', String(lastId));
-      }
-  
-    if (sortBy) {
-      url.searchParams.set('sortBy',String(sortBy))
-    }
-
-    const res = await fetch(url.toString(), {
-      method:'GET'
-    })
-
-    if (!res.ok) throw new Error('레시피 패치 실패')
-    
-    const json:CocktailResponse = await res.json()
-
-    return json.data ?? []
+): Promise<Cocktail[]> => {
+  const url = new URL(`${getApi}/cocktails`);
+  url.searchParams.set('size', String(size));
+  if (lastId !== null) {
+    url.searchParams.set('lastId', String(lastId));
+    url.searchParams.set('lastValue', String(lastId));
   }
 
-  
+  if (sortBy) {
+    url.searchParams.set('sortBy', String(sortBy));
+  }
+
+  const res = await fetch(url.toString(), {
+    method: 'GET',
+  });
+
+  if (!res.ok) throw new Error('레시피 패치 실패');
+
+  const json: CocktailResponse = await res.json();
+
+  return json.data ?? [];
+};
 
 const searchCocktails = async (filters: SearchFilters): Promise<Cocktail[]> => {
-  
   const body = {
     keyword: filters.keyword?.trim() ?? '',
     alcoholStrengths: filters.alcoholStrengths,
@@ -84,15 +75,14 @@ const searchCocktails = async (filters: SearchFilters): Promise<Cocktail[]> => {
   const res = await fetch(`${getApi}/cocktails/search`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body:JSON.stringify(body)
-  })
+    body: JSON.stringify(body),
+  });
 
-  if(!res.ok) throw new Error('검색 POST 실패')
+  if (!res.ok) throw new Error('검색 POST 실패');
 
-    const json:CocktailResponse = await res.json()
-    return json.data ?? []
-}
-  
+  const json: CocktailResponse = await res.json();
+  return json.data ?? [];
+};
 
 const hasActiveFilters = (filters: SearchFilters): boolean => {
   return !!(
@@ -103,59 +93,58 @@ const hasActiveFilters = (filters: SearchFilters): boolean => {
   );
 };
 
+export const useCocktailsInfiniteQuery = (size: number = 20, sortBy?: Sort) => {
+  const user = useAuthStore((state) => state.user);
+  return useInfiniteQuery({
+    queryKey: ['cocktails', 'infinite', sortBy, size, user?.id],
+    queryFn: async ({ pageParam }) => {
+      const cocktails = await fetchRecipe(pageParam, size, sortBy);
 
-export const useCocktailsInfiniteQuery = (
-  size: number = 20,
-  sortBy?: Sort
-) => {
-    const user = useAuthStore((state) => state.user);
-    return useInfiniteQuery({
-      queryKey: ['cocktails', 'infinite', sortBy, size, user?.id],
-      queryFn: async ({ pageParam }) => {
-        const cocktails = await fetchRecipe(pageParam, size, sortBy);
+      if (user) {
+        const keepId = await fetchKeep();
+        return cocktails.map((item) => ({
+          ...item,
+          isKeep: keepId.has(item.cocktailId),
+        }));
+      }
 
-        if (user) {
-          const keepId = await fetchKeep();
-          return cocktails.map((item) => ({
-            ...item,
-            isKeep: keepId.has(item.cocktailId),
-          }));
-        }
+      return cocktails;
+    },
+    getNextPageParam: (lastpage) => {
+      if (lastpage.length < size) return undefined;
+      return lastpage[lastpage.length - 1]?.cocktailId ?? undefined;
+    },
+    initialPageParam: null as number | null,
+  });
+};
 
-        return cocktails;
-      },
-      getNextPageParam: (lastpage) => {
-        if (lastpage.length < size) return undefined;
-        return lastpage[lastpage.length - 1]?.cocktailId ?? undefined;
-      },
-      initialPageParam: null as number | null,
-    });
-}
-
-
-export const useCocktailsSearchQuery = (filters:SearchFilters) => {
-  const user = useAuthStore(state => state.user)
-  const isActive = hasActiveFilters(filters)
+export const useCocktailsSearchQuery = (filters: SearchFilters) => {
+  const user = useAuthStore((state) => state.user);
+  const isActive = hasActiveFilters(filters);
 
   return useQuery({
     queryKey: ['cocktails', 'search', filters, user?.id],
     queryFn: async () => {
-      const cocktails = await searchCocktails(filters)
+      const cocktails = await searchCocktails(filters);
       if (user && cocktails.length > 0) {
-        const keepId = await fetchKeep()
+        const keepId = await fetchKeep();
         return cocktails.map((item) => ({
           ...item,
-          isKeep: keepId.has(item.cocktailId)
-        }))
+          isKeep: keepId.has(item.cocktailId),
+        }));
       }
-      return cocktails
+      return cocktails;
     },
     enabled: isActive,
-    refetchOnMount:false,
-  })
-}
+    refetchOnMount: false,
+  });
+};
 
-export const useCocktails = (filters: CocktailFilter, infiniteScrollSize: number = 20,sortBy?:Sort) => {
+export const useCocktails = (
+  filters: CocktailFilter,
+  infiniteScrollSize: number = 20,
+  sortBy?: Sort
+) => {
   const isSearchMode = hasActiveFilters(filters);
   const infiniteQuery = useCocktailsInfiniteQuery(infiniteScrollSize, sortBy);
   const searchQuery = useCocktailsSearchQuery(filters);

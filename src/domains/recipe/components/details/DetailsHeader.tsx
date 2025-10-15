@@ -14,7 +14,6 @@ interface Meta {
 }
 
 function DetailsHeader({ id, favor }: { id: number; favor: boolean | undefined }) {
- 
   const [isShare, setIsShare] = useState(false);
   const [meta, setMeta] = useState<Meta | null>(null);
 

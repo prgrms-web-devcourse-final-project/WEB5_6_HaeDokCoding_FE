@@ -11,31 +11,37 @@ interface Props {
 }
 
 function RecipeComment({ cocktailId }: Props) {
- 
-  const [deleteTarget, setDeleteTarget] = useState<{ commentId: number, cocktailId: number } | null>(null)
-  
-  const { refetch,createMut,deleteMut,updateMut,user,comments,isLoading } = useRecipeComment({ cocktailId })
+  const [deleteTarget, setDeleteTarget] = useState<{
+    commentId: number;
+    cocktailId: number;
+  } | null>(null);
 
-  const postRecipeComment = async (postId: number | ParamValue, content: string): Promise<CommentType[] | null> => {
+  const { refetch, createMut, deleteMut, updateMut, user, comments, isLoading } = useRecipeComment({
+    cocktailId,
+  });
+
+  const postRecipeComment = async (
+    postId: number | ParamValue,
+    content: string
+  ): Promise<CommentType[] | null> => {
     if (typeof postId !== 'number') return null;
-    await createMut.mutateAsync(content)
-    const referesh = await refetch()
-    return (referesh.data) ?? null
-  }
-   const handleUpdateComment = (commentId: number, content:string) => updateMut.mutateAsync({ commentId, content });
-  
-    const handleConfirmDelete = async () => {
-      if (!deleteTarget) return;
-      await deleteMut.mutateAsync(deleteTarget.commentId);
-      setDeleteTarget(null);
-    };
-    
-  const fetchData = () => refetch
-  const loadMoreComments = () => { }
-  const isEnd = true
-  const handleAskDeleteComment = (commentId: number) => setDeleteTarget({ commentId, cocktailId })
+    await createMut.mutateAsync(content);
+    const referesh = await refetch();
+    return referesh.data ?? null;
+  };
+  const handleUpdateComment = (commentId: number, content: string) =>
+    updateMut.mutateAsync({ commentId, content });
 
+  const handleConfirmDelete = async () => {
+    if (!deleteTarget) return;
+    await deleteMut.mutateAsync(deleteTarget.commentId);
+    setDeleteTarget(null);
+  };
 
+  const fetchData = () => refetch;
+  const loadMoreComments = () => {};
+  const isEnd = true;
+  const handleAskDeleteComment = (commentId: number) => setDeleteTarget({ commentId, cocktailId });
 
   return (
     <div className="mb-10 border-t-1 border-gray">

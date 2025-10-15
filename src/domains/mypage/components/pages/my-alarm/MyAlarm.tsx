@@ -22,7 +22,7 @@ interface MyAlarm {
 }
 
 function MyAlarm() {
-  const {toastInfo} =useToast()
+  const { toastInfo } = useToast();
   const [isModal, setIsModal] = useState(false);
   const { fetchAlarm } = useFetchAlarm();
   const { data } = useQuery({
@@ -31,10 +31,10 @@ function MyAlarm() {
   });
 
   const handleDelete = () => {
-      if (data.items.length == 0) {
-        toastInfo('아직 알림이 없습니다.');
-        return;
-      }
+    if (data.items.length == 0) {
+      toastInfo('아직 알림이 없습니다.');
+      return;
+    }
     setIsModal(!isModal);
   };
 

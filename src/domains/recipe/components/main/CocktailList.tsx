@@ -9,17 +9,16 @@ interface Props {
   cocktails: Cocktail[];
 }
 
-function CocktailList({cocktails}: Props) {
- 
+function CocktailList({ cocktails }: Props) {
   const { saveAndNavigate } = useSaveScroll({
     storageKey: 'cocktail_list_scroll',
   });
-  
-const handleClick = (cocktailId: number) => (e: React.MouseEvent<HTMLAnchorElement>) => {
-  e.preventDefault();
 
-  saveAndNavigate(`/recipe/${cocktailId}`);
-};
+  const handleClick = (cocktailId: number) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+
+    saveAndNavigate(`/recipe/${cocktailId}`);
+  };
 
   return (
     <ul
@@ -32,16 +31,12 @@ const handleClick = (cocktailId: number) => (e: React.MouseEvent<HTMLAnchorEleme
   "
     >
       {cocktails.map(
-        ({
-          cocktailImgUrl,
-          cocktailId,
-          cocktailName,
-          cocktailNameKo,
-          alcoholStrength,
-          isKeep,
-        },i) => (
-          <li key={`${cocktailId} - ${i}` } className="w-full">
-            <Link href={`/recipe/${cocktailId}`}  onClick={handleClick(cocktailId)}>
+        (
+          { cocktailImgUrl, cocktailId, cocktailName, cocktailNameKo, alcoholStrength, isKeep },
+          i
+        ) => (
+          <li key={`${cocktailId} - ${i}`} className="w-full">
+            <Link href={`/recipe/${cocktailId}`} onClick={handleClick(cocktailId)}>
               <CocktailCard
                 favor={isKeep}
                 id={cocktailId}

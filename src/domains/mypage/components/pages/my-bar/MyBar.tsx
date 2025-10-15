@@ -20,7 +20,7 @@ interface MyCocktail {
 }
 
 function MyBar() {
-  const {toastInfo} =useToast()
+  const { toastInfo } = useToast();
   const [isModal, setIsModal] = useState(false);
   const { fetchMyBar } = useFetchMyBar();
   const { data } = useQuery({
@@ -31,8 +31,8 @@ function MyBar() {
 
   const handleDelete = () => {
     if (data.items.length == 0) {
-      toastInfo('저장한 칵테일이 없습니다.')
-      return
+      toastInfo('저장한 칵테일이 없습니다.');
+      return;
     }
     setIsModal(!isModal);
   };

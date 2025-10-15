@@ -12,7 +12,7 @@ interface Props {
 }
 
 function DeleteAllModal({ open, onClose, setIsModal, type }: Props) {
-  const { toastSuccess } =useToast()
+  const { toastSuccess } = useToast();
   const { deleteMyBar } = useFetchMyBar();
   const { deleteAlarm } = useFetchAlarm();
   const handleBarDelete = () => {
@@ -20,7 +20,7 @@ function DeleteAllModal({ open, onClose, setIsModal, type }: Props) {
       onSuccess: () => {
         toastSuccess('성공적으로 삭제 되었습니다.');
         setIsModal(false);
-      }
+      },
     });
   };
   const handleAlarmDelete = () => {
