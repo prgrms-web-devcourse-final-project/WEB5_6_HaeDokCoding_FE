@@ -1,4 +1,4 @@
-import MainTestDummy from './MainTestDummy';
+import MainTestDummy from '../MainTestDummy';
 
 const DUMMY_TEST = [
   {
@@ -15,15 +15,13 @@ const DUMMY_TEST = [
 
 function MainSlideTest() {
   return (
-    <section className="slide-content invisible w-[80%] p-12 h-full bg-[#645a72] rounded-tl-[30px] rounded-bl-[30px] flex flex-col">
-      <div className="flex flex-col gap-15 h-full">
-        <span className="text-[32px] font-black text-secondary">1</span>
+    <article className="slide-content invisible w-[80%] p-12 h-full bg-[#4D4D4D] rounded-tl-[30px] rounded-bl-[30px] flex flex-col">
+      <div className="flex flex-col gap-30 h-full">
+        <p className="text-[32px] text-white font-bold">1</p>
         <div className="flex flex-col justify-between h-full">
-          <header className="flex flex-col gap-5">
-            <h2 className=" text-5xl font-black text-secondary text-shadow  text-shadow-[0_4px_6px_rgb(255_255_255_/0.25)]">
-              AI기반 취향테스트
-            </h2>
-            <p className="text-2xl leading-[1.5] font-normal text-secondary">
+          <header className="flex flex-col gap-10">
+            <h2 className="text-5xl text-white font-bold">AI기반 취향테스트</h2>
+            <p className="text-xl leading-[1.5] font-normal text-white">
               복잡한 이름과 긴 설명 때문에 내 취향 칵테일 찾기 어려우셨나요? <br />
               AI쑤리가 당신에게 딱 맞는 칵테일을 추천해 드려요!
             </p>
@@ -49,7 +47,7 @@ function MainSlideTest() {
           </ul>
         </div>
       </div>
-    </section>
+    </article>
   );
 }
 export default MainSlideTest;

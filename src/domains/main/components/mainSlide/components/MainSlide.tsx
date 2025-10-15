@@ -1,13 +1,13 @@
 'use client';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import MainSlideAbv from './MainSlideAbv';
 
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import MobileSlide from './mobile/MobileSlide';
 import MainSlideIntro from './MainSlideIntro';
-import MainSlideTest from './MainSlideTest';
-import MainSlideCommunity from './MainSlideCommunity';
+import MainSlideTest from './pc/MainSlideTest';
+import MainSlideCommunity from './pc/MainSlideCommunity';
+import MainSlideAbv from './pc/MainSlideAbv';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -128,7 +128,7 @@ function MainSlide({ isDesktop }: { isDesktop: boolean }) {
       ) : (
         <div ref={initialRoot} className="w-full overflow-hidden">
           <section key="desktop" ref={root} className="w-full stage h-screen" id="scroll-fixed">
-            <div className="stage relative w-full h-full overflow-hidden bg-secondary/90 rounded-tl-4xl rounded-tr-4xl">
+            <div className="stage relative w-full h-full overflow-hidden bg-secondary">
               <div className="panel absolute inset-0 overflow-hidden">
                 <MainSlideIntro />
               </div>

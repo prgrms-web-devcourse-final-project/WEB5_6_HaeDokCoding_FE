@@ -45,14 +45,12 @@ function MobileAbv() {
   ];
 
   return (
-    <section className="bg-[#84739e] rounded-2xl sm:rounded-[30px] p-4 sm:p-12 flex flex-col justify-center">
-      <article className="flex flex-col gap-5 lg:gap-0">
-        <span className="hidden sm:block font-black text-xl md:text-2xl">3</span>
+    <article className="p-4 sm:p-8 bg-primary rounded-2xl flex flex-col sm:justify-center gap-2">
+      <div className="flex flex-col gap-5 lg:gap-0">
+        <p className="hidden sm:block text-xl md:text-2xl text-white">3</p>
         <div className="flex flex-col gap-5">
-          <header className="flex justify-between">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-shadow-[0_4px_6px_rgb(255_255_255_/0.25)]">
-              내 알콜도수 UP
-            </h2>
+          <header className="flex justify-between items-center">
+            <h2 className="text-xl sm:text-2xl font-black text-white">내 알콜도수 UP</h2>
             <button
               type="button"
               className={clsx(`block duration-300 sm:hidden`, isClick ? 'rotate-135' : 'rotate-0')}
@@ -69,12 +67,12 @@ function MobileAbv() {
                 : 'opacity-0 max-h-0 hidden sm:opacity-100 sm:max-h-none sm:block'
             )}
           >
-            <p className="text-md md:text-xl  font-normal leading-[1.5]">
+            <p className="text-sm sm:text-md leading-[1.5] font-normal text-white">
               5도 부터 시작하는 내 알콜도수 <br />글 작성,댓글,좋아요 / 킵으로 알콜도수 UP! <br />
               알콜도수에 따라 변하는 쑤리(SSURY)를 보는 재미도 있어요.
             </p>
             <div className="mt-4 flex flex-col gap-2">
-              <ul className="flex gap-[5%] md:gap-[8%]">
+              <ul className="flex justify-between">
                 {SSURY_DRUNK.map(({ id, src, abv }) => (
                   <li key={id}>
                     <MainSsuryDrunk src={src} abv={abv} />
@@ -82,13 +80,13 @@ function MobileAbv() {
                 ))}
               </ul>
               <div className="w-full h-3 border border-gray rounded-full relative">
-                <span className="absolute top-0 left-0 h-full rounded-full bg-gradient-to-r from-[#FFCA8D] to-[#FA2424] w-1/2"></span>
+                <span className="absolute top-0 left-0 h-full rounded-full bg-gradient-to-r from-[#FFCA8D] to-[#FA2424] w-7/8"></span>
               </div>
             </div>
           </div>
         </div>
-      </article>
-    </section>
+      </div>
+    </article>
   );
 }
 export default MobileAbv;
