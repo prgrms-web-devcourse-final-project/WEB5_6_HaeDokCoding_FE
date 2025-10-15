@@ -48,8 +48,8 @@ function MainTestDummy({ message, option, type }: Props) {
         <p className="tesx-xs">쑤리</p>
       </header>
       {message && (
-        <section className="flex flex-col w-[215px] h-43.5 p-3 rounded-2xl rounded-tl-none bg-white text-black gap-2">
-          <p className="text-xs">{message}</p>
+        <section className="flex flex-col w-[260px] p-3 rounded-2xl rounded-tl-none bg-white text-black gap-2">
+          <p className="text-sm">{message}</p>
 
           <div className="flex flex-col gap-2">
             {type == 'option' &&
@@ -58,11 +58,13 @@ function MainTestDummy({ message, option, type }: Props) {
                 <span
                   key={id}
                   className={clsx(
-                    'w-full rounded-3xl px-2 py-1 text-center',
-                    active ? 'bg-secondary' : 'bg-gray-light'
+                    'w-full rounded-3xl px-2 py-1 text-center text-sm',
+                    active
+                      ? 'bg-secondary shadow-[inset_0_0_6px_rgba(255,196,1,1)]'
+                      : 'bg-gray-light'
                   )}
                 >
-                  <span className="text-xs">{message}</span>
+                  {message}
                 </span>
               ))}
           </div>

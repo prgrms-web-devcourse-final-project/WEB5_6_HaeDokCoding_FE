@@ -5,6 +5,8 @@ export interface Cocktail {
   cocktailImgUrl: string;
   cocktailNameKo: string;
   isKeep: boolean;
+  keepCount?: number;
+  commentCount?: number;
 }
 
 export interface RecommendCocktail {
