@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import foreStar from '../../../../../public/1Stars.png';
-import backStar from '../../../../../public/2Stars.png';
+import foreStar from '../../../../../public/1Stars.webp';
+import backStar from '../../../../../public/2Stars.webp';
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
@@ -66,10 +66,10 @@ function StarMain() {
     <>
       {/* <HomeBackground /> */}
       <div>
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
+        <div className="fixed top-0 left-0 w-full h-full overflow-hidden">
           <div
             ref={background}
-            className="absolute w-screen h-screen top-0 left-0 will-change-transform"
+            className="absolute w-full h-full top-0 left-0 will-change-transform"
           >
             <Image
               src={foreStar}
@@ -77,18 +77,17 @@ function StarMain() {
               fill
               className="object-cover object-center"
               priority
+              sizes="100vw"
             />
           </div>
-          <div
-            ref={foreground}
-            className="absolute w-screen h-screen top-0 left-0  will-change-transform"
-          >
+          <div ref={foreground} className="fixed w-full h-full top-0 left-0  will-change-transform">
             <Image
               src={backStar}
               alt="뒤쪽 별"
               fill
               className="object-cover object-center"
               priority
+              sizes="100vw"
             />
           </div>
         </div>

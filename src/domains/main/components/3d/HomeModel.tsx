@@ -3,17 +3,15 @@
 import { Environment, OrbitControls, useGLTF } from '@react-three/drei';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
-function Model({ onLoaded }: { onLoaded: () => void }) {
-  const { scene } = useGLTF('/3d/model/scene.gltf');
-  const [scale, setScale] = useState(9.5);
+interface Props {
+  onLoaded: () => void;
+}
 
-  useEffect(() => {
-    const isMobile = window.innerWidth < 768; // 모바일 기준 너비
-    setScale(isMobile ? 4.8 : 9.5); // 모바일이면 작게
-  }, []);
+function Model({ onLoaded }: Props) {
+  const { scene } = useGLTF('/3d/model/scene.gltf');
 
   useEffect(() => {
     if (scene) {
@@ -41,7 +39,7 @@ function Model({ onLoaded }: { onLoaded: () => void }) {
     }
   });
 
-  return <primitive object={scene} scale={scale} position={[0, -1.2, 0]} />;
+  return <primitive object={scene} scale={9.5} position={[0, -1.2, 0]} />;
 }
 
 function CameraAnimation() {
@@ -61,34 +59,17 @@ function CameraAnimation() {
   return null;
 }
 
-export function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
-
-  return isMobile;
-}
-
-function HomeModel({ onLoaded }: { onLoaded: () => void }) {
-  const isMobile = useIsMobile();
+function HomeModel({ onLoaded }: Props) {
   return (
     <Canvas
-      style={{
-        pointerEvents: isMobile ? 'none' : 'auto',
-      }}
-      className="z-10 w-full"
+      className="z-10 w-full pointer-none"
       camera={{ position: [10, 40, 9], fov: 26 }}
       dpr={[1, 1.5]}
     >
-      <ambientLight intensity={0.5} />
+      <ambientLight intensity={1} />
       <pointLight position={[10, 30, 40]} intensity={1} />
       <spotLight position={[0, 10, 10]} angle={0.2} penumbra={1} intensity={15} castShadow />
-      <directionalLight intensity={6} color={0xffffff} position={[10, 40, 100]} />
+      <directionalLight intensity={8} color={0xffffff} position={[10, 40, 100]} />
       <Environment files={`/hdri/footprint_court.hdr`} background={false} />
       <Model onLoaded={onLoaded} />
       <CameraAnimation />
