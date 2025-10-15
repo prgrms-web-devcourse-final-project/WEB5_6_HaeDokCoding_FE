@@ -44,7 +44,7 @@ function CocktailDrop() {
         logoRef.current,
         { y: -300, opacity: 0 },
         {
-          y: isMobile ? -140 : -40, // 모바일에서는 더 위로
+          y: isMobile ? -140 : -18, // 모바일에서는 더 위로
           opacity: 1,
           duration: 3,
           ease: 'power3.out',
