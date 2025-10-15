@@ -7,6 +7,7 @@ import Link from 'next/link';
 import useFetchAlarm from '@/domains/mypage/api/fetchAlarm';
 import { useQuery } from '@tanstack/react-query';
 import DeleteAllModal from '../../DeleteAllModal';
+import { useToast } from '@/shared/hook/useToast';
 
 interface MyAlarm {
   createdAt: Date;
@@ -21,6 +22,7 @@ interface MyAlarm {
 }
 
 function MyAlarm() {
+  const {toastInfo} =useToast()
   const [isModal, setIsModal] = useState(false);
   const { fetchAlarm } = useFetchAlarm();
   const { data } = useQuery({
@@ -29,6 +31,10 @@ function MyAlarm() {
   });
 
   const handleDelete = () => {
+      if (data.items.length == 0) {
+        toastInfo('아직 알림이 없습니다.');
+        return;
+      }
     setIsModal(!isModal);
   };
 

@@ -8,6 +8,7 @@ import { useState } from 'react';
 import DeleteAllModal from '../../DeleteAllModal';
 import useFetchMyBar from '@/domains/mypage/api/fetchMyBar';
 import { useQuery } from '@tanstack/react-query';
+import { useToast } from '@/shared/hook/useToast';
 
 interface MyCocktail {
   cocktailId: number;
@@ -19,6 +20,7 @@ interface MyCocktail {
 }
 
 function MyBar() {
+  const {toastInfo} =useToast()
   const [isModal, setIsModal] = useState(false);
   const { fetchMyBar } = useFetchMyBar();
   const { data } = useQuery({
@@ -28,6 +30,10 @@ function MyBar() {
   });
 
   const handleDelete = () => {
+    if (data.items.length == 0) {
+      toastInfo('저장한 칵테일이 없습니다.')
+      return
+    }
     setIsModal(!isModal);
   };
 
