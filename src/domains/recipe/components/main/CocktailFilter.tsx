@@ -3,10 +3,8 @@ import { useRouter } from 'next/navigation';
 
 interface Props {
   cocktailsEA: number;
-  cocktailsEA: number;
 }
 
-function CocktailFilter({ cocktailsEA }: Props) {
 function CocktailFilter({ cocktailsEA }: Props) {
   const sortMap = {
     최신순: 'recent',
