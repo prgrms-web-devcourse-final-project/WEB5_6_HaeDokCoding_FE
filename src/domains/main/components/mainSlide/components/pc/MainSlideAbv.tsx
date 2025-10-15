@@ -42,12 +42,12 @@ function MainSlideAbv() {
 
   return (
     <article className="slide-content invisible w-[61%] h-full bg-primary rounded-tl-[30px] rounded-bl-[30px] p-12 flex flex-col">
-      <div className="flex flex-col gap-20 h-full">
+      <div className="flex flex-col gap-[4%] h-full">
         <p className="text-[32px] font-bold ">3</p>
         <div className="flex flex-col gap-5 h-full justify-between">
           <header className="flex flex-col gap-10">
             <h2 className="text-5xl text-white font-bold">내 알콜도수 UP</h2>
-            <p className="text-xl xl:text-2xl font-normal leading-[1.5]">
+            <p className="text-xl leading-[1.5] font-normal text-white">
               5도 부터 시작하는 내 알콜도수 <br />내 참여에 따라 알콜도수 UP! <br />
               알콜도수에 따라 변하는 쑤리(SSURY)를 보는 재미도 있어요.
             </p>

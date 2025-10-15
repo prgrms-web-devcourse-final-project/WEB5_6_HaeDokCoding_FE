@@ -7,6 +7,7 @@ import gsap from 'gsap';
 import { ScrollSmoother, ScrollTrigger } from 'gsap/all';
 import StarMain from './3d/StarMain';
 import CocktailDrop from '../cocktailDrop/CocktailDrop';
+import Scroll from './3d/Scroll';
 
 function FinalLanding() {
   const [isLoading, setIsLoading] = useState(true);
@@ -86,6 +87,8 @@ function FinalLanding() {
           )}
         </div>
       )}
+
+      <Scroll />
     </div>
   );
 }
