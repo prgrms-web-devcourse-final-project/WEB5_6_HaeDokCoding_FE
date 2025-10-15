@@ -65,7 +65,7 @@ function MainSlide({ isDesktop }: { isDesktop: boolean }) {
           c,
           {
             x: () => stageW() - contentW(),
-            duration: 2,
+            duration: 1,
             immediateRender: false,
             onStart: () => c.classList.remove('invisible'),
           },

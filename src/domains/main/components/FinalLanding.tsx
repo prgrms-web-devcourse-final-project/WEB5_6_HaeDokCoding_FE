@@ -7,6 +7,7 @@ import gsap from 'gsap';
 import { ScrollSmoother, ScrollTrigger } from 'gsap/all';
 import StarMain from './3d/StarMain';
 import CocktailDrop from '../cocktailDrop/CocktailDrop';
+import Scroll from './3d/Scroll';
 
 function FinalLanding() {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,6 +15,9 @@ function FinalLanding() {
 
   const [isDesktop, setIsDesktop] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
+
+  const scrollRef = useRef<HTMLButtonElement>(null);
+  const [showScrollBtn, setShowScrollBtn] = useState(false);
 
   useEffect(() => {
     const checkViewport = () => {
@@ -60,6 +64,40 @@ function FinalLanding() {
     };
   }, [isDesktop]);
 
+  // scroll 버튼
+  useEffect(() => {
+    if (!scrollRef.current) return;
+
+    const tl = gsap.to(scrollRef.current, {
+      y: 12,
+      repeat: -1,
+      yoyo: true,
+      duration: 0.8,
+      ease: 'power1.inOut',
+    });
+
+    return () => {
+      tl.kill();
+    };
+  }, [showScrollBtn]);
+
+  useEffect(() => {
+    const updateScrollBtn = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      setShowScrollBtn(scrollTop < maxScroll - 5);
+    };
+
+    updateScrollBtn(); // 초기 체크
+    window.addEventListener('scroll', updateScrollBtn);
+    window.addEventListener('resize', updateScrollBtn);
+
+    return () => {
+      window.removeEventListener('scroll', updateScrollBtn);
+      window.removeEventListener('resize', updateScrollBtn);
+    };
+  }, []);
+
   if (!hasMounted) return null;
 
   return (
@@ -90,6 +128,7 @@ function FinalLanding() {
           )}
         </div>
       )}
+      {showScrollBtn && <Scroll ref={scrollRef} />}
     </div>
   );
 }
