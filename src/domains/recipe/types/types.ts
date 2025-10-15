@@ -4,7 +4,7 @@ export interface Cocktail {
   cocktailName: string;
   cocktailImgUrl: string;
   cocktailNameKo: string;
-  isFavorited: boolean;
+  isKeep: boolean;
 }
 
 export interface RecommendCocktail {
@@ -36,3 +36,4 @@ export type TagType = {
   cocktailName: string;
   cocktailNameKo: string;
 };
+export type Sort = 'recent' | 'keeps' | 'comments';

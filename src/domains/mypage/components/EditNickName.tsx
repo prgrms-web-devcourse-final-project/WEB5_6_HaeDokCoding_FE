@@ -80,7 +80,7 @@ function EditNickName({
           value={editNickName}
           className="w-full"
         />
-        <TextButton onClick={handleDefaultNickname}>전 닉네임으로 돌아가기</TextButton>
+        <TextButton onClick={handleDefaultNickname}>초기화</TextButton>
       </div>
     </ModalLayout>
   );
