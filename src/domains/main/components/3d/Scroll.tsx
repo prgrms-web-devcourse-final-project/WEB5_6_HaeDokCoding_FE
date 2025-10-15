@@ -1,22 +1,30 @@
 import Lottie from 'lottie-react';
 import scroll from '@/shared/assets/lottie/ScrollDownAnimation.json';
 
-function Scroll({ isDesktop }: { isDesktop: boolean }) {
-  const style = !isDesktop
-    ? {
-        width: 45,
-        height: 45,
-      }
-    : {
-        width: 60,
-        height: 60,
-      };
+type Props = {
+  ref: React.RefObject<HTMLButtonElement | null>;
+};
+
+function Scroll({ ref }: Props) {
+  const style = {
+    width: 50,
+    height: 50,
+  };
   return (
-    <div className="absolute bottom-18 left-1/2 -translate-x-1/2 rounded-full md:bg-secondary/10 bg-primary/30 z-11 md:w-[60px] md:h-[60px] w-[45px] h-[45px]">
-      <div className="z-11">
-        <Lottie animationData={scroll} style={style} aria-hidden loop={true} />
-      </div>
-    </div>
+    <button
+      ref={ref}
+      type="button"
+      onClick={() => {
+        window.scrollBy({
+          top: 1000,
+          behavior: 'smooth',
+        });
+      }}
+      aria-label="아래로 스크롤"
+      className="fixed bottom-18 left-1/2 -translate-x-1/2 rounded-full bg-[#000000]/70 z-11 md:w-[60px] md:h-[60px] flex-center cursor-pointer"
+    >
+      <Lottie animationData={scroll} style={style} aria-hidden loop={true} />
+    </button>
   );
 }
 

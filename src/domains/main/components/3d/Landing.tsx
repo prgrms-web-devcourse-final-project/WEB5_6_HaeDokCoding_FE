@@ -3,7 +3,6 @@
 import HomeModel from './HomeModel';
 import HomeLogo from './HomeLogo';
 import HomeText from './HomeText';
-import Scroll from './Scroll';
 import { useEffect, useState } from 'react';
 import ModelImage from './ModelImage';
 
@@ -30,7 +29,6 @@ function Landing({ setIsLoading, isDesktop }: Props) {
             <>
               <HomeLogo isDesktop={isDesktop} />
               <HomeText isDesktop={isDesktop} />
-              <Scroll isDesktop={isDesktop} />
             </>
           )}
         </div>
