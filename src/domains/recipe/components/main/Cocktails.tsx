@@ -13,13 +13,16 @@ import { Sort } from '../../types/types';
 
 function Cocktails() {
   const searchParams = useSearchParams();
-  const sortBy = searchParams.get('sortBy') as Sort;
+  const sortByParam = searchParams.get('sortBy') || 'recent'
   const [keyword, setKeyword] = useState('');
   const [input, setInput] = useState('');
 
+  const [sortBy,setSortBy] = useState<Sort>(sortByParam as Sort)
   const [alcoholStrengths, setAlcoholStrengths] = useState<string[]>([]);
   const [alcoholBaseTypes, setAlcoholBaseTypes] = useState<string[]>([]);
   const [cocktailTypes, setCocktailTypes] = useState<string[]>([]);
+
+
 
   const { data, fetchNextPage, hasNextPage, noResults, isSearchMode } = useCocktails(
     {
@@ -42,11 +45,16 @@ function Cocktails() {
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
+    useEffect(() => {
+      setSortBy(sortByParam as Sort);
+    }, [sortByParam]);
+
   const debounceKeyword = useMemo(() => debounce((v: string) => setKeyword(v), 300), []);
   const handleSearch = (v: string) => {
     setInput(v);
     debounceKeyword(v);
   };
+
 
   return (
     <section>
@@ -59,7 +67,7 @@ function Cocktails() {
         <CocktailSearchBar keyword={input} onChange={handleSearch} />
       </div>
 
-      <CocktailFilter cocktailsEA={data.length} />
+      <CocktailFilter cocktailsEA={data.length}  />
 
       <section className="mt-5">
         {noResults ? <div>검색 결과가 없습니다.</div> : <CocktailList cocktails={data} />}
