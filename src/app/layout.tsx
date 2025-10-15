@@ -28,12 +28,12 @@ export default function RootLayout({
     <html lang="ko-KR">
       <body className="relative flex flex-col min-h-full-screen">
         <Provider>
-          <Header />
           <ClientInitHook />
-          <main className="flex flex-1 pt-[2.75rem] md:pt-[3.75rem]">{children}</main>
-          <FooterWrapper />
+
+          {children}
 
           <div id="modal-root"></div>
+
           <Toaster
             position="top-center"
             toastOptions={{

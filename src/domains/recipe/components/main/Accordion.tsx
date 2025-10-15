@@ -1,7 +1,7 @@
 'use client';
 
 import SelectBox from '@/shared/components/select-box/SelectBox';
-import { Dispatch, SetStateAction, useEffect, useMemo } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
 interface Props {
@@ -93,13 +93,13 @@ function Accordion({ setAlcoholBaseTypes, setCocktailTypes, setAlcoholStrengths 
   };
 
   // URL 파라미터에서 현재 선택된 값 가져오기 아코디언 UI에 적용
-  const currentValues = useMemo(() => {
+  const currentValues = () => {
     return {
       abv: getDisplayValue('abv', searchParams.get('abv')),
       base: getDisplayValue('base', searchParams.get('base')),
       glass: getDisplayValue('glass', searchParams.get('glass')),
     };
-  }, [searchParams]);
+  };
 
   const handleSelect = (id: string, value: string) => {
     const optionGroup = SELECT_OPTIONS.find((opt) => opt.id === id);
@@ -140,7 +140,7 @@ function Accordion({ setAlcoholBaseTypes, setCocktailTypes, setAlcoholStrengths 
   return (
     <ul className="flex w-full gap-3">
       {SELECT_OPTIONS.map(({ id, option, title }) => {
-        const currentValue = currentValues[id as keyof typeof currentValues];
+        const currentValue = currentValues()[id as keyof typeof currentValues];
 
         return (
           <li key={id}>
@@ -149,7 +149,7 @@ function Accordion({ setAlcoholBaseTypes, setCocktailTypes, setAlcoholStrengths 
               title={title}
               id={id}
               groupKey="filter"
-              value={currentValue} // 현재 선택된 값 전달
+              value={currentValue}
               onChange={(value) => handleSelect(id, value)}
             />
           </li>

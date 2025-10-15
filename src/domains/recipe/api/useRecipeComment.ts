@@ -1,102 +1,117 @@
-import { useState, useEffect, useCallback } from 'react';
 import { getApi } from '@/app/api/config/appConfig';
-import { User } from '@/domains/shared/store/auth';
 import { CommentType } from '@/domains/community/types/post';
-import { deleteRecipeComment, getRecipeComment, updateComment } from './fetchRecipeComment';
+import { useAuthStore } from '@/domains/shared/store/auth';
 import { useToast } from '@/shared/hook/useToast';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-export function useRecipeComments(cocktailId: number, user: User | null) {
-  const [comments, setComments] = useState<CommentType[] | null>(null);
-  const [isEnd, setIsEnd] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [deleteTarget, setDeleteTarget] = useState<{
-    commentId: number;
-    cocktailId: number;
-  } | null>(null);
-  const { toastError } = useToast();
-
-  const fetchData = useCallback(async () => {
-    const data = await getRecipeComment(cocktailId);
-    if (!data) return;
-    setComments(data);
-    setIsEnd(false);
-  }, [cocktailId]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  const handleUpdateComment = async (commentId: number, content: string) => {
-    if (!user) {
-      toastError('로그인이 필요합니다');
-      return;
-    }
-    try {
-      await updateComment(cocktailId, commentId, content);
-      setComments((prev) =>
-        prev
-          ? prev.map((comment) =>
-              comment.commentId === commentId ? { ...comment, content } : comment
-            )
-          : prev
-      );
-    } catch (err) {
-      console.error(err);
-      toastError('댓글 수정 중 오류가 발생했습니다.');
-    }
+export const postRecipeComment = async (cocktailId: number, content: string) => {
+  const body = {
+    cocktailId,
+    content,
+    status: 'PUBLIC',
   };
 
-  const handleAskDeleteComment = (commentId: number) => {
-    setDeleteTarget({ commentId, cocktailId });
-  };
+  const res = await fetch(`${getApi}/cocktails/${cocktailId}/comments`, {
+    method: 'POST',
+    headers: { 'Content-type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify(body),
+  });
 
-  const handleConfirmDelete = async () => {
-    if (!user) {
-      toastError('로그인이 필요합니다');
-      return;
-    }
-    if (!deleteTarget) return;
+  const text = await res.text();
+  const data = JSON.parse(text);
+  return data;
+};
 
-    try {
-      await deleteRecipeComment(deleteTarget.cocktailId, deleteTarget.commentId);
-      setComments((prev) =>
-        prev ? prev.filter((c) => c.commentId !== deleteTarget.commentId) : prev
-      );
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setDeleteTarget(null);
-    }
-  };
+export const getRecipeComment = async (cocktailId: number) => {
+  const res = await fetch(`${getApi}/cocktails/${cocktailId}/comments`, {
+    method: 'GET',
+    cache: 'no-store',
+    credentials: 'include',
+  });
+  const data = await res.json();
+  if (res.status === 401) return [];
+  if (!res.ok) throw new Error('댓글 조회 실패');
+  const filteredComments = data.data.filter((comment: CommentType) => comment.status !== 'DELETED');
 
-  const loadMoreComments = async (lastCommentId: number) => {
-    if (isEnd || isLoading) return;
+  return filteredComments;
+};
 
-    setIsLoading(true);
-    try {
-      const res = await fetch(`${getApi}/cocktails/${cocktailId}/comments?lastId=${lastCommentId}`);
-      const newComments = await res.json();
+export const updateRecipeComment = async (postId: number, commentId: number, content: string) => {
+  const res = await fetch(`${getApi}/cocktails/${postId}/comments/${commentId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify({ content }),
+  });
 
-      if (newComments.data.length === 0) {
-        setIsEnd(true);
-      } else {
-        setComments((prev) => [...(prev ?? []), ...newComments.data]);
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  if (!res.ok) throw new Error('댓글 수정 실패');
+};
 
-  return {
-    comments,
-    isEnd,
+export const deleteRecipeComment = async (cocktailId: number, commentId: number) => {
+  const res = await fetch(`${getApi}/cocktails/${cocktailId}/comments/${commentId}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  });
+  if (!res.ok) throw new Error('댓글 삭제 실패');
+};
+
+export function useRecipeComment({ cocktailId }: { cocktailId: number }) {
+  const queryClient = useQueryClient();
+  const user = useAuthStore((state) => state.user);
+  const { toastInfo, toastError } = useToast();
+
+  const {
+    data: comments = [],
+    refetch,
     isLoading,
-    deleteTarget,
-    setDeleteTarget,
-    fetchData,
-    handleUpdateComment,
-    handleAskDeleteComment,
-    handleConfirmDelete,
-    loadMoreComments,
-  };
+  } = useQuery({
+    queryKey: ['comments', cocktailId],
+    queryFn: () => getRecipeComment(cocktailId),
+    staleTime: 30_000,
+  });
+
+  const createMut = useMutation({
+    mutationFn: (content: string) => {
+      if (!user?.id) {
+        toastInfo('로그인 후 이용 가능합니다.');
+        return Promise.reject(new Error('unauth'));
+      }
+      return postRecipeComment(cocktailId, content);
+    },
+    onSuccess: () => refetch(),
+    onError: (e) => {
+      if (e.message !== 'unauth') {
+        toastInfo('댓글은 한개만 작성 가능합니다');
+      }
+    },
+  });
+
+  const updateMut = useMutation({
+    mutationFn: ({ commentId, content }: { commentId: number; content: string }) =>
+      updateRecipeComment(cocktailId, commentId, content),
+    onSuccess: (_, vars) => {
+      queryClient.setQueryData<CommentType[]>(
+        ['comments', cocktailId],
+        (prev) =>
+          prev?.map((c) =>
+            c.commentId === vars.commentId ? { ...c, content: vars.content } : c
+          ) ?? prev
+      );
+    },
+    onError: () => toastError('수정 중 에러가 발생했습니다.'),
+  });
+
+  const deleteMut = useMutation({
+    mutationFn: (commentId: number) => deleteRecipeComment(cocktailId, commentId),
+    onSuccess: (_res, commentId) => {
+      queryClient.setQueryData<CommentType[]>(
+        ['comments', cocktailId],
+        (prev) => prev?.filter((c) => c.commentId !== commentId) ?? prev
+      );
+    },
+  });
+  return { createMut, updateMut, deleteMut, comments, refetch, user, isLoading };
 }

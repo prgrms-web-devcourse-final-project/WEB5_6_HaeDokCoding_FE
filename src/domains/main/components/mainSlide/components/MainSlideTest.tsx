@@ -15,10 +15,10 @@ const DUMMY_TEST = [
 
 function MainSlideTest() {
   return (
-    <section className="slide-content invisible w-3/4 p-12 h-full bg-[#645a72] rounded-tl-[30px] rounded-bl-[30px] flex flex-col justify-center ">
-      <div className="flex flex-col gap-15">
+    <section className="slide-content invisible w-[80%] p-12 h-full bg-[#645a72] rounded-tl-[30px] rounded-bl-[30px] flex flex-col">
+      <div className="flex flex-col gap-15 h-full">
         <span className="text-[32px] font-black text-secondary">1</span>
-        <div className="flex flex-col gap-15">
+        <div className="flex flex-col justify-between h-full">
           <header className="flex flex-col gap-5">
             <h2 className=" text-5xl font-black text-secondary text-shadow  text-shadow-[0_4px_6px_rgb(255_255_255_/0.25)]">
               AI기반 취향테스트

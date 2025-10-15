@@ -1,35 +1,25 @@
 'use client';
-import { useRef } from 'react';
+
 import Link from 'next/link';
-import { useIntersectionObserver } from '@/domains/shared/hook/useIntersectionObserver';
 import { Cocktail } from '../../types/types';
 import CocktailCard from '@/domains/shared/components/cocktail-card/CocktailCard';
-import { useScrollRestore } from '@/domains/shared/hook/useMemoScroll';
+import { useSaveScroll } from '../../hook/useSaveScroll';
 
 interface Props {
   cocktails: Cocktail[];
-  RecipeFetch?: (cursor?: string | undefined) => Promise<void>;
-  hasNextPage: boolean;
-  lastId: number | null;
 }
 
-function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId }: Props) {
-  const cocktailRef = useRef(null);
-  const onIntersect: IntersectionObserverCallback = ([entry]) => {
-    if (!RecipeFetch) return;
-    if (!lastId) return;
-    if (entry.isIntersecting && lastId > 1) {
-      RecipeFetch();
-    }
+function CocktailList({ cocktails }: Props) {
+  const { saveAndNavigate } = useSaveScroll({
+    storageKey: 'cocktail_list_scroll',
+  });
+
+  const handleClick = (cocktailId: number) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+
+    saveAndNavigate(`/recipe/${cocktailId}`);
   };
 
-  useIntersectionObserver(cocktailRef, onIntersect, hasNextPage);
-  const saveScroll = useScrollRestore({
-    lastId,
-    fetchData: RecipeFetch!,
-    hasNextPage,
-    currentDataLength: cocktails.length,
-  });
   return (
     <ul
       className="
@@ -41,18 +31,14 @@ function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId }: Props) {
   "
     >
       {cocktails.map(
-        ({
-          cocktailImgUrl,
-          cocktailId,
-          cocktailName,
-          cocktailNameKo,
-          alcoholStrength,
-          isFavorited,
-        }) => (
-          <li key={cocktailId} onClick={saveScroll} className="w-full">
-            <Link href={`/recipe/${cocktailId}`}>
+        (
+          { cocktailImgUrl, cocktailId, cocktailName, cocktailNameKo, alcoholStrength, isKeep },
+          i
+        ) => (
+          <li key={`${cocktailId} - ${i}`} className="w-full">
+            <Link href={`/recipe/${cocktailId}`} onClick={handleClick(cocktailId)}>
               <CocktailCard
-                favor={isFavorited}
+                favor={isKeep}
                 id={cocktailId}
                 src={cocktailImgUrl}
                 name={cocktailName}
@@ -63,7 +49,6 @@ function CocktailList({ cocktails, RecipeFetch, hasNextPage, lastId }: Props) {
           </li>
         )
       )}
-      <div ref={cocktailRef} className="h-2"></div>
     </ul>
   );
 }
