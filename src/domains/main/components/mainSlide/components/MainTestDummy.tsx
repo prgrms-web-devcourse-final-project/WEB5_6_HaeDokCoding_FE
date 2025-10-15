@@ -48,7 +48,7 @@ function MainTestDummy({ message, option, type }: Props) {
         <p className="tesx-xs">쑤리</p>
       </header>
       {message && (
-        <section className="flex flex-col w-[215px] p-3 rounded-2xl rounded-tl-none bg-white text-black gap-2">
+        <section className="flex flex-col w-[215px] h-43.5 p-3 rounded-2xl rounded-tl-none bg-white text-black gap-2">
           <p className="text-xs">{message}</p>
 
           <div className="flex flex-col gap-2">
@@ -69,7 +69,7 @@ function MainTestDummy({ message, option, type }: Props) {
         </section>
       )}
       {type == 'text' && (
-        <div className="flex flex-col sm:flex-row gap-2">
+        <div className="flex flex-row gap-2 md:overflow-x-none overflow-x-auto no-scrollbar">
           {DUMMY_CARD.map(({ id, src, cocktailName }) => (
             <MainSlideDummyCard key={id} id={id} src={src} cocktailName={cocktailName} />
           ))}

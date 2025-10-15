@@ -3,17 +3,15 @@
 import { Environment, OrbitControls, useGLTF } from '@react-three/drei';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
-function Model({ onLoaded }: { onLoaded: () => void }) {
-  const { scene } = useGLTF('/3d/model/scene.gltf');
-  const [scale, setScale] = useState(13);
+interface Props {
+  onLoaded: () => void;
+}
 
-  useEffect(() => {
-    const isMobile = window.innerWidth < 768; // 모바일 기준 너비
-    setScale(isMobile ? 3.8 : 11.5); // 모바일이면 작게
-  }, []);
+function Model({ onLoaded }: Props) {
+  const { scene } = useGLTF('/3d/model/scene.gltf');
 
   useEffect(() => {
     if (scene) {
@@ -41,7 +39,7 @@ function Model({ onLoaded }: { onLoaded: () => void }) {
     }
   });
 
-  return <primitive object={scene} scale={scale} />;
+  return <primitive object={scene} scale={18} position={[0, -1.2, 0]} />;
 }
 
 function CameraAnimation() {
@@ -61,16 +59,20 @@ function CameraAnimation() {
   return null;
 }
 
-function HomeModel({ onLoaded }: { onLoaded: () => void }) {
+function HomeModel({ onLoaded }: Props) {
   return (
-    <Canvas className="z-10 w-full" camera={{ position: [5, 20, 10], fov: 30 }} dpr={[1, 1.5]}>
-      <ambientLight intensity={0.5} />
+    <Canvas
+      className="z-10 w-full pointer-none"
+      camera={{ position: [10, 40, 9], fov: 26 }}
+      dpr={[1, 1.5]}
+    >
+      <ambientLight intensity={1} />
       <pointLight position={[10, 30, 40]} intensity={1} />
       <spotLight position={[0, 10, 10]} angle={0.2} penumbra={1} intensity={15} castShadow />
-      <directionalLight intensity={6} color={0xffffff} position={[10, 40, 100]} />
+      <directionalLight intensity={8} color={0xffffff} position={[10, 40, 100]} />
       <Environment files={`/hdri/footprint_court.hdr`} background={false} />
       <Model onLoaded={onLoaded} />
-      <CameraAnimation />
+      {/* <CameraAnimation /> */}
       <OrbitControls
         enablePan={false}
         enableZoom={false}
