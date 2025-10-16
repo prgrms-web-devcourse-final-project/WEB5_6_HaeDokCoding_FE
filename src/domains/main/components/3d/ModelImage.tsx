@@ -11,15 +11,14 @@ function ModelImage({ onLoaded }: Props) {
     onLoaded();
   });
   return (
-    <div className="w-full flex justify-center items-center absolute bottom-13 left-1/2 -translate-x-1/2">
-      <div className="rounded-tr-4xl rounded-tl-4xl overflow-hidden">
+    <div className="w-full flex justify-center items-center absolute bottom-0 left-1/2 -translate-x-1/2">
+      <div className="relative w-[85%] h-[60vh] rounded-tr-4xl rounded-tl-4xl overflow-hidden">
         <Image
           src={MobileCocktailDrop}
           alt="모바일 칵테일 드랍"
-          width={260}
-          height={290}
+          fill
           priority
-          className="object-cover w-[300px] h-[350px]"
+          className="object-cover"
         />
       </div>
     </div>

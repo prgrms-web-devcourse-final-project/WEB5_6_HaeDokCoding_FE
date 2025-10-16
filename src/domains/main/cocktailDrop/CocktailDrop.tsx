@@ -64,6 +64,7 @@ function CocktailDrop({ isDesktop = false }: CocktailDropProps) {
         if (width >= 1400) return 10;
         if (width >= 1024) return 295;
         if (width >= 800) return 50;
+        if (width === 768) return -30;
         return -235;
       };
 

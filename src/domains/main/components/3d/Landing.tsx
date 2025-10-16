@@ -19,7 +19,7 @@ function Landing({ setIsLoading, isDesktop }: Props) {
   return (
     <>
       <div className="page-layout max-w-full">
-        <div className="relative w-full h-screen">
+        <div className="relative w-full h-screen flex flex-col md:items-center">
           {isDesktop ? (
             <HomeModel onLoaded={() => setModelLoaded(true)} />
           ) : (
