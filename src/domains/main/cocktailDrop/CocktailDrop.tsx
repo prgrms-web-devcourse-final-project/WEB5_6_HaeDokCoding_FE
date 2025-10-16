@@ -55,7 +55,7 @@ function CocktailDrop({ isDesktop = false }: CocktailDropProps) {
         ? `-${viewportHeight * 0.3}px`
         : isTablet
           ? `-${viewportHeight * -0.8}px`
-          : '0px';
+          : '210px';
 
       gsap.fromTo(
         logoRef.current,
@@ -88,16 +88,16 @@ function CocktailDrop({ isDesktop = false }: CocktailDropProps) {
       {/* 대각선 줄 1 */}
       <div
         ref={line1Ref}
-        className="absolute md:top-[100px] top-[75px] left-[-50%] w-[200%] md:h-[80px] h-[50px] bg-secondary/80 rotate-[8deg] z-10"
+        className="absolute lg:top-[150px] md:top-[100px] top-[75px] left-[-50%] w-[200%] md:h-[80px] h-[50px] bg-secondary/80 rotate-[8deg] z-10"
       />
       {/* 대각선 줄 2 */}
       <div
         ref={line2Ref}
-        className="absolute md:top-[200px] top-[150px] left-[-50%] w-[200%] md:h-[80px] h-[50px] bg-secondary rotate-[8deg] z-10"
+        className="absolute lg:top-[250px] md:top-[200px] top-[150px] left-[-50%] w-[200%] md:h-[80px] h-[50px] bg-secondary rotate-[8deg] z-10"
       />
 
       {/* 로고 */}
-      <div ref={logoRef} className="absolute z-4 md:w-115 w-65 md:h-90 h-40">
+      <div ref={logoRef} className="absolute z-4 lg:w-125 md:w-115 w-65 lg:h-110 md:h-90 h-40">
         <Image
           src="/logo.svg"
           alt="로고 이미지"
