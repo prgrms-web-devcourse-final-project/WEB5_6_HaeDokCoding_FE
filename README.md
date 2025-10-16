@@ -31,7 +31,7 @@ npm run lint
 - `NEXT_PUBLIC_API_URL_DEV`: 개발 환경 API URL
 - `NEXT_PUBLIC_API_URL_PROD`: 운영 환경 API URL
 
-## �� 프로젝트 구조
+## 프로젝트 구조
 
 ```
 src/

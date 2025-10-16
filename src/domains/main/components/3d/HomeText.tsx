@@ -7,7 +7,7 @@ function HomeText({ isDesktop }: { isDesktop: boolean }) {
           SSoul이 쉽게 골라드릴게요.
         </p>
       ) : (
-        <p className="absolute bottom-45 right-32 font-serif text-xl text-right font-normal z-20">
+        <p className="absolute bottom-45 right-32 font-serif text-2xl text-right font-normal z-20">
           어떤 칵테일이 끌리시나요? <br /> SSoul이 쉽게 골라드릴게요.
         </p>
       )}

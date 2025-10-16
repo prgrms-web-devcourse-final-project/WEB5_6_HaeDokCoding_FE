@@ -87,12 +87,12 @@ function CocktailDrop({ isDesktop = false }: CocktailDropProps) {
       {/* 대각선 줄 1 */}
       <div
         ref={line1Ref}
-        className="absolute md:top-[100px] top-[75px] left-[-50%] w-[200%] md:h-[80px] h-[50px] bg-secondary/80 rotate-[8deg] z-10"
+        className="absolute lg:top-[150px] md:top-[100px] top-[75px] left-[-50%] w-[200%] md:h-[80px] h-[50px] bg-secondary/80 rotate-[8deg] z-10"
       />
       {/* 대각선 줄 2 */}
       <div
         ref={line2Ref}
-        className="absolute md:top-[200px] top-[150px] left-[-50%] w-[200%] md:h-[80px] h-[50px] bg-secondary rotate-[8deg] z-10"
+        className="absolute lg:top-[250px] md:top-[200px] top-[150px] left-[-50%] w-[200%] md:h-[80px] h-[50px] bg-secondary rotate-[8deg] z-10"
       />
 
       {/* 로고 */}
