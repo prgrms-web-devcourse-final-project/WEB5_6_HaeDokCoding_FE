@@ -106,6 +106,10 @@ function PostCard({ posts, isLoading, isEnd, onLoadMore }: Props) {
                         width={105}
                         height={105}
                         className="w-full h-full object-cover self-center rounded-md"
+                        onError={(e) => {
+                          // 402 에러 등으로 이미지 로딩 실패 시 fallback 이미지 사용
+                          e.currentTarget.src = '/CocktailDrop.webp';
+                        }}
                       />
                     )}
                   </figure>

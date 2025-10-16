@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Cocktailcup from '../../../../public/CocktailDrop.webp';
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 import PassBtn from './PassBtn';
@@ -15,6 +15,7 @@ interface CocktailDropProps {
 
 function CocktailDrop({ isDesktop = false }: CocktailDropProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const cupRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const line1Ref = useRef<HTMLDivElement>(null);
   const line2Ref = useRef<HTMLDivElement>(null);
@@ -43,25 +44,37 @@ function CocktailDrop({ isDesktop = false }: CocktailDropProps) {
         }
       );
 
-      // 로고 위에서 아래로 자연스럽게 등장
-      const screenWidth = window.innerWidth;
+      const cupElement = cupRef.current;
+      const logoElement = logoRef.current;
 
-      const viewportHeight = window.innerHeight;
-      const isTablet = screenWidth >= 640 && screenWidth < 1024;
-      const isMobile = screenWidth < 640;
+      if (!cupElement || !logoElement) return;
 
-      // 뷰포트 높이 기반으로 로고 위치 계산
-      const logoFinalY = isMobile
-        ? `-${viewportHeight * 0.3}px`
-        : isTablet
-          ? `-${viewportHeight * -0.8}px`
-          : '210px';
+      const cupRect = cupElement.getBoundingClientRect();
+      const logoRect = logoElement.getBoundingClientRect();
 
+      // container 기준 상대 위치 계산
+      const containerTop = containerRef.current?.getBoundingClientRect().top || 0;
+      const cupTopRelative = cupRect.top - containerTop + 10;
+      console.log('containerTop', containerTop);
+      console.log('cupTopRelative', cupTopRelative);
+      console.log('logoRect.height', logoRect.height);
+
+      const getFinalY = (width: number): number => {
+        if (width >= 1800) return 200;
+        if (width >= 1400) return 10;
+        if (width >= 1024) return 295;
+        if (width >= 800) return 50;
+        return -235;
+      };
+
+      // 내부에서 사용
+      const finalY = getFinalY(window.innerWidth);
+      console.log('finalY', finalY);
       gsap.fromTo(
         logoRef.current,
         { y: -300, opacity: 0 },
         {
-          y: logoFinalY, // 뷰포트 높이 기반 계산
+          y: finalY, // 뷰포트 높이 기반 계산
           opacity: 1,
           duration: 3,
           ease: 'power3.out',
@@ -82,22 +95,22 @@ function CocktailDrop({ isDesktop = false }: CocktailDropProps) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full lg:min-h-[120vh] md:min-h-[95vh] min-h-[87vh] flex flex-col lg:justify-center md:justify-center justify-end items-center mt-10 overflow-hidden"
+      className="relative w-full xl:min-h-[140vh] lg:min-h-[120vh] md:min-h-[95vh] min-h-[87vh] flex flex-col lg:justify-center md:justify-center justify-end items-center mt-10 overflow-hidden"
       id="scroll-fixed"
     >
       {/* 대각선 줄 1 */}
       <div
         ref={line1Ref}
-        className="absolute lg:top-[150px] md:top-[100px] top-[75px] left-[-50%] w-[200%] md:h-[80px] h-[50px] bg-secondary/80 rotate-[8deg] z-10"
+        className="absolute md:top-[100px] top-[75px] left-[-50%] w-[200%] md:h-[80px] h-[50px] bg-secondary/80 rotate-[8deg] z-10"
       />
       {/* 대각선 줄 2 */}
       <div
         ref={line2Ref}
-        className="absolute lg:top-[250px] md:top-[200px] top-[150px] left-[-50%] w-[200%] md:h-[80px] h-[50px] bg-secondary rotate-[8deg] z-10"
+        className="absolute md:top-[200px] top-[150px] left-[-50%] w-[200%] md:h-[80px] h-[50px] bg-secondary rotate-[8deg] z-10"
       />
 
       {/* 로고 */}
-      <div ref={logoRef} className="absolute z-4 lg:w-125 md:w-115 w-65 lg:h-110 md:h-90 h-40">
+      <div ref={logoRef} className="absolute z-4 lg:w-125 md:w-115 w-65 lg:h-60 md:h-50 h-20">
         <Image
           src="/logo.svg"
           alt="로고 이미지"
@@ -109,7 +122,7 @@ function CocktailDrop({ isDesktop = false }: CocktailDropProps) {
       </div>
 
       {/* 컵 이미지 - 모바일에서 바닥에 붙도록 */}
-      <div className="z-5 absolute bottom-0">
+      <div className="z-5 absolute bottom-0" ref={cupRef}>
         <Image
           src={Cocktailcup}
           alt="칵테일 컵"

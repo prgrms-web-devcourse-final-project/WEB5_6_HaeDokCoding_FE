@@ -60,6 +60,10 @@ function DetailItem({ name, nameKo, story, src, abv, glassType }: Props) {
           className="object-cover"
           sizes="300px"
           priority
+          onError={(e) => {
+            // 402 에러 등으로 이미지 로딩 실패 시 fallback 이미지 사용
+            e.currentTarget.src = '/CocktailDrop.webp';
+          }}
         />
       </div>
 

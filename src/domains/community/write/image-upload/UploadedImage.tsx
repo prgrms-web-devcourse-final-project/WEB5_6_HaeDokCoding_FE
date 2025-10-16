@@ -68,6 +68,10 @@ function UploadedImage({ uploadedFile, setUploadedFile }: Props) {
                 width={100}
                 height={100}
                 unoptimized={true} // next/image가 외부 url 처리 못 하면 이 옵션도 추가 가능
+                onError={(e) => {
+                  // 402 에러 등으로 이미지 로딩 실패 시 fallback 이미지 사용
+                  e.currentTarget.src = '/CocktailDrop.webp';
+                }}
               />
               <figcaption className="sr-only">업로드된 이미지입니다</figcaption>
               <button
