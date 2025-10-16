@@ -67,7 +67,6 @@ function CommentList({
         aria-label="댓글 목록"
         className="flex flex-col mt-6 overflow-y-auto no-scrollbar"
         ref={parentRef}
-        style={{ minHeight: '300px', maxHeight: '600px' }}
       >
         <ul>
           {comments?.map((comment, index) => {

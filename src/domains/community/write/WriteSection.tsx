@@ -126,7 +126,7 @@ function WriteSection({ mode, postId }: Props) {
       return;
     }
 
-    const categoryId = tabItem.findIndex((tab) => tab.label === formData.categoryName);
+    const categoryId = tabItem.findIndex((tab) => tab.label === formData.categoryName) + 1;
 
     if (categoryId === -1) {
       toastError('카테고리를 선택해주세요.');
@@ -216,7 +216,7 @@ function WriteSection({ mode, postId }: Props) {
       return false;
     }
 
-    const categoryId = tabItem.findIndex((tab) => tab.label === formData.categoryName);
+    const categoryId = tabItem.findIndex((tab) => tab.label === formData.categoryName) + 1;
     if (categoryId === -1) {
       toastError('카테고리를 선택해주세요.');
       return false;
