@@ -25,10 +25,15 @@ function MobileSlideTest() {
           <h2 className="text-xl sm:text-2xl font-black text-white">AI기반 취향테스트</h2>
           <button
             type="button"
-            className={clsx(`block duration-300 sm:hidden`, isClick ? 'rotate-135' : 'rotate-0')}
-            onClick={() => setIsClick(!isClick)}
+            className={clsx(
+              `block duration-300  z-1 sm:hidden`,
+              isClick ? 'rotate-[135deg]' : 'rotate-0'
+            )}
+            onClick={() => {
+              setIsClick(!isClick);
+            }}
           >
-            <Add />
+            <Add className="pointer-events-none" />
           </button>
         </header>
         <div

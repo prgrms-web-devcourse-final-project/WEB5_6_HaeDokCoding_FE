@@ -1,5 +1,5 @@
 import { useAuthStore } from '@/domains/shared/store/auth';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { getCookie, removeCookie } from '@/domains/shared/auth/utils/cookie';
 import { useToast } from '@/shared/hook/useToast';
@@ -12,6 +12,7 @@ export const useLoginRedirect = () => {
 
   const [loading, setLoading] = useState(true);
   const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
+  const hasShownToast = useRef(false);
 
   useEffect(() => {
     if (!user && loading) {
@@ -39,7 +40,8 @@ export const useLoginRedirect = () => {
 
     if (pathname.startsWith('/login/user/first-user')) {
       setWelcomeModalOpen(true);
-    } else if (pathname.startsWith('/login/user/success')) {
+    } else if (pathname.startsWith('/login/user/success') && !hasShownToast.current) {
+      hasShownToast.current = true;
       toastSuccess(`${user.nickname}님 \n 로그인 성공 🎉`);
       router.replace(preLoginPath);
       setTimeout(() => removeCookie('preLoginPath'), 500);

@@ -16,7 +16,10 @@ function MobileSlideCommunity() {
             <h2 className="text-xl sm:text-2xl font-black text-white">함께 나누는 칵테일 이야기</h2>
             <button
               type="button"
-              className={clsx(`block duration-300 sm:hidden`, isClick ? 'rotate-135' : 'rotate-0')}
+              className={clsx(
+                `block duration-300 z-1 sm:hidden`,
+                isClick ? 'rotate-[135deg]' : 'rotate-0'
+              )}
               onClick={() => setIsClick(!isClick)}
             >
               <Add />
