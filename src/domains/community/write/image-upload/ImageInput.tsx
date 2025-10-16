@@ -75,7 +75,6 @@ function ImageInput({ uploadedFile, onAddImage }: Props) {
         className="sr-only"
         accept="image/*,image/jpeg,image/jpg,image/png,image/webp"
         multiple
-        capture="environment"
         onChange={handleInputChange}
       />
     </>
