@@ -44,21 +44,6 @@ function CocktailDrop({ isDesktop = false }: CocktailDropProps) {
         }
       );
 
-      const cupElement = cupRef.current;
-      const logoElement = logoRef.current;
-
-      if (!cupElement || !logoElement) return;
-
-      const cupRect = cupElement.getBoundingClientRect();
-      const logoRect = logoElement.getBoundingClientRect();
-
-      // container 기준 상대 위치 계산
-      const containerTop = containerRef.current?.getBoundingClientRect().top || 0;
-      const cupTopRelative = cupRect.top - containerTop + 10;
-      console.log('containerTop', containerTop);
-      console.log('cupTopRelative', cupTopRelative);
-      console.log('logoRect.height', logoRect.height);
-
       const getFinalY = (width: number): number => {
         if (width >= 1800) return 200;
         if (width >= 1400) return 10;
