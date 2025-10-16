@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Cocktailcup from '../../../../public/CocktailDrop.webp';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 import PassBtn from './PassBtn';
@@ -43,21 +43,6 @@ function CocktailDrop({ isDesktop = false }: CocktailDropProps) {
           },
         }
       );
-
-      const cupElement = cupRef.current;
-      const logoElement = logoRef.current;
-
-      if (!cupElement || !logoElement) return;
-
-      const cupRect = cupElement.getBoundingClientRect();
-      const logoRect = logoElement.getBoundingClientRect();
-
-      // container 기준 상대 위치 계산
-      const containerTop = containerRef.current?.getBoundingClientRect().top || 0;
-      const cupTopRelative = cupRect.top - containerTop + 10;
-      console.log('containerTop', containerTop);
-      console.log('cupTopRelative', cupTopRelative);
-      console.log('logoRect.height', logoRect.height);
 
       const getFinalY = (width: number): number => {
         if (width >= 1800) return 200;
