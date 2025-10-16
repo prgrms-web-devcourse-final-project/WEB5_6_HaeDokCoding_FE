@@ -5,6 +5,7 @@ import DeleteIcon from '@/shared/assets/icons/close_20.svg';
 import React, { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { UploadedItem } from '@/domains/recipe/types/types';
+import { useToast } from '@/shared/hook/useToast';
 
 type Props = {
   uploadedFile: UploadedItem[];
@@ -14,6 +15,7 @@ type Props = {
 function UploadedImage({ uploadedFile, setUploadedFile }: Props) {
   const imageRefs = useRef<HTMLElement[]>([]);
   const prevLength = useRef(0);
+  const { toastError } = useToast();
 
   useEffect(() => {
     const isAdded = uploadedFile.length > prevLength.current;
@@ -71,6 +73,7 @@ function UploadedImage({ uploadedFile, setUploadedFile }: Props) {
                 onError={(e) => {
                   // 402 에러 등으로 이미지 로딩 실패 시 fallback 이미지 사용
                   e.currentTarget.src = '/CocktailDrop.webp';
+                  toastError('이미지가 너무 크거나 손상되어 기본 이미지로 대체됩니다.');
                 }}
               />
               <figcaption className="sr-only">업로드된 이미지입니다</figcaption>

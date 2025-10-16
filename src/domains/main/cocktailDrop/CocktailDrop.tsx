@@ -55,7 +55,7 @@ function CocktailDrop({ isDesktop = false }: CocktailDropProps) {
 
       // 내부에서 사용
       const finalY = getFinalY(window.innerWidth);
-      console.log('finalY', finalY);
+
       gsap.fromTo(
         logoRef.current,
         { y: -300, opacity: 0 },
