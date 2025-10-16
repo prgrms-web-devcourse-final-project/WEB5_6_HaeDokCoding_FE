@@ -45,22 +45,17 @@ function CocktailDrop({ isDesktop = false }: CocktailDropProps) {
 
       // 로고 위에서 아래로 자연스럽게 등장
       const screenWidth = window.innerWidth;
+
       const viewportHeight = window.innerHeight;
-      const isMobile = screenWidth < 640;
       const isTablet = screenWidth >= 640 && screenWidth < 1024;
-      const isDesktop = screenWidth >= 1024 && screenWidth < 1440;
-      const isLargeDesktop = screenWidth >= 1440;
+      const isMobile = screenWidth < 640;
 
       // 뷰포트 높이 기반으로 로고 위치 계산
       const logoFinalY = isMobile
         ? `-${viewportHeight * 0.3}px`
         : isTablet
-          ? `${viewportHeight * 0.1}px`
-          : isDesktop
-            ? -`${viewportHeight * 0.03}px`
-            : isLargeDesktop
-              ? `${viewportHeight * 0.9}px`
-              : '0px';
+          ? `-${viewportHeight * -0.8}px`
+          : '0px';
 
       gsap.fromTo(
         logoRef.current,
