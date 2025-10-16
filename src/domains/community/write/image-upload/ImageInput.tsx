@@ -16,7 +16,18 @@ function ImageInput({ uploadedFile, onAddImage }: Props) {
 
     const newFiles = Array.from(newFileList);
 
+    // 파일을 선택하지 않고 취소한 경우 조용히 리턴
+    if (newFiles.length === 0) return;
+
     try {
+      // 파일 크기 검증 (모바일 최적화)
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      const oversizedFiles = newFiles.filter((file) => file.size > maxSize);
+      if (oversizedFiles.length > 0) {
+        toastError('파일 크기는 5MB 이하로 업로드해주세요.');
+        return;
+      }
+
       const totalLength = uploadedFile.length + newFiles.length;
       if (totalLength > 10) {
         toastError('최대 10개 파일까지 업로드할 수 있어요.');
@@ -49,7 +60,7 @@ function ImageInput({ uploadedFile, onAddImage }: Props) {
     <>
       <label
         htmlFor="fileInput"
-        className="border-3 border-dashed shrink-0 border-gray-light w-[100px] h-[100px] sm:w-[80px] sm:h-[80px] rounded-xl cursor-pointer bg-gray-dark flex flex-col gap-3 items-center justify-center hover:bg-gray-dark/70"
+        className="border-3 border-dashed shrink-0 border-gray-light w-[100px] h-[100px] sm:w-[80px] sm:h-[80px] rounded-xl cursor-pointer bg-gray-dark flex flex-col gap-3 items-center justify-center hover:bg-gray-dark/70 active:bg-gray-dark/50 touch-manipulation"
       >
         <ImageBox />
         <div className="flex items-center md:text-md text-sm">
@@ -61,9 +72,10 @@ function ImageInput({ uploadedFile, onAddImage }: Props) {
       <input
         type="file"
         id="fileInput"
-        hidden
-        accept="image/*"
+        className="sr-only"
+        accept="image/*,image/jpeg,image/jpg,image/png,image/webp"
         multiple
+        capture="environment"
         onChange={handleInputChange}
       />
     </>

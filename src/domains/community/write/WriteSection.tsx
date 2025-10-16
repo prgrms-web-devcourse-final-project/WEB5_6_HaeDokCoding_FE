@@ -153,6 +153,7 @@ function WriteSection({ mode, postId }: Props) {
     payload.append('post', postBlob);
 
     try {
+      setIsLoading(true);
       const res = await fetch(`${getApi}/posts`, {
         method: 'POST',
         credentials: 'include',
@@ -161,10 +162,17 @@ function WriteSection({ mode, postId }: Props) {
 
       if (res.ok) {
         router.push('/community');
+      } else {
+        // 서버 에러 응답 처리
+        const errorData = await res.json().catch(() => ({}));
+        const errorMessage = errorData.message || `서버 오류가 발생했습니다. (${res.status})`;
+        toastError(errorMessage);
       }
     } catch (err) {
       console.error('글작성 폼 작성 에러', err);
-      return;
+      toastError('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -275,14 +283,14 @@ function WriteSection({ mode, postId }: Props) {
     e.preventDefault();
   };
 
-  if (isEditLoading) <Spinner />;
+  if (isEditLoading) return <Spinner />;
 
-  if (isLoading) <DetailSkeleton />;
+  if (isLoading) return <DetailSkeleton />;
 
   return (
     <>
       <form onSubmit={mode === 'create' ? handleSubmit : handleEditSubmit}>
-        <CompleteBtn mode={mode} setEditDone={setEditDone} />
+        <CompleteBtn mode={mode} setEditDone={setEditDone} isLoading={isLoading || isEditLoading} />
         <section>
           <FormTitle formData={formData} setFormData={setFormData} />
           <Category formData={formData} setFormData={setFormData} />
