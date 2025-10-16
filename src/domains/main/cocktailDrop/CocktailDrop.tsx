@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Cocktailcup from '../../../../public/CocktailDrop.webp';
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 import PassBtn from './PassBtn';
