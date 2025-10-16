@@ -50,8 +50,8 @@ export const fetchPostByTab = async ({
     const params = new URLSearchParams();
 
     if (category && category !== 'all') {
-      const categoryId = tabItem.findIndex((tab) => tab.key === category);
-      if (categoryId >= 0) {
+      const categoryId = tabItem.findIndex((tab) => tab.key === category) + 1;
+      if (categoryId > 0) {
         params.set('categoryId', categoryId.toString());
       }
     }
