@@ -62,8 +62,12 @@ function DetailPage() {
         setLike(false);
       }
     };
-    fetchLikeStatus();
-  }, [postId, isLoggedIn]);
+
+    // postId가 있을 때만 실행
+    if (postId) {
+      fetchLikeStatus();
+    }
+  }, [postId]); // isLoggedIn 의존성 제거하여 무한 루프 방지
 
   useEffect(() => {
     if (postDetail) {
