@@ -2,8 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { deleteComment, fetchComment, updateComment } from '../api/fetchComment';
 import { getApi } from '@/app/api/config/appConfig';
 import { CommentType } from '../types/post';
-import { User } from '@/domains/shared/store/auth';
 import { ParamValue } from 'next/dist/server/request/params';
+import { User } from '@/domains/shared/store/auth';
 
 export function useComments(postId: ParamValue, user: User | null) {
   const [comments, setComments] = useState<CommentType[] | null>(null);
@@ -19,11 +19,11 @@ export function useComments(postId: ParamValue, user: User | null) {
     if (!data) return;
     setComments(data);
     setIsEnd(false);
-  }, [postId]);
+  }, [postId, user]);
 
   useEffect(() => {
     fetchData();
-  }, [postId]);
+  }, [fetchData]);
 
   const handleUpdateComment = async (commentId: number, content: string) => {
     if (!user) {
@@ -78,7 +78,7 @@ export function useComments(postId: ParamValue, user: User | null) {
 
     setIsLoading(true);
     try {
-      const res = await fetch(`${getApi}/posts/${postId}/comments?lastId=${lastCommentId}`);
+      const res = await fetch(`${getApi}/posts/${postId}/comments?lastId=${lastCommentId}`, {});
       const newComments = await res.json();
 
       if (newComments.data.length === 0) {

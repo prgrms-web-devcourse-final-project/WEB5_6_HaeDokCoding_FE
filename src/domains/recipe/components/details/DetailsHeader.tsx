@@ -20,7 +20,6 @@ function DetailsHeader({ id, favor }: { id: number; favor: boolean | undefined }
   const url = async () => {
     const res = await fetch(`${getApi}/cocktails/${id}/share`);
     const json = await res.json();
-    console.log(json.data);
     setMeta(json.data);
   };
 
