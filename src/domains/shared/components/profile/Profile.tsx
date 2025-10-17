@@ -1,25 +1,20 @@
-import useFetchProfile from '@/domains/mypage/api/fetchProfile';
 import SsuryImage from '@/domains/mypage/main/SsuryImage';
-import { useEffect } from 'react';
+import { useAuthStore } from '@/domains/shared/store/auth';
 
 type Props = {
   userNickname: string;
 };
 
 function Profile({ userNickname }: Props) {
-  const { profile, fetchProfile } = useFetchProfile();
-  useEffect(() => {
-    fetchProfile();
-  }, [fetchProfile, profile?.data?.abvLevel]);
+  const user = useAuthStore((state) => state.user);
 
-  if (!profile?.data) return null;
-  const { abvLevel } = profile.data;
+  if (!user) return null;
 
   return (
     <div className="flex gap-2 items-center justify-start">
       <div className="w-8 h-8 flex items-center justify-center" aria-label="작성자 아이콘">
         <div className="w-8 flex items-center justify-center">
-          <SsuryImage abvLevel={abvLevel} />
+          <SsuryImage abvLevel={user.abv_degree || 5.0} />
         </div>
       </div>
       <span aria-label="작성자 이름" className="text-sm">

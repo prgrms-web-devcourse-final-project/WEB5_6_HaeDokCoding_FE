@@ -99,7 +99,6 @@ export async function likePost(postId: number | ParamValue) {
 export async function getLikePost(postId: number | ParamValue) {
   const res = await fetch(`${getApi}/posts/${postId}/like`, {
     method: 'GET',
-    credentials: 'include',
   });
   if (!res.ok) throw new Error('좋아요 실패');
   const data = await res.json();
