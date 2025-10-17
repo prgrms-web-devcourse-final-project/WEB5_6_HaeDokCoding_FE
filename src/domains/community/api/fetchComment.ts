@@ -7,6 +7,7 @@ export const fetchComment = async (postId: ParamValue | number): Promise<Comment
     const res = await fetch(`${getApi}/posts/${postId}/comments`, {
       method: 'GET',
       cache: 'no-store', // 캐시 비활성화
+      credentials: 'include',
     });
     const data = await res.json();
 

@@ -25,8 +25,6 @@ function CommunityFilter({ posts, setPosts }: Props) {
   const handleChange = async (selectTitle: string) => {
     if (!query) return;
 
-    console.log(selectTitle);
-
     const data = await fetchPostByTab({
       category: query,
       filter: sortMap[selectTitle as keyof typeof sortMap],

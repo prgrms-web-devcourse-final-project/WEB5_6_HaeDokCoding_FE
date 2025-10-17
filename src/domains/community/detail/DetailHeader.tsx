@@ -28,7 +28,6 @@ function DetailHeader({ categoryName, postId, userNickName }: Props) {
 
     try {
       const res = await fetch(`${getApi}/posts/${postId}`, { method: 'DELETE' });
-      if (res.ok) console.log('deleted');
       router.push('/community');
     } catch (err) {
       console.error(err);

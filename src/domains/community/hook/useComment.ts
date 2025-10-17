@@ -15,15 +15,21 @@ export function useComments(postId: ParamValue, user: User | null) {
   } | null>(null);
 
   const fetchData = useCallback(async () => {
+    // 로그인 상태일 때만 댓글 조회
+    if (!user) {
+      setComments([]);
+      return;
+    }
+
     const data = await fetchComment(postId);
     if (!data) return;
     setComments(data);
     setIsEnd(false);
-  }, [postId]);
+  }, [postId, user]);
 
   useEffect(() => {
     fetchData();
-  }, [postId]);
+  }, [fetchData]);
 
   const handleUpdateComment = async (commentId: number, content: string) => {
     if (!user) {
@@ -74,11 +80,13 @@ export function useComments(postId: ParamValue, user: User | null) {
   };
 
   const loadMoreComments = async (lastCommentId: number) => {
-    if (isEnd || isLoading) return;
+    if (isEnd || isLoading || !user) return;
 
     setIsLoading(true);
     try {
-      const res = await fetch(`${getApi}/posts/${postId}/comments?lastId=${lastCommentId}`);
+      const res = await fetch(`${getApi}/posts/${postId}/comments?lastId=${lastCommentId}`, {
+        credentials: 'include',
+      });
       const newComments = await res.json();
 
       if (newComments.data.length === 0) {

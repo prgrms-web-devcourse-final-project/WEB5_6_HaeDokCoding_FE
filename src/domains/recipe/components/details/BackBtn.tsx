@@ -9,10 +9,6 @@ function BackButton() {
   });
 
   const handleBack = () => {
-    console.log('뒤로가기 클릭');
-    console.log('저장된 스크롤:', sessionStorage.getItem('cocktail_list_scroll'));
-    console.log('저장된 URL:', sessionStorage.getItem('cocktail_list_scroll_url'));
-    console.log('복원 플래그:', sessionStorage.getItem('cocktail_list_scroll_restore'));
     restoreAndGoBack();
   };
 
