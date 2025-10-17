@@ -37,7 +37,11 @@ function ImageSlide({ imageUrls }: { imageUrls: string[] }) {
                 quality={90}
                 priority
                 onLoad={() => handleImageLoad(img)}
-                onError={() => handleImageLoad(img)}
+                onError={(e) => {
+                  // 402 에러 등으로 이미지 로딩 실패 시 fallback 이미지 사용
+                  e.currentTarget.src = '/CocktailDrop.webp';
+                  handleImageLoad(img);
+                }}
                 className={`object-contain w-full max-h-[400px] transition-opacity duration-300 ${
                   loadedImages.has(img) ? 'opacity-100' : 'opacity-0'
                 }`}
