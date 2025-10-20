@@ -48,15 +48,26 @@ function DetailPage() {
 
   useEffect(() => {
     const fetchLikeStatus = async () => {
+      // 로그인 상태일 때만 좋아요 상태 조회
+      if (!isLoggedIn) {
+        setLike(false);
+        return;
+      }
+
       try {
         const liked = await getLikePost(postId);
         setLike(liked);
       } catch (err) {
         console.error('좋아요 상태 불러오기 실패', err);
+        setLike(false);
       }
     };
-    fetchLikeStatus();
-  }, [postId]);
+
+    // postId가 있을 때만 실행
+    if (postId) {
+      fetchLikeStatus();
+    }
+  }, [postId]); // isLoggedIn 의존성 제거하여 무한 루프 방지
 
   useEffect(() => {
     if (postDetail) {

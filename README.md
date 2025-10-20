@@ -1,4 +1,5 @@
-# SSOUL 프로젝트 인수인계 문서
+# SSOUL
+Ai 칵테일 추천 & 커뮤니티 사이트
 
 ## 프로젝트 개요
 
@@ -64,7 +65,7 @@ src/
 
 ### 1. 인증 시스템
 - **소셜 로그인**: Google, Kakao, Naver 지원
-- **상태 관리**: Zustand + localStorage persist
+- **상태 관리**: Zustand + cookie 기반
 - **주요 파일**:
   - `src/domains/shared/store/auth.ts`: 인증 상태 관리
   - `src/domains/login/hook/useAuthHooks.ts`: 로그인 관련 훅
@@ -73,8 +74,17 @@ src/
 ### 2. 페이지별 기능
 
 #### 메인 페이지 (`/`)
-- 현재 기본 구조만 구현됨
-- 추후 확장 예정
+- **3D 애니메이션**: GSAP + Three.js 기반 칵테일 드롭 애니메이션
+- **스크롤 슬라이더**: 커뮤니티, 레시피, 추천 섹션을 스크롤로 탐색
+- **반응형 디자인**: 모바일데스크톱 최적화
+- **주요 컴포넌트**:
+  - `CocktailDrop`: 3D 칵테일 드롭 애니메이션
+  - `MainSlide`: 스크롤 기반 슬라이더
+  - `StarMain`: 별 배경 애니메이션
+  - `HomeLogo`: 로고 애니메이션
+- **기능**:
+  - 스크롤 스무딩 (ScrollSmoother)
+  - 반응형 로고 위치 조정
 
 #### 칵테일 레시피 (`/recipe`)
 - **주요 컴포넌트**: 
@@ -153,9 +163,8 @@ src/
 ## 주의사항
 
 1. **환경 변수**: 개발/운영 환경에 맞는 API URL 설정 필요
-2. **인증 토큰**: localStorage에 저장되므로 보안 고려 필요
-3. **API 통신**: `credentials: 'include'` 설정으로 쿠키 기반 인증
-4. **Git Hooks**: Husky 설정으로 커밋 전 자동 검사
+2. **API 통신**: `credentials: 'include'` 설정으로 쿠키 기반 인증
+3. **Git Hooks**: Husky 설정으로 커밋 전 자동 검사
 
 ## 추가 문의
 
