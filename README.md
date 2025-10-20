@@ -64,7 +64,7 @@ src/
 
 ### 1. 인증 시스템
 - **소셜 로그인**: Google, Kakao, Naver 지원
-- **상태 관리**: Zustand + localStorage persist
+- **상태 관리**: Zustand + cookie 기반
 - **주요 파일**:
   - `src/domains/shared/store/auth.ts`: 인증 상태 관리
   - `src/domains/login/hook/useAuthHooks.ts`: 로그인 관련 훅
@@ -153,9 +153,8 @@ src/
 ## 주의사항
 
 1. **환경 변수**: 개발/운영 환경에 맞는 API URL 설정 필요
-2. **인증 토큰**: localStorage에 저장되므로 보안 고려 필요
-3. **API 통신**: `credentials: 'include'` 설정으로 쿠키 기반 인증
-4. **Git Hooks**: Husky 설정으로 커밋 전 자동 검사
+2. **API 통신**: `credentials: 'include'` 설정으로 쿠키 기반 인증
+3. **Git Hooks**: Husky 설정으로 커밋 전 자동 검사
 
 ## 추가 문의
 
