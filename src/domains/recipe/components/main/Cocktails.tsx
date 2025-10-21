@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import CocktailFilter from './CocktailFilter';
 import CocktailList from './CocktailList';
 import Accordion from './Accordion';
@@ -10,8 +10,10 @@ import { useInView } from 'react-intersection-observer';
 import { debounce } from '@/shared/utills/debounce';
 import { useSearchParams } from 'next/navigation';
 import { Sort } from '../../types/types';
+import { useItemVirtualizer } from '@/domains/community/hook/useItemVirtualizer';
 
 function Cocktails() {
+  
   const searchParams = useSearchParams();
   const sortByParam = searchParams.get('sortBy') || 'recent';
   const [keyword, setKeyword] = useState('');
@@ -36,6 +38,9 @@ function Cocktails() {
   const { ref, inView } = useInView({
     threshold: 0.1,
   });
+
+  const parentRef = useRef<HTMLDivElement>(null)
+  const virtualizer = useItemVirtualizer(data,parentRef)
 
   useEffect(() => {
     if (!isSearchMode && inView && hasNextPage) {
@@ -66,7 +71,10 @@ function Cocktails() {
 
       <CocktailFilter cocktailsEA={data.length} />
 
-      <section className="mt-5">
+      <section className="mt-5" ref={parentRef} style={{
+        height:`${virtualizer.getTotalSize()}px`,
+        
+      }}>
         {noResults ? <div>검색 결과가 없습니다.</div> : <CocktailList cocktails={data} />}
       </section>
       <div ref={ref} className="h-4"></div>
