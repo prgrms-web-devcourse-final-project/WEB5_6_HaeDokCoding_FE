@@ -1,74 +1,32 @@
 'use client';
-import { Ref, useEffect, useMemo, useRef, useState } from 'react';
+import { Ref, useRef, useState } from 'react';
 import Down from '@/shared/assets/icons/selectDown_24.svg';
-import { useShallow } from 'zustand/shallow';
-import { ID, useAccordionStore } from '@/domains/recipe/store/accordionStore';
 import useCloseOutside from '@/shared/hook/useCloseOutside';
+import clsx from 'clsx';
 
 interface Props {
-  id?: ID;
-  groupKey?: string;
   ref?: Ref<HTMLButtonElement | null>;
   option: string[];
   title: string;
   value?: string;
   onChange?: (value: string) => void;
   use?: string;
+  align?:'left' | 'right'
 }
 
-function SelectBox({ id, groupKey, ref, option, title, value, onChange, use }: Props) {
+function SelectBox({ ref, option, title, value, onChange,align}: Props) {
+
   const [isOpen, setIsOpen] = useState(false);
-  const [select, setSelect] = useState(value || '');
   const menuRef = useRef<HTMLDivElement>(null);
-
-  const ingroup = !!groupKey;
-
-  const keyId = useMemo<ID>(() => id ?? title, [id, title]);
-
-  // value prop이 변경되면 select state도 업데이트
-  useEffect(() => {
-    if (value !== undefined) {
-      setSelect(value);
-    }
-  }, [value]);
-
+  const selectedValue =  value == '전체' ? title: value
   useCloseOutside({
     menuRef,
-    onClose: () => {
-      if (!ingroup) setIsOpen(false);
-      else closeGroup(groupKey);
-    },
+    onClose: () => setIsOpen(false),
   });
 
-  const { openId, toggleGroup, closeGroup } = useAccordionStore(
-    useShallow((s) => ({
-      openId: ingroup ? (s.openByGroup[groupKey] ?? null) : null,
-      toggleGroup: s.toggle,
-      closeGroup: s.closeGroup,
-    }))
-  );
-
-  const localOpen = ingroup ? openId === keyId : isOpen;
-
-  const toggle = () => {
-    if (ingroup) toggleGroup(groupKey, keyId);
-    else
-      setIsOpen((prev) => {
-        const next = !prev;
-        return next;
-      });
-  };
-
-  const close = () => {
-    if (ingroup) closeGroup(groupKey);
-    else setIsOpen(false);
-  };
-
   const handleChoose = (v: string) => {
-    const value = v || title;
-    setSelect(value);
-    onChange?.(value);
-    close();
+    onChange?.(v)
+    setIsOpen(false)
   };
 
   return (
@@ -76,40 +34,29 @@ function SelectBox({ id, groupKey, ref, option, title, value, onChange, use }: P
       <button
         ref={ref}
         className="flex gap-2 cursor-pointer text-base"
-        onClick={toggle}
+        onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
         type="button"
       >
-        {select ? select : title}
-        {localOpen ? (
-          <Down className="rotate-180 duration-300" />
-        ) : (
-          <Down className="rotate-0 duration-300" />
-        )}
+        {selectedValue}
+        <Down className={`duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`} />
       </button>
 
       <ul
-        className={`w-fit min-w-30 text-gray-dark p-2 rounded-xl z-99 duration-200  absolute transition-all 
-         ${
-           groupKey
-             ? localOpen
-               ? 'opacity-100 top-8 left-0'
-               : 'opacity-0 pointer-events-none top-4 left-0'
-             : localOpen
-               ? 'opacity-100 top-8 right-0'
-               : 'opacity-0 pointer-events-none top-4 right-0'
-         } ${use === 'write' ? 'bg-gray-light' : 'bg-white'}`}
-        role="listbox"
+        className={
+          clsx(`w-fit min-w-30 text-gray-dark p-2 rounded-xl z-99 bg-white absolute right-0 transition-all duration-200`,
+          align == 'left' ? 'left-0' : 'right-0' ,
+          isOpen ? 'opacity-100 top-8 right-0 ' : 'opacity-0 pointer-events-none top-4'
+        )}
       >
-        {option.map((v, i) => (
+        {option.map((v,i) => (
           <li
-            key={v + i}
-            role="option"
-            className="cursor-pointer whitespace-nowrap p-1 hover:bg-secondary aria-selected:bg-secondary"
+            key={i}
+            className={`cursor-pointer whitespace-nowrap p-1 hover:bg-secondary 
+              ${v === value ? 'bg-secondary' : ''}`}
             onClick={() => handleChoose(v)}
-            aria-selected={v === select}
           >
-            {v || title}
+            {v}
           </li>
         ))}
       </ul>

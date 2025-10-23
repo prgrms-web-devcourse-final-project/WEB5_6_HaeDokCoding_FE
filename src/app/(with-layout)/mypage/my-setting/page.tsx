@@ -1,5 +1,5 @@
-import MySetting from '@/domains/mypage/main/MySetting';
 
+import MySetting from '@/domains/mypage/components/main/MySetting';
 import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: '마이페이지',

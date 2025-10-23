@@ -26,11 +26,11 @@ function AbvGraph({ max, abv, type = 'cocktail' }: Props) {
   const rawPct = (abv / safeMax) * 100;
   const pct = Math.min(100, Math.max(0, Number.isFinite(rawPct) ? rawPct : 0));
 
-  const bandClass = clsx(
-    'h-full rounded-full transition-[width] duration-500',
-    'bg-gradient-to-r from-[#FFCA8D] to-[#FA2424]', // 기본 그라데이션
-    pct >= 80 && 'shadow-[0_0_12px_rgba(250,36,36,0.45)]'
-  );
+  // const bandClass = clsx(
+  //   'h-full rounded-full transition-[width] duration-500',
+  //   'bg-gradient-to-r from-[#FFCA8D] to-[#FA2424]', // 기본 그라데이션
+  //   pct >= 80 && 'shadow-[0_0_12px_rgba(250,36,36,0.45)]'
+  // );
 
   return (
     <div
@@ -40,7 +40,18 @@ function AbvGraph({ max, abv, type = 'cocktail' }: Props) {
       aria-valuemin={0}
       aria-valuemax={max}
     >
-      <div className={bandClass} style={{ width: `${pct}%` }}></div>
+         <div
+        className={clsx(
+          'absolute left-0 h-full bg-gradient-to-r from-[#FFCA8D] to-[#FA2424]',
+          pct >= 80 && 'shadow-[0_0_12px_rgba(250,36,36,0.45)]'
+        )}
+        style={{
+          width: '100%',
+          clipPath: `polygon(0 0, ${pct}% 0, ${pct}% 100%, 0 100%)`,
+          transition: 'clip-path 500ms',
+        }}
+      />
+
     </div>
   );
 }
