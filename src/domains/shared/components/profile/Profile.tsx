@@ -1,4 +1,3 @@
-
 import SsuryImage from '@/domains/mypage/components/main/SsuryImage';
 import { useAuthStore } from '@/domains/shared/store/auth';
 

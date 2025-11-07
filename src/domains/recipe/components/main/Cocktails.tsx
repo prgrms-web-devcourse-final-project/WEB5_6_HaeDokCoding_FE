@@ -11,9 +11,16 @@ import { useCocktailFilter } from '../../hook/useCocktailFilter';
 import { useCocktailSearch } from '../../hook/useCocktailSearch';
 
 function Cocktails() {
-
-  const {keyword,input,handleSearch} = useCocktailSearch()
-  const { alcoholBaseTypes,alcoholStrengths,cocktailTypes,sortBy,setAlcoholBaseTypes,setAlcoholStrengths,setCocktailTypes} = useCocktailFilter()
+  const { keyword, input, handleSearch } = useCocktailSearch();
+  const {
+    alcoholBaseTypes,
+    alcoholStrengths,
+    cocktailTypes,
+    sortBy,
+    setAlcoholBaseTypes,
+    setAlcoholStrengths,
+    setCocktailTypes,
+  } = useCocktailFilter();
   const { data, fetchNextPage, hasNextPage, noResults, isSearchMode } = useCocktails(
     {
       keyword,
@@ -22,7 +29,7 @@ function Cocktails() {
       cocktailTypes,
     },
     20,
-    sortBy,
+    sortBy
   );
 
   const { ref, inView } = useInView({
@@ -31,30 +38,28 @@ function Cocktails() {
 
   const prevInView = useRef(inView);
 
-
   useEffect(() => {
     if (!isSearchMode && inView && hasNextPage && !prevInView.current) {
       fetchNextPage?.();
     }
-    prevInView.current = inView
+    prevInView.current = inView;
   }, [inView, hasNextPage]);
-
-
 
   return (
     <section>
       <div className="flex flex-col-reverse items-start gap-6 md:flex-row md:justify-between md:items-center ">
-        <CocktailFilterRadios setAlcoholBaseTypes={setAlcoholBaseTypes} setCocktailTypes={setCocktailTypes} setAlcoholStrengths={setAlcoholStrengths}/>
+        <CocktailFilterRadios
+          setAlcoholBaseTypes={setAlcoholBaseTypes}
+          setCocktailTypes={setCocktailTypes}
+          setAlcoholStrengths={setAlcoholStrengths}
+        />
         <CocktailSearchBar keyword={input} onChange={handleSearch} />
       </div>
 
       <CocktailFilter cocktailsEA={data.length} />
 
       <section className="mt-5">
-        { noResults ?
-          <div>검색 결과가 없습니다.</div>
-          : <CocktailList cocktails={data} />
-        }
+        {noResults ? <div>검색 결과가 없습니다.</div> : <CocktailList cocktails={data} />}
       </section>
       <div ref={ref} className="h-4"></div>
     </section>

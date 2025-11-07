@@ -28,7 +28,6 @@ interface PageParam {
   lastValue: number | string;
 }
 
-
 // 로그인 한 유저의 킵 칵테일을 Get으로 불러옴
 const fetchKeep = async (): Promise<Set<number>> => {
   const res = await fetch(`${getApi}/me/bar`, {
@@ -104,7 +103,6 @@ const hasActiveFilters = (filters: SearchFilters): boolean => {
   );
 };
 
-
 export const useKeepQuery = () => {
   const user = useAuthStore((state) => state.user);
 
@@ -114,7 +112,7 @@ export const useKeepQuery = () => {
     enabled: !!user,
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
-  })
+  });
 };
 
 // 무한스크롤 fetch
@@ -122,7 +120,7 @@ export const useCocktailsInfiniteQuery = (size: number = 20, sortBy?: Sort) => {
   const user = useAuthStore((state) => state.user);
   const queryClient = useQueryClient();
   const prevSortBy = useRef(sortBy);
-  const { data:keepIds } = useKeepQuery()
+  const { data: keepIds } = useKeepQuery();
 
   useEffect(() => {
     if (prevSortBy.current !== undefined && prevSortBy.current !== sortBy) {
@@ -141,8 +139,8 @@ export const useCocktailsInfiniteQuery = (size: number = 20, sortBy?: Sort) => {
       if (user && keepIds) {
         return cocktails.map((item) => ({
           ...item,
-          isKeep : keepIds.has(item.cocktailId)
-        }))
+          isKeep: keepIds.has(item.cocktailId),
+        }));
       }
 
       return cocktails;
@@ -178,7 +176,7 @@ export const useCocktailsInfiniteQuery = (size: number = 20, sortBy?: Sort) => {
     initialPageParam: null as PageParam | null,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
-    staleTime: 2 * 60 * 1000
+    staleTime: 2 * 60 * 1000,
   });
 };
 
@@ -186,14 +184,13 @@ export const useCocktailsInfiniteQuery = (size: number = 20, sortBy?: Sort) => {
 export const useCocktailsSearchQuery = (filters: SearchFilters) => {
   const user = useAuthStore((state) => state.user);
   const isActive = hasActiveFilters(filters);
-  const {data: keepIds} = useKeepQuery()
+  const { data: keepIds } = useKeepQuery();
 
   return useQuery({
     queryKey: ['cocktails', 'search', filters, user?.id],
     queryFn: async () => {
       const cocktails = await searchCocktails(filters);
       if (user && cocktails.length > 0 && keepIds) {
-
         return cocktails.map((item) => ({
           ...item,
           isKeep: keepIds.has(item.cocktailId),
@@ -204,7 +201,7 @@ export const useCocktailsSearchQuery = (filters: SearchFilters) => {
     enabled: isActive,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
-    staleTime: 5 * 60 * 1000
+    staleTime: 5 * 60 * 1000,
   });
 };
 

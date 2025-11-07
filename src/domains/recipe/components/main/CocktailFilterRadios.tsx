@@ -64,7 +64,11 @@ const SELECT_OPTIONS = [
   },
 ];
 
-function CocktailFilterRadios({ setAlcoholBaseTypes, setAlcoholStrengths, setCocktailTypes } : Props) {
+function CocktailFilterRadios({
+  setAlcoholBaseTypes,
+  setAlcoholStrengths,
+  setCocktailTypes,
+}: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

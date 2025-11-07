@@ -40,7 +40,7 @@ function AbvGraph({ max, abv, type = 'cocktail' }: Props) {
       aria-valuemin={0}
       aria-valuemax={max}
     >
-         <div
+      <div
         className={clsx(
           'absolute left-0 h-full bg-gradient-to-r from-[#FFCA8D] to-[#FA2424]',
           pct >= 80 && 'shadow-[0_0_12px_rgba(250,36,36,0.45)]'
@@ -51,7 +51,6 @@ function AbvGraph({ max, abv, type = 'cocktail' }: Props) {
           transition: 'clip-path 500ms',
         }}
       />
-
     </div>
   );
 }

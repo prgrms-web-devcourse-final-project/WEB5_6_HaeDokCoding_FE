@@ -1,4 +1,3 @@
-
 import MySetting from '@/domains/mypage/components/main/MySetting';
 import { Metadata } from 'next';
 export const metadata: Metadata = {

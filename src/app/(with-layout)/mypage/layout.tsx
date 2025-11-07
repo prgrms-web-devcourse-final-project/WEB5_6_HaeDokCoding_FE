@@ -1,4 +1,3 @@
-
 import MyNav from '@/domains/mypage/components/main/MyNav';
 import MyProfile from '@/domains/mypage/components/main/MyProfile';
 import SkeletonLayout from '@/domains/mypage/skeleton/main/SkeletonLayout';

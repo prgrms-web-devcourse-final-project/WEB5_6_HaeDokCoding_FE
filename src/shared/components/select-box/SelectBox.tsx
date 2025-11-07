@@ -11,22 +11,21 @@ interface Props {
   value?: string;
   onChange?: (value: string) => void;
   use?: string;
-  align?:'left' | 'right'
+  align?: 'left' | 'right';
 }
 
-function SelectBox({ ref, option, title, value, onChange,align}: Props) {
-
+function SelectBox({ ref, option, title, value, onChange, align }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const selectedValue =  value == '전체' ? title: value
+  const selectedValue = value == '전체' ? title : value;
   useCloseOutside({
     menuRef,
     onClose: () => setIsOpen(false),
   });
 
   const handleChoose = (v: string) => {
-    onChange?.(v)
-    setIsOpen(false)
+    onChange?.(v);
+    setIsOpen(false);
   };
 
   return (
@@ -43,13 +42,13 @@ function SelectBox({ ref, option, title, value, onChange,align}: Props) {
       </button>
 
       <ul
-        className={
-          clsx(`w-fit min-w-30 text-gray-dark p-2 rounded-xl z-99 bg-white absolute right-0 transition-all duration-200`,
-          align == 'left' ? 'left-0' : 'right-0' ,
+        className={clsx(
+          `w-fit min-w-30 text-gray-dark p-2 rounded-xl z-99 bg-white absolute right-0 transition-all duration-200`,
+          align == 'left' ? 'left-0' : 'right-0',
           isOpen ? 'opacity-100 top-8 right-0 ' : 'opacity-0 pointer-events-none top-4'
         )}
       >
-        {option.map((v,i) => (
+        {option.map((v, i) => (
           <li
             key={i}
             className={`cursor-pointer whitespace-nowrap p-1 hover:bg-secondary 

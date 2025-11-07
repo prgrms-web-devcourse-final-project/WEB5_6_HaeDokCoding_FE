@@ -48,7 +48,7 @@ function CocktailCard({
           className="object-cover"
           sizes="320px"
           priority
-          loading='eager'
+          loading="eager"
         />
         {keep && (
           <div className="flex w-full pl-4 px-3 py-2 items-center justify-between absolute left-0 top-0">

@@ -22,10 +22,9 @@ function MyComment() {
       credentials: 'include',
     });
     const json = await res.json();
- 
+
     setMyComment(json.data.items);
   };
-
 
   useEffect(() => {
     fetchComment();

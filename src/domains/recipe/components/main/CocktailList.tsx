@@ -5,13 +5,9 @@ import { Cocktail } from '../../types/types';
 import CocktailCard from '@/domains/shared/components/cocktail-card/CocktailCard';
 import { useSaveScroll } from '../../hook/useSaveScroll';
 
-
-
-
 interface Props {
   cocktails: Cocktail[];
 }
-
 
 // Grid반응형 구조에서 virtual의 높이가 측정하기 힘든문제로 인해 virtual사용 포기
 
@@ -26,11 +22,8 @@ function CocktailList({ cocktails }: Props) {
     saveAndNavigate(`/recipe/${cocktailId}`);
   };
 
-
-
   return (
-    <div
-    >
+    <div>
       <ul
         className="
      grid gap-8 lg:justify-between justify-center
