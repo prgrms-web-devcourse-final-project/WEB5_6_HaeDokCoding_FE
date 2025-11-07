@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import CocktailFilter from './CocktailFilter';
 import CocktailList from './CocktailList';
 import CocktailSearchBar from './CocktailSearchBar';
@@ -9,7 +9,6 @@ import { useInView } from 'react-intersection-observer';
 import CocktailFilterRadios from './CocktailFilterRadios';
 import { useCocktailFilter } from '../../hook/useCocktailFilter';
 import { useCocktailSearch } from '../../hook/useCocktailSearch';
-
 
 function Cocktails() {
 
@@ -23,18 +22,22 @@ function Cocktails() {
       cocktailTypes,
     },
     20,
-    sortBy
+    sortBy,
   );
 
   const { ref, inView } = useInView({
     threshold: 0.1,
   });
 
+  const prevInView = useRef(inView);
+
+
   useEffect(() => {
-    if (!isSearchMode && inView && hasNextPage) {
+    if (!isSearchMode && inView && hasNextPage && !prevInView.current) {
       fetchNextPage?.();
     }
-  }, [inView, hasNextPage, fetchNextPage]);
+    prevInView.current = inView
+  }, [inView, hasNextPage]);
 
 
 

@@ -5,12 +5,15 @@ import { Suspense } from 'react';
 import SkeletonRecipe from '@/domains/recipe/skeleton/SkeletonRecipe';
 import Cocktails from '@/domains/recipe/components/main/Cocktails';
 
+
 export const metadata: Metadata = {
   title: '칵테일레시피',
   description: '칵테일 레시피가 궁금하신 분들을 위한 레시피 페이지',
 };
 
+
 function Page() {
+
   return (
     <div className="w-full">
       <section>
@@ -18,7 +21,7 @@ function Page() {
       </section>
       <div className="page-layout max-w-1224 mt-6">
         <Suspense fallback={<SkeletonRecipe />}>
-          <Cocktails />
+          <Cocktails  />
         </Suspense>
       </div>
     </div>

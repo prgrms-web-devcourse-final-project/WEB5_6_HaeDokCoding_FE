@@ -22,8 +22,10 @@ function MyComment() {
       credentials: 'include',
     });
     const json = await res.json();
+ 
     setMyComment(json.data.items);
   };
+
 
   useEffect(() => {
     fetchComment();
@@ -31,7 +33,7 @@ function MyComment() {
 
   return (
     <section>
-      {CommentList.length !== 0 ? (
+      {myComment.length !== 0 ? (
         <CommentList
           comments={myComment}
           isLoading={isLoading}
