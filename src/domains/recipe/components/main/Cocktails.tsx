@@ -1,27 +1,26 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import CocktailFilter from './CocktailFilter';
 import CocktailList from './CocktailList';
-import Accordion from './Accordion';
 import CocktailSearchBar from './CocktailSearchBar';
 import { useCocktails } from '../../api/fetchRecipe';
 import { useInView } from 'react-intersection-observer';
-import { debounce } from '@/shared/utills/debounce';
-import { useSearchParams } from 'next/navigation';
-import { Sort } from '../../types/types';
+import CocktailFilterRadios from './CocktailFilterRadios';
+import { useCocktailFilter } from '../../hook/useCocktailFilter';
+import { useCocktailSearch } from '../../hook/useCocktailSearch';
 
 function Cocktails() {
-  const searchParams = useSearchParams();
-  const sortByParam = searchParams.get('sortBy') || 'recent';
-  const [keyword, setKeyword] = useState('');
-  const [input, setInput] = useState('');
-
-  const [sortBy, setSortBy] = useState<Sort>(sortByParam as Sort);
-  const [alcoholStrengths, setAlcoholStrengths] = useState<string[]>([]);
-  const [alcoholBaseTypes, setAlcoholBaseTypes] = useState<string[]>([]);
-  const [cocktailTypes, setCocktailTypes] = useState<string[]>([]);
-
+  const { keyword, input, handleSearch } = useCocktailSearch();
+  const {
+    alcoholBaseTypes,
+    alcoholStrengths,
+    cocktailTypes,
+    sortBy,
+    setAlcoholBaseTypes,
+    setAlcoholStrengths,
+    setCocktailTypes,
+  } = useCocktailFilter();
   const { data, fetchNextPage, hasNextPage, noResults, isSearchMode } = useCocktails(
     {
       keyword,
@@ -37,29 +36,22 @@ function Cocktails() {
     threshold: 0.1,
   });
 
+  const prevInView = useRef(inView);
+
   useEffect(() => {
-    if (!isSearchMode && inView && hasNextPage) {
+    if (!isSearchMode && inView && hasNextPage && !prevInView.current) {
       fetchNextPage?.();
     }
-  }, [inView, hasNextPage, fetchNextPage]);
-
-  useEffect(() => {
-    setSortBy(sortByParam as Sort);
-  }, [sortByParam]);
-
-  const debounceKeyword = useMemo(() => debounce((v: string) => setKeyword(v), 300), []);
-  const handleSearch = (v: string) => {
-    setInput(v);
-    debounceKeyword(v);
-  };
+    prevInView.current = inView;
+  }, [inView, hasNextPage]);
 
   return (
     <section>
       <div className="flex flex-col-reverse items-start gap-6 md:flex-row md:justify-between md:items-center ">
-        <Accordion
+        <CocktailFilterRadios
           setAlcoholBaseTypes={setAlcoholBaseTypes}
-          setAlcoholStrengths={setAlcoholStrengths}
           setCocktailTypes={setCocktailTypes}
+          setAlcoholStrengths={setAlcoholStrengths}
         />
         <CocktailSearchBar keyword={input} onChange={handleSearch} />
       </div>

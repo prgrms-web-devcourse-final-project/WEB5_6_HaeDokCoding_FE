@@ -3,8 +3,9 @@
 import AbvGraph from '@/domains/shared/components/abv-graph/AbvGraph';
 import MyAbv from './MyAbv';
 import SsuryImage from './SsuryImage';
-import useFetchProfile from '../api/fetchProfile';
+
 import { useQuery } from '@tanstack/react-query';
+import useFetchProfile from '../../api/fetchProfile';
 
 function MyProfile() {
   const { fetchProfile } = useFetchProfile();

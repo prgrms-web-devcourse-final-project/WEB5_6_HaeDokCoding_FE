@@ -1,8 +1,8 @@
 'use client';
 
 import SelectBox from '@/shared/components/select-box/SelectBox';
-import { Dispatch, SetStateAction, useEffect } from 'react';
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Dispatch, SetStateAction } from 'react';
 
 interface Props {
   setAlcoholBaseTypes: Dispatch<SetStateAction<string[]>>;
@@ -64,26 +64,21 @@ const SELECT_OPTIONS = [
   },
 ];
 
-function Accordion({ setAlcoholBaseTypes, setCocktailTypes, setAlcoholStrengths }: Props) {
+function CocktailFilterRadios({
+  setAlcoholBaseTypes,
+  setAlcoholStrengths,
+  setCocktailTypes,
+}: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // url 파라미터에서 값을 가져와 POST를 도와줌
-  useEffect(() => {
-    const abv = searchParams.get('abv');
-    const base = searchParams.get('base');
-    const glass = searchParams.get('glass');
-
-    setAlcoholStrengths(abv ? [abv] : []);
-    setAlcoholBaseTypes(base ? [base] : []);
-    setCocktailTypes(glass ? [glass] : []);
-  }, [searchParams, setAlcoholStrengths, setAlcoholBaseTypes, setCocktailTypes]);
-
   // 파라미터 값을 한글로 역 변환해주는 함수
   const getDisplayValue = (id: string, code: string | null): string => {
+    // 파라미터에서 가져오는 값 없다면 전체로 표시 이 값을 전체가 아닌 타이틀이 나와야함
     if (!code) return '전체';
 
+    // 파라미터에서 가져오는 아이디가 선택한 아이디와 일치하는지
     const optionGroup = SELECT_OPTIONS.find((opt) => opt.id === id);
     if (!optionGroup) return '전체';
 
@@ -147,9 +142,8 @@ function Accordion({ setAlcoholBaseTypes, setCocktailTypes, setAlcoholStrengths 
             <SelectBox
               option={option}
               title={title}
-              id={id}
-              groupKey="filter"
               value={currentValue}
+              align="left"
               onChange={(value) => handleSelect(id, value)}
             />
           </li>
@@ -159,4 +153,4 @@ function Accordion({ setAlcoholBaseTypes, setCocktailTypes, setAlcoholStrengths 
   );
 }
 
-export default Accordion;
+export default CocktailFilterRadios;

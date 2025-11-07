@@ -1,5 +1,5 @@
-import MyNav from '@/domains/mypage/main/MyNav';
-import MyProfile from '@/domains/mypage/main/MyProfile';
+import MyNav from '@/domains/mypage/components/main/MyNav';
+import MyProfile from '@/domains/mypage/components/main/MyProfile';
 import SkeletonLayout from '@/domains/mypage/skeleton/main/SkeletonLayout';
 import { Suspense } from 'react';
 

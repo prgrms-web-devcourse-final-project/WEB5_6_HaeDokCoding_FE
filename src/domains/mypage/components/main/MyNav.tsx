@@ -1,7 +1,8 @@
 'use client';
-import TabMenu from '@/domains/mypage/main/TabMenu';
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import TabMenu from './TabMenu';
 
 const MAIN_TABMENU = [
   {

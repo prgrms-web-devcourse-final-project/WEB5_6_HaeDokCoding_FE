@@ -4,8 +4,9 @@ import ToggleBtn from '@/domains/mypage/components/ToggleBtn';
 import WithdrawModal from '@/domains/mypage/components/WithdrawModal';
 import TextButton from '@/shared/components/button/TextButton';
 import { useEffect, useState } from 'react';
-import useFetchProfile from '../api/fetchProfile';
+
 import { useQuery } from '@tanstack/react-query';
+import useFetchProfile from '../../api/fetchProfile';
 
 function MySetting() {
   const { fetchProfile } = useFetchProfile();

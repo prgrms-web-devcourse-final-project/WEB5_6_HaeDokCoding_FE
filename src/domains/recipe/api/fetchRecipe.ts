@@ -28,6 +28,7 @@ interface PageParam {
   lastValue: number | string;
 }
 
+// 로그인 한 유저의 킵 칵테일을 Get으로 불러옴
 const fetchKeep = async (): Promise<Set<number>> => {
   const res = await fetch(`${getApi}/me/bar`, {
     method: 'GET',
@@ -41,6 +42,7 @@ const fetchKeep = async (): Promise<Set<number>> => {
   return new Set(myKeep.map((v: { cocktailId: number }) => v.cocktailId));
 };
 
+// 비 로그인 유저도 볼 수 있는 칵테일 API fetch 각 종 정렬 파라미터를 문자열로 받아서 정렬함
 const fetchRecipe = async (
   pageParam: PageParam | null,
   size: number,
@@ -68,6 +70,7 @@ const fetchRecipe = async (
   return json.data ?? [];
 };
 
+// 검색전용 API 여기서 필터링 토글도 받음
 const searchCocktails = async (filters: SearchFilters): Promise<Cocktail[]> => {
   const body = {
     keyword: filters.keyword?.trim() ?? '',
@@ -90,6 +93,7 @@ const searchCocktails = async (filters: SearchFilters): Promise<Cocktail[]> => {
   return json.data ?? [];
 };
 
+// 적용된 필터
 const hasActiveFilters = (filters: SearchFilters): boolean => {
   return !!(
     filters.keyword?.trim() ||
@@ -99,10 +103,24 @@ const hasActiveFilters = (filters: SearchFilters): boolean => {
   );
 };
 
+export const useKeepQuery = () => {
+  const user = useAuthStore((state) => state.user);
+
+  return useQuery({
+    queryKey: ['keeps', user?.id],
+    queryFn: fetchKeep,
+    enabled: !!user,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+  });
+};
+
+// 무한스크롤 fetch
 export const useCocktailsInfiniteQuery = (size: number = 20, sortBy?: Sort) => {
   const user = useAuthStore((state) => state.user);
   const queryClient = useQueryClient();
   const prevSortBy = useRef(sortBy);
+  const { data: keepIds } = useKeepQuery();
 
   useEffect(() => {
     if (prevSortBy.current !== undefined && prevSortBy.current !== sortBy) {
@@ -118,11 +136,10 @@ export const useCocktailsInfiniteQuery = (size: number = 20, sortBy?: Sort) => {
     queryFn: async ({ pageParam }) => {
       const cocktails = await fetchRecipe(pageParam, size, sortBy);
 
-      if (user) {
-        const keepId = await fetchKeep();
+      if (user && keepIds) {
         return cocktails.map((item) => ({
           ...item,
-          isKeep: keepId.has(item.cocktailId),
+          isKeep: keepIds.has(item.cocktailId),
         }));
       }
 
@@ -159,31 +176,36 @@ export const useCocktailsInfiniteQuery = (size: number = 20, sortBy?: Sort) => {
     initialPageParam: null as PageParam | null,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
+    staleTime: 2 * 60 * 1000,
   });
 };
 
+// 검색용 fetch
 export const useCocktailsSearchQuery = (filters: SearchFilters) => {
   const user = useAuthStore((state) => state.user);
   const isActive = hasActiveFilters(filters);
+  const { data: keepIds } = useKeepQuery();
 
   return useQuery({
     queryKey: ['cocktails', 'search', filters, user?.id],
     queryFn: async () => {
       const cocktails = await searchCocktails(filters);
-      if (user && cocktails.length > 0) {
-        const keepId = await fetchKeep();
+      if (user && cocktails.length > 0 && keepIds) {
         return cocktails.map((item) => ({
           ...item,
-          isKeep: keepId.has(item.cocktailId),
+          isKeep: keepIds.has(item.cocktailId),
         }));
       }
       return cocktails;
     },
     enabled: isActive,
     refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    staleTime: 5 * 60 * 1000,
   });
 };
 
+// 검색모드를 전환하여 어떤 fetch를 하는지 결정
 export const useCocktails = (
   filters: CocktailFilter,
   infiniteScrollSize: number = 20,
