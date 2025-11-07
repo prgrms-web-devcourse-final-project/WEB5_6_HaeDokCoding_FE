@@ -1,7 +1,7 @@
 'use client';
 import Help from '@/shared/assets/icons/help_24.svg';
 import ToolTip from '@/shared/components/tool-tip/ToolTip';
-import useMedia from '../hook/useMedia';
+import useMedia from '../../hook/useMedia';
 
 function MyAbv({ abv }: { abv: number }) {
   const isMd = useMedia('(min-width:768px)');
